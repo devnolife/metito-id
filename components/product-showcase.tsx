@@ -193,15 +193,15 @@ export function ProductShowcase() {
             <Card
               key={category.id}
               className={`cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 ${selectedCategory === category.id
-                  ? "border-blue-600 shadow-lg bg-blue-50"
-                  : "border-gray-200 hover:border-blue-400"
+                ? "border-blue-600 shadow-lg bg-blue-50"
+                : "border-gray-200 hover:border-blue-400"
                 }`}
               onClick={() => setSelectedCategory(selectedCategory === category.id ? "all" : category.id)}
             >
               <CardContent className="p-4 text-center">
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 ${selectedCategory === category.id
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-600 group-hover:bg-blue-100"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-100 text-gray-600 group-hover:bg-blue-100"
                   }`}>
                   <category.icon className="w-6 h-6" />
                 </div>
@@ -363,7 +363,7 @@ export function ProductShowcase() {
               <Button className="bg-white text-blue-600 hover:bg-blue-50 rounded-xl px-8 py-3 font-semibold">
                 Contact Our Experts
               </Button>
-              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 rounded-xl px-8 py-3 font-semibold">
+              <Button className="bg-white text-blue-600 hover:bg-blue-50 rounded-xl px-8 py-3 font-semibold">
                 View All Products
               </Button>
             </div>

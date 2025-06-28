@@ -8,10 +8,11 @@ import { PageManagement } from "./page-management"
 import { DashboardOverview } from "./dashboard-overview"
 
 interface AdminDashboardProps {
+  user: any
   onLogout: () => void
 }
 
-export function AdminDashboard({ onLogout }: AdminDashboardProps) {
+export function AdminDashboard({ user, onLogout }: AdminDashboardProps) {
   const [activeSection, setActiveSection] = useState("dashboard")
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
 

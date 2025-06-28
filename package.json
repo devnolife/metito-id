@@ -11,7 +11,10 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "create-admin": "npx tsx scripts/create-admin.ts",
+    "test-auth": "npx tsx scripts/test-auth.ts",
+    "setup-admin": "npx tsx scripts/setup-admin.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -61,6 +64,7 @@
     "react": "^19",
     "react-day-picker": "^9.2.1",
     "react-dom": "^19",
+    "react-dropzone": "^14.3.8",
     "react-hook-form": "^7.54.1",
     "react-resizable-panels": "^2.1.7",
     "recharts": "2.15.0",

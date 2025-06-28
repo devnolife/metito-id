@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -9,7 +9,9 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Plus, Edit, Trash2, Search, Filter } from "lucide-react"
+import { Plus, Edit, Trash2, Search, Filter, CheckCircle } from "lucide-react"
+import { ImageUpload } from "./image-upload"
+import { toast } from "sonner"
 
 interface Product {
   id: number
@@ -25,7 +27,53 @@ interface Product {
   description: string
 }
 
+interface UploadedImage {
+  id: string
+  fileName: string
+  filePath: string
+  fileSize: number
+  fileType: string
+  title?: string
+  description?: string
+  altText?: string
+}
+
 export function ProductManagement() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isUploading, setIsUploading] = useState(false)
+  const [selectedImage, setSelectedImage] = useState<UploadedImage | null>(null)
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false)
+
+  // Check authentication on component mount
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/api/auth/me', {
+          credentials: 'include'
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          if (data.success && data.data?.role === 'ADMIN') {
+            setIsAuthenticated(true)
+          } else {
+            toast.error('Admin access required')
+          }
+        } else {
+          toast.error('Authentication required')
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error)
+        toast.error('Authentication check failed')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    checkAuth()
+  }, [])
+
   const [products, setProducts] = useState<Product[]>([
     {
       id: 1,
@@ -60,6 +108,7 @@ export function ProductManagement() {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
+  const [productImages, setProductImages] = useState<UploadedImage[]>([])
   const [formData, setFormData] = useState({
     name: "",
     category: "",
@@ -88,7 +137,46 @@ export function ProductManagement() {
     return matchesSearch && matchesCategory
   })
 
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-blue mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Show unauthorized message
+  if (!isAuthenticated) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="text-6xl mb-4">🔒</div>
+          <h3 className="text-xl font-bold text-primary-blue mb-2">Access Denied</h3>
+          <p className="text-gray-600">You need admin privileges to access this page</p>
+        </div>
+      </div>
+    )
+  }
+
   const handleAddProduct = () => {
+    // Validate required fields
+    if (!formData.name.trim()) {
+      alert("Product name is required")
+      return
+    }
+    if (!formData.category) {
+      alert("Category is required")
+      return
+    }
+    if (!formData.price.trim()) {
+      alert("Price is required")
+      return
+    }
+
     const newProduct: Product = {
       id: Date.now(),
       name: formData.name,
@@ -98,8 +186,8 @@ export function ProductManagement() {
       capacity: formData.capacity,
       efficiency: formData.efficiency,
       location: formData.location,
-      image: formData.image || "/placeholder.svg?height=300&width=400",
-      specs: formData.specs.split(",").map((s) => s.trim()),
+      image: productImages.length > 0 ? productImages[0].filePath : formData.image || "/placeholder.svg?height=300&width=400",
+      specs: formData.specs.split(",").map((s) => s.trim()).filter(s => s.length > 0),
       description: formData.description,
     }
     setProducts([...products, newProduct])
@@ -110,6 +198,20 @@ export function ProductManagement() {
   const handleEditProduct = () => {
     if (!editingProduct) return
 
+    // Validate required fields
+    if (!formData.name.trim()) {
+      alert("Product name is required")
+      return
+    }
+    if (!formData.category) {
+      alert("Category is required")
+      return
+    }
+    if (!formData.price.trim()) {
+      alert("Price is required")
+      return
+    }
+
     const updatedProduct: Product = {
       ...editingProduct,
       name: formData.name,
@@ -119,8 +221,8 @@ export function ProductManagement() {
       capacity: formData.capacity,
       efficiency: formData.efficiency,
       location: formData.location,
-      image: formData.image || "/placeholder.svg?height=300&width=400",
-      specs: formData.specs.split(",").map((s) => s.trim()),
+      image: productImages.length > 0 ? productImages[0].filePath : formData.image || "/placeholder.svg?height=300&width=400",
+      specs: formData.specs.split(",").map((s) => s.trim()).filter(s => s.length > 0),
       description: formData.description,
     }
 
@@ -150,6 +252,23 @@ export function ProductManagement() {
       specs: product.specs.join(", "),
       description: product.description,
     })
+
+    // Convert existing product image to UploadedImage format for display
+    if (product.image && product.image !== "/placeholder.svg?height=300&width=400") {
+      const existingImage: UploadedImage = {
+        id: `existing-${product.id}`,
+        fileName: product.name,
+        filePath: product.image,
+        fileSize: 0,
+        fileType: 'image/jpeg',
+        title: product.name,
+        altText: product.name
+      }
+      setProductImages([existingImage])
+    } else {
+      setProductImages([])
+    }
+
     setIsEditDialogOpen(true)
   }
 
@@ -166,6 +285,50 @@ export function ProductManagement() {
       specs: "",
       description: "",
     })
+    setProductImages([])
+  }
+
+  const handleImageUpload = (images: UploadedImage[]) => {
+    setIsUploading(false)
+    setProductImages(prev => [...prev, ...images])
+
+    // Show success notification with image details
+    if (images.length === 1) {
+      toast.success(`Image "${images[0].fileName}" uploaded successfully!`, {
+        description: "The image is now ready to use as your product image.",
+        duration: 4000,
+      })
+    } else {
+      toast.success(`${images.length} images uploaded successfully!`, {
+        description: `The first image will be used as the main product image.`,
+        duration: 4000,
+      })
+    }
+  }
+
+  const handleImageDelete = (imageId: string) => {
+    const imageToDelete = productImages.find(img => img.id === imageId)
+    setProductImages(prev => prev.filter(img => img.id !== imageId))
+
+    if (imageToDelete) {
+      toast.success(`Image "${imageToDelete.fileName}" removed`, {
+        description: "The image has been removed from the product.",
+        duration: 3000,
+      })
+    }
+  }
+
+  const handleUploadStart = () => {
+    setIsUploading(true)
+    toast.info("Uploading images...", {
+      description: "Please wait while your images are being processed.",
+      duration: 2000,
+    })
+  }
+
+  const handleImageClick = (image: UploadedImage) => {
+    setSelectedImage(image)
+    setIsImageModalOpen(true)
   }
 
   const ProductForm = ({ onSubmit, submitLabel }: { onSubmit: () => void; submitLabel: string }) => (
@@ -254,14 +417,134 @@ export function ProductManagement() {
         </div>
       </div>
 
+      {/* Product Images Upload */}
       <div>
-        <Label htmlFor="image">Image URL</Label>
-        <Input
-          id="image"
-          value={formData.image}
-          onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-          placeholder="Enter image URL or leave blank for placeholder"
+        <Label>Product Images</Label>
+        {isUploading && (
+          <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="flex items-center gap-2 text-blue-800">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+              <span className="text-sm font-medium">Uploading images...</span>
+            </div>
+            <p className="text-xs text-blue-700 mt-1">
+              Please wait while your images are being processed and uploaded.
+            </p>
+          </div>
+        )}
+        <ImageUpload
+          category="products"
+          productId={editingProduct?.id?.toString() || undefined}
+          onUploadComplete={handleImageUpload}
+          onUploadStart={handleUploadStart}
+          onImageDelete={handleImageDelete}
+          existingImages={productImages}
+          maxFiles={5}
+          className="mt-2"
         />
+
+        {/* Main Image Preview */}
+        {productImages.length > 0 && (
+          <div className="mt-4">
+            <Label className="text-sm font-medium text-gray-700 mb-2 block">
+              Main Product Image Preview
+            </Label>
+            <div className="border-2 border-blue-200 rounded-lg p-4 bg-blue-50">
+              <div className="flex items-center gap-3">
+                <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                  <img
+                    src={productImages[0].filePath}
+                    alt={productImages[0].altText || productImages[0].fileName}
+                    className="w-full h-full object-cover cursor-pointer hover:opacity-80 transition-opacity"
+                    onClick={() => handleImageClick(productImages[0])}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement
+                      target.src = '/placeholder.jpg'
+                    }}
+                  />
+                </div>
+                <div className="flex-1">
+                  <p className="font-medium text-blue-800">
+                    {productImages[0].title || productImages[0].fileName}
+                  </p>
+                  <p className="text-sm text-blue-600">
+                    This image will be displayed as the main product image
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    File: {productImages[0].fileName}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Image Preview Section */}
+        {productImages.length > 0 && (
+          <div className="mt-4">
+            <Label className="text-sm font-medium text-gray-700 mb-2 block">
+              All Product Images ({productImages.length})
+            </Label>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+              {productImages.map((image, index) => (
+                <div key={image.id} className="relative group">
+                  <div className={`aspect-square bg-gray-100 rounded-lg overflow-hidden border-2 ${index === 0 ? 'border-blue-400' : 'border-gray-200'
+                    }`}>
+                    <img
+                      src={image.filePath}
+                      alt={image.altText || image.fileName}
+                      className="w-full h-full object-cover cursor-pointer hover:opacity-80 transition-opacity"
+                      onClick={() => handleImageClick(image)}
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement
+                        target.src = '/placeholder.jpg'
+                      }}
+                    />
+                    {/* Main Image Badge */}
+                    {index === 0 && (
+                      <div className="absolute top-2 left-2">
+                        <Badge className="bg-blue-600 text-white text-xs">
+                          Main Image
+                        </Badge>
+                      </div>
+                    )}
+                    {/* Delete Button */}
+                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => handleImageDelete(image.id)}
+                        className="h-6 w-6 p-0"
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="mt-1">
+                    <p className="text-xs text-gray-600 truncate" title={image.fileName}>
+                      {image.fileName}
+                    </p>
+                    {image.title && (
+                      <p className="text-xs text-blue-600 font-medium truncate" title={image.title}>
+                        {image.title}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Image Order Info */}
+            <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="flex items-center gap-2 text-blue-800">
+                <CheckCircle className="h-4 w-4" />
+                <span className="text-sm font-medium">Image Information</span>
+              </div>
+              <p className="text-xs text-blue-700 mt-1">
+                The first image will be used as the main product image. You can reorder images by deleting and re-uploading them in the desired order.
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       <div>
@@ -306,7 +589,7 @@ export function ProductManagement() {
               Add Product
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Add New Product</DialogTitle>
             </DialogHeader>
@@ -412,7 +695,7 @@ export function ProductManagement() {
 
       {/* Edit Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Product</DialogTitle>
           </DialogHeader>
@@ -429,6 +712,61 @@ export function ProductManagement() {
           </CardContent>
         </Card>
       )}
+
+      {/* Image Preview Modal */}
+      <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Image Preview</DialogTitle>
+          </DialogHeader>
+          {selectedImage && (
+            <div className="space-y-4">
+              <div className="flex justify-center">
+                <img
+                  src={selectedImage.filePath}
+                  alt={selectedImage.altText || selectedImage.fileName}
+                  className="max-w-full max-h-[60vh] object-contain rounded-lg"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement
+                    target.src = '/placeholder.jpg'
+                  }}
+                />
+              </div>
+              <div className="space-y-2">
+                <div>
+                  <Label className="text-sm font-medium">File Name</Label>
+                  <p className="text-sm text-gray-600">{selectedImage.fileName}</p>
+                </div>
+                {selectedImage.title && (
+                  <div>
+                    <Label className="text-sm font-medium">Title</Label>
+                    <p className="text-sm text-gray-600">{selectedImage.title}</p>
+                  </div>
+                )}
+                {selectedImage.altText && (
+                  <div>
+                    <Label className="text-sm font-medium">Alt Text</Label>
+                    <p className="text-sm text-gray-600">{selectedImage.altText}</p>
+                  </div>
+                )}
+                <div>
+                  <Label className="text-sm font-medium">File Size</Label>
+                  <p className="text-sm text-gray-600">
+                    {selectedImage.fileSize > 0
+                      ? `${(selectedImage.fileSize / 1024 / 1024).toFixed(2)} MB`
+                      : 'Unknown'
+                    }
+                  </p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium">File Type</Label>
+                  <p className="text-sm text-gray-600">{selectedImage.fileType}</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

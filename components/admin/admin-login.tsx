@@ -9,14 +9,14 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Lock, User, Eye, EyeOff } from "lucide-react"
+import { Lock, Mail, Eye, EyeOff } from "lucide-react"
 
 interface AdminLoginProps {
-  onLogin: (success: boolean) => void
+  onLogin: (success: boolean, userData?: any) => void
 }
 
 export function AdminLogin({ onLogin }: AdminLoginProps) {
-  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
@@ -27,17 +27,41 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
     setIsLoading(true)
     setError("")
 
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // Include cookies
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      })
 
-    if (username === "admin" && password === "admin") {
-      onLogin(true)
-    } else {
-      setError("Invalid username or password. Please try again.")
+      const data = await response.json()
+
+      if (data.success) {
+        // Check if user is admin
+        if (data.data.user.role !== 'ADMIN') {
+          setError("Access denied. Admin privileges required.")
+          onLogin(false)
+          return
+        }
+
+        onLogin(true, data.data.user)
+      } else {
+        setError(data.message || "Login failed. Please try again.")
+        onLogin(false)
+      }
+    } catch (error) {
+      console.error('Login error:', error)
+      setError("Login failed. Please check your connection and try again.")
       onLogin(false)
+    } finally {
+      setIsLoading(false)
     }
-
-    setIsLoading(false)
   }
 
   return (
@@ -61,17 +85,17 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-sm font-medium text-gray-700">
-                Username
+              <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                Email Address
               </Label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input
-                  id="username"
-                  type="text"
-                  placeholder="Enter your username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="pl-10 border-2 border-gray-200 focus:border-primary-blue rounded-lg h-12"
                   required
                 />
@@ -126,16 +150,6 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
               )}
             </Button>
           </form>
-
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <p className="text-sm text-blue-800 font-medium mb-2">Demo Credentials:</p>
-            <p className="text-sm text-blue-700">
-              Username: <span className="font-mono bg-white px-2 py-1 rounded">admin</span>
-            </p>
-            <p className="text-sm text-blue-700">
-              Password: <span className="font-mono bg-white px-2 py-1 rounded">admin</span>
-            </p>
-          </div>
         </CardContent>
       </Card>
     </div>

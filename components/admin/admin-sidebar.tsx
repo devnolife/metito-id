@@ -36,9 +36,8 @@ export function AdminSidebar({ activeSection, onSectionChange, collapsed, onTogg
 
   return (
     <div
-      className={`fixed left-0 top-0 h-full primary-blue text-white transition-all duration-300 z-30 ${
-        collapsed ? "w-16" : "w-64"
-      }`}
+      className={`fixed left-0 top-0 h-full primary-blue text-white transition-all duration-300 z-30 ${collapsed ? "w-16" : "w-64"
+        }`}
     >
       {/* Header */}
       <div className="p-4 border-b border-blue-600">
@@ -71,11 +70,10 @@ export function AdminSidebar({ activeSection, onSectionChange, collapsed, onTogg
           <Button
             key={item.id}
             variant="ghost"
-            className={`w-full justify-start text-left h-12 transition-all duration-200 ${
-              activeSection === item.id
-                ? "bg-blue-600 text-white shadow-lg"
-                : "text-blue-100 hover:bg-blue-600 hover:text-white"
-            } ${collapsed ? "px-3" : "px-4"}`}
+            className={`w-full justify-start text-left h-12 transition-all duration-200 ${activeSection === item.id
+              ? "bg-blue-600 text-white shadow-lg"
+              : "text-blue-100 hover:bg-blue-600 hover:text-white"
+              } ${collapsed ? "px-3" : "px-4"}`}
             onClick={() => onSectionChange(item.id)}
           >
             <item.icon className={`w-5 h-5 ${collapsed ? "" : "mr-3"}`} />
