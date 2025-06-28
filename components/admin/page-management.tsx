@@ -223,9 +223,8 @@ export function PageManagement({ pageType, title }: PageManagementProps) {
                   className="w-full h-48 object-cover rounded-t-lg"
                 />
                 <div
-                  className={`absolute top-3 right-3 px-2 py-1 rounded-full text-xs font-medium ${
-                    item.status === "published" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"
-                  }`}
+                  className={`absolute top-3 right-3 px-2 py-1 rounded-full text-xs font-medium ${item.status === "published" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"
+                    }`}
                 >
                   {item.status}
                 </div>

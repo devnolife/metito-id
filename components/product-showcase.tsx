@@ -166,18 +166,21 @@ export function ProductShowcase() {
   })
 
   const handleWhatsAppClick = (product: (typeof products)[0]) => {
-    const phoneNumber = "15551234567" // Replace with actual WhatsApp number
+    const phoneNumber = "6281234567890" // Replace with actual WhatsApp number
     const message = encodeURIComponent(product.whatsappMessage)
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
     window.open(whatsappUrl, "_blank")
   }
 
   return (
-    <section id="products" className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+    <section id="products" className="py-20 bg-gradient-to-br from-blue-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4 text-primary-blue">Our Water Treatment Equipment</h2>
+          <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
+            Product Showcase
+          </Badge>
+          <h2 className="text-4xl font-bold mb-4 text-gray-900">Our Water Treatment Equipment</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Discover our comprehensive range of advanced water and wastewater treatment equipment designed for
             industrial and municipal applications
@@ -189,170 +192,181 @@ export function ProductShowcase() {
           {categories.map((category) => (
             <Card
               key={category.id}
-              className={`cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 ${
-                selectedCategory === category.id
-                  ? "border-primary-blue shadow-lg bg-blue-50"
-                  : "border-gray-200 hover:border-accent-orange"
-              }`}
+              className={`cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 ${selectedCategory === category.id
+                  ? "border-blue-600 shadow-lg bg-blue-50"
+                  : "border-gray-200 hover:border-blue-400"
+                }`}
               onClick={() => setSelectedCategory(selectedCategory === category.id ? "all" : category.id)}
             >
               <CardContent className="p-4 text-center">
-                <div
-                  className={`w-12 h-12 ${category.color} rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg`}
-                >
-                  <category.icon className="w-6 h-6 text-white" />
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 ${selectedCategory === category.id
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-100 text-gray-600 group-hover:bg-blue-100"
+                  }`}>
+                  <category.icon className="w-6 h-6" />
                 </div>
-                <h3 className="font-semibold text-gray-800 text-sm">{category.name}</h3>
+                <h3 className={`font-semibold text-sm ${selectedCategory === category.id ? "text-blue-600" : "text-gray-700"
+                  }`}>
+                  {category.name}
+                </h3>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        {/* Filters */}
-        <div className="bg-white rounded-2xl p-6 mb-12 shadow-lg border border-gray-100">
-          <div className="flex flex-col lg:flex-row gap-4 items-center">
-            <div className="flex items-center gap-2 text-primary-blue font-semibold">
-              <Filter className="w-5 h-5" />
-              <span>Filter Equipment:</span>
-            </div>
-
-            <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <Input
-                  placeholder="Search equipment..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 border-2 border-gray-200 focus:border-primary-blue rounded-lg"
-                />
-              </div>
-
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="border-2 border-gray-200 focus:border-primary-blue rounded-lg">
-                  <SelectValue placeholder="All Categories" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  {categories.map((category) => (
-                    <SelectItem key={category.id} value={category.id}>
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              <Select value={selectedApplication} onValueChange={setSelectedApplication}>
-                <SelectTrigger className="border-2 border-gray-200 focus:border-primary-blue rounded-lg">
-                  <SelectValue placeholder="All Applications" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Applications</SelectItem>
-                  <SelectItem value="Industrial">Industrial</SelectItem>
-                  <SelectItem value="Municipal">Municipal</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Button className="primary-blue hover:bg-blue-800 text-white rounded-lg">Apply Filters</Button>
-            </div>
+        {/* Search and Filter */}
+        <div className="flex flex-col md:flex-row gap-4 mb-12">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Input
+              type="search"
+              placeholder="Search products..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 h-12 rounded-xl border-gray-200 focus:border-blue-400 focus:ring-blue-400"
+            />
           </div>
+          <Select value={selectedApplication} onValueChange={setSelectedApplication}>
+            <SelectTrigger className="w-full md:w-48 h-12 rounded-xl border-gray-200">
+              <SelectValue placeholder="Application" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Applications</SelectItem>
+              <SelectItem value="Industrial">Industrial</SelectItem>
+              <SelectItem value="Municipal">Municipal</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
-        {/* Products Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        {/* Product Grid with Hover Effects */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProducts.map((product) => (
-            <Card key={product.id} className="card-hover overflow-hidden border-0 shadow-lg bg-white">
-              <div className="relative">
-                <img
-                  src={product.image || "/placeholder.svg"}
-                  alt={product.name}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="absolute top-4 left-4">
-                  <Badge
-                    variant="default"
-                    className={`${
-                      product.application === "Industrial"
-                        ? "primary-blue hover:bg-blue-800"
-                        : "water-blue hover:bg-sky-600"
-                    } text-white`}
-                  >
-                    {product.application}
-                  </Badge>
-                </div>
-                <div className="absolute top-4 right-4 flex gap-2">
-                  <Button size="icon" variant="secondary" className="w-8 h-8 bg-white/90 hover:bg-white shadow-lg">
-                    <Heart className="w-4 h-4 text-gray-600" />
-                  </Button>
-                  <Button size="icon" variant="secondary" className="w-8 h-8 bg-white/90 hover:bg-white shadow-lg">
-                    <Eye className="w-4 h-4 text-gray-600" />
-                  </Button>
-                </div>
-              </div>
+            <Card
+              key={product.id}
+              className="group relative overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 rounded-2xl bg-white"
+            >
+              <div className="relative overflow-hidden">
+                {/* Product Image */}
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
 
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-primary-blue mb-2">{product.name}</h3>
-                <p className="text-gray-600 mb-4 text-sm leading-relaxed">{product.description}</p>
+                  {/* Overlay that appears on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                <div className="flex flex-wrap gap-1 mb-4">
-                  {product.specs.map((spec, index) => (
-                    <Badge key={index} variant="outline" className="text-xs border-primary-blue text-primary-blue">
-                      {spec}
+                  {/* Product details that appear on hover */}
+                  <div className="absolute inset-0 p-6 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-8 group-hover:translate-y-0">
+                    <Badge className="bg-blue-600 text-white mb-3 w-fit">
+                      {product.application}
                     </Badge>
-                  ))}
+                    <h3 className="text-white font-bold text-lg mb-2 line-clamp-2">
+                      {product.name}
+                    </h3>
+                    <p className="text-gray-200 text-sm mb-3 line-clamp-2">
+                      {product.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {product.specs.slice(0, 2).map((spec, index) => (
+                        <Badge key={index} variant="secondary" className="bg-white/20 text-white text-xs">
+                          {spec}
+                        </Badge>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-2xl font-bold text-white">{product.price}</div>
+                        <div className="text-gray-300 text-sm">{product.capacity}</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-white font-semibold">{product.efficiency}</div>
+                        <div className="text-gray-300 text-sm">Efficiency</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="space-y-2 mb-4 text-sm">
-                  <div className="flex justify-between items-center p-2 bg-gray-50 rounded-lg">
-                    <span className="text-gray-600">Capacity:</span>
-                    <span className="font-semibold text-primary-blue">{product.capacity}</span>
+                {/* Always visible bottom section */}
+                <CardContent className="p-6 bg-white">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex-1">
+                      <h3 className="font-bold text-lg text-gray-900 mb-1 line-clamp-1 group-hover:text-blue-600 transition-colors">
+                        {product.name}
+                      </h3>
+                      <p className="text-gray-600 text-sm">{product.location}</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-2xl font-bold text-blue-600">{product.price}</div>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center p-2 bg-gray-50 rounded-lg">
-                    <span className="text-gray-600">Efficiency:</span>
-                    <span className="font-semibold text-primary-blue">{product.efficiency}</span>
-                  </div>
-                  <div className="flex justify-between items-center p-2 bg-gray-50 rounded-lg">
-                    <span className="text-gray-600">Origin:</span>
-                    <span className="font-semibold text-primary-blue">{product.location}</span>
-                  </div>
-                </div>
 
-                <div className="text-2xl font-bold text-accent-orange mb-4">{product.price}</div>
-
-                <Button
-                  className="w-full whatsapp-btn hover:shadow-lg text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105"
-                  onClick={() => handleWhatsAppClick(product)}
-                >
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Get Quote via WhatsApp
-                </Button>
-              </CardContent>
+                  <div className="flex gap-3">
+                    <Button
+                      onClick={() => handleWhatsAppClick(product)}
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-xl h-12 font-semibold transition-all duration-300 hover:shadow-lg"
+                    >
+                      <MessageCircle className="w-4 h-4 mr-2" />
+                      Chat WhatsApp
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="px-4 border-gray-300 hover:bg-gray-50 rounded-xl h-12 transition-all duration-300"
+                    >
+                      <Eye className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="px-4 border-gray-300 hover:bg-gray-50 rounded-xl h-12 transition-all duration-300"
+                    >
+                      <Heart className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </div>
             </Card>
           ))}
         </div>
 
+        {/* No Results */}
         {filteredProducts.length === 0 && (
           <div className="text-center py-16">
-            <div className="text-6xl mb-4">🔍</div>
-            <h3 className="text-2xl font-bold text-primary-blue mb-2">No Equipment Found</h3>
-            <p className="text-gray-600">Try adjusting your search filters or keywords</p>
+            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Search className="w-12 h-12 text-gray-400" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">No products found</h3>
+            <p className="text-gray-600 mb-6">Try adjusting your search criteria or filters</p>
+            <Button
+              onClick={() => {
+                setSearchTerm("")
+                setSelectedCategory("all")
+                setSelectedApplication("all")
+              }}
+              className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
+            >
+              Clear Filters
+            </Button>
           </div>
         )}
 
         {/* Call to Action */}
         <div className="text-center mt-16">
-          <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-            <h3 className="text-2xl font-bold text-primary-blue mb-4">Need Custom Water Treatment Solutions?</h3>
-            <p className="text-gray-600 mb-6">
-              Our expert engineers are ready to design and deliver customized water treatment systems tailored to your
-              specific requirements
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-white">
+            <h3 className="text-2xl font-bold mb-4">Can't find what you're looking for?</h3>
+            <p className="text-blue-100 mb-6">
+              We specialize in custom water treatment solutions. Contact our experts for personalized recommendations.
             </p>
-            <Button
-              size="lg"
-              className="gradient-accent hover:shadow-xl text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 hover:scale-105"
-            >
-              <MessageCircle className="w-5 h-5 mr-2" />
-              Request Custom Solution
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button className="bg-white text-blue-600 hover:bg-blue-50 rounded-xl px-8 py-3 font-semibold">
+                Contact Our Experts
+              </Button>
+              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 rounded-xl px-8 py-3 font-semibold">
+                View All Products
+              </Button>
+            </div>
           </div>
         </div>
       </div>

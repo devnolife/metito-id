@@ -146,8 +146,8 @@ export function Footer() {
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-accent-orange" />
                 <div className="text-blue-100">
-                  <p>info@metitowater.com</p>
-                  <p>sales@metitowater.com</p>
+                  <p>info@metito.id</p>
+                  <p>sales@metito.id</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
