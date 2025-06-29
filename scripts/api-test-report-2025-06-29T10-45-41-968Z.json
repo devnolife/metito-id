@@ -1,0 +1,258 @@
+{
+  "timestamp": "2025-06-29T10:45:41.968Z",
+  "summary": {
+    "total": 28,
+    "passed": 5,
+    "failed": 23,
+    "successRate": 17.857142857142858
+  },
+  "results": [
+    {
+      "endpoint": "/api/auth/register",
+      "method": "POST",
+      "status": 200,
+      "success": true,
+      "message": "Register new user",
+      "responseTime": 958
+    },
+    {
+      "endpoint": "/api/auth/login",
+      "method": "POST",
+      "status": 200,
+      "success": true,
+      "message": "Login user",
+      "responseTime": 333
+    },
+    {
+      "endpoint": "/api/auth/me",
+      "method": "GET",
+      "status": 401,
+      "success": false,
+      "message": "Get current user profile",
+      "responseTime": 276,
+      "error": "Status: 401, Response: {\"success\":false,\"error\":\"Please login to access this resource\"}"
+    },
+    {
+      "endpoint": "/api/auth/logout",
+      "method": "POST",
+      "status": 200,
+      "success": true,
+      "message": "Logout user",
+      "responseTime": 224
+    },
+    {
+      "endpoint": "/api/products",
+      "method": "GET",
+      "status": 401,
+      "success": false,
+      "message": "Get all products",
+      "responseTime": 11,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/products",
+      "method": "POST",
+      "status": 401,
+      "success": false,
+      "message": "Create new product",
+      "responseTime": 9,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/products/1",
+      "method": "GET",
+      "status": 401,
+      "success": false,
+      "message": "Get product by ID",
+      "responseTime": 7,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/products/1",
+      "method": "PUT",
+      "status": 401,
+      "success": false,
+      "message": "Update product",
+      "responseTime": 7,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/products/1",
+      "method": "DELETE",
+      "status": 401,
+      "success": false,
+      "message": "Delete product",
+      "responseTime": 7,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/categories",
+      "method": "GET",
+      "status": 401,
+      "success": false,
+      "message": "Get all categories",
+      "responseTime": 8,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/categories",
+      "method": "POST",
+      "status": 401,
+      "success": false,
+      "message": "Create new category",
+      "responseTime": 8,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/services",
+      "method": "GET",
+      "status": 401,
+      "success": false,
+      "message": "Get all services",
+      "responseTime": 6,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/services",
+      "method": "POST",
+      "status": 401,
+      "success": false,
+      "message": "Create new service",
+      "responseTime": 7,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/blog",
+      "method": "GET",
+      "status": 401,
+      "success": false,
+      "message": "Get all blog posts",
+      "responseTime": 6,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/blog",
+      "method": "POST",
+      "status": 401,
+      "success": false,
+      "message": "Create new blog post",
+      "responseTime": 8,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/gallery",
+      "method": "GET",
+      "status": 401,
+      "success": false,
+      "message": "Get all gallery images",
+      "responseTime": 7,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/gallery",
+      "method": "POST",
+      "status": 401,
+      "success": false,
+      "message": "Create new gallery image",
+      "responseTime": 7,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/testimonials",
+      "method": "GET",
+      "status": 401,
+      "success": false,
+      "message": "Get all testimonials",
+      "responseTime": 7,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/testimonials",
+      "method": "POST",
+      "status": 401,
+      "success": false,
+      "message": "Create new testimonial",
+      "responseTime": 7,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/certifications",
+      "method": "GET",
+      "status": 401,
+      "success": false,
+      "message": "Get all certifications",
+      "responseTime": 7,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/certifications",
+      "method": "POST",
+      "status": 401,
+      "success": false,
+      "message": "Create new certification",
+      "responseTime": 10,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/contact",
+      "method": "POST",
+      "status": 201,
+      "success": true,
+      "message": "Submit contact form",
+      "responseTime": 251
+    },
+    {
+      "endpoint": "/api/newsletter",
+      "method": "POST",
+      "status": 401,
+      "success": false,
+      "message": "Subscribe to newsletter",
+      "responseTime": 7,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/cart",
+      "method": "GET",
+      "status": 401,
+      "success": false,
+      "message": "Get cart items",
+      "responseTime": 7,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/cart",
+      "method": "POST",
+      "status": 401,
+      "success": false,
+      "message": "Add item to cart",
+      "responseTime": 7,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Authentication required\",\"error\":\"UNAUTHORIZED\"}"
+    },
+    {
+      "endpoint": "/api/settings",
+      "method": "GET",
+      "status": 200,
+      "success": true,
+      "message": "Get all settings",
+      "responseTime": 48
+    },
+    {
+      "endpoint": "/api/settings",
+      "method": "POST",
+      "status": 401,
+      "success": false,
+      "message": "Create/update setting",
+      "responseTime": 73,
+      "error": "Status: 401, Response: {\"success\":false,\"error\":\"Authentication required\"}"
+    },
+    {
+      "endpoint": "/api/upload",
+      "method": "GET",
+      "status": 401,
+      "success": false,
+      "message": "Get upload info",
+      "responseTime": 354,
+      "error": "Status: 401, Response: {\"success\":false,\"message\":\"Unauthorized - Admin access required\"}"
+    }
+  ]
+}

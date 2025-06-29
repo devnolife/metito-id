@@ -14,7 +14,13 @@
     "db:seed": "tsx prisma/seed.ts",
     "create-admin": "npx tsx scripts/create-admin.ts",
     "test-auth": "npx tsx scripts/test-auth.ts",
-    "setup-admin": "npx tsx scripts/setup-admin.ts"
+    "setup-admin": "npx tsx scripts/setup-admin.ts",
+    "test-api": "npx tsx scripts/test-all-apis.ts",
+    "test-api-quick": "npx tsx scripts/quick-api-test.ts",
+    "test-db": "npx tsx scripts/test-database.ts",
+    "test-fs": "npx tsx scripts/test-file-system.ts",
+    "test-all": "npx tsx scripts/test-all.ts",
+    "setup-dirs": "node scripts/setup-upload-dirs.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
