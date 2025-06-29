@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -19,11 +19,33 @@ import {
   Gauge,
   FlaskConical,
 } from "lucide-react"
+import { getSetting } from "@/lib/settings"
 
 export function ProductShowcase() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [selectedApplication, setSelectedApplication] = useState("all")
+  const [showPrices, setShowPrices] = useState(true)
+  const [whatsappNumber, setWhatsappNumber] = useState("6281234567890")
+
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const showPricesLanding = await getSetting('show_prices_landing')
+        const whatsappNum = await getSetting('whatsapp_number')
+
+        setShowPrices(showPricesLanding !== false)
+        if (whatsappNum) {
+          setWhatsappNumber(whatsappNum)
+        }
+      } catch (error) {
+        console.error('Error loading settings:', error)
+        // Default to showing prices on error
+        setShowPrices(true)
+      }
+    }
+    loadSettings()
+  }, [])
 
   const categories = [
     { id: "membrane", name: "Membrane Systems", icon: Droplets, color: "water-blue" },
@@ -166,9 +188,8 @@ export function ProductShowcase() {
   })
 
   const handleWhatsAppClick = (product: (typeof products)[0]) => {
-    const phoneNumber = "6281234567890" // Replace with actual WhatsApp number
     const message = encodeURIComponent(product.whatsappMessage)
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`
     window.open(whatsappUrl, "_blank")
   }
 
@@ -279,7 +300,11 @@ export function ProductShowcase() {
 
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="text-2xl font-bold text-white">{product.price}</div>
+                        {showPrices ? (
+                          <div className="text-2xl font-bold text-white">{product.price}</div>
+                        ) : (
+                          <div className="text-lg font-semibold text-white">Contact for Price</div>
+                        )}
                         <div className="text-gray-300 text-sm">{product.capacity}</div>
                       </div>
                       <div className="text-right">
@@ -300,7 +325,11 @@ export function ProductShowcase() {
                       <p className="text-gray-600 text-sm">{product.location}</p>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-blue-600">{product.price}</div>
+                      {showPrices ? (
+                        <div className="text-2xl font-bold text-blue-600">{product.price}</div>
+                      ) : (
+                        <div className="text-lg font-semibold text-gray-600">Contact for Price</div>
+                      )}
                     </div>
                   </div>
 

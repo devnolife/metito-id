@@ -6,6 +6,7 @@ import { AdminHeader } from "./admin-header"
 import { ProductManagement } from "./product-management"
 import { PageManagement } from "./page-management"
 import { DashboardOverview } from "./dashboard-overview"
+import { SettingsManagement } from "./settings-management"
 
 interface AdminDashboardProps {
   user: any
@@ -34,6 +35,8 @@ export function AdminDashboard({ user, onLogout }: AdminDashboardProps) {
         return <PageManagement pageType="blog" title="Blog Management" />
       case "contact":
         return <PageManagement pageType="contact" title="Contact Management" />
+      case "settings":
+        return <SettingsManagement />
       default:
         return <DashboardOverview />
     }

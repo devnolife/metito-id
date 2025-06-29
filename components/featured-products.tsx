@@ -3,8 +3,26 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Star, Heart, ShoppingCart } from "lucide-react"
 import Link from "next/link"
+import { useState, useEffect } from "react"
+import { getSetting } from "@/lib/settings"
 
 export function FeaturedProducts() {
+  const [showPrices, setShowPrices] = useState(true)
+
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const showPricesLanding = await getSetting('show_prices_landing')
+        setShowPrices(showPricesLanding !== false)
+      } catch (error) {
+        console.error('Error loading price settings:', error)
+        // Default to showing prices on error
+        setShowPrices(true)
+      }
+    }
+    loadSettings()
+  }, [])
+
   const products = [
     {
       id: 1,
@@ -83,9 +101,8 @@ export function FeaturedProducts() {
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-4 h-4 ${
-                          i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"
-                        }`}
+                        className={`w-4 h-4 ${i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"
+                          }`}
                       />
                     ))}
                   </div>
@@ -104,14 +121,24 @@ export function FeaturedProducts() {
                   ))}
                 </div>
 
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <span className="text-2xl font-bold text-primary-blue">{product.price}</span>
-                    {product.originalPrice && (
-                      <span className="text-sm text-gray-500 line-through ml-2">{product.originalPrice}</span>
-                    )}
+                {showPrices && (
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <span className="text-2xl font-bold text-primary-blue">{product.price}</span>
+                      {product.originalPrice && (
+                        <span className="text-sm text-gray-500 line-through ml-2">{product.originalPrice}</span>
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
+
+                {!showPrices && (
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <span className="text-lg font-semibold text-gray-600">Contact for Price</span>
+                    </div>
+                  </div>
+                )}
 
                 <div className="flex gap-2">
                   <Button className="flex-1 primary-blue hover:bg-blue-800" size="sm">

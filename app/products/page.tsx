@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent } from "@/components/ui/card"
@@ -12,10 +12,26 @@ import { Slider } from "@/components/ui/slider"
 import { Search, Filter, Grid, List, Star, Heart, ShoppingCart, Droplets, Gauge, Calendar, MapPin, CheckCircle } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { getSetting } from "@/lib/settings"
 
 export default function ProductsPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [priceRange, setPriceRange] = useState([5000, 500000])
+  const [showPrices, setShowPrices] = useState(true)
+
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const showPricesSetting = await getSetting('show_prices')
+        setShowPrices(showPricesSetting !== false)
+      } catch (error) {
+        console.error('Error loading price settings:', error)
+        // Default to showing prices on error
+        setShowPrices(true)
+      }
+    }
+    loadSettings()
+  }, [])
 
   const products = [
     {
@@ -213,20 +229,22 @@ export default function ProductsPage() {
                   </div>
 
                   {/* Price Range */}
-                  <div className="mb-6">
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">Price Range (USD)</label>
-                    <Slider
-                      value={priceRange}
-                      onValueChange={setPriceRange}
-                      max={500000}
-                      step={5000}
-                      className="mb-4"
-                    />
-                    <div className="flex justify-between text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
-                      <span className="font-medium">${priceRange[0].toLocaleString()}</span>
-                      <span className="font-medium">${priceRange[1].toLocaleString()}</span>
+                  {showPrices && (
+                    <div className="mb-6">
+                      <label className="block text-sm font-semibold text-gray-700 mb-3">Price Range (USD)</label>
+                      <Slider
+                        value={priceRange}
+                        onValueChange={setPriceRange}
+                        max={500000}
+                        step={5000}
+                        className="mb-4"
+                      />
+                      <div className="flex justify-between text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
+                        <span className="font-medium">${priceRange[0].toLocaleString()}</span>
+                        <span className="font-medium">${priceRange[1].toLocaleString()}</span>
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {/* Capacity Range */}
                   <div className="mb-6">
@@ -281,8 +299,8 @@ export default function ProductsPage() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="featured">Most Popular</SelectItem>
-                      <SelectItem value="price-low">Price: Low to High</SelectItem>
-                      <SelectItem value="price-high">Price: High to Low</SelectItem>
+                      {showPrices && <SelectItem value="price-low">Price: Low to High</SelectItem>}
+                      {showPrices && <SelectItem value="price-high">Price: High to Low</SelectItem>}
                       <SelectItem value="newest">Newest First</SelectItem>
                       <SelectItem value="rating">Highest Rated</SelectItem>
                     </SelectContent>
@@ -393,12 +411,20 @@ export default function ProductsPage() {
 
                         <div className="flex items-center justify-between mb-4">
                           <div>
-                            <span className="text-2xl font-bold text-blue-600">
-                              ${product.price.toLocaleString()}
-                            </span>
-                            {product.originalPrice && (
-                              <span className="text-sm text-gray-500 line-through ml-2">
-                                ${product.originalPrice.toLocaleString()}
+                            {showPrices ? (
+                              <>
+                                <span className="text-2xl font-bold text-blue-600">
+                                  ${product.price.toLocaleString()}
+                                </span>
+                                {product.originalPrice && (
+                                  <span className="text-sm text-gray-500 line-through ml-2">
+                                    ${product.originalPrice.toLocaleString()}
+                                  </span>
+                                )}
+                              </>
+                            ) : (
+                              <span className="text-lg font-semibold text-gray-600">
+                                Contact for Price
                               </span>
                             )}
                           </div>

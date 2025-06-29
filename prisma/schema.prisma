@@ -312,3 +312,19 @@ model CartItem {
   @@unique([userId, productId])
   @@map("cart_items")
 }
+
+// Settings model for site configuration
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  type      String   @default("string") // string, boolean, number, json
+  category  String   @default("general")
+  label     String?
+  description String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}

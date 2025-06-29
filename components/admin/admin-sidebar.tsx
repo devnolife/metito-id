@@ -13,6 +13,7 @@ import {
   Phone,
   ChevronLeft,
   ChevronRight,
+  Cog,
 } from "lucide-react"
 
 interface AdminSidebarProps {
@@ -32,6 +33,7 @@ export function AdminSidebar({ activeSection, onSectionChange, collapsed, onTogg
     { id: "certifications", label: "Certifications", icon: Award },
     { id: "blog", label: "Blog", icon: FileText },
     { id: "contact", label: "Contact", icon: Phone },
+    { id: "settings", label: "Settings", icon: Cog },
   ]
 
   return (
