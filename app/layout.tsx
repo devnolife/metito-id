@@ -6,9 +6,9 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Metito Water - Water & Wastewater Treatment Equipment",
+  title: "Metito Water Engineer - Water & Wastewater Engineering Solutions",
   description: "Premium water and wastewater treatment solutions for industrial and municipal applications",
-    generator: 'v0.dev'
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({

@@ -12,42 +12,42 @@ import { Users, Award, Globe, Shield, Droplets, Filter, Zap, Settings, Star, Che
 
 export default function Home() {
   const stats = [
-    { icon: <Users className="w-8 h-8" />, value: "500+", label: "Happy Customers", color: "text-blue-600" },
-    { icon: <Award className="w-8 h-8" />, value: "25+", label: "Years Experience", color: "text-green-600" },
-    { icon: <Globe className="w-8 h-8" />, value: "50+", label: "Countries Served", color: "text-purple-600" },
-    { icon: <Shield className="w-8 h-8" />, value: "99%", label: "Customer Satisfaction", color: "text-orange-600" }
+    { icon: <Users className="w-8 h-8" />, value: "500+", label: "Pelanggan Puas", color: "text-blue-600" },
+    { icon: <Award className="w-8 h-8" />, value: "25+", label: "Tahun Pengalaman", color: "text-green-600" },
+    { icon: <Globe className="w-8 h-8" />, value: "50+", label: "Negara Dilayani", color: "text-purple-600" },
+    { icon: <Shield className="w-8 h-8" />, value: "99%", label: "Kepuasan Pelanggan", color: "text-orange-600" }
   ]
 
   const services = [
     {
       icon: <Droplets className="w-12 h-12 text-blue-600" />,
-      title: "Water Treatment",
-      description: "Complete water treatment solutions for industrial and municipal applications"
+      title: "Pengolahan Air",
+      description: "Solusi pengolahan air lengkap untuk aplikasi industri dan perkotaan"
     },
     {
       icon: <Filter className="w-12 h-12 text-green-600" />,
-      title: "Filtration Systems",
-      description: "Advanced filtration technology for clean and safe water supply"
+      title: "Sistem Filtrasi",
+      description: "Teknologi filtrasi canggih untuk pasokan air bersih dan aman"
     },
     {
       icon: <Zap className="w-12 h-12 text-purple-600" />,
-      title: "Disinfection",
-      description: "UV and ozone disinfection systems for pathogen elimination"
+      title: "Disinfeksi",
+      description: "Sistem disinfeksi UV dan ozon untuk eliminasi patogen"
     },
     {
       icon: <Settings className="w-12 h-12 text-orange-600" />,
-      title: "Maintenance",
-      description: "Professional maintenance and support services for optimal performance"
+      title: "Pemeliharaan",
+      description: "Layanan pemeliharaan dan dukungan profesional untuk performa optimal"
     }
   ]
 
   const features = [
-    "ISO 9001:2015 Certified Quality Management",
-    "24/7 Technical Support Available",
-    "Custom Solutions for Every Need",
-    "Advanced Monitoring and Control Systems",
-    "Energy-Efficient Designs",
-    "Comprehensive Warranty Coverage"
+    "Manajemen Kualitas Bersertifikat ISO 9001:2015",
+    "Dukungan Teknis 24/7 Tersedia",
+    "Solusi Kustom untuk Setiap Kebutuhan",
+    "Sistem Monitoring dan Kontrol Canggih",
+    "Desain Hemat Energi",
+    "Jaminan Garansi Komprehensif"
   ]
 
   return (
@@ -60,13 +60,13 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
-              Trusted Worldwide
+              Dipercaya Seluruh Dunia
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Leading Water Treatment Solutions
+              Solusi Pengolahan Air Terdepan
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Over two decades of excellence in water treatment technology, serving customers across the globe.
+              Lebih dari dua dekade keunggulan dalam teknologi pengolahan air, melayani pelanggan di seluruh dunia.
             </p>
           </div>
 
@@ -89,10 +89,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Our Expertise
+              Keahlian Kami
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Comprehensive water treatment solutions tailored to meet your specific requirements and industry standards.
+              Solusi pengolahan air komprehensif yang disesuaikan untuk memenuhi kebutuhan spesifik Anda dan standar industri.
             </p>
           </div>
 
@@ -121,13 +121,13 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
-                Why Choose Metito Water
+                Mengapa Memilih Metito Water Engineer
               </Badge>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Excellence in Water Treatment Solutions
+                Keunggulan dalam Solusi Pengolahan Air
               </h2>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                With over 25 years of experience, we deliver innovative water treatment solutions that meet the highest quality standards and exceed customer expectations.
+                Dengan pengalaman lebih dari 25 tahun, kami menyediakan solusi pengolahan air inovatif yang memenuhi standar kualitas tertinggi dan melebihi harapan pelanggan.
               </p>
 
               <div className="space-y-4 mb-8">
@@ -143,11 +143,11 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl">
-                  Learn More About Us
+                  Pelajari Lebih Lanjut Tentang Kami
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
                 <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50 rounded-xl">
-                  View Certifications
+                  Lihat Sertifikasi
                 </Button>
               </div>
             </div>
@@ -160,8 +160,8 @@ export default function Home() {
                       <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
                         <Star className="w-6 h-6 text-blue-600" />
                       </div>
-                      <div className="text-2xl font-bold text-gray-900 mb-1">ISO Certified</div>
-                      <div className="text-sm text-gray-600">Quality Management</div>
+                      <div className="text-2xl font-bold text-gray-900 mb-1">Bersertifikat ISO</div>
+                      <div className="text-sm text-gray-600">Manajemen Kualitas</div>
                     </CardContent>
                   </Card>
 
@@ -170,8 +170,8 @@ export default function Home() {
                       <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
                         <Shield className="w-6 h-6 text-green-600" />
                       </div>
-                      <div className="text-2xl font-bold text-gray-900 mb-1">24/7 Support</div>
-                      <div className="text-sm text-gray-600">Always Available</div>
+                      <div className="text-2xl font-bold text-gray-900 mb-1">Dukungan 24/7</div>
+                      <div className="text-sm text-gray-600">Selalu Tersedia</div>
                     </CardContent>
                   </Card>
                 </div>
@@ -182,8 +182,8 @@ export default function Home() {
                       <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
                         <Globe className="w-6 h-6 text-purple-600" />
                       </div>
-                      <div className="text-2xl font-bold text-gray-900 mb-1">Global Reach</div>
-                      <div className="text-sm text-gray-600">50+ Countries</div>
+                      <div className="text-2xl font-bold text-gray-900 mb-1">Jangkauan Global</div>
+                      <div className="text-sm text-gray-600">50+ Negara</div>
                     </CardContent>
                   </Card>
 
@@ -192,8 +192,8 @@ export default function Home() {
                       <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-4">
                         <Award className="w-6 h-6 text-orange-600" />
                       </div>
-                      <div className="text-2xl font-bold text-gray-900 mb-1">Expert Team</div>
-                      <div className="text-sm text-gray-600">25+ Years Experience</div>
+                      <div className="text-2xl font-bold text-gray-900 mb-1">Tim Ahli</div>
+                      <div className="text-sm text-gray-600">Pengalaman 25+ Tahun</div>
                     </CardContent>
                   </Card>
                 </div>
@@ -207,17 +207,17 @@ export default function Home() {
       <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-blue-700">
         <div className="max-w-4xl mx-auto text-center text-white">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Transform Your Water Treatment?
+            Siap Mentransformasi Pengolahan Air Anda?
           </h2>
           <p className="text-xl mb-8 text-blue-100">
-            Get expert consultation and custom solutions for your water treatment needs. Our team is ready to help you achieve optimal results.
+            Dapatkan konsultasi ahli dan solusi kustom untuk kebutuhan pengolahan air Anda. Tim kami siap membantu Anda mencapai hasil yang optimal.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              Get Free Consultation
+              Konsultasi Gratis
             </Button>
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              Download Catalog
+              Unduh Katalog
             </Button>
           </div>
         </div>

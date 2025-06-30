@@ -80,7 +80,7 @@ async function seedSettings() {
     },
     {
       key: 'site_title',
-      value: 'Metito Water - Industrial Water Treatment Solutions',
+      value: 'Metito Water Engineer - Industrial Water Engineering Solutions',
       type: 'string',
       category: 'seo',
       label: 'Site Title',

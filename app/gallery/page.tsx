@@ -11,94 +11,94 @@ export default function GalleryPage() {
   const projects = [
     {
       id: 1,
-      title: "Industrial Water Treatment Plant",
+      title: "Pabrik Pengolahan Air Industri",
       category: "industrial",
       location: "Jakarta, Indonesia",
       year: "2023",
       client: "PT Manufacturing Corp",
       image: "/placeholder.jpg",
-      description: "Complete water treatment system for manufacturing facility"
+      description: "Sistem pengolahan air lengkap untuk fasilitas manufaktur"
     },
     {
       id: 2,
-      title: "Municipal Water Supply System",
+      title: "Sistem Penyediaan Air Kota",
       category: "municipal",
       location: "Surabaya, Indonesia",
       year: "2023",
-      client: "City Government",
+      client: "Pemerintah Kota",
       image: "/placeholder.jpg",
-      description: "Large-scale municipal water treatment and distribution"
+      description: "Pengolahan dan distribusi air kota skala besar"
     },
     {
       id: 3,
-      title: "Reverse Osmosis Plant",
+      title: "Pabrik Reverse Osmosis",
       category: "ro-systems",
       location: "Bandung, Indonesia",
       year: "2022",
       client: "PT Beverage Company",
       image: "/placeholder.jpg",
-      description: "High-capacity reverse osmosis system for beverage production"
+      description: "Sistem reverse osmosis kapasitas tinggi untuk produksi minuman"
     },
     {
       id: 4,
-      title: "Wastewater Treatment Facility",
+      title: "Fasilitas Pengolahan Air Limbah",
       category: "wastewater",
       location: "Medan, Indonesia",
       year: "2022",
-      client: "Industrial Complex",
+      client: "Kompleks Industri",
       image: "/placeholder.jpg",
-      description: "Advanced wastewater treatment and recycling system"
+      description: "Sistem pengolahan dan daur ulang air limbah canggih"
     },
     {
       id: 5,
-      title: "Hospital Water Treatment",
+      title: "Pengolahan Air Rumah Sakit",
       category: "commercial",
       location: "Yogyakarta, Indonesia",
       year: "2023",
-      client: "General Hospital",
+      client: "Rumah Sakit Umum",
       image: "/placeholder.jpg",
-      description: "Medical-grade water treatment system for healthcare facility"
+      description: "Sistem pengolahan air medis untuk fasilitas kesehatan"
     },
     {
       id: 6,
-      title: "Hotel Water System",
+      title: "Sistem Air Hotel",
       category: "commercial",
       location: "Bali, Indonesia",
       year: "2022",
-      client: "Luxury Resort",
+      client: "Resort Mewah",
       image: "/placeholder.jpg",
-      description: "Complete water treatment solution for hospitality industry"
+      description: "Solusi pengolahan air lengkap untuk industri pariwisata"
     },
     {
       id: 7,
-      title: "Chemical Plant Treatment",
+      title: "Pengolahan Air Pabrik Kimia",
       category: "industrial",
       location: "Tangerang, Indonesia",
       year: "2023",
       client: "PT Chemical Industries",
       image: "/placeholder.jpg",
-      description: "Specialized water treatment for chemical processing"
+      description: "Pengolahan air khusus untuk pemrosesan kimia"
     },
     {
       id: 8,
-      title: "Desalination Plant",
+      title: "Pabrik Desalinasi",
       category: "desalination",
       location: "Makassar, Indonesia",
       year: "2022",
-      client: "Coastal Development",
+      client: "Pengembangan Pesisir",
       image: "/placeholder.jpg",
-      description: "Seawater desalination system for coastal community"
+      description: "Sistem desalinasi air laut untuk komunitas pesisir"
     }
   ]
 
   const categories = [
-    { id: "all", name: "All Projects", count: projects.length },
-    { id: "industrial", name: "Industrial", count: projects.filter(p => p.category === "industrial").length },
-    { id: "municipal", name: "Municipal", count: projects.filter(p => p.category === "municipal").length },
-    { id: "commercial", name: "Commercial", count: projects.filter(p => p.category === "commercial").length },
-    { id: "ro-systems", name: "RO Systems", count: projects.filter(p => p.category === "ro-systems").length },
-    { id: "wastewater", name: "Wastewater", count: projects.filter(p => p.category === "wastewater").length },
-    { id: "desalination", name: "Desalination", count: projects.filter(p => p.category === "desalination").length }
+    { id: "all", name: "Semua Proyek", count: projects.length },
+    { id: "industrial", name: "Industri", count: projects.filter(p => p.category === "industrial").length },
+    { id: "municipal", name: "Kota", count: projects.filter(p => p.category === "municipal").length },
+    { id: "commercial", name: "Komersial", count: projects.filter(p => p.category === "commercial").length },
+    { id: "ro-systems", name: "Sistem RO", count: projects.filter(p => p.category === "ro-systems").length },
+    { id: "wastewater", name: "Air Limbah", count: projects.filter(p => p.category === "wastewater").length },
+    { id: "desalination", name: "Desalinasi", count: projects.filter(p => p.category === "desalination").length }
   ]
 
   const filterProjects = (category: string) => {
@@ -115,24 +115,24 @@ export default function GalleryPage() {
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center mb-6">
             <Badge className="bg-blue-500/20 text-blue-100 px-4 py-2 text-sm font-medium">
-              Project Portfolio
+              Portofolio Proyek
             </Badge>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Our Project
+            Galeri
             <span className="block bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">
-              Gallery
+              Proyek Kami
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Explore our successful water treatment installations across Indonesia, showcasing innovative solutions and engineering excellence.
+            Jelajahi instalasi pengolahan air yang berhasil di seluruh Indonesia, menampilkan solusi inovatif dan keunggulan teknik.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              View All Projects
+              Lihat Semua Proyek
             </Button>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
-              Download Brochure
+              Unduh Brosur
             </Button>
           </div>
         </div>
@@ -143,10 +143,10 @@ export default function GalleryPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Featured Projects
+              Proyek Unggulan
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Browse through our comprehensive portfolio of water treatment projects across various industries and applications.
+              Jelajahi portofolio komprehensif proyek pengolahan air kami di berbagai industri dan aplikasi.
             </p>
           </div>
 
@@ -231,19 +231,19 @@ export default function GalleryPage() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-blue-600 mb-2">500+</div>
-              <div className="text-gray-600 font-medium">Projects Completed</div>
+              <div className="text-gray-600 font-medium">Proyek Selesai</div>
             </div>
             <div className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-green-600 mb-2">25+</div>
-              <div className="text-gray-600 font-medium">Years Experience</div>
+              <div className="text-gray-600 font-medium">Tahun Pengalaman</div>
             </div>
             <div className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-purple-600 mb-2">100+</div>
-              <div className="text-gray-600 font-medium">Happy Clients</div>
+              <div className="text-gray-600 font-medium">Klien Puas</div>
             </div>
             <div className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-orange-600 mb-2">24/7</div>
-              <div className="text-gray-600 font-medium">Support Available</div>
+              <div className="text-gray-600 font-medium">Dukungan Tersedia</div>
             </div>
           </div>
         </div>

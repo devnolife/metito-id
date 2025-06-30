@@ -12,7 +12,7 @@ export default function ContactPage() {
   const contactInfo = [
     {
       icon: <MapPin className="w-6 h-6 text-blue-600" />,
-      title: "Head Office",
+      title: "Kantor Pusat",
       details: [
         "Jl. Sudirman No. 123",
         "Jakarta Pusat 10220",
@@ -21,7 +21,7 @@ export default function ContactPage() {
     },
     {
       icon: <Phone className="w-6 h-6 text-green-600" />,
-      title: "Phone Numbers",
+      title: "Nomor Telepon",
       details: [
         "+62 21 5555 1234",
         "+62 21 5555 5678",
@@ -30,7 +30,7 @@ export default function ContactPage() {
     },
     {
       icon: <Mail className="w-6 h-6 text-purple-600" />,
-      title: "Email Addresses",
+      title: "Alamat Email",
       details: [
         "info@metito.id",
         "sales@metito.id",
@@ -39,11 +39,11 @@ export default function ContactPage() {
     },
     {
       icon: <Clock className="w-6 h-6 text-orange-600" />,
-      title: "Business Hours",
+      title: "Jam Kerja",
       details: [
-        "Monday - Friday: 8:00 AM - 6:00 PM",
-        "Saturday: 9:00 AM - 4:00 PM",
-        "Sunday: Emergency Only"
+        "Senin - Jumat: 08:00 - 18:00",
+        "Sabtu: 09:00 - 16:00",
+        "Minggu: Darurat Saja"
       ]
     }
   ]
@@ -82,24 +82,24 @@ export default function ContactPage() {
   const supportOptions = [
     {
       icon: <Headphones className="w-8 h-8 text-blue-600" />,
-      title: "Technical Support",
-      description: "Get help with installation, maintenance, and troubleshooting",
+      title: "Dukungan Teknis",
+      description: "Dapatkan bantuan untuk instalasi, pemeliharaan, dan troubleshooting",
       contact: "support@metito.id",
-      hours: "24/7 Available"
+      hours: "Tersedia 24/7"
     },
     {
       icon: <MessageSquare className="w-8 h-8 text-green-600" />,
-      title: "Sales Inquiry",
-      description: "Request quotes, product information, and consultation",
+      title: "Pertanyaan Penjualan",
+      description: "Minta penawaran, informasi produk, dan konsultasi",
       contact: "sales@metito.id",
-      hours: "Mon-Fri 8AM-6PM"
+      hours: "Sen-Jum 08:00-18:00"
     },
     {
       icon: <Globe className="w-8 h-8 text-purple-600" />,
-      title: "General Information",
-      description: "Company information, partnerships, and general inquiries",
+      title: "Informasi Umum",
+      description: "Informasi perusahaan, kemitraan, dan pertanyaan umum",
       contact: "info@metito.id",
-      hours: "Mon-Fri 8AM-6PM"
+      hours: "Sen-Jum 08:00-18:00"
     }
   ]
 
@@ -112,24 +112,24 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center mb-6">
             <Badge className="bg-blue-500/20 text-blue-100 px-4 py-2 text-sm font-medium">
-              Get In Touch
+              Hubungi Kami
             </Badge>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Contact
+            Hubungi
             <span className="block bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">
-              Our Team
+              Tim Kami
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Ready to discuss your water treatment needs? Our expert team is here to help you find the perfect solution.
+            Siap mendiskusikan kebutuhan pengolahan air Anda? Tim ahli kami siap membantu Anda menemukan solusi yang sempurna.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              Call Now: +62 21 5555 1234
+              Telepon Sekarang: +62 21 5555 1234
             </Button>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
-              Email Us
+              Kirim Email
             </Button>
           </div>
         </div>
@@ -144,23 +144,23 @@ export default function ContactPage() {
               <Card className="border-0 shadow-xl">
                 <CardHeader>
                   <CardTitle className="text-2xl font-bold text-gray-900 mb-2">
-                    Send us a Message
+                    Kirim Pesan kepada Kami
                   </CardTitle>
                   <p className="text-gray-600">
-                    Fill out the form below and we'll get back to you within 24 hours.
+                    Isi formulir di bawah ini dan kami akan menghubungi Anda dalam 24 jam.
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        First Name *
+                        Nama Depan *
                       </label>
                       <Input placeholder="John" className="border-gray-200 focus:border-blue-500" />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Last Name *
+                        Nama Belakang *
                       </label>
                       <Input placeholder="Doe" className="border-gray-200 focus:border-blue-500" />
                     </div>
@@ -168,60 +168,60 @@ export default function ContactPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address *
+                      Alamat Email *
                     </label>
-                    <Input type="email" placeholder="john.doe@company.com" className="border-gray-200 focus:border-blue-500" />
+                    <Input type="email" placeholder="john.doe@perusahaan.com" className="border-gray-200 focus:border-blue-500" />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Phone Number
+                      Nomor Telepon
                     </label>
                     <Input type="tel" placeholder="+62 812 3456 7890" className="border-gray-200 focus:border-blue-500" />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Company Name
+                      Nama Perusahaan
                     </label>
-                    <Input placeholder="Your Company" className="border-gray-200 focus:border-blue-500" />
+                    <Input placeholder="Perusahaan Anda" className="border-gray-200 focus:border-blue-500" />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Inquiry Type *
+                      Jenis Pertanyaan *
                     </label>
                     <Select>
                       <SelectTrigger className="border-gray-200 focus:border-blue-500">
-                        <SelectValue placeholder="Select inquiry type" />
+                        <SelectValue placeholder="Pilih jenis pertanyaan" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="quote">Request Quote</SelectItem>
-                        <SelectItem value="support">Technical Support</SelectItem>
-                        <SelectItem value="consultation">Consultation</SelectItem>
-                        <SelectItem value="partnership">Partnership</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
+                        <SelectItem value="quote">Minta Penawaran</SelectItem>
+                        <SelectItem value="support">Dukungan Teknis</SelectItem>
+                        <SelectItem value="consultation">Konsultasi</SelectItem>
+                        <SelectItem value="partnership">Kemitraan</SelectItem>
+                        <SelectItem value="other">Lainnya</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Message *
+                      Pesan *
                     </label>
                     <Textarea
-                      placeholder="Please describe your water treatment needs or inquiry..."
+                      placeholder="Silakan jelaskan kebutuhan pengolahan air atau pertanyaan Anda..."
                       className="border-gray-200 focus:border-blue-500 min-h-[120px]"
                     />
                   </div>
 
                   <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl py-3">
                     <Send className="w-4 h-4 mr-2" />
-                    Send Message
+                    Kirim Pesan
                   </Button>
 
                   <p className="text-xs text-gray-500 text-center">
-                    By submitting this form, you agree to our privacy policy and terms of service.
+                    Dengan mengirimkan formulir ini, Anda menyetujui kebijakan privasi dan ketentuan layanan kami.
                   </p>
                 </CardContent>
               </Card>
@@ -231,7 +231,7 @@ export default function ContactPage() {
             <div className="space-y-8">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  Contact Information
+                  Informasi Kontak
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {contactInfo.map((info, index) => (
@@ -259,7 +259,7 @@ export default function ContactPage() {
               {/* Support Options */}
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  Support Options
+                  Opsi Dukungan
                 </h2>
                 <div className="space-y-4">
                   {supportOptions.map((option, index) => (
@@ -297,10 +297,10 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Our Office Locations
+              Lokasi Kantor Kami
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We have offices across Indonesia to serve you better. Visit us or contact your nearest location.
+              Kami memiliki kantor di seluruh Indonesia untuk melayani Anda dengan lebih baik. Kunjungi kami atau hubungi lokasi terdekat Anda.
             </p>
           </div>
 
@@ -333,10 +333,10 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Find Us Here
+              Temukan Kami di Sini
             </h2>
             <p className="text-lg text-gray-600">
-              Our head office is located in the heart of Jakarta's business district.
+              Kantor pusat kami berlokasi di jantung distrik bisnis Jakarta.
             </p>
           </div>
 
@@ -344,12 +344,12 @@ export default function ContactPage() {
             <div className="bg-gray-200 h-96 flex items-center justify-center">
               <div className="text-center">
                 <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-700 mb-2">Interactive Map</h3>
+                <h3 className="text-xl font-semibold text-gray-700 mb-2">Peta Interaktif</h3>
                 <p className="text-gray-600">
                   Jl. Sudirman No. 123, Jakarta Pusat 10220
                 </p>
                 <Button className="mt-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800">
-                  View on Google Maps
+                  Lihat di Google Maps
                 </Button>
               </div>
             </div>
@@ -361,17 +361,17 @@ export default function ContactPage() {
       <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-blue-700">
         <div className="max-w-4xl mx-auto text-center text-white">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Start Your Project?
+            Siap Memulai Proyek Anda?
           </h2>
           <p className="text-xl mb-8 text-blue-100">
-            Contact us today for a free consultation and quote for your water treatment needs.
+            Hubungi kami hari ini untuk konsultasi gratis dan penawaran untuk kebutuhan pengolahan air Anda.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              Schedule Consultation
+              Jadwalkan Konsultasi
             </Button>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
-              Download Brochure
+              Unduh Brosur
             </Button>
           </div>
         </div>

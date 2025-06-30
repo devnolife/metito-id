@@ -11,16 +11,16 @@ export function Footer() {
           <div className="space-y-6">
             <div className="flex items-center space-x-3">
               <div className="relative w-12 h-12 p-2 bg-white rounded-xl">
-                <Image src="/images/logo.png" alt="Metito Water" fill className="object-contain" />
+                <Image src="/images/logo.png" alt="Metito Water Engineer" fill className="object-contain" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white">Metito Water</h3>
-                <p className="text-sm text-blue-200">Water Treatment Solutions</p>
+                <h3 className="text-xl font-bold text-white">Metito Water Engineer</h3>
+                <p className="text-sm text-blue-200">Solusi Teknik Pengolahan Air</p>
               </div>
             </div>
             <p className="text-blue-100 leading-relaxed">
-              Leading provider of advanced water and wastewater treatment solutions with over 25 years of experience. We
-              deliver innovative, sustainable, and cost-effective water treatment technologies worldwide.
+              Penyedia terdepan solusi pengolahan air dan air limbah canggih dengan pengalaman lebih dari 25 tahun. Kami
+              menyediakan teknologi pengolahan air yang inovatif, berkelanjutan, dan hemat biaya di seluruh dunia.
             </p>
             <div className="flex space-x-4">
               <Link
@@ -52,36 +52,36 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-bold mb-6 text-white">Quick Links</h4>
+            <h4 className="text-lg font-bold mb-6 text-white">Tautan Cepat</h4>
             <ul className="space-y-3">
               <li>
                 <Link href="#home" className="text-blue-200 hover:text-accent-orange transition-colors">
-                  Home
+                  Beranda
                 </Link>
               </li>
               <li>
                 <Link href="#products" className="text-blue-200 hover:text-accent-orange transition-colors">
-                  Products
+                  Produk
                 </Link>
               </li>
               <li>
                 <Link href="#services" className="text-blue-200 hover:text-accent-orange transition-colors">
-                  Services
+                  Layanan
                 </Link>
               </li>
               <li>
                 <Link href="#gallery" className="text-blue-200 hover:text-accent-orange transition-colors">
-                  Gallery
+                  Galeri
                 </Link>
               </li>
               <li>
                 <Link href="#customer" className="text-blue-200 hover:text-accent-orange transition-colors">
-                  Customer
+                  Pelanggan
                 </Link>
               </li>
               <li>
                 <Link href="#certification" className="text-blue-200 hover:text-accent-orange transition-colors">
-                  Certification
+                  Sertifikasi
                 </Link>
               </li>
             </ul>
@@ -89,36 +89,36 @@ export function Footer() {
 
           {/* Equipment Categories */}
           <div>
-            <h4 className="text-lg font-bold mb-6 text-white">Equipment Categories</h4>
+            <h4 className="text-lg font-bold mb-6 text-white">Kategori Peralatan</h4>
             <ul className="space-y-3">
               <li>
                 <Link href="#" className="text-blue-200 hover:text-accent-orange transition-colors">
-                  Membrane Systems
+                  Sistem Membran
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-blue-200 hover:text-accent-orange transition-colors">
-                  Filtration Units
+                  Unit Filtrasi
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-blue-200 hover:text-accent-orange transition-colors">
-                  Disinfection Systems
+                  Sistem Disinfeksi
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-blue-200 hover:text-accent-orange transition-colors">
-                  Pumps & Motors
+                  Pompa & Motor
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-blue-200 hover:text-accent-orange transition-colors">
-                  Monitoring Equipment
+                  Peralatan Monitoring
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-blue-200 hover:text-accent-orange transition-colors">
-                  Chemical Dosing
+                  Dosis Kimia
                 </Link>
               </li>
             </ul>
@@ -126,21 +126,21 @@ export function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-bold mb-6 text-white">Contact Information</h4>
+            <h4 className="text-lg font-bold mb-6 text-white">Informasi Kontak</h4>
             <div className="space-y-4">
               <div className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-accent-orange mt-1 flex-shrink-0" />
                 <div className="text-blue-100">
-                  <p>123 Water Technology Drive</p>
-                  <p>Innovation District</p>
-                  <p>New York, NY 10001, USA</p>
+                  <p>Jl. Teknologi Air No. 123</p>
+                  <p>Kawasan Inovasi</p>
+                  <p>Jakarta, Indonesia 12345</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-accent-orange" />
                 <div className="text-blue-100">
-                  <p>+1 (555) 123-4567</p>
-                  <p>+1 (555) 987-6543</p>
+                  <p>+62 21 1234 5678</p>
+                  <p>+62 21 9876 5432</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
@@ -153,8 +153,8 @@ export function Footer() {
               <div className="flex items-center space-x-3">
                 <Clock className="w-5 h-5 text-accent-orange" />
                 <div className="text-blue-100">
-                  <p>Monday - Friday: 8:00 AM - 6:00 PM</p>
-                  <p>Saturday: 9:00 AM - 2:00 PM</p>
+                  <p>Senin - Jumat: 08:00 - 18:00</p>
+                  <p>Sabtu: 09:00 - 14:00</p>
                 </div>
               </div>
             </div>
@@ -166,16 +166,16 @@ export function Footer() {
       <div className="border-t border-blue-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-blue-200 text-sm">© 2024 Metito Water. All rights reserved.</p>
+            <p className="text-blue-200 text-sm">© 2025 Metito Water Engineer. Semua hak dilindungi.</p>
             <div className="flex gap-6 text-sm">
               <Link href="#" className="text-blue-200 hover:text-accent-orange transition-colors">
-                Privacy Policy
+                Kebijakan Privasi
               </Link>
               <Link href="#" className="text-blue-200 hover:text-accent-orange transition-colors">
-                Terms of Service
+                Ketentuan Layanan
               </Link>
               <Link href="#" className="text-blue-200 hover:text-accent-orange transition-colors">
-                Sitemap
+                Peta Situs
               </Link>
             </div>
           </div>

@@ -10,99 +10,99 @@ import Image from "next/image"
 export default function BlogPage() {
   const featuredPost = {
     id: 1,
-    title: "The Future of Water Treatment: Emerging Technologies and Trends",
-    excerpt: "Explore the latest innovations in water treatment technology and how they're shaping the industry's future.",
-    content: "From AI-powered monitoring systems to advanced membrane technologies, the water treatment industry is experiencing rapid innovation...",
+    title: "Masa Depan Pengolahan Air: Teknologi dan Tren yang Muncul",
+    excerpt: "Jelajahi inovasi terbaru dalam teknologi pengolahan air dan bagaimana hal tersebut membentuk masa depan industri.",
+    content: "Dari sistem monitoring berbasis AI hingga teknologi membran canggih, industri pengolahan air mengalami inovasi yang cepat...",
     author: "Dr. Sarah Chen",
     date: "2024-01-15",
-    readTime: "8 min read",
-    category: "Technology",
+    readTime: "8 menit baca",
+    category: "Teknologi",
     image: "/placeholder.jpg",
-    tags: ["Innovation", "Technology", "Future Trends"]
+    tags: ["Inovasi", "Teknologi", "Tren Masa Depan"]
   }
 
   const blogPosts = [
     {
       id: 2,
-      title: "Understanding Reverse Osmosis: A Complete Guide",
-      excerpt: "Learn everything you need to know about reverse osmosis technology and its applications in water treatment.",
+      title: "Memahami Reverse Osmosis: Panduan Lengkap",
+      excerpt: "Pelajari semua yang perlu Anda ketahui tentang teknologi reverse osmosis dan aplikasinya dalam pengolahan air.",
       author: "Eng. Ahmad Hidayat",
       date: "2024-01-10",
-      readTime: "6 min read",
-      category: "Education",
+      readTime: "6 menit baca",
+      category: "Pendidikan",
       image: "/placeholder.jpg",
-      tags: ["RO", "Technology", "Guide"]
+      tags: ["RO", "Teknologi", "Panduan"]
     },
     {
       id: 3,
-      title: "Water Quality Standards in Indonesia: 2024 Update",
-      excerpt: "Latest updates on Indonesian water quality regulations and compliance requirements for businesses.",
+      title: "Standar Kualitas Air di Indonesia: Update 2024",
+      excerpt: "Update terbaru tentang regulasi kualitas air Indonesia dan persyaratan kepatuhan untuk bisnis.",
       author: "Dr. Siti Rahayu",
       date: "2024-01-08",
-      readTime: "5 min read",
-      category: "Regulation",
+      readTime: "5 menit baca",
+      category: "Regulasi",
       image: "/placeholder.jpg",
-      tags: ["Regulation", "Indonesia", "Standards"]
+      tags: ["Regulasi", "Indonesia", "Standar"]
     },
     {
       id: 4,
-      title: "Sustainable Water Treatment: Environmental Benefits",
-      excerpt: "How modern water treatment technologies contribute to environmental sustainability and resource conservation.",
+      title: "Pengolahan Air Berkelanjutan: Manfaat Lingkungan",
+      excerpt: "Bagaimana teknologi pengolahan air modern berkontribusi pada keberlanjutan lingkungan dan konservasi sumber daya.",
       author: "Ir. Budi Santoso",
       date: "2024-01-05",
-      readTime: "7 min read",
-      category: "Sustainability",
+      readTime: "7 menit baca",
+      category: "Keberlanjutan",
       image: "/placeholder.jpg",
-      tags: ["Sustainability", "Environment", "Green Technology"]
+      tags: ["Keberlanjutan", "Lingkungan", "Teknologi Hijau"]
     },
     {
       id: 5,
-      title: "Industrial Water Treatment: Best Practices",
-      excerpt: "Essential best practices for implementing effective water treatment systems in industrial facilities.",
+      title: "Pengolahan Air Industri: Praktik Terbaik",
+      excerpt: "Praktik terbaik yang penting untuk mengimplementasikan sistem pengolahan air yang efektif di fasilitas industri.",
       author: "Eng. Lisa Wong",
       date: "2024-01-03",
-      readTime: "9 min read",
-      category: "Industrial",
+      readTime: "9 menit baca",
+      category: "Industri",
       image: "/placeholder.jpg",
-      tags: ["Industrial", "Best Practices", "Implementation"]
+      tags: ["Industri", "Praktik Terbaik", "Implementasi"]
     },
     {
       id: 6,
-      title: "Maintenance Tips for Water Treatment Systems",
-      excerpt: "Practical maintenance guidelines to ensure optimal performance and longevity of your water treatment equipment.",
+      title: "Tips Pemeliharaan untuk Sistem Pengolahan Air",
+      excerpt: "Panduan pemeliharaan praktis untuk memastikan performa optimal dan umur panjang solusi teknik air Anda.",
       author: "Tech. Rudi Hermawan",
       date: "2023-12-28",
-      readTime: "4 min read",
-      category: "Maintenance",
+      readTime: "4 menit baca",
+      category: "Pemeliharaan",
       image: "/placeholder.jpg",
-      tags: ["Maintenance", "Tips", "Equipment Care"]
+      tags: ["Pemeliharaan", "Tips", "Perawatan Peralatan"]
     },
     {
       id: 7,
-      title: "Cost-Effective Water Solutions for SMEs",
-      excerpt: "Affordable water treatment options tailored for small and medium enterprises in Indonesia.",
+      title: "Solusi Air Hemat Biaya untuk UKM",
+      excerpt: "Opsi pengolahan air yang terjangkau yang disesuaikan untuk usaha kecil dan menengah di Indonesia.",
       author: "Analyst. Maya Dewi",
       date: "2023-12-25",
-      readTime: "6 min read",
-      category: "Business",
+      readTime: "6 menit baca",
+      category: "Bisnis",
       image: "/placeholder.jpg",
-      tags: ["SME", "Cost-Effective", "Business Solutions"]
+      tags: ["UKM", "Hemat Biaya", "Solusi Bisnis"]
     }
   ]
 
   const categories = [
-    { name: "All", count: blogPosts.length + 1 },
-    { name: "Technology", count: 3 },
-    { name: "Education", count: 2 },
-    { name: "Regulation", count: 1 },
-    { name: "Sustainability", count: 2 },
-    { name: "Industrial", count: 2 },
-    { name: "Business", count: 1 }
+    { name: "Semua", count: blogPosts.length + 1 },
+    { name: "Teknologi", count: 3 },
+    { name: "Pendidikan", count: 2 },
+    { name: "Regulasi", count: 1 },
+    { name: "Keberlanjutan", count: 2 },
+    { name: "Industri", count: 2 },
+    { name: "Bisnis", count: 1 }
   ]
 
   const popularTags = [
-    "Water Treatment", "RO Systems", "Industrial", "Technology", "Sustainability",
-    "Maintenance", "Regulation", "Innovation", "Best Practices", "Indonesia"
+    "Pengolahan Air", "Sistem RO", "Industri", "Teknologi", "Keberlanjutan",
+    "Pemeliharaan", "Regulasi", "Inovasi", "Praktik Terbaik", "Indonesia"
   ]
 
   return (
@@ -114,28 +114,28 @@ export default function BlogPage() {
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center mb-6">
             <Badge className="bg-blue-500/20 text-blue-100 px-4 py-2 text-sm font-medium">
-              Knowledge Hub
+              Pusat Pengetahuan
             </Badge>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Water Treatment
+            Pengolahan Air
             <span className="block bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">
-              Insights & News
+              Wawasan & Berita
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Stay updated with the latest trends, technologies, and best practices in water treatment industry.
+            Tetap terbaru dengan tren, teknologi, dan praktik terbaik terbaru dalam industri pengolahan air.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
             <div className="relative flex-1">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-300 w-5 h-5" />
               <Input
-                placeholder="Search articles..."
+                placeholder="Cari artikel..."
                 className="pl-12 pr-4 py-3 bg-white/10 border-white/20 text-white placeholder:text-blue-200 focus:bg-white focus:text-gray-900 rounded-xl"
               />
             </div>
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-xl font-semibold">
-              Search
+              Cari
             </Button>
           </div>
         </div>
@@ -146,7 +146,7 @@ export default function BlogPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Featured Article
+              Artikel Unggulan
             </h2>
           </div>
 
@@ -195,7 +195,7 @@ export default function BlogPage() {
                   </div>
                 </div>
                 <Button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl w-fit">
-                  Read Full Article
+                  Baca Artikel Lengkap
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </CardContent>
@@ -211,7 +211,7 @@ export default function BlogPage() {
             {/* Main Content */}
             <div className="flex-1">
               <div className="flex items-center justify-between mb-8">
-                <h2 className="text-2xl font-bold text-gray-900">Latest Articles</h2>
+                <h2 className="text-2xl font-bold text-gray-900">Artikel Terbaru</h2>
                 <Button variant="outline" className="gap-2">
                   <Filter className="w-4 h-4" />
                   Filter
@@ -266,7 +266,7 @@ export default function BlogPage() {
                         </div>
                       </div>
                       <Button variant="outline" className="w-full group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all">
-                        Read More
+                        Baca Selengkapnya
                         <ArrowRight className="w-4 h-4 ml-2" />
                       </Button>
                     </CardContent>
@@ -277,7 +277,7 @@ export default function BlogPage() {
               {/* Load More */}
               <div className="text-center mt-12">
                 <Button size="lg" variant="outline" className="px-8 py-3 rounded-xl">
-                  Load More Articles
+                  Muat Artikel Lainnya
                 </Button>
               </div>
             </div>
@@ -287,7 +287,7 @@ export default function BlogPage() {
               {/* Categories */}
               <Card className="border-0 shadow-lg">
                 <CardHeader>
-                  <h3 className="text-lg font-bold text-gray-900">Categories</h3>
+                  <h3 className="text-lg font-bold text-gray-900">Kategori</h3>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {categories.map((category, index) => (
@@ -304,7 +304,7 @@ export default function BlogPage() {
               {/* Popular Tags */}
               <Card className="border-0 shadow-lg">
                 <CardHeader>
-                  <h3 className="text-lg font-bold text-gray-900">Popular Tags</h3>
+                  <h3 className="text-lg font-bold text-gray-900">Tag Populer</h3>
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-wrap gap-2">
@@ -324,14 +324,14 @@ export default function BlogPage() {
               {/* Newsletter */}
               <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-blue-100">
                 <CardContent className="p-6">
-                  <h3 className="text-lg font-bold text-gray-900 mb-3">Stay Updated</h3>
+                  <h3 className="text-lg font-bold text-gray-900 mb-3">Tetap Terbaru</h3>
                   <p className="text-gray-600 mb-4 text-sm">
-                    Subscribe to our newsletter for the latest water treatment insights and industry news.
+                    Berlangganan newsletter kami untuk wawasan pengolahan air terbaru dan berita industri.
                   </p>
                   <div className="space-y-3">
-                    <Input placeholder="Your email address" className="border-blue-200" />
+                    <Input placeholder="Alamat email Anda" className="border-blue-200" />
                     <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl">
-                      Subscribe
+                      Berlangganan
                     </Button>
                   </div>
                 </CardContent>

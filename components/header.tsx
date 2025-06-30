@@ -11,14 +11,14 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const navigationItems = [
-    { name: "Home", href: "#home" },
-    { name: "Products", href: "/products" },
-    { name: "Services", href: "/services" },
-    { name: "Gallery", href: "/gallery" },
-    { name: "Customer", href: "/customer" },
-    { name: "Certification", href: "/certification" },
+    { name: "Beranda", href: "#home" },
+    { name: "Produk", href: "/products" },
+    { name: "Layanan", href: "/services" },
+    { name: "Galeri", href: "/gallery" },
+    { name: "Pelanggan", href: "/customer" },
+    { name: "Sertifikasi", href: "/certification" },
     { name: "Blog", href: "/blog" },
-    { name: "Contact", href: "/contact" },
+    { name: "Kontak", href: "/contact" },
   ]
 
   return (
@@ -30,7 +30,7 @@ export function Header() {
             <div className="flex items-center space-x-8">
               <div className="flex items-center space-x-2 group">
                 <Phone className="w-4 h-4 group-hover:text-blue-200 transition-colors" />
-                <span className="font-medium">+1 (555) 123-4567</span>
+                <span className="font-medium">+62 21 5555 1234</span>
               </div>
               <div className="flex items-center space-x-2 group">
                 <Mail className="w-4 h-4 group-hover:text-blue-200 transition-colors" />
@@ -43,7 +43,7 @@ export function Header() {
             </div>
             <div className="hidden md:flex items-center space-x-2">
               <Clock className="w-4 h-4" />
-              <span className="font-medium">Mon - Fri: 8:00 AM - 6:00 PM</span>
+              <span className="font-medium">Sen - Jum: 08:00 - 18:00</span>
             </div>
           </div>
         </div>
@@ -55,14 +55,14 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="relative w-12 h-12 bg-gradient-to-br from-blue-50 to-orange-50 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105 flex items-center justify-center">
-              <Image src="/images/logo.png" alt="Metito Water" fill className="object-contain" />
+              <Image src="/images/logo.png" alt="Metito Water Engineer" fill className="object-contain" />
             </div>
             <div className="flex flex-col justify-center">
               <span className="text-lg md:text-xl font-extrabold text-gray-900 group-hover:text-blue-600 leading-tight whitespace-nowrap">
-                Metito Water
+                Metito Water Engineer
               </span>
               <span className="text-xs md:text-sm text-gray-500 font-medium leading-tight whitespace-nowrap">
-                Water Treatment Solutions
+                Solusi Teknik Air
               </span>
             </div>
           </Link>
@@ -86,7 +86,7 @@ export function Header() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 group-focus-within:text-blue-600 transition-colors" />
               <Input
                 type="text"
-                placeholder="Search equipment..."
+                placeholder="Cari solusi..."
                 className="pl-10 pr-3 py-2 w-full text-sm border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50/50 hover:bg-white"
               />
             </div>
@@ -102,7 +102,7 @@ export function Header() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 group-focus-within:text-blue-600 transition-colors" />
                 <Input
                   type="text"
-                  placeholder="Search equipment..."
+                  placeholder="Cari solusi..."
                   className="pl-10 pr-3 py-2 w-full text-sm border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50/50"
                 />
               </div>
@@ -128,10 +128,10 @@ export function Header() {
                   className="flex items-center justify-center px-3 py-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all duration-200 font-semibold border-2 border-blue-200 text-sm"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Admin Dashboard
+                  Dashboard Admin
                 </Link>
                 <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-2 rounded-lg shadow-lg text-sm">
-                  Get Free Quote
+                  Dapatkan Penawaran Gratis
                 </Button>
               </div>
 
@@ -141,14 +141,14 @@ export function Header() {
                   <div className="flex items-center space-x-3 px-3 py-2 bg-gray-50 rounded-lg">
                     <Phone className="w-4 h-4 text-blue-600" />
                     <div>
-                      <p className="text-xs font-medium text-gray-700">Call Us</p>
-                      <p className="text-xs text-gray-500">+1 (555) 123-4567</p>
+                      <p className="text-xs font-medium text-gray-700">Telepon Kami</p>
+                      <p className="text-xs text-gray-500">+62 21 5555 1234</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3 px-3 py-2 bg-gray-50 rounded-lg">
                     <Mail className="w-4 h-4 text-blue-600" />
                     <div>
-                      <p className="text-xs font-medium text-gray-700">Email Us</p>
+                      <p className="text-xs font-medium text-gray-700">Email Kami</p>
                       <p className="text-xs text-gray-500">info@metito.id</p>
                     </div>
                   </div>

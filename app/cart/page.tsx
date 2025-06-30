@@ -17,7 +17,7 @@ export default function CartPage() {
       price: 285000,
       quantity: 1,
       image: "/placeholder.svg?height=200&width=300",
-      specs: ["20 Ton", "2019 Model", "1,200 Hours"],
+      specs: ["20 Ton", "Model 2019", "1.200 Jam"],
     },
     {
       id: 2,
@@ -25,7 +25,7 @@ export default function CartPage() {
       price: 420000,
       quantity: 1,
       image: "/placeholder.svg?height=200&width=300",
-      specs: ["180 HP", "2022 Model", "GPS Ready"],
+      specs: ["180 HP", "Model 2022", "GPS Ready"],
     },
   ])
 
@@ -47,18 +47,18 @@ export default function CartPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Shopping Cart</h1>
-          <p className="text-gray-600">Review your selected equipment before checkout</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Keranjang Belanja</h1>
+          <p className="text-gray-600">Tinjau peralatan yang Anda pilih sebelum checkout</p>
         </div>
 
         {cartItems.length === 0 ? (
           <Card className="text-center py-16">
             <CardContent>
               <ShoppingCart className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
-              <p className="text-gray-600 mb-6">Start shopping to add equipment to your cart</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Keranjang Anda kosong</h2>
+              <p className="text-gray-600 mb-6">Mulai berbelanja untuk menambahkan peralatan ke keranjang</p>
               <Button className="primary-blue" asChild>
-                <Link href="/products">Browse Equipment</Link>
+                <Link href="/products">Jelajahi Peralatan</Link>
               </Button>
             </CardContent>
           </Card>
@@ -137,24 +137,24 @@ export default function CartPage() {
             <div className="lg:col-span-1">
               <Card className="sticky top-24">
                 <CardHeader>
-                  <CardTitle>Order Summary</CardTitle>
+                  <CardTitle>Ringkasan Pesanan</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex justify-between">
-                    <span>Subtotal ({cartItems.length} items)</span>
+                    <span>Subtotal ({cartItems.length} item)</span>
                     <span>${subtotal.toLocaleString()}</span>
                   </div>
 
                   <div className="flex justify-between">
                     <span className="flex items-center">
                       <Truck className="w-4 h-4 mr-1" />
-                      Shipping
+                      Pengiriman
                     </span>
                     <span>${shipping.toLocaleString()}</span>
                   </div>
 
                   <div className="flex justify-between">
-                    <span>Tax (8%)</span>
+                    <span>Pajak (8%)</span>
                     <span>${tax.toLocaleString()}</span>
                   </div>
 
@@ -168,22 +168,22 @@ export default function CartPage() {
                   <div className="space-y-3 pt-4">
                     <Button className="w-full primary-blue hover:bg-blue-800" size="lg">
                       <CreditCard className="w-4 h-4 mr-2" />
-                      Proceed to Checkout
+                      Lanjutkan ke Pembayaran
                     </Button>
 
                     <Button variant="outline" className="w-full" asChild>
-                      <Link href="/products">Continue Shopping</Link>
+                      <Link href="/products">Lanjutkan Berbelanja</Link>
                     </Button>
                   </div>
 
                   <div className="text-sm text-gray-600 pt-4">
                     <p className="flex items-center mb-2">
                       <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                      Free delivery on orders over $500,000
+                      Gratis pengiriman untuk pesanan di atas $500.000
                     </p>
                     <p className="flex items-center">
                       <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
-                      Financing options available
+                      Opsi pembiayaan tersedia
                     </p>
                   </div>
                 </CardContent>

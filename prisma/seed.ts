@@ -154,7 +154,7 @@ async function main() {
         ],
         categoryId: categories[0].id,
         isFeatured: true,
-        metaTitle: 'Industrial RO System 1000 GPD - Metito Water',
+        metaTitle: 'Industrial RO System 1000 GPD - Metito Water Engineer',
         metaDescription: 'High-performance industrial reverse osmosis system with 1000 GPD capacity, perfect for manufacturing facilities.',
       }
     }),
@@ -195,7 +195,7 @@ async function main() {
         ],
         categoryId: categories[1].id,
         isFeatured: true,
-        metaTitle: 'Municipal Water Treatment Plant - Metito Water',
+        metaTitle: 'Municipal Water Treatment Plant - Metito Water Engineer',
         metaDescription: 'Complete municipal water treatment plant with 10,000 m³/day capacity for city water supply.',
       }
     }),
@@ -234,7 +234,7 @@ async function main() {
         ],
         categoryId: categories[3].id,
         isFeatured: false,
-        metaTitle: 'Ultrafiltration Membrane System - Metito Water',
+        metaTitle: 'Ultrafiltration Membrane System - Metito Water Engineer',
         metaDescription: 'High-performance ultrafiltration system with hollow fiber membranes for industrial water treatment.',
       }
     }),
@@ -273,7 +273,7 @@ async function main() {
         ],
         categoryId: categories[2].id,
         isFeatured: false,
-        metaTitle: 'Chemical Dosing System - Metito Water',
+        metaTitle: 'Chemical Dosing System - Metito Water Engineer',
         metaDescription: 'Precision chemical dosing system for accurate water treatment chemical injection.',
       }
     })
@@ -417,7 +417,7 @@ async function main() {
       data: {
         name: 'System Installation & Commissioning',
         slug: 'system-installation-commissioning',
-        description: 'Professional installation and commissioning services for all water treatment equipment.',
+        description: 'Professional installation and commissioning services for all water engineering solutions.',
         shortDesc: 'Professional installation and commissioning services',
         icon: 'installation',
         features: [

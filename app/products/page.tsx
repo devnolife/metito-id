@@ -36,7 +36,7 @@ export default function ProductsPage() {
   const products = [
     {
       id: 1,
-      name: "Industrial RO Water Treatment System",
+      name: "Sistem Pengolahan Air RO Industri",
       price: 75000,
       originalPrice: 85000,
       rating: 4.9,
@@ -45,115 +45,115 @@ export default function ProductsPage() {
       category: "Reverse Osmosis",
       capacity: "5000 LPH",
       year: 2024,
-      specs: ["5000 LPH", "Industrial Grade", "Auto Cleaning", "Remote Monitoring"],
-      description: "High-capacity reverse osmosis system designed for industrial applications with advanced monitoring and control features.",
-      features: ["304SS Construction", "PLC Control", "CIP System", "TDS Monitoring"],
+      specs: ["5000 LPH", "Kelas Industri", "Pembersihan Otomatis", "Pemantauan Jarak Jauh"],
+      description: "Sistem reverse osmosis kapasitas tinggi yang dirancang untuk aplikasi industri dengan fitur pemantauan dan kontrol canggih.",
+      features: ["Konstruksi 304SS", "Kontrol PLC", "Sistem CIP", "Pemantauan TDS"],
       inStock: true,
-      warranty: "2 Years",
-      delivery: "2-3 Weeks"
+      warranty: "2 Tahun",
+      delivery: "2-3 Minggu"
     },
     {
       id: 2,
-      name: "Municipal Water Treatment Plant",
+      name: "Pabrik Pengolahan Air Kota",
       price: 250000,
       originalPrice: null,
       rating: 4.8,
       reviews: 89,
       image: "/placeholder.jpg",
-      category: "Municipal Systems",
-      capacity: "50,000 LPD",
+      category: "Sistem Kota",
+      capacity: "50.000 LPD",
       year: 2024,
-      specs: ["50,000 LPD", "Municipal Grade", "Automated", "SCADA Ready"],
-      description: "Complete municipal water treatment solution with advanced automation and SCADA integration for large-scale operations.",
-      features: ["SCADA Control", "Multi-Stage Filtration", "Chemical Dosing", "Backwash System"],
+      specs: ["50.000 LPD", "Kelas Kota", "Otomatis", "Siap SCADA"],
+      description: "Solusi pengolahan air kota lengkap dengan otomasi canggih dan integrasi SCADA untuk operasi skala besar.",
+      features: ["Kontrol SCADA", "Filtrasi Multi-Tahap", "Dosis Kimia", "Sistem Backwash"],
       inStock: true,
-      warranty: "3 Years",
-      delivery: "6-8 Weeks"
+      warranty: "3 Tahun",
+      delivery: "6-8 Minggu"
     },
     {
       id: 3,
-      name: "Wastewater Treatment System",
+      name: "Sistem Pengolahan Air Limbah",
       price: 120000,
       originalPrice: 135000,
       rating: 4.7,
       reviews: 76,
       image: "/placeholder.jpg",
-      category: "Wastewater Treatment",
+      category: "Pengolahan Air Limbah",
       capacity: "1000 CMD",
       year: 2024,
-      specs: ["1000 CMD", "Biological Treatment", "Effluent Recycling", "Low Energy"],
-      description: "Advanced biological wastewater treatment system with effluent recycling capabilities for sustainable operations.",
-      features: ["MBR Technology", "Nutrient Removal", "Sludge Treatment", "Effluent Recycling"],
+      specs: ["1000 CMD", "Perawatan Biologis", "Daur Ulang Efluen", "Energi Rendah"],
+      description: "Sistem pengolahan air limbah biologis canggih dengan kemampuan daur ulang efluen untuk operasi berkelanjutan.",
+      features: ["Teknologi MBR", "Penghilangan Nutrien", "Perawatan Lumpur", "Daur Ulang Efluen"],
       inStock: true,
-      warranty: "2 Years",
-      delivery: "4-5 Weeks"
+      warranty: "2 Tahun",
+      delivery: "4-5 Minggu"
     },
     {
       id: 4,
-      name: "UV Disinfection System",
+      name: "Sistem Disinfeksi UV",
       price: 15000,
       originalPrice: null,
       rating: 4.9,
       reviews: 203,
       image: "/placeholder.jpg",
-      category: "Disinfection",
+      category: "Disinfeksi",
       capacity: "500 LPM",
       year: 2024,
-      specs: ["UV-C Technology", "500 LPM", "Low Maintenance", "Eco-Friendly"],
-      description: "Chemical-free UV disinfection system providing 99.99% pathogen elimination for safe water supply.",
-      features: ["UV-C Lamps", "UV Intensity Monitor", "Auto Cleaning", "Alarm System"],
+      specs: ["Teknologi UV-C", "500 LPM", "Pemeliharaan Rendah", "Ramah Lingkungan"],
+      description: "Sistem disinfeksi UV bebas kimia yang memberikan eliminasi patogen 99,99% untuk pasokan air yang aman.",
+      features: ["Lampu UV-C", "Monitor Intensitas UV", "Pembersihan Otomatis", "Sistem Alarm"],
       inStock: true,
-      warranty: "1 Year",
-      delivery: "1-2 Weeks"
+      warranty: "1 Tahun",
+      delivery: "1-2 Minggu"
     },
     {
       id: 5,
-      name: "Water Softening Plant",
+      name: "Pabrik Pelunak Air",
       price: 25000,
       originalPrice: 28000,
       rating: 4.6,
       reviews: 158,
       image: "/placeholder.jpg",
-      category: "Water Softening",
+      category: "Pelunak Air",
       capacity: "2000 LPH",
       year: 2024,
-      specs: ["Ion Exchange", "2000 LPH", "Auto Regeneration", "Salt Efficient"],
-      description: "Automatic water softening system using ion exchange technology for removing hardness minerals from water.",
-      features: ["Ion Exchange Resin", "Auto Regeneration", "Brine Tank", "Hardness Monitor"],
+      specs: ["Pertukaran Ion", "2000 LPH", "Regenerasi Otomatis", "Efisien Garam"],
+      description: "Sistem pelunak air otomatis menggunakan teknologi pertukaran ion untuk menghilangkan mineral kekerasan dari air.",
+      features: ["Resin Pertukaran Ion", "Regenerasi Otomatis", "Tangki Brine", "Monitor Kekerasan"],
       inStock: false,
-      warranty: "18 Months",
-      delivery: "3-4 Weeks"
+      warranty: "18 Bulan",
+      delivery: "3-4 Minggu"
     },
     {
       id: 6,
-      name: "Desalination Plant",
+      name: "Pabrik Desalinasi",
       price: 180000,
       originalPrice: null,
       rating: 4.8,
       reviews: 45,
       image: "/placeholder.jpg",
-      category: "Desalination",
-      capacity: "10,000 LPD",
+      category: "Desalinasi",
+      capacity: "10.000 LPD",
       year: 2024,
-      specs: ["Seawater RO", "10,000 LPD", "Energy Recovery", "Remote Control"],
-      description: "Seawater reverse osmosis desalination plant with energy recovery system for coastal communities.",
-      features: ["Energy Recovery", "Seawater Intake", "Post Treatment", "Brine Disposal"],
+      specs: ["RO Air Laut", "10.000 LPD", "Pemulihan Energi", "Kontrol Jarak Jauh"],
+      description: "Pabrik desalinasi reverse osmosis air laut dengan sistem pemulihan energi untuk komunitas pesisir.",
+      features: ["Pemulihan Energi", "Intake Air Laut", "Perawatan Pasca", "Pembuangan Brine"],
       inStock: true,
-      warranty: "3 Years",
-      delivery: "8-10 Weeks"
+      warranty: "3 Tahun",
+      delivery: "8-10 Minggu"
     }
   ]
 
   const [filteredProducts, setFilteredProducts] = useState(products)
 
   const categories = [
-    { name: "All Categories", value: "all", count: products.length },
+    { name: "Semua Kategori", value: "all", count: products.length },
     { name: "Reverse Osmosis", value: "reverse-osmosis", count: 2 },
-    { name: "Municipal Systems", value: "municipal", count: 1 },
-    { name: "Wastewater Treatment", value: "wastewater", count: 1 },
-    { name: "Disinfection", value: "disinfection", count: 1 },
-    { name: "Water Softening", value: "softening", count: 1 },
-    { name: "Desalination", value: "desalination", count: 1 }
+    { name: "Sistem Kota", value: "municipal", count: 1 },
+    { name: "Pengolahan Air Limbah", value: "wastewater", count: 1 },
+    { name: "Disinfeksi", value: "disinfection", count: 1 },
+    { name: "Pelunak Air", value: "softening", count: 1 },
+    { name: "Desalinasi", value: "desalination", count: 1 }
   ]
 
   return (
@@ -165,24 +165,24 @@ export default function ProductsPage() {
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center mb-6">
             <Badge className="bg-blue-500/20 text-blue-100 px-4 py-2 text-sm font-medium">
-              Water Treatment Equipment
+              Solusi Teknik Air
             </Badge>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Premium Water
+            Sistem Pengolahan
             <span className="block bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">
-              Treatment Systems
+              Air Premium
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Discover our comprehensive range of industrial-grade water treatment solutions designed for efficiency and reliability.
+            Temukan rangkaian komprehensif solusi pengolahan air kelas industri yang dirancang untuk efisiensi dan keandalan.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              Request Quote
+              Minta Penawaran
             </Button>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
-              Download Catalog
+              Unduh Katalog
             </Button>
           </div>
         </div>
@@ -198,16 +198,16 @@ export default function ProductsPage() {
                 <div className="p-6">
                   <div className="flex items-center mb-6">
                     <Filter className="w-5 h-5 mr-2 text-blue-600" />
-                    <h2 className="text-lg font-bold text-gray-900">Filters</h2>
+                    <h2 className="text-lg font-bold text-gray-900">Filter</h2>
                   </div>
 
                   {/* Search */}
                   <div className="mb-6">
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">Search Products</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-3">Cari Produk</label>
                     <div className="relative">
                       <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                       <Input
-                        placeholder="Search equipment..."
+                        placeholder="Cari peralatan..."
                         className="pl-12 pr-4 py-3 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       />
                     </div>
@@ -215,7 +215,7 @@ export default function ProductsPage() {
 
                   {/* Category */}
                   <div className="mb-6">
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">Category</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-3">Kategori</label>
                     <div className="space-y-2">
                       {categories.map((category, index) => (
                         <div key={index} className="flex items-center justify-between p-3 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors">
@@ -231,7 +231,7 @@ export default function ProductsPage() {
                   {/* Price Range */}
                   {showPrices && (
                     <div className="mb-6">
-                      <label className="block text-sm font-semibold text-gray-700 mb-3">Price Range (USD)</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-3">Rentang Harga (USD)</label>
                       <Slider
                         value={priceRange}
                         onValueChange={setPriceRange}
@@ -248,37 +248,37 @@ export default function ProductsPage() {
 
                   {/* Capacity Range */}
                   <div className="mb-6">
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">Capacity</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-3">Kapasitas</label>
                     <Select>
                       <SelectTrigger className="border-gray-200 rounded-xl">
-                        <SelectValue placeholder="Select capacity range" />
+                        <SelectValue placeholder="Pilih rentang kapasitas" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All Capacities</SelectItem>
-                        <SelectItem value="small">Small (1000 LPH)</SelectItem>
-                        <SelectItem value="medium">Medium (1000-10000 LPH)</SelectItem>
-                        <SelectItem value="large">Large (10000 LPH)</SelectItem>
+                        <SelectItem value="all">Semua Kapasitas</SelectItem>
+                        <SelectItem value="small">Kecil (1000 LPH)</SelectItem>
+                        <SelectItem value="medium">Sedang (1000-10000 LPH)</SelectItem>
+                        <SelectItem value="large">Besar (10000 LPH)</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   {/* Stock Status */}
                   <div className="mb-6">
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">Availability</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-3">Ketersediaan</label>
                     <div className="space-y-2">
                       <label className="flex items-center">
                         <input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" defaultChecked />
-                        <span className="ml-2 text-sm text-gray-700">In Stock</span>
+                        <span className="ml-2 text-sm text-gray-700">Tersedia</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                        <span className="ml-2 text-sm text-gray-700">Pre-Order</span>
+                        <span className="ml-2 text-sm text-gray-700">Pesan Terlebih Dahulu</span>
                       </label>
                     </div>
                   </div>
 
                   <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl py-3">
-                    Apply Filters
+                    Terapkan Filter
                   </Button>
                 </div>
               </Card>
@@ -289,7 +289,7 @@ export default function ProductsPage() {
               {/* Toolbar */}
               <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
                 <div className="text-gray-600 font-medium">
-                  Showing <span className="font-bold text-gray-900">{filteredProducts.length}</span> of <span className="font-bold text-gray-900">{products.length}</span> products
+                  Menampilkan <span className="font-bold text-gray-900">{filteredProducts.length}</span> dari <span className="font-bold text-gray-900">{products.length}</span> produk
                 </div>
 
                 <div className="flex items-center gap-4">
@@ -298,11 +298,11 @@ export default function ProductsPage() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="featured">Most Popular</SelectItem>
-                      {showPrices && <SelectItem value="price-low">Price: Low to High</SelectItem>}
-                      {showPrices && <SelectItem value="price-high">Price: High to Low</SelectItem>}
-                      <SelectItem value="newest">Newest First</SelectItem>
-                      <SelectItem value="rating">Highest Rated</SelectItem>
+                      <SelectItem value="featured">Paling Populer</SelectItem>
+                      {showPrices && <SelectItem value="price-low">Harga: Rendah ke Tinggi</SelectItem>}
+                      {showPrices && <SelectItem value="price-high">Harga: Tinggi ke Rendah</SelectItem>}
+                      <SelectItem value="newest">Terbaru</SelectItem>
+                      <SelectItem value="rating">Rating Tertinggi</SelectItem>
                     </SelectContent>
                   </Select>
 
@@ -343,7 +343,7 @@ export default function ProductsPage() {
                         />
                         <div className="absolute top-4 left-4">
                           <Badge className={`${product.inStock ? "bg-green-500" : "bg-orange-500"} text-white`}>
-                            {product.inStock ? "In Stock" : "Pre-Order"}
+                            {product.inStock ? "Tersedia" : "Pesan Terlebih Dahulu"}
                           </Badge>
                         </div>
                         <div className="absolute top-4 right-4 flex gap-2">
@@ -354,7 +354,7 @@ export default function ProductsPage() {
                         {product.originalPrice && (
                           <div className="absolute bottom-4 left-4">
                             <Badge className="bg-red-500 text-white">
-                              Save ${(product.originalPrice - product.price).toLocaleString()}
+                              Hemat ${(product.originalPrice - product.price).toLocaleString()}
                             </Badge>
                           </div>
                         )}
@@ -397,15 +397,15 @@ export default function ProductsPage() {
                         <div className="space-y-2 mb-4 text-sm">
                           <div className="flex items-center gap-2 text-gray-600">
                             <Droplets className="w-4 h-4 text-blue-600" />
-                            <span>Capacity: {product.capacity}</span>
+                            <span>Kapasitas: {product.capacity}</span>
                           </div>
                           <div className="flex items-center gap-2 text-gray-600">
                             <Calendar className="w-4 h-4 text-blue-600" />
-                            <span>Warranty: {product.warranty}</span>
+                            <span>Garansi: {product.warranty}</span>
                           </div>
                           <div className="flex items-center gap-2 text-gray-600">
                             <MapPin className="w-4 h-4 text-blue-600" />
-                            <span>Delivery: {product.delivery}</span>
+                            <span>Pengiriman: {product.delivery}</span>
                           </div>
                         </div>
 
@@ -424,7 +424,7 @@ export default function ProductsPage() {
                               </>
                             ) : (
                               <span className="text-lg font-semibold text-gray-600">
-                                Contact for Price
+                                Hubungi untuk Harga
                               </span>
                             )}
                           </div>
@@ -437,11 +437,11 @@ export default function ProductsPage() {
                             disabled={!product.inStock}
                           >
                             <ShoppingCart className="w-4 h-4 mr-2" />
-                            {product.inStock ? "Add to Cart" : "Pre-Order"}
+                            {product.inStock ? "Tambah ke Keranjang" : "Pesan Terlebih Dahulu"}
                           </Button>
                           <Button variant="outline" size="sm" asChild className="rounded-xl border-blue-200 text-blue-600 hover:bg-blue-50">
                             <Link href={`/products/${product.id}`}>
-                              View Details
+                              Lihat Detail
                             </Link>
                           </Button>
                         </div>
@@ -455,12 +455,12 @@ export default function ProductsPage() {
               <div className="flex justify-center mt-16">
                 <div className="flex gap-2">
                   <Button variant="outline" disabled className="rounded-xl">
-                    Previous
+                    Sebelumnya
                   </Button>
                   <Button className="bg-blue-600 hover:bg-blue-700 rounded-xl">1</Button>
                   <Button variant="outline" className="rounded-xl">2</Button>
                   <Button variant="outline" className="rounded-xl">3</Button>
-                  <Button variant="outline" className="rounded-xl">Next</Button>
+                  <Button variant="outline" className="rounded-xl">Selanjutnya</Button>
                 </div>
               </div>
             </div>
@@ -472,17 +472,17 @@ export default function ProductsPage() {
       <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-blue-700">
         <div className="max-w-4xl mx-auto text-center text-white">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Need a Custom Solution?
+            Butuh Solusi Kustom?
           </h2>
           <p className="text-xl mb-8 text-blue-100">
-            Our engineers can design a tailored water treatment system to meet your specific requirements and capacity needs.
+            Insinyur kami dapat merancang sistem pengolahan air yang disesuaikan untuk memenuhi persyaratan dan kebutuhan kapasitas spesifik Anda.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              Request Custom Quote
+              Minta Penawaran Kustom
             </Button>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
-              Speak with Engineer
+              Konsultasi dengan Insinyur
             </Button>
           </div>
         </div>

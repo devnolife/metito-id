@@ -6,24 +6,23 @@ import { successResponse, errorResponse, validationErrorResponse, unauthorizedRe
 import slugify from 'slugify'
 
 const updateProductSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters').optional(),
+  name: z.string().min(2, 'Name must be at least 2 characters'),
   description: z.string().optional(),
   shortDesc: z.string().optional(),
-  price: z.number().positive('Price must be positive').optional(),
+  price: z.number().positive('Price must be positive'),
   capacity: z.string().optional(),
   efficiency: z.string().optional(),
   location: z.string().optional(),
   application: z.enum(['Industrial', 'Municipal']).optional(),
   specs: z.record(z.any()).optional(),
-  features: z.array(z.string()).optional(),
+  features: z.array(z.string()).default([]),
   warranty: z.string().optional(),
   delivery: z.string().optional(),
-  images: z.array(z.string()).optional(),
-  documents: z.array(z.string()).optional(),
-  categoryId: z.string().optional(),
-  inStock: z.boolean().optional(),
-  isFeatured: z.boolean().optional(),
-  isActive: z.boolean().optional(),
+  images: z.array(z.string()).default([]),
+  documents: z.array(z.string()).default([]),
+  categoryId: z.string().min(1, 'Category is required'),
+  inStock: z.boolean().default(true),
+  isFeatured: z.boolean().default(false),
   metaTitle: z.string().optional(),
   metaDescription: z.string().optional(),
 })
@@ -35,10 +34,7 @@ export async function GET(
 ) {
   try {
     const product = await db.product.findUnique({
-      where: {
-        id: params.id,
-        isActive: true
-      },
+      where: { id: params.id },
       include: {
         category: {
           select: { id: true, name: true, slug: true }
@@ -47,7 +43,7 @@ export async function GET(
     })
 
     if (!product) {
-      return notFoundResponse('Product not found')
+      return errorResponse('Product not found', 404)
     }
 
     return successResponse(product)
@@ -86,20 +82,17 @@ export async function PUT(
     })
 
     if (!existingProduct) {
-      return notFoundResponse('Product not found')
+      return errorResponse('Product not found', 404)
     }
 
-    // If name is being updated, generate new slug
+    // Generate new slug if name changed
     let slug = existingProduct.slug
-    if (data.name && data.name !== existingProduct.name) {
+    if (data.name !== existingProduct.name) {
       slug = slugify(data.name, { lower: true, strict: true })
-
+      
       // Check if new slug already exists
-      const slugExists = await db.product.findFirst({
-        where: {
-          slug,
-          id: { not: params.id }
-        }
+      const slugExists = await db.product.findUnique({
+        where: { slug, NOT: { id: params.id } }
       })
 
       if (slugExists) {
@@ -107,15 +100,13 @@ export async function PUT(
       }
     }
 
-    // If category is being updated, verify it exists
-    if (data.categoryId) {
-      const category = await db.category.findUnique({
-        where: { id: data.categoryId }
-      })
+    // Verify category exists
+    const category = await db.category.findUnique({
+      where: { id: data.categoryId }
+    })
 
-      if (!category) {
-        return errorResponse('Category not found', 404)
-      }
+    if (!category) {
+      return errorResponse('Category not found', 404)
     }
 
     // Update product
@@ -157,13 +148,12 @@ export async function DELETE(
     })
 
     if (!existingProduct) {
-      return notFoundResponse('Product not found')
+      return errorResponse('Product not found', 404)
     }
 
-    // Soft delete by setting isActive to false
-    await db.product.update({
-      where: { id: params.id },
-      data: { isActive: false }
+    // Delete product (this will also delete related cart items and inquiries due to cascade)
+    await db.product.delete({
+      where: { id: params.id }
     })
 
     return successResponse(null, 'Product deleted successfully')

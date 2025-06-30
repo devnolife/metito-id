@@ -7,7 +7,7 @@ export function WhatsAppFloat() {
   const handleWhatsAppClick = () => {
     const phoneNumber = "15551234567" // Replace with actual WhatsApp number
     const message = encodeURIComponent(
-      "Hello, I'm interested in Metito Water treatment equipment. Could you please assist me?",
+      "Hello, I'm interested in Metito Water Engineer services. Could you please assist me?",
     )
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
     window.open(whatsappUrl, "_blank")

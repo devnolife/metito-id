@@ -75,11 +75,11 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
         <CardHeader className="text-center pb-8">
           <div className="flex justify-center mb-6">
             <div className="relative w-16 h-16 p-3 bg-gradient-to-br from-blue-50 to-orange-50 rounded-2xl shadow-lg">
-              <Image src="/images/logo.png" alt="Metito Water" fill className="object-contain" />
+              <Image src="/images/logo.png" alt="Metito Water Engineer" fill className="object-contain" />
             </div>
           </div>
           <CardTitle className="text-2xl font-bold text-primary-blue">Admin Login</CardTitle>
-          <p className="text-gray-600 mt-2">Access the Metito Water admin dashboard</p>
+          <p className="text-gray-600 mt-2">Access the Metito Water Engineer admin dashboard</p>
         </CardHeader>
 
         <CardContent>

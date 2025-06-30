@@ -1,7 +1,7 @@
 # Database Seeding Guide
 
 ## Overview
-File `seed.ts` berisi data sampel lengkap untuk semua tabel dalam database Metito Water Treatment.
+File `seed.ts` berisi data sampel lengkap untuk semua tabel dalam database Metito Water Engineer.
 
 ## Cara Menjalankan Seed
 

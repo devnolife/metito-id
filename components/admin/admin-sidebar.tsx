@@ -47,11 +47,11 @@ export function AdminSidebar({ activeSection, onSectionChange, collapsed, onTogg
           {!collapsed && (
             <div className="flex items-center space-x-3">
               <div className="relative w-8 h-8 p-1 bg-white rounded-lg">
-                <Image src="/images/logo.png" alt="Metito Water" fill className="object-contain" />
+                <Image src="/images/logo.png" alt="Metito Water Engineer" fill className="object-contain" />
               </div>
               <div>
                 <h2 className="text-lg font-bold">Admin Panel</h2>
-                <p className="text-xs text-blue-200">Metito Water</p>
+                <p className="text-xs text-blue-200">Metito Water Engineer</p>
               </div>
             </div>
           )}

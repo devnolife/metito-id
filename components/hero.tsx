@@ -19,21 +19,21 @@ export function Hero() {
             <div className="space-y-6">
               <div className="inline-flex items-center px-4 py-2 primary-blue text-white rounded-full text-sm font-medium shadow-lg">
                 <Droplets className="w-4 h-4 mr-2" />
-                Leading Water Treatment Solutions Provider
+                Penyedia Solusi Pengolahan Air Terdepan
               </div>
 
               <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
-                <span className="text-primary-blue">Metito Water</span>
+                <span className="text-primary-blue">Metito Water Engineer</span>
                 <br />
-                <span className="text-gray-800">Treatment</span>
+                <span className="text-gray-800">Solusi</span>
                 <br />
-                <span className="text-accent-orange">Equipment</span>
+                <span className="text-accent-orange">Pengolahan Air</span>
               </h1>
 
               <p className="text-xl text-gray-600 leading-relaxed">
-                Discover our comprehensive range of advanced water and wastewater treatment equipment. From membrane
-                systems to filtration units, we provide cutting-edge solutions for industrial and municipal applications
-                worldwide.
+                Temukan rangkaian lengkap solusi pengolahan air dan air limbah yang canggih. Dari sistem membran
+                hingga unit filtrasi, kami menyediakan solusi terdepan untuk aplikasi industri dan perkotaan
+                di seluruh dunia.
               </p>
             </div>
 
@@ -42,7 +42,7 @@ export function Hero() {
                 size="lg"
                 className="gradient-accent hover:shadow-xl text-white font-semibold px-8 py-4 text-lg rounded-lg transition-all duration-300 hover:scale-105"
               >
-                Explore Our Products
+                Jelajahi Produk Kami
                 <ArrowDown className="ml-2 w-5 h-5" />
               </Button>
               <Button
@@ -50,7 +50,7 @@ export function Hero() {
                 variant="outline"
                 className="border-2 border-primary-blue text-primary-blue hover:bg-primary-blue hover:text-white font-semibold px-8 py-4 text-lg rounded-lg transition-all duration-300"
               >
-                Contact Our Experts
+                Hubungi Ahli Kami
               </Button>
             </div>
 
@@ -60,28 +60,28 @@ export function Hero() {
                   <Award className="w-6 h-6 text-white" />
                 </div>
                 <div className="text-2xl font-bold text-primary-blue">200+</div>
-                <div className="text-gray-600 text-sm">Equipment Models</div>
+                <div className="text-gray-600 text-sm">Model Peralatan</div>
               </div>
               <div className="text-center p-4 bg-white rounded-xl shadow-lg">
                 <div className="w-12 h-12 gradient-water rounded-full flex items-center justify-center mx-auto mb-3">
                   <Users className="w-6 h-6 text-white" />
                 </div>
                 <div className="text-2xl font-bold text-primary-blue">25+</div>
-                <div className="text-gray-600 text-sm">Years Experience</div>
+                <div className="text-gray-600 text-sm">Tahun Pengalaman</div>
               </div>
               <div className="text-center p-4 bg-white rounded-xl shadow-lg">
                 <div className="w-12 h-12 primary-blue rounded-full flex items-center justify-center mx-auto mb-3">
                   <Shield className="w-6 h-6 text-white" />
                 </div>
                 <div className="text-2xl font-bold text-primary-blue">100%</div>
-                <div className="text-gray-600 text-sm">Quality Assured</div>
+                <div className="text-gray-600 text-sm">Kualitas Terjamin</div>
               </div>
               <div className="text-center p-4 bg-white rounded-xl shadow-lg">
                 <div className="w-12 h-12 gradient-accent rounded-full flex items-center justify-center mx-auto mb-3">
                   <Star className="w-6 h-6 text-white" />
                 </div>
                 <div className="text-2xl font-bold text-primary-blue">24/7</div>
-                <div className="text-gray-600 text-sm">Support Service</div>
+                <div className="text-gray-600 text-sm">Layanan Dukungan</div>
               </div>
             </div>
           </div>
@@ -90,7 +90,7 @@ export function Hero() {
             <div className="aspect-square rounded-3xl overflow-hidden bg-gradient-to-br from-blue-100 to-orange-100 p-8 shadow-2xl">
               <img
                 src="/placeholder.svg?height=600&width=600"
-                alt="Water Treatment Equipment Showcase"
+                alt="Solusi Teknik Pengolahan Air"
                 className="w-full h-full object-cover rounded-2xl"
               />
             </div>
@@ -99,14 +99,14 @@ export function Hero() {
             <div className="absolute -top-6 -right-6 bg-white p-6 rounded-2xl shadow-xl border-l-4 border-accent-orange">
               <div className="text-center">
                 <div className="text-3xl font-bold text-primary-blue">ISO</div>
-                <div className="text-sm text-gray-600">Certified</div>
+                <div className="text-sm text-gray-600">Bersertifikat</div>
               </div>
             </div>
 
             <div className="absolute -bottom-6 -left-6 primary-blue text-white p-6 rounded-2xl shadow-xl">
               <div className="text-center">
                 <div className="text-3xl font-bold">500+</div>
-                <div className="text-sm opacity-90">Projects Completed</div>
+                <div className="text-sm opacity-90">Proyek Selesai</div>
               </div>
             </div>
           </div>

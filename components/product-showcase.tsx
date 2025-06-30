@@ -48,132 +48,132 @@ export function ProductShowcase() {
   }, [])
 
   const categories = [
-    { id: "membrane", name: "Membrane Systems", icon: Droplets, color: "water-blue" },
-    { id: "filtration", name: "Filtration Units", icon: Waves, color: "primary-blue" },
-    { id: "disinfection", name: "Disinfection", icon: Zap, color: "accent-orange" },
-    { id: "pumps", name: "Pumps & Motors", icon: Settings, color: "water-blue" },
+    { id: "membrane", name: "Sistem Membran", icon: Droplets, color: "water-blue" },
+    { id: "filtration", name: "Unit Filtrasi", icon: Waves, color: "primary-blue" },
+    { id: "disinfection", name: "Disinfeksi", icon: Zap, color: "accent-orange" },
+    { id: "pumps", name: "Pompa & Motor", icon: Settings, color: "water-blue" },
     { id: "monitoring", name: "Monitoring", icon: Gauge, color: "primary-blue" },
-    { id: "chemical", name: "Chemical Dosing", icon: FlaskConical, color: "accent-orange" },
+    { id: "chemical", name: "Dosis Kimia", icon: FlaskConical, color: "accent-orange" },
   ]
 
   const products = [
     {
       id: 1,
-      name: "RO Membrane System 1000 GPD",
+      name: "Sistem Membran RO 1000 GPD",
       category: "membrane",
       price: "$45,000",
-      application: "Industrial",
+      application: "Industri",
       capacity: "1000 GPD",
       efficiency: "99.5%",
       location: "USA",
       image: "/placeholder.svg?height=300&width=400",
-      specs: ["High Pressure", "Energy Recovery", "Auto Flush"],
+      specs: ["Tekanan Tinggi", "Pemulihan Energi", "Flush Otomatis"],
       description:
-        "Advanced reverse osmosis membrane system designed for industrial water treatment applications with high efficiency and reliability.",
-      whatsappMessage: "Hello, I'm interested in the RO Membrane System 1000 GPD. Could you provide more details?",
+        "Sistem membran reverse osmosis canggih yang dirancang untuk aplikasi pengolahan air industri dengan efisiensi dan keandalan tinggi.",
+      whatsappMessage: "Halo, saya tertarik dengan Sistem Membran RO 1000 GPD. Bisakah Anda memberikan detail lebih lanjut?",
     },
     {
       id: 2,
-      name: "Ultrafiltration Module UF-500",
+      name: "Modul Ultrafiltrasi UF-500",
       category: "filtration",
       price: "$28,000",
-      application: "Municipal",
-      capacity: "500 m³/day",
+      application: "Perkotaan",
+      capacity: "500 m³/hari",
       efficiency: "99.9%",
-      location: "Germany",
+      location: "Jerman",
       image: "/placeholder.svg?height=300&width=400",
-      specs: ["Hollow Fiber", "Backwash System", "PLC Control"],
+      specs: ["Serat Berongga", "Sistem Backwash", "Kontrol PLC"],
       description:
-        "High-performance ultrafiltration system for municipal water treatment with automated cleaning cycles.",
-      whatsappMessage: "Hello, I would like to know more about the Ultrafiltration Module UF-500.",
+        "Sistem ultrafiltrasi berperforma tinggi untuk pengolahan air perkotaan dengan siklus pembersihan otomatis.",
+      whatsappMessage: "Halo, saya ingin mengetahui lebih lanjut tentang Modul Ultrafiltrasi UF-500.",
     },
     {
       id: 3,
-      name: "UV Disinfection System UV-2000",
+      name: "Sistem Disinfeksi UV UV-2000",
       category: "disinfection",
       price: "$15,000",
-      application: "Industrial",
-      capacity: "2000 L/min",
+      application: "Industri",
+      capacity: "2000 L/menit",
       efficiency: "99.99%",
-      location: "Netherlands",
+      location: "Belanda",
       image: "/placeholder.svg?height=300&width=400",
-      specs: ["UV-C Lamps", "Intensity Monitor", "Alarm System"],
-      description: "Advanced UV disinfection system for effective pathogen elimination without chemical additives.",
-      whatsappMessage: "Hello, I'm interested in the UV Disinfection System UV-2000. Please provide pricing details.",
+      specs: ["Lampu UV-C", "Monitor Intensitas", "Sistem Alarm"],
+      description: "Sistem disinfeksi UV canggih untuk eliminasi patogen yang efektif tanpa aditif kimia.",
+      whatsappMessage: "Halo, saya tertarik dengan Sistem Disinfeksi UV UV-2000. Mohon berikan detail harga.",
     },
     {
       id: 4,
-      name: "Centrifugal Pump CP-750",
+      name: "Pompa Sentrifugal CP-750",
       category: "pumps",
       price: "$8,500",
-      application: "Industrial",
-      capacity: "750 m³/h",
+      application: "Industri",
+      capacity: "750 m³/jam",
       efficiency: "85%",
-      location: "Italy",
+      location: "Italia",
       image: "/placeholder.svg?height=300&width=400",
-      specs: ["Stainless Steel", "Variable Speed", "Dry Run Protection"],
+      specs: ["Stainless Steel", "Kecepatan Variabel", "Proteksi Kering"],
       description:
-        "High-efficiency centrifugal pump designed for water treatment applications with variable speed control.",
-      whatsappMessage: "Hello, I need information about the Centrifugal Pump CP-750 for my project.",
+        "Pompa sentrifugal berperforma tinggi yang dirancang untuk aplikasi pengolahan air dengan kontrol kecepatan variabel.",
+      whatsappMessage: "Halo, saya membutuhkan informasi tentang Pompa Sentrifugal CP-750 untuk proyek saya.",
     },
     {
       id: 5,
-      name: "Water Quality Monitor WQM-Pro",
+      name: "Monitor Kualitas Air WQM-Pro",
       category: "monitoring",
       price: "$12,000",
-      application: "Municipal",
+      application: "Perkotaan",
       capacity: "Multi-parameter",
       efficiency: "Real-time",
       location: "USA",
       image: "/placeholder.svg?height=300&width=400",
-      specs: ["pH, DO, Turbidity", "Data Logger", "Remote Access"],
+      specs: ["pH, DO, Turbidity", "Data Logger", "Akses Jarak Jauh"],
       description:
-        "Comprehensive water quality monitoring system with real-time data logging and remote access capabilities.",
+        "Sistem monitoring kualitas air komprehensif dengan pencatatan data real-time dan kemampuan akses jarak jauh.",
       whatsappMessage:
-        "Hello, I'm interested in the Water Quality Monitor WQM-Pro. Can you provide technical specifications?",
+        "Halo, saya tertarik dengan Monitor Kualitas Air WQM-Pro. Bisakah Anda memberikan spesifikasi teknis?",
     },
     {
       id: 6,
-      name: "Chemical Dosing System CDS-100",
+      name: "Sistem Dosis Kimia CDS-100",
       category: "chemical",
       price: "$6,500",
-      application: "Industrial",
-      capacity: "100 L/h",
-      efficiency: "±1% accuracy",
-      location: "Germany",
+      application: "Industri",
+      capacity: "100 L/jam",
+      efficiency: "±1% akurasi",
+      location: "Jerman",
       image: "/placeholder.svg?height=300&width=400",
-      specs: ["Peristaltic Pump", "Flow Control", "Level Sensor"],
-      description: "Precision chemical dosing system for accurate chemical injection in water treatment processes.",
-      whatsappMessage: "Hello, I would like to get a quote for the Chemical Dosing System CDS-100.",
+      specs: ["Pompa Peristaltik", "Kontrol Aliran", "Sensor Level"],
+      description: "Sistem dosis kimia presisi untuk injeksi kimia yang akurat dalam proses pengolahan air.",
+      whatsappMessage: "Halo, saya ingin mendapatkan penawaran untuk Sistem Dosis Kimia CDS-100.",
     },
     {
       id: 7,
-      name: "Sand Filter SF-2000",
+      name: "Filter Pasir SF-2000",
       category: "filtration",
       price: "$18,000",
-      application: "Municipal",
-      capacity: "2000 m³/day",
+      application: "Perkotaan",
+      capacity: "2000 m³/hari",
       efficiency: "95%",
-      location: "France",
+      location: "Prancis",
       image: "/placeholder.svg?height=300&width=400",
-      specs: ["Multi-media", "Backwash System", "Automatic Control"],
-      description: "High-capacity sand filtration system for municipal water treatment with automated backwash cycles.",
-      whatsappMessage: "Hello, I'm interested in the Sand Filter SF-2000. Please provide installation requirements.",
+      specs: ["Multi-media", "Sistem Backwash", "Kontrol Otomatis"],
+      description: "Sistem filtrasi pasir berkapasitas tinggi untuk pengolahan air perkotaan dengan siklus backwash otomatis.",
+      whatsappMessage: "Halo, saya tertarik dengan Filter Pasir SF-2000. Mohon berikan persyaratan instalasi.",
     },
     {
       id: 8,
-      name: "Ozone Generator OG-50",
+      name: "Generator Ozon OG-50",
       category: "disinfection",
       price: "$22,000",
-      application: "Industrial",
-      capacity: "50 g/h",
+      application: "Industri",
+      capacity: "50 g/jam",
       efficiency: "99.9%",
-      location: "Japan",
+      location: "Jepang",
       image: "/placeholder.svg?height=300&width=400",
-      specs: ["Corona Discharge", "Oxygen Feed", "Concentration Monitor"],
+      specs: ["Corona Discharge", "Feed Oksigen", "Monitor Konsentrasi"],
       description:
-        "Advanced ozone generation system for water disinfection and oxidation processes in industrial applications.",
-      whatsappMessage: "Hello, I need details about the Ozone Generator OG-50 for wastewater treatment.",
+        "Sistem generasi ozon canggih untuk disinfeksi air dan proses oksidasi dalam aplikasi industri.",
+      whatsappMessage: "Halo, saya membutuhkan detail tentang Generator Ozon OG-50 untuk pengolahan air limbah.",
     },
   ]
 
@@ -199,12 +199,12 @@ export function ProductShowcase() {
         {/* Header */}
         <div className="text-center mb-16">
           <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
-            Product Showcase
+            Pameran Produk
           </Badge>
-          <h2 className="text-4xl font-bold mb-4 text-gray-900">Our Water Treatment Equipment</h2>
+          <h2 className="text-4xl font-bold mb-4 text-gray-900">Solusi Teknik Pengolahan Air Kami</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Discover our comprehensive range of advanced water and wastewater treatment equipment designed for
-            industrial and municipal applications
+            Temukan rangkaian lengkap solusi pengolahan air dan air limbah yang canggih yang dirancang untuk
+            aplikasi industri dan perkotaan
           </p>
         </div>
 
@@ -241,7 +241,7 @@ export function ProductShowcase() {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <Input
               type="search"
-              placeholder="Search products..."
+              placeholder="Cari produk..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 h-12 rounded-xl border-gray-200 focus:border-blue-400 focus:ring-blue-400"
@@ -249,12 +249,12 @@ export function ProductShowcase() {
           </div>
           <Select value={selectedApplication} onValueChange={setSelectedApplication}>
             <SelectTrigger className="w-full md:w-48 h-12 rounded-xl border-gray-200">
-              <SelectValue placeholder="Application" />
+              <SelectValue placeholder="Aplikasi" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Applications</SelectItem>
-              <SelectItem value="Industrial">Industrial</SelectItem>
-              <SelectItem value="Municipal">Municipal</SelectItem>
+              <SelectItem value="all">Semua Aplikasi</SelectItem>
+              <SelectItem value="Industri">Industri</SelectItem>
+              <SelectItem value="Perkotaan">Perkotaan</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -303,13 +303,13 @@ export function ProductShowcase() {
                         {showPrices ? (
                           <div className="text-2xl font-bold text-white">{product.price}</div>
                         ) : (
-                          <div className="text-lg font-semibold text-white">Contact for Price</div>
+                          <div className="text-lg font-semibold text-white">Hubungi untuk Harga</div>
                         )}
                         <div className="text-gray-300 text-sm">{product.capacity}</div>
                       </div>
                       <div className="text-right">
                         <div className="text-white font-semibold">{product.efficiency}</div>
-                        <div className="text-gray-300 text-sm">Efficiency</div>
+                        <div className="text-gray-300 text-sm">Efisiensi</div>
                       </div>
                     </div>
                   </div>
@@ -328,7 +328,7 @@ export function ProductShowcase() {
                       {showPrices ? (
                         <div className="text-2xl font-bold text-blue-600">{product.price}</div>
                       ) : (
-                        <div className="text-lg font-semibold text-gray-600">Contact for Price</div>
+                        <div className="text-lg font-semibold text-gray-600">Hubungi untuk Harga</div>
                       )}
                     </div>
                   </div>
@@ -366,8 +366,8 @@ export function ProductShowcase() {
             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Search className="w-12 h-12 text-gray-400" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">No products found</h3>
-            <p className="text-gray-600 mb-6">Try adjusting your search criteria or filters</p>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">Produk tidak ditemukan</h3>
+            <p className="text-gray-600 mb-6">Coba sesuaikan kriteria pencarian atau filter Anda</p>
             <Button
               onClick={() => {
                 setSearchTerm("")
@@ -376,7 +376,7 @@ export function ProductShowcase() {
               }}
               className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
             >
-              Clear Filters
+              Hapus Filter
             </Button>
           </div>
         )}
@@ -384,16 +384,16 @@ export function ProductShowcase() {
         {/* Call to Action */}
         <div className="text-center mt-16">
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-white">
-            <h3 className="text-2xl font-bold mb-4">Can't find what you're looking for?</h3>
+            <h3 className="text-2xl font-bold mb-4">Tidak menemukan yang Anda cari?</h3>
             <p className="text-blue-100 mb-6">
-              We specialize in custom water treatment solutions. Contact our experts for personalized recommendations.
+              Kami mengkhususkan diri dalam solusi pengolahan air kustom. Hubungi ahli kami untuk rekomendasi yang dipersonalisasi.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button className="bg-white text-blue-600 hover:bg-blue-50 rounded-xl px-8 py-3 font-semibold">
-                Contact Our Experts
+                Hubungi Ahli Kami
               </Button>
               <Button className="bg-white text-blue-600 hover:bg-blue-50 rounded-xl px-8 py-3 font-semibold">
-                View All Products
+                Lihat Semua Produk
               </Button>
             </div>
           </div>

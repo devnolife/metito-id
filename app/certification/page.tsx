@@ -11,97 +11,97 @@ export default function CertificationPage() {
     {
       id: 1,
       name: "ISO 9001:2015",
-      title: "Quality Management System",
-      description: "International standard for quality management systems, ensuring consistent quality in our products and services.",
+      title: "Sistem Manajemen Mutu",
+      description: "Standar internasional untuk sistem manajemen mutu, memastikan konsistensi kualitas dalam produk dan layanan kami.",
       issuer: "International Organization for Standardization",
       validUntil: "2025",
-      category: "Quality Management",
+      category: "Manajemen Mutu",
       image: "/placeholder.svg",
       benefits: [
-        "Consistent product quality",
-        "Continuous improvement",
-        "Customer satisfaction",
-        "Process efficiency"
+        "Konsistensi kualitas produk",
+        "Peningkatan berkelanjutan",
+        "Kepuasan pelanggan",
+        "Efisiensi proses"
       ]
     },
     {
       id: 2,
       name: "ISO 14001:2015",
-      title: "Environmental Management System",
-      description: "Demonstrates our commitment to environmental protection and sustainable business practices.",
+      title: "Sistem Manajemen Lingkungan",
+      description: "Menunjukkan komitmen kami terhadap perlindungan lingkungan dan praktik bisnis berkelanjutan.",
       issuer: "International Organization for Standardization",
       validUntil: "2025",
-      category: "Environmental",
+      category: "Lingkungan",
       image: "/placeholder.svg",
       benefits: [
-        "Environmental protection",
-        "Waste reduction",
-        "Energy efficiency",
-        "Regulatory compliance"
+        "Perlindungan lingkungan",
+        "Pengurangan limbah",
+        "Efisiensi energi",
+        "Kepatuhan regulasi"
       ]
     },
     {
       id: 3,
       name: "ISO 45001:2018",
-      title: "Occupational Health & Safety",
-      description: "Ensures the highest standards of workplace safety and health management for our employees.",
+      title: "Kesehatan & Keselamatan Kerja",
+      description: "Memastikan standar tertinggi keselamatan dan kesehatan kerja untuk karyawan kami.",
       issuer: "International Organization for Standardization",
       validUntil: "2025",
-      category: "Health & Safety",
+      category: "Kesehatan & Keselamatan",
       image: "/placeholder.svg",
       benefits: [
-        "Worker safety",
-        "Risk reduction",
-        "Legal compliance",
-        "Workplace wellbeing"
+        "Keselamatan pekerja",
+        "Pengurangan risiko",
+        "Kepatuhan hukum",
+        "Kesejahteraan tempat kerja"
       ]
     },
     {
       id: 4,
       name: "CE Marking",
-      title: "European Conformity",
-      description: "Confirms that our products meet EU safety, health, and environmental protection standards.",
+      title: "Kesesuaian Eropa",
+      description: "Mengkonfirmasi bahwa produk kami memenuhi standar keselamatan, kesehatan, dan perlindungan lingkungan UE.",
       issuer: "European Union",
-      validUntil: "Ongoing",
-      category: "Product Certification",
+      validUntil: "Berkelanjutan",
+      category: "Sertifikasi Produk",
       image: "/placeholder.svg",
       benefits: [
-        "EU market access",
-        "Product safety",
-        "Consumer confidence",
-        "Regulatory compliance"
+        "Akses pasar UE",
+        "Keselamatan produk",
+        "Kepercayaan konsumen",
+        "Kepatuhan regulasi"
       ]
     },
     {
       id: 5,
       name: "NSF Certification",
-      title: "Water Treatment Standards",
-      description: "Certifies that our water treatment products meet strict public health and safety standards.",
+      title: "Standar Pengolahan Air",
+      description: "Menyertifikasi bahwa produk pengolahan air kami memenuhi standar kesehatan dan keselamatan publik yang ketat.",
       issuer: "NSF International",
       validUntil: "2025",
-      category: "Product Certification",
+      category: "Sertifikasi Produk",
       image: "/placeholder.svg",
       benefits: [
-        "Public health protection",
-        "Product reliability",
-        "Industry credibility",
-        "Global recognition"
+        "Perlindungan kesehatan publik",
+        "Keandalan produk",
+        "Kredibilitas industri",
+        "Pengakuan global"
       ]
     },
     {
       id: 6,
       name: "SNI Certification",
-      title: "Indonesian National Standard",
-      description: "Compliance with Indonesian national standards for water treatment equipment and services.",
+      title: "Standar Nasional Indonesia",
+      description: "Kepatuhan terhadap standar nasional Indonesia untuk solusi teknik air dan layanan.",
       issuer: "BSN (Badan Standardisasi Nasional)",
       validUntil: "2025",
-      category: "National Standard",
+      category: "Standar Nasional",
       image: "/placeholder.svg",
       benefits: [
-        "Local compliance",
-        "Market acceptance",
-        "Quality assurance",
-        "Regulatory alignment"
+        "Kepatuhan lokal",
+        "Penerimaan pasar",
+        "Jaminan kualitas",
+        "Kesesuaian regulasi"
       ]
     }
   ]
@@ -109,23 +109,23 @@ export default function CertificationPage() {
   const accreditations = [
     {
       name: "KAN (Komite Akreditasi Nasional)",
-      description: "National accreditation for testing and calibration laboratories",
+      description: "Akreditasi nasional untuk laboratorium pengujian dan kalibrasi",
       year: "2020-2025"
     },
     {
       name: "LPJK (Lembaga Pengembangan Jasa Konstruksi)",
-      description: "Construction services development certification",
+      description: "Sertifikasi pengembangan jasa konstruksi",
       year: "2019-2024"
     },
     {
       name: "SIUJK (Surat Ijin Usaha Jasa Konstruksi)",
-      description: "Construction business license for water infrastructure projects",
+      description: "Izin usaha jasa konstruksi untuk proyek infrastruktur air",
       year: "2018-2025"
     }
   ]
 
   const standards = [
-    "ASTM International Standards",
+    "Standar Internasional ASTM",
     "AWWA (American Water Works Association)",
     "API (American Petroleum Institute)",
     "ASME (American Society of Mechanical Engineers)",
@@ -142,24 +142,24 @@ export default function CertificationPage() {
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center mb-6">
             <Badge className="bg-blue-500/20 text-blue-100 px-4 py-2 text-sm font-medium">
-              Quality Assurance & Certifications
+              Jaminan Mutu & Sertifikasi
             </Badge>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Our
+            Sertifikasi
             <span className="block bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">
-              Certifications
+              Kami
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Committed to excellence through internationally recognized certifications and quality standards.
+            Berkomitmen untuk keunggulan melalui sertifikasi dan standar kualitas yang diakui secara internasional.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              Download Certificates
+              Unduh Sertifikat
             </Button>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
-              Quality Policy
+              Kebijakan Mutu
             </Button>
           </div>
         </div>
@@ -170,10 +170,10 @@ export default function CertificationPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              International Certifications
+              Sertifikasi Internasional
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Our commitment to quality is demonstrated through our comprehensive portfolio of international certifications.
+              Komitmen kami terhadap kualitas ditunjukkan melalui portofolio sertifikasi internasional yang komprehensif.
             </p>
           </div>
 
@@ -186,7 +186,7 @@ export default function CertificationPage() {
                       <Shield className="w-8 h-8 text-blue-600" />
                     </div>
                     <Badge variant="outline" className="text-blue-600 border-blue-200">
-                      Valid until {cert.validUntil}
+                      Berlaku hingga {cert.validUntil}
                     </Badge>
                   </div>
                   <div className="text-center mb-4">
@@ -229,13 +229,13 @@ export default function CertificationPage() {
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-500">
                       <Calendar className="w-4 h-4" />
-                      <span>Valid until {cert.validUntil}</span>
+                      <span>Berlaku hingga {cert.validUntil}</span>
                     </div>
                   </div>
 
                   <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl">
                     <Download className="w-4 h-4 mr-2" />
-                    Download Certificate
+                    Unduh Sertifikat
                   </Button>
                 </CardContent>
               </Card>
@@ -249,10 +249,10 @@ export default function CertificationPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              National Accreditations
+              Akreditasi Nasional
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Recognized by Indonesian regulatory bodies for our expertise and compliance.
+              Diakui oleh badan regulasi Indonesia untuk keahlian dan kepatuhan kami.
             </p>
           </div>
 
@@ -280,10 +280,10 @@ export default function CertificationPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              International Standards Compliance
+              Kepatuhan Standar Internasional
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Our products and services comply with various international standards and specifications.
+              Produk dan layanan kami mematuhi berbagai standar dan spesifikasi internasional.
             </p>
           </div>
 
@@ -295,7 +295,7 @@ export default function CertificationPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900">{standard}</h3>
-                  <p className="text-sm text-gray-600">Compliance verified</p>
+                  <p className="text-sm text-gray-600">Kepatuhan terverifikasi</p>
                 </div>
               </div>
             ))}
@@ -307,17 +307,17 @@ export default function CertificationPage() {
       <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-blue-700">
         <div className="max-w-4xl mx-auto text-center text-white">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Quality You Can Trust
+            Mutu yang Dapat Anda Percaya
           </h2>
           <p className="text-xl mb-8 text-blue-100">
-            Our certifications ensure that you receive the highest quality water treatment solutions that meet international standards.
+            Sertifikasi kami memastikan Anda menerima solusi pengolahan air berkualitas tertinggi yang memenuhi standar internasional.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              Contact Quality Team
+              Hubungi Tim Mutu
             </Button>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
-              Download All Certificates
+              Unduh Semua Sertifikat
             </Button>
           </div>
         </div>

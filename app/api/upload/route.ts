@@ -165,8 +165,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate public URL
-    const publicUrl = `/${uploadDir.replace('public', '')}/${productId ? `${productId}/` : ''}${fileName}`
-    console.log('Public URL:', publicUrl)
+    const publicUrl = `/${uploadDir.replace('public', '')}/${productId ? `${productId}/` : ''}${fileName}`.replace(/\/+/g, '/')
+    console.log('Upload directory:', uploadDir)
+    console.log('Product ID:', productId)
+    console.log('File name:', fileName)
+    console.log('Generated public URL:', publicUrl)
 
     // Save image metadata to database
     try {

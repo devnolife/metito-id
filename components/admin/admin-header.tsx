@@ -14,7 +14,7 @@ export function AdminHeader({ onLogout }: AdminHeaderProps) {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-primary-blue">Admin Dashboard</h1>
-          <p className="text-gray-600">Manage your water treatment equipment catalog</p>
+          <p className="text-gray-600">Manage your water engineering solutions catalog</p>
         </div>
 
         <div className="flex items-center space-x-4">
