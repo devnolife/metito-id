@@ -9,45 +9,45 @@ export default function ServicesPage() {
   const services = [
     {
       icon: <Droplets className="w-8 h-8 text-blue-600" />,
-      title: "Water Treatment Systems",
-      description: "Complete water treatment solutions for industrial and municipal applications",
-      features: ["Reverse Osmosis", "Ultrafiltration", "Nanofiltration", "Ion Exchange"],
-      price: "From $5,000"
+      title: "Sistem Pengolahan Air",
+      description: "Solusi pengolahan air lengkap untuk aplikasi industri dan kota",
+      features: ["Reverse Osmosis", "Ultrafiltrasi", "Nanofiltrasi", "Pertukaran Ion"],
+      price: "Mulai $5,000"
     },
     {
       icon: <Filter className="w-8 h-8 text-blue-600" />,
-      title: "Filtration Solutions",
-      description: "Advanced filtration systems for various water quality requirements",
-      features: ["Sand Filters", "Carbon Filters", "Multimedia Filters", "Bag Filters"],
-      price: "From $2,500"
+      title: "Solusi Filtrasi",
+      description: "Sistem filtrasi canggih untuk berbagai kebutuhan kualitas air",
+      features: ["Filter Pasir", "Filter Karbon", "Filter Multimedia", "Filter Kantong"],
+      price: "Mulai $2,500"
     },
     {
       icon: <Zap className="w-8 h-8 text-blue-600" />,
-      title: "Disinfection Systems",
-      description: "UV and ozone disinfection systems for safe water supply",
-      features: ["UV Sterilizers", "Ozone Generators", "Chlorination", "Electrochlorination"],
-      price: "From $3,000"
+      title: "Sistem Disinfeksi",
+      description: "Sistem disinfeksi UV dan ozon untuk pasokan air yang aman",
+      features: ["Sterilisator UV", "Generator Ozon", "Klorinasi", "Elektroklorinasi"],
+      price: "Mulai $3,000"
     },
     {
       icon: <Shield className="w-8 h-8 text-blue-600" />,
-      title: "Water Quality Monitoring",
-      description: "Real-time monitoring and control systems for water quality assurance",
-      features: ["pH Monitoring", "Turbidity Control", "Conductivity Meters", "Remote Monitoring"],
-      price: "From $1,500"
+      title: "Pemantauan Kualitas Air",
+      description: "Sistem pemantauan dan kontrol real-time untuk jaminan kualitas air",
+      features: ["Pemantauan pH", "Kontrol Kekeruhan", "Pengukur Konduktivitas", "Pemantauan Jarak Jauh"],
+      price: "Mulai $1,500"
     },
     {
       icon: <Wrench className="w-8 h-8 text-blue-600" />,
-      title: "Maintenance & Support",
-      description: "Professional maintenance and technical support services",
-      features: ["Preventive Maintenance", "Emergency Repairs", "Spare Parts", "Training"],
-      price: "Custom Quote"
+      title: "Pemeliharaan & Dukungan",
+      description: "Layanan pemeliharaan profesional dan dukungan teknis",
+      features: ["Pemeliharaan Preventif", "Perbaikan Darurat", "Suku Cadang", "Pelatihan"],
+      price: "Penawaran Khusus"
     },
     {
       icon: <Clock className="w-8 h-8 text-blue-600" />,
-      title: "24/7 Emergency Service",
-      description: "Round-the-clock emergency support for critical water systems",
-      features: ["Emergency Response", "Rapid Deployment", "Expert Technicians", "Remote Diagnostics"],
-      price: "Call for Pricing"
+      title: "Layanan Darurat 24/7",
+      description: "Dukungan darurat 24 jam untuk sistem air yang kritis",
+      features: ["Respons Darurat", "Deployment Cepat", "Teknisi Ahli", "Diagnostik Jarak Jauh"],
+      price: "Hubungi untuk Harga"
     }
   ]
 
@@ -60,24 +60,24 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center mb-6">
             <Badge className="bg-blue-500/20 text-blue-100 px-4 py-2 text-sm font-medium">
-              Professional Water Treatment Services
+              Layanan Pengolahan Air Profesional
             </Badge>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Comprehensive Water
+            Layanan Pengolahan Air
             <span className="block bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">
-              Treatment Services
+              yang Komprehensif
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            From design and installation to maintenance and support, we provide end-to-end water treatment solutions for your business needs.
+            Dari desain dan instalasi hingga pemeliharaan dan dukungan, kami menyediakan solusi pengolahan air end-to-end untuk kebutuhan bisnis Anda.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              Request Quote
+              Minta Penawaran
             </Button>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
-              View Portfolio
+              Lihat Portfolio
             </Button>
           </div>
         </div>
@@ -88,10 +88,10 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Our Services
+              Layanan Kami
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We offer comprehensive water treatment solutions tailored to meet your specific requirements and industry standards.
+              Kami menawarkan solusi pengolahan air yang komprehensif yang disesuaikan untuk memenuhi persyaratan spesifik Anda dan standar industri.
             </p>
           </div>
 
@@ -124,7 +124,7 @@ export default function ServicesPage() {
                     ))}
                   </div>
                   <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl">
-                    Learn More
+                    Pelajari Lebih Lanjut
                   </Button>
                 </CardContent>
               </Card>
@@ -138,10 +138,10 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Why Choose Metito Water Engineer?
+              Mengapa Memilih Metito Water Engineer?
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              With over 20 years of experience, we deliver reliable and efficient water treatment solutions.
+              Dengan pengalaman lebih dari 20 tahun, kami memberikan solusi pengolahan air yang andal dan efisien.
             </p>
           </div>
 
@@ -150,22 +150,22 @@ export default function ServicesPage() {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl mb-6 group-hover:scale-110 transition-transform">
                 <Star className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Premium Quality</h3>
-              <p className="text-gray-600">ISO certified equipment and components for long-lasting performance</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Kualitas Premium</h3>
+              <p className="text-gray-600">Peralatan dan komponen bersertifikat ISO untuk performa yang tahan lama</p>
             </div>
             <div className="text-center group">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl mb-6 group-hover:scale-110 transition-transform">
                 <Shield className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Reliable Support</h3>
-              <p className="text-gray-600">24/7 technical support and comprehensive warranty coverage</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Dukungan Andal</h3>
+              <p className="text-gray-600">Dukungan teknis 24/7 dan cakupan garansi yang komprehensif</p>
             </div>
             <div className="text-center group">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl mb-6 group-hover:scale-110 transition-transform">
                 <Wrench className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Expert Installation</h3>
-              <p className="text-gray-600">Professional installation and commissioning by certified engineers</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Instalasi Ahli</h3>
+              <p className="text-gray-600">Instalasi dan commissioning profesional oleh insinyur bersertifikat</p>
             </div>
           </div>
         </div>
