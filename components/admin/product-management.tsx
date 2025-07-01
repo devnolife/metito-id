@@ -117,14 +117,14 @@ export function ProductManagement() {
             // Load products
             await loadProducts()
           } else {
-            toast.error('Admin access required')
+            toast.error('Memerlukan akses admin')
           }
         } else {
-          toast.error('Authentication required')
+          toast.error('Memerlukan autentikasi')
         }
       } catch (error) {
         console.error('Initialization failed:', error)
-        toast.error('Failed to initialize data')
+        toast.error('Gagal menginisialisasi data')
       } finally {
         setIsLoading(false)
       }
@@ -140,11 +140,11 @@ export function ProductManagement() {
         const data = await response.json()
         setProducts(data.data?.products || [])
       } else {
-        toast.error('Failed to load products')
+        toast.error('Gagal memuat produk')
       }
     } catch (error) {
       console.error('Load products error:', error)
-      toast.error('Failed to load products')
+      toast.error('Gagal memuat produk')
     }
   }
 
@@ -154,7 +154,7 @@ export function ProductManagement() {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-blue mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
+          <p className="text-gray-600">Memuat...</p>
         </div>
       </div>
     )
@@ -166,8 +166,8 @@ export function ProductManagement() {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
           <div className="text-6xl mb-4">🔒</div>
-          <h3 className="text-xl font-bold text-primary-blue mb-2">Access Denied</h3>
-          <p className="text-gray-600">You need admin privileges to access this page</p>
+          <h3 className="text-xl font-bold text-primary-blue mb-2">Akses Ditolak</h3>
+          <p className="text-gray-600">Anda memerlukan hak akses admin untuk mengakses halaman ini</p>
         </div>
       </div>
     )
@@ -176,15 +176,15 @@ export function ProductManagement() {
   const handleAddProduct = async () => {
     // Validate required fields
     if (!formData.name.trim()) {
-      toast.error("Product name is required")
+      toast.error("Nama produk wajib diisi")
       return
     }
     if (!formData.categoryId) {
-      toast.error("Category is required")
+      toast.error("Kategori wajib dipilih")
       return
     }
     if (!formData.price.trim()) {
-      toast.error("Price is required")
+      toast.error("Harga wajib diisi")
       return
     }
 
@@ -220,17 +220,17 @@ export function ProductManagement() {
 
       if (response.ok) {
         const result = await response.json()
-        toast.success("Product berhasil ditambahkan!")
+        toast.success("Produk berhasil ditambahkan!")
         setIsAddDialogOpen(false)
         resetForm()
         await loadProducts() // Reload products from database
       } else {
         const errorData = await response.json()
-        toast.error(errorData.message || "Failed to add product")
+        toast.error(errorData.message || "Gagal menambahkan produk")
       }
     } catch (error) {
       console.error('Add product error:', error)
-      toast.error("Failed to add product")
+      toast.error("Gagal menambahkan produk")
     }
   }
 
@@ -239,15 +239,15 @@ export function ProductManagement() {
 
     // Validate required fields
     if (!formData.name.trim()) {
-      toast.error("Product name is required")
+      toast.error("Nama produk wajib diisi")
       return
     }
     if (!formData.categoryId) {
-      toast.error("Category is required")
+      toast.error("Kategori wajib dipilih")
       return
     }
     if (!formData.price.trim()) {
-      toast.error("Price is required")
+      toast.error("Harga wajib diisi")
       return
     }
 
@@ -282,18 +282,18 @@ export function ProductManagement() {
       })
 
       if (response.ok) {
-        toast.success("Product berhasil diperbarui!")
+        toast.success("Produk berhasil diperbarui!")
         setIsEditDialogOpen(false)
         setEditingProduct(null)
         resetForm()
         await loadProducts() // Reload products from database
       } else {
         const errorData = await response.json()
-        toast.error(errorData.message || "Failed to update product")
+        toast.error(errorData.message || "Gagal memperbarui produk")
       }
     } catch (error) {
       console.error('Update product error:', error)
-      toast.error("Failed to update product")
+      toast.error("Gagal memperbarui produk")
     }
   }
 
@@ -426,7 +426,7 @@ export function ProductManagement() {
       toast.success("Gambar berhasil diupload!")
     } catch (error) {
       console.error('Upload error:', error)
-      toast.error(`Gagal upload gambar: ${error instanceof Error ? error.message : 'Unknown error'}`)
+      toast.error(`Gagal upload gambar: ${error instanceof Error ? error.message : 'Error tidak dikenal'}`)
     } finally {
       setIsUploading(false)
     }
@@ -434,7 +434,7 @@ export function ProductManagement() {
 
   const handleImageDelete = () => {
     setProductImages([])
-    toast.success("Gambar dihapus")
+    toast.success("Gambar berhasil dihapus")
   }
 
   const handleImageClick = (image: ProductImage) => {
@@ -452,19 +452,19 @@ export function ProductManagement() {
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label htmlFor="name">Product Name</Label>
+          <Label htmlFor="name">Nama Produk</Label>
           <Input
             id="name"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            placeholder="Enter product name"
+            placeholder="Masukkan nama produk"
           />
         </div>
         <div>
-          <Label htmlFor="categoryId">Category</Label>
+          <Label htmlFor="categoryId">Kategori</Label>
           <Select value={formData.categoryId} onValueChange={(value) => setFormData({ ...formData, categoryId: value })}>
             <SelectTrigger>
-              <SelectValue placeholder="Select category" />
+              <SelectValue placeholder="Pilih kategori" />
             </SelectTrigger>
             <SelectContent>
               {categories.map((cat) => (
@@ -479,24 +479,24 @@ export function ProductManagement() {
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label htmlFor="price">Price</Label>
+          <Label htmlFor="price">Harga</Label>
           <Input
             id="price"
             type="number"
             step="0.01"
             value={formData.price}
             onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-            placeholder="e.g., 45000"
+            placeholder="contoh: 45000"
           />
         </div>
         <div>
-          <Label htmlFor="application">Application</Label>
+          <Label htmlFor="application">Aplikasi</Label>
           <Select
             value={formData.application}
             onValueChange={(value) => setFormData({ ...formData, application: value })}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select application" />
+              <SelectValue placeholder="Pilih aplikasi" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="Industrial">Industrial</SelectItem>
@@ -508,37 +508,37 @@ export function ProductManagement() {
 
       <div className="grid grid-cols-3 gap-4">
         <div>
-          <Label htmlFor="capacity">Capacity</Label>
+          <Label htmlFor="capacity">Kapasitas</Label>
           <Input
             id="capacity"
             value={formData.capacity}
             onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
-            placeholder="e.g., 1000 GPD"
+            placeholder="contoh: 1000 GPD"
           />
         </div>
         <div>
-          <Label htmlFor="efficiency">Efficiency</Label>
+          <Label htmlFor="efficiency">Efisiensi</Label>
           <Input
             id="efficiency"
             value={formData.efficiency}
             onChange={(e) => setFormData({ ...formData, efficiency: e.target.value })}
-            placeholder="e.g., 99.5%"
+            placeholder="contoh: 99.5%"
           />
         </div>
         <div>
-          <Label htmlFor="location">Origin</Label>
+          <Label htmlFor="location">Asal</Label>
           <Input
             id="location"
             value={formData.location}
             onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-            placeholder="e.g., USA"
+            placeholder="contoh: USA"
           />
         </div>
       </div>
 
       {/* Simple Image Upload Area */}
       <div>
-        <Label>Product Image</Label>
+        <Label>Gambar Produk</Label>
         <div className="mt-2">
           {productImages.length > 0 ? (
             <div className="relative group">
@@ -637,54 +637,54 @@ export function ProductManagement() {
       </div>
 
       <div>
-        <Label htmlFor="features">Features (comma-separated)</Label>
+        <Label htmlFor="features">Fitur (pisahkan dengan koma)</Label>
         <Input
           id="features"
           value={formData.features}
           onChange={(e) => setFormData({ ...formData, features: e.target.value })}
-          placeholder="High Pressure, Energy Recovery, Auto Flush"
+          placeholder="Tekanan Tinggi, Pemulihan Energi, Auto Flush"
         />
       </div>
 
       <div>
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description">Deskripsi</Label>
         <Textarea
           id="description"
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-          placeholder="Enter product description"
+          placeholder="Masukkan deskripsi produk"
           rows={3}
         />
       </div>
 
       <div>
-        <Label htmlFor="shortDesc">Short Description</Label>
+        <Label htmlFor="shortDesc">Deskripsi Singkat</Label>
         <Textarea
           id="shortDesc"
           value={formData.shortDesc}
           onChange={(e) => setFormData({ ...formData, shortDesc: e.target.value })}
-          placeholder="Enter short description"
+          placeholder="Masukkan deskripsi singkat"
           rows={2}
         />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label htmlFor="warranty">Warranty</Label>
+          <Label htmlFor="warranty">Garansi</Label>
           <Input
             id="warranty"
             value={formData.warranty}
             onChange={(e) => setFormData({ ...formData, warranty: e.target.value })}
-            placeholder="e.g., 2 years"
+            placeholder="contoh: 2 tahun"
           />
         </div>
         <div>
-          <Label htmlFor="delivery">Delivery</Label>
+          <Label htmlFor="delivery">Pengiriman</Label>
           <Input
             id="delivery"
             value={formData.delivery}
             onChange={(e) => setFormData({ ...formData, delivery: e.target.value })}
-            placeholder="e.g., 2-4 weeks"
+            placeholder="contoh: 2-4 minggu"
           />
         </div>
       </div>
@@ -699,8 +699,8 @@ export function ProductManagement() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-3xl font-bold text-primary-blue">Product Management</h2>
-          <p className="text-gray-600">Kelola katalog produk water treatment Anda</p>
+          <h2 className="text-3xl font-bold text-primary-blue">Manajemen Produk</h2>
+          <p className="text-gray-600">Kelola katalog produk pengolahan air Anda</p>
         </div>
       </div>
 
@@ -708,19 +708,19 @@ export function ProductManagement() {
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="products" className="flex items-center gap-2">
             <Package className="w-4 h-4" />
-            Products
+            Produk
           </TabsTrigger>
           <TabsTrigger value="add" className="flex items-center gap-2">
             <Plus className="w-4 h-4" />
-            Add Product
+            Tambah Produk
           </TabsTrigger>
           <TabsTrigger value="categories" className="flex items-center gap-2">
             <Settings className="w-4 h-4" />
-            Categories
+            Kategori
           </TabsTrigger>
           <TabsTrigger value="analytics" className="flex items-center gap-2">
             <BarChart3 className="w-4 h-4" />
-            Analytics
+            Analitik
           </TabsTrigger>
         </TabsList>
 
@@ -732,14 +732,14 @@ export function ProductManagement() {
               <div className="flex flex-col md:flex-row gap-4 items-center">
                 <div className="flex items-center gap-2 text-primary-blue font-semibold">
                   <Filter className="w-5 h-5" />
-                  <span>Filter Products:</span>
+                  <span>Filter Produk:</span>
                 </div>
 
                 <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                     <Input
-                      placeholder="Search products..."
+                      placeholder="Cari produk..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10"
@@ -748,10 +748,10 @@ export function ProductManagement() {
 
                   <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                     <SelectTrigger>
-                      <SelectValue placeholder="All Categories" />
+                      <SelectValue placeholder="Semua Kategori" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All Categories</SelectItem>
+                      <SelectItem value="all">Semua Kategori</SelectItem>
                       {categories.map((cat) => (
                         <SelectItem key={cat.id} value={cat.id}>
                           {cat.name}
@@ -799,11 +799,11 @@ export function ProductManagement() {
 
                   <div className="space-y-1 text-sm mb-4">
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Capacity:</span>
+                      <span className="text-gray-600">Kapasitas:</span>
                       <span className="font-medium">{product.capacity}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Efficiency:</span>
+                      <span className="text-gray-600">Efisiensi:</span>
                       <span className="font-medium">{product.efficiency}</span>
                     </div>
                   </div>
@@ -833,8 +833,8 @@ export function ProductManagement() {
             <Card className="border-0 shadow-lg">
               <CardContent className="p-12 text-center">
                 <div className="text-6xl mb-4">📦</div>
-                <h3 className="text-xl font-bold text-primary-blue mb-2">No Products Found</h3>
-                <p className="text-gray-600">Try adjusting your search filters or add a new product</p>
+                <h3 className="text-xl font-bold text-primary-blue mb-2">Produk Tidak Ditemukan</h3>
+                <p className="text-gray-600">Coba sesuaikan filter pencarian atau tambahkan produk baru</p>
               </CardContent>
             </Card>
           )}
@@ -845,10 +845,10 @@ export function ProductManagement() {
           <Card className="border-0 shadow-lg">
             <CardContent className="p-6">
               <div className="mb-6">
-                <h3 className="text-xl font-bold text-primary-blue mb-2">Add New Product</h3>
-                <p className="text-gray-600">Fill in the form below to add a new product to your catalog</p>
+                <h3 className="text-xl font-bold text-primary-blue mb-2">Tambah Produk Baru</h3>
+                <p className="text-gray-600">Isi formulir di bawah ini untuk menambahkan produk baru ke katalog Anda</p>
               </div>
-              <ProductForm onSubmit={handleAddProduct} submitLabel="Add Product" />
+              <ProductForm onSubmit={handleAddProduct} submitLabel="Tambah Produk" />
             </CardContent>
           </Card>
         </TabsContent>
@@ -858,8 +858,8 @@ export function ProductManagement() {
           <Card className="border-0 shadow-lg">
             <CardContent className="p-6">
               <div className="mb-6">
-                <h3 className="text-xl font-bold text-primary-blue mb-2">Product Categories</h3>
-                <p className="text-gray-600">Manage your product categories</p>
+                <h3 className="text-xl font-bold text-primary-blue mb-2">Kategori Produk</h3>
+                <p className="text-gray-600">Kelola kategori produk Anda</p>
               </div>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -867,7 +867,7 @@ export function ProductManagement() {
                   <Card key={category.id} className="border border-gray-200">
                     <CardContent className="p-4">
                       <h4 className="font-semibold text-primary-blue">{category.name}</h4>
-                      <p className="text-sm text-gray-600 mt-1">{category.description || 'No description'}</p>
+                      <p className="text-sm text-gray-600 mt-1">{category.description || 'Tidak ada deskripsi'}</p>
                       <div className="flex gap-2 mt-3">
                         <Button variant="outline" size="sm">
                           <Edit className="w-3 h-3 mr-1" />
@@ -885,7 +885,7 @@ export function ProductManagement() {
               <div className="mt-6">
                 <Button className="primary-blue hover:bg-blue-800">
                   <Plus className="w-4 h-4 mr-2" />
-                  Add Category
+                  Tambah Kategori
                 </Button>
               </div>
             </CardContent>
@@ -899,7 +899,7 @@ export function ProductManagement() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Total Products</p>
+                    <p className="text-sm font-medium text-gray-600">Total Produk</p>
                     <p className="text-2xl font-bold text-primary-blue">{products.length}</p>
                   </div>
                   <Package className="w-8 h-8 text-primary-blue" />
@@ -911,7 +911,7 @@ export function ProductManagement() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Categories</p>
+                    <p className="text-sm font-medium text-gray-600">Kategori</p>
                     <p className="text-2xl font-bold text-primary-blue">{categories.length}</p>
                   </div>
                   <Settings className="w-8 h-8 text-primary-blue" />
@@ -923,7 +923,7 @@ export function ProductManagement() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Featured Products</p>
+                    <p className="text-sm font-medium text-gray-600">Produk Unggulan</p>
                     <p className="text-2xl font-bold text-primary-blue">
                       {products.filter(p => p.isFeatured).length}
                     </p>
@@ -937,7 +937,7 @@ export function ProductManagement() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">In Stock</p>
+                    <p className="text-sm font-medium text-gray-600">Tersedia</p>
                     <p className="text-2xl font-bold text-primary-blue">
                       {products.filter(p => p.inStock).length}
                     </p>
@@ -950,23 +950,23 @@ export function ProductManagement() {
 
           <Card className="border-0 shadow-lg">
             <CardContent className="p-6">
-              <h3 className="text-xl font-bold text-primary-blue mb-4">Recent Activity</h3>
+              <h3 className="text-xl font-bold text-primary-blue mb-4">Aktivitas Terbaru</h3>
               <div className="space-y-4">
                 <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium">Product added</p>
-                    <p className="text-xs text-gray-600">New product "Industrial RO System" was added</p>
+                    <p className="text-sm font-medium">Produk ditambahkan</p>
+                    <p className="text-xs text-gray-600">Produk baru "Sistem RO Industri" telah ditambahkan</p>
                   </div>
-                  <span className="text-xs text-gray-500">2 hours ago</span>
+                  <span className="text-xs text-gray-500">2 jam lalu</span>
                 </div>
                 <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
                   <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium">Product updated</p>
-                    <p className="text-xs text-gray-600">Product "Municipal Filter" was updated</p>
+                    <p className="text-sm font-medium">Produk diperbarui</p>
+                    <p className="text-xs text-gray-600">Produk "Filter Kota" telah diperbarui</p>
                   </div>
-                  <span className="text-xs text-gray-500">1 day ago</span>
+                  <span className="text-xs text-gray-500">1 hari lalu</span>
                 </div>
               </div>
             </CardContent>
@@ -978,9 +978,9 @@ export function ProductManagement() {
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Edit Product</DialogTitle>
+            <DialogTitle>Edit Produk</DialogTitle>
           </DialogHeader>
-          <ProductForm onSubmit={handleEditProduct} submitLabel="Update Product" />
+          <ProductForm onSubmit={handleEditProduct} submitLabel="Perbarui Produk" />
         </DialogContent>
       </Dialog>
 
@@ -988,7 +988,7 @@ export function ProductManagement() {
       <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Image Preview</DialogTitle>
+            <DialogTitle>Pratinjau Gambar</DialogTitle>
           </DialogHeader>
           {selectedImage && (
             <div className="space-y-4">
@@ -1005,11 +1005,11 @@ export function ProductManagement() {
               </div>
               <div className="space-y-2">
                 <div>
-                  <Label className="text-sm font-medium">File Name</Label>
+                  <Label className="text-sm font-medium">Nama File</Label>
                   <p className="text-sm text-gray-600">{selectedImage.fileName}</p>
                 </div>
                 <div>
-                  <Label className="text-sm font-medium">Image URL</Label>
+                  <Label className="text-sm font-medium">URL Gambar</Label>
                   <p className="text-sm text-gray-600 font-mono break-all bg-gray-50 p-2 rounded">
                     {selectedImage.url}
                   </p>

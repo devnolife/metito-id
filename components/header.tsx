@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Menu, X, Search, Phone, Mail, Clock, MapPin } from "lucide-react"
+import { Menu, X, Search, Phone, Mail, Clock, MapPin, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
@@ -90,6 +90,33 @@ export function Header() {
                 className="pl-10 pr-3 py-2 w-full text-sm border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50/50 hover:bg-white"
               />
             </div>
+          </div>
+
+          {/* Admin Login Button */}
+          <div className="hidden md:flex items-center space-x-3">
+            <Link
+              href="/admin"
+              className="flex items-center justify-center w-10 h-10 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 group"
+              title="Login Admin"
+            >
+              <User className="w-5 h-5 group-hover:scale-110 transition-transform" />
+            </Link>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <div className="lg:hidden ml-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
+            >
+              {isMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </Button>
           </div>
         </div>
 

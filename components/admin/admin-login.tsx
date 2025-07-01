@@ -45,19 +45,19 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
       if (data.success) {
         // Check if user is admin
         if (data.data.user.role !== 'ADMIN') {
-          setError("Access denied. Admin privileges required.")
+          setError("Akses ditolak. Memerlukan hak akses admin.")
           onLogin(false)
           return
         }
 
         onLogin(true, data.data.user)
       } else {
-        setError(data.message || "Login failed. Please try again.")
+        setError(data.message || "Login gagal. Silakan coba lagi.")
         onLogin(false)
       }
     } catch (error) {
       console.error('Login error:', error)
-      setError("Login failed. Please check your connection and try again.")
+      setError("Login gagal. Silakan periksa koneksi Anda dan coba lagi.")
       onLogin(false)
     } finally {
       setIsLoading(false)
@@ -78,22 +78,22 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
               <Image src="/images/logo.png" alt="Metito Water Engineer" fill className="object-contain" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold text-primary-blue">Admin Login</CardTitle>
-          <p className="text-gray-600 mt-2">Access the Metito Water Engineer admin dashboard</p>
+          <CardTitle className="text-2xl font-bold text-primary-blue">Login Admin</CardTitle>
+          <p className="text-gray-600 mt-2">Akses dashboard admin Metito Water Engineer</p>
         </CardHeader>
 
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="email" className="text-sm font-medium text-gray-700">
-                Email Address
+                Alamat Email
               </Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input
                   id="email"
                   type="email"
-                  placeholder="Enter your email address"
+                  placeholder="Masukkan alamat email Anda"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-10 border-2 border-gray-200 focus:border-primary-blue rounded-lg h-12"
@@ -104,14 +104,14 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
 
             <div className="space-y-2">
               <Label htmlFor="password" className="text-sm font-medium text-gray-700">
-                Password
+                Kata Sandi
               </Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
+                  placeholder="Masukkan kata sandi Anda"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="pl-10 pr-10 border-2 border-gray-200 focus:border-primary-blue rounded-lg h-12"
@@ -143,10 +143,10 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
               {isLoading ? (
                 <div className="flex items-center">
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  Signing in...
+                  Sedang masuk...
                 </div>
               ) : (
-                "Sign In"
+                "Masuk"
               )}
             </Button>
           </form>

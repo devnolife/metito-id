@@ -27,16 +27,16 @@ export function PageManagement({ pageType, title }: PageManagementProps) {
   const [items, setItems] = useState<PageItem[]>([
     {
       id: 1,
-      title: `Sample ${pageType} Item 1`,
-      content: `This is a sample content for ${pageType}. Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
+      title: `Contoh Item ${pageType} 1`,
+      content: `Ini adalah konten contoh untuk ${pageType}. Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
       image: "/placeholder.svg?height=200&width=300",
       date: "2024-01-15",
       status: "published",
     },
     {
       id: 2,
-      title: `Sample ${pageType} Item 2`,
-      content: `Another sample content for ${pageType}. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
+      title: `Contoh Item ${pageType} 2`,
+      content: `Konten contoh lain untuk ${pageType}. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
       image: "/placeholder.svg?height=200&width=300",
       date: "2024-01-10",
       status: "draft",
@@ -92,7 +92,7 @@ export function PageManagement({ pageType, title }: PageManagementProps) {
   }
 
   const handleDeleteItem = (id: number) => {
-    if (confirm(`Are you sure you want to delete this ${pageType} item?`)) {
+    if (confirm(`Apakah Anda yakin ingin menghapus item ${pageType} ini?`)) {
       setItems(items.filter((item) => item.id !== id))
     }
   }
@@ -120,33 +120,33 @@ export function PageManagement({ pageType, title }: PageManagementProps) {
   const ItemForm = ({ onSubmit, submitLabel }: { onSubmit: () => void; submitLabel: string }) => (
     <div className="space-y-4">
       <div>
-        <Label htmlFor="title">Title</Label>
+        <Label htmlFor="title">Judul</Label>
         <Input
           id="title"
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          placeholder={`Enter ${pageType} title`}
+          placeholder={`Masukkan judul ${pageType}`}
         />
       </div>
 
       <div>
-        <Label htmlFor="content">Content</Label>
+        <Label htmlFor="content">Konten</Label>
         <Textarea
           id="content"
           value={formData.content}
           onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-          placeholder={`Enter ${pageType} content`}
+          placeholder={`Masukkan konten ${pageType}`}
           rows={6}
         />
       </div>
 
       <div>
-        <Label htmlFor="image">Image URL</Label>
+        <Label htmlFor="image">URL Gambar</Label>
         <Input
           id="image"
           value={formData.image}
           onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-          placeholder="Enter image URL or leave blank for placeholder"
+          placeholder="Masukkan URL gambar atau kosongkan untuk placeholder"
         />
       </div>
 
@@ -158,8 +158,8 @@ export function PageManagement({ pageType, title }: PageManagementProps) {
           onChange={(e) => setFormData({ ...formData, status: e.target.value as "published" | "draft" })}
           className="w-full p-2 border border-gray-300 rounded-md"
         >
-          <option value="published">Published</option>
-          <option value="draft">Draft</option>
+          <option value="published">Diterbitkan</option>
+          <option value="draft">Draf</option>
         </select>
       </div>
 
@@ -174,23 +174,23 @@ export function PageManagement({ pageType, title }: PageManagementProps) {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-3xl font-bold text-primary-blue">{title}</h2>
-          <p className="text-gray-600">Manage your {pageType} content</p>
+          <p className="text-gray-600">Kelola konten {pageType} Anda</p>
         </div>
 
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
           <DialogTrigger asChild>
             <Button className="primary-blue hover:bg-blue-800" onClick={() => resetForm()}>
               <Plus className="w-4 h-4 mr-2" />
-              Add {pageType.charAt(0).toUpperCase() + pageType.slice(1, -1)}
+              Tambah {pageType.charAt(0).toUpperCase() + pageType.slice(1, -1)}
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Add New {pageType.charAt(0).toUpperCase() + pageType.slice(1, -1)}</DialogTitle>
+              <DialogTitle>Tambah {pageType.charAt(0).toUpperCase() + pageType.slice(1, -1)} Baru</DialogTitle>
             </DialogHeader>
             <ItemForm
               onSubmit={handleAddItem}
-              submitLabel={`Add ${pageType.charAt(0).toUpperCase() + pageType.slice(1, -1)}`}
+              submitLabel={`Tambah ${pageType.charAt(0).toUpperCase() + pageType.slice(1, -1)}`}
             />
           </DialogContent>
         </Dialog>
@@ -202,7 +202,7 @@ export function PageManagement({ pageType, title }: PageManagementProps) {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <Input
-              placeholder={`Search ${pageType}...`}
+              placeholder={`Cari ${pageType}...`}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -212,47 +212,49 @@ export function PageManagement({ pageType, title }: PageManagementProps) {
       </Card>
 
       {/* Items Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredItems.map((item) => (
           <Card key={item.id} className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            {item.image && (
+            <CardContent className="p-0">
               <div className="relative">
-                <img
-                  src={item.image || "/placeholder.svg"}
-                  alt={item.title}
-                  className="w-full h-48 object-cover rounded-t-lg"
-                />
-                <div
-                  className={`absolute top-3 right-3 px-2 py-1 rounded-full text-xs font-medium ${item.status === "published" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"
-                    }`}
-                >
-                  {item.status}
+                <img src={item.image} alt={item.title} className="w-full h-48 object-cover rounded-t-lg" />
+                <div className="absolute top-4 right-4">
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${item.status === "published"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-yellow-100 text-yellow-800"
+                      }`}
+                  >
+                    {item.status === "published" ? "Diterbitkan" : "Draf"}
+                  </span>
                 </div>
               </div>
-            )}
 
-            <CardContent className="p-6">
-              <h3 className="text-lg font-bold text-primary-blue mb-2">{item.title}</h3>
-              <p className="text-gray-600 text-sm mb-3 line-clamp-3">{item.content}</p>
+              <div className="p-6">
+                <h3 className="font-bold text-lg text-primary-blue mb-2 line-clamp-2">{item.title}</h3>
+                <p className="text-gray-600 text-sm mb-4 line-clamp-3">{item.content}</p>
+                <p className="text-xs text-gray-500 mb-4">{item.date}</p>
 
-              <div className="text-xs text-gray-500 mb-4">Created: {new Date(item.date).toLocaleDateString()}</div>
-
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={() => openEditDialog(item)} className="flex-1">
-                  <Edit className="w-4 h-4 mr-1" />
-                  Edit
-                </Button>
-                <Button variant="outline" size="sm" className="text-blue-600 border-blue-200 hover:bg-blue-50">
-                  <Eye className="w-4 h-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleDeleteItem(item.id)}
-                  className="text-red-600 border-red-200 hover:bg-red-50"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
+                <div className="flex space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => openEditDialog(item)}
+                    className="flex-1 border-blue-200 text-blue-600 hover:bg-blue-50"
+                  >
+                    <Edit className="w-4 h-4 mr-1" />
+                    Edit
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleDeleteItem(item.id)}
+                    className="flex-1 border-red-200 text-red-600 hover:bg-red-50"
+                  >
+                    <Trash2 className="w-4 h-4 mr-1" />
+                    Hapus
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -267,20 +269,10 @@ export function PageManagement({ pageType, title }: PageManagementProps) {
           </DialogHeader>
           <ItemForm
             onSubmit={handleEditItem}
-            submitLabel={`Update ${pageType.charAt(0).toUpperCase() + pageType.slice(1, -1)}`}
+            submitLabel={`Perbarui ${pageType.charAt(0).toUpperCase() + pageType.slice(1, -1)}`}
           />
         </DialogContent>
       </Dialog>
-
-      {filteredItems.length === 0 && (
-        <Card className="border-0 shadow-lg">
-          <CardContent className="p-12 text-center">
-            <div className="text-6xl mb-4">📄</div>
-            <h3 className="text-xl font-bold text-primary-blue mb-2">No {pageType} Found</h3>
-            <p className="text-gray-600">Try adjusting your search or add new content</p>
-          </CardContent>
-        </Card>
-      )}
     </div>
   )
 }

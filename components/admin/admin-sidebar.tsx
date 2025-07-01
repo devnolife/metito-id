@@ -26,14 +26,14 @@ interface AdminSidebarProps {
 export function AdminSidebar({ activeSection, onSectionChange, collapsed, onToggleCollapse }: AdminSidebarProps) {
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { id: "products", label: "Products", icon: Package },
-    { id: "services", label: "Services", icon: Settings },
-    { id: "gallery", label: "Gallery", icon: ImageIcon },
-    { id: "customers", label: "Customers", icon: Users },
-    { id: "certifications", label: "Certifications", icon: Award },
+    { id: "products", label: "Produk", icon: Package },
+    { id: "services", label: "Layanan", icon: Settings },
+    { id: "gallery", label: "Galeri", icon: ImageIcon },
+    { id: "customers", label: "Pelanggan", icon: Users },
+    { id: "certifications", label: "Sertifikasi", icon: Award },
     { id: "blog", label: "Blog", icon: FileText },
-    { id: "contact", label: "Contact", icon: Phone },
-    { id: "settings", label: "Settings", icon: Cog },
+    { id: "contact", label: "Kontak", icon: Phone },
+    { id: "settings", label: "Pengaturan", icon: Cog },
   ]
 
   return (
@@ -50,7 +50,7 @@ export function AdminSidebar({ activeSection, onSectionChange, collapsed, onTogg
                 <Image src="/images/logo.png" alt="Metito Water Engineer" fill className="object-contain" />
               </div>
               <div>
-                <h2 className="text-lg font-bold">Admin Panel</h2>
+                <h2 className="text-lg font-bold">Panel Admin</h2>
                 <p className="text-xs text-blue-200">Metito Water Engineer</p>
               </div>
             </div>
@@ -88,7 +88,7 @@ export function AdminSidebar({ activeSection, onSectionChange, collapsed, onTogg
       {!collapsed && (
         <div className="absolute bottom-4 left-4 right-4">
           <div className="bg-blue-600 rounded-lg p-3 text-center">
-            <p className="text-xs text-blue-200 mb-1">Admin Dashboard</p>
+            <p className="text-xs text-blue-200 mb-1">Dashboard Admin</p>
             <p className="text-sm font-semibold">v1.0.0</p>
           </div>
         </div>

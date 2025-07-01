@@ -46,17 +46,17 @@ export function CustomerFormExample() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Add New Customer</CardTitle>
+        <CardTitle>Tambah Pelanggan Baru</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">Nama</Label>
             <Input
               id="name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="Enter customer name"
+              placeholder="Masukkan nama pelanggan"
             />
           </div>
           <div>
@@ -66,35 +66,35 @@ export function CustomerFormExample() {
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              placeholder="Enter email address"
+              placeholder="Masukkan alamat email"
             />
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="phone">Phone</Label>
+            <Label htmlFor="phone">Telepon</Label>
             <Input
               id="phone"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              placeholder="Enter phone number"
+              placeholder="Masukkan nomor telepon"
             />
           </div>
           <div>
-            <Label htmlFor="company">Company</Label>
+            <Label htmlFor="company">Perusahaan</Label>
             <Input
               id="company"
               value={formData.company}
               onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-              placeholder="Enter company name"
+              placeholder="Masukkan nama perusahaan"
             />
           </div>
         </div>
 
         {/* Customer Avatar Upload */}
         <div>
-          <Label>Customer Avatar</Label>
+          <Label>Foto Profil Pelanggan</Label>
           <ImageUpload
             category="customers"
             onUploadComplete={handleImageUpload}
@@ -106,7 +106,7 @@ export function CustomerFormExample() {
         </div>
 
         <Button onClick={handleSubmit} className="w-full">
-          Add Customer
+          Tambah Pelanggan
         </Button>
       </CardContent>
     </Card>

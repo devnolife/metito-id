@@ -13,8 +13,8 @@ export function AdminHeader({ onLogout }: AdminHeaderProps) {
     <header className="bg-white border-b border-gray-200 px-6 py-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-primary-blue">Admin Dashboard</h1>
-          <p className="text-gray-600">Manage your water engineering solutions catalog</p>
+          <h1 className="text-2xl font-bold text-primary-blue">Dashboard Admin</h1>
+          <p className="text-gray-600">Kelola katalog solusi teknik air Anda</p>
         </div>
 
         <div className="flex items-center space-x-4">
@@ -30,7 +30,7 @@ export function AdminHeader({ onLogout }: AdminHeaderProps) {
               </AvatarFallback>
             </Avatar>
             <div className="hidden md:block">
-              <p className="text-sm font-medium text-gray-900">Admin User</p>
+              <p className="text-sm font-medium text-gray-900">Pengguna Admin</p>
               <p className="text-xs text-gray-500">Administrator</p>
             </div>
           </div>
@@ -42,7 +42,7 @@ export function AdminHeader({ onLogout }: AdminHeaderProps) {
             className="border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300"
           >
             <LogOut className="w-4 h-4 mr-2" />
-            Logout
+            Keluar
           </Button>
         </div>
       </div>

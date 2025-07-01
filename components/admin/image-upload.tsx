@@ -36,13 +36,13 @@ interface ImageUploadProps {
 }
 
 const CATEGORY_LABELS = {
-  products: 'Products',
-  gallery: 'Gallery',
-  customers: 'Customers',
-  testimonials: 'Testimonials',
+  products: 'Produk',
+  gallery: 'Galeri',
+  customers: 'Pelanggan',
+  testimonials: 'Testimoni',
   blog: 'Blog',
-  certificates: 'Certificates',
-  documents: 'Documents'
+  certificates: 'Sertifikat',
+  documents: 'Dokumen'
 }
 
 export function ImageUpload({
@@ -72,13 +72,13 @@ export function ImageUpload({
 
     // Validate category
     if (!category) {
-      toast.error('Category is required for upload')
+      toast.error('Kategori diperlukan untuk upload')
       return
     }
 
     // Check if we have space for more files
     if (uploadedFiles.length + acceptedFiles.length > maxFiles) {
-      toast.error(`Maximum ${maxFiles} files allowed. You can upload ${maxFiles - uploadedFiles.length} more files.`)
+      toast.error(`Maksimal ${maxFiles} file diizinkan. Anda dapat mengupload ${maxFiles - uploadedFiles.length} file lagi.`)
       return
     }
 
@@ -125,7 +125,7 @@ export function ImageUpload({
         if (!response.ok) {
           const errorData = await response.json()
           console.error('Upload failed with status:', response.status, 'Error:', errorData)
-          throw new Error(errorData.message || `Upload failed with status ${response.status}`)
+          throw new Error(errorData.message || `Upload gagal dengan status ${response.status}`)
         }
 
         const result = await response.json()
@@ -137,7 +137,7 @@ export function ImageUpload({
         return result.data
       } catch (error) {
         console.error('Upload error for file:', file.name, error)
-        toast.error(`Failed to upload ${file.name}: ${error instanceof Error ? error.message : 'Unknown error'}`)
+        toast.error(`Gagal mengupload ${file.name}: ${error instanceof Error ? error.message : 'Error tidak dikenal'}`)
         return null
       }
     })
@@ -148,7 +148,7 @@ export function ImageUpload({
     if (successfulUploads.length > 0) {
       setUploadedFiles(prev => [...prev, ...successfulUploads])
       onUploadComplete?.(successfulUploads)
-      toast.success(`Successfully uploaded ${successfulUploads.length} file(s)`)
+      toast.success(`Berhasil mengupload ${successfulUploads.length} file`)
     }
 
     setUploading(false)
@@ -174,15 +174,15 @@ export function ImageUpload({
 
       if (!response.ok) {
         const error = await response.json()
-        throw new Error(error.message || 'Delete failed')
+        throw new Error(error.message || 'Gagal menghapus')
       }
 
       setUploadedFiles(prev => prev.filter(file => file.id !== imageId))
       onImageDelete?.(imageId)
-      toast.success(`Deleted ${fileName}`)
+      toast.success(`Berhasil menghapus ${fileName}`)
     } catch (error) {
       console.error('Delete error:', error)
-      toast.error(`Failed to delete ${fileName}: ${error instanceof Error ? error.message : 'Unknown error'}`)
+      toast.error(`Gagal menghapus ${fileName}: ${error instanceof Error ? error.message : 'Error tidak dikenal'}`)
     }
   }
 
@@ -209,159 +209,132 @@ export function ImageUpload({
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <ImageIcon className="h-5 w-5" />
-            Upload Images - {CATEGORY_LABELS[category]}
+            <ImageIcon className="w-5 h-5" />
+            Upload Gambar - {CATEGORY_LABELS[category]}
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {/* Upload Area */}
+        <CardContent>
           <div
             {...getRootProps()}
-            className={`
-              border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors
-              ${isDragActive
-                ? 'border-primary bg-primary/5'
-                : 'border-gray-300 hover:border-primary/50'
-              }
-              ${uploading ? 'pointer-events-none opacity-50' : ''}
-            `}
+            className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${isDragActive
+                ? 'border-blue-400 bg-blue-50'
+                : 'border-gray-300 hover:border-gray-400'
+              } ${uploading ? 'pointer-events-none opacity-50' : ''}`}
           >
             <input {...getInputProps()} />
-            <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+            <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
             {isDragActive ? (
-              <p className="text-primary font-medium">Drop the files here...</p>
+              <p className="text-blue-600">Lepas file di sini...</p>
             ) : (
               <div>
-                <p className="text-lg font-medium mb-2">
-                  Drag & drop files here, or click to select
+                <p className="text-gray-600 mb-2">
+                  Seret dan lepas file gambar di sini, atau klik untuk memilih
                 </p>
                 <p className="text-sm text-gray-500">
-                  Supports: JPEG, PNG, WebP, GIF (Max 5MB per file)
+                  Mendukung: JPG, PNG, WebP, GIF (maksimal 5MB)
                 </p>
-                <p className="text-xs text-gray-400 mt-1">
-                  {uploadedFiles.length}/{maxFiles} files uploaded
+                <p className="text-sm text-gray-500">
+                  {uploadedFiles.length}/{maxFiles} file
                 </p>
               </div>
             )}
           </div>
 
-          {/* Upload Progress */}
           {uploading && (
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-blue-600 font-medium">Uploading images...</span>
-                <span className="text-blue-600 font-medium">{Math.round(uploadProgress)}%</span>
+            <div className="mt-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium">Mengupload...</span>
+                <span className="text-sm text-gray-500">{Math.round(uploadProgress)}%</span>
               </div>
-              <Progress value={uploadProgress} className="h-2" />
-              <div className="text-xs text-gray-500 text-center">
-                Please wait while your images are being processed and uploaded to the server.
-              </div>
-            </div>
-          )}
-
-          {/* Uploaded Files Preview */}
-          {uploadedFiles.length > 0 && (
-            <div className="space-y-3">
-              <h4 className="font-medium text-green-600 flex items-center gap-2">
-                <CheckCircle className="h-4 w-4" />
-                Uploaded Images ({uploadedFiles.length})
-              </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                {uploadedFiles.map((file) => (
-                  <div key={file.id} className="border rounded-lg p-3 relative group bg-green-50 border-green-200">
-                    <div className="aspect-square bg-gray-100 rounded-md mb-2 overflow-hidden">
-                      <img
-                        src={file.filePath}
-                        alt={file.altText || file.fileName}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement
-                          target.src = '/placeholder.jpg'
-                        }}
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium truncate text-green-800" title={file.fileName}>
-                        {file.fileName}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {formatFileSize(file.fileSize)} • {file.fileType}
-                      </p>
-                      {file.title && (
-                        <p className="text-xs text-blue-600 font-medium">{file.title}</p>
-                      )}
-                      <div className="flex items-center gap-1">
-                        <CheckCircle className="h-3 w-3 text-green-500" />
-                        <span className="text-xs text-green-600 font-medium">Successfully Uploaded</span>
-                      </div>
-                    </div>
-                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        onClick={() => setEditingImage(editingImage === file.id ? null : file.id)}
-                        className="h-6 w-6 p-0"
-                      >
-                        <Edit3 className="h-3 w-3" />
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => handleDeleteFile(file.id, file.fileName)}
-                        className="h-6 w-6 p-0"
-                      >
-                        <Trash2 className="h-3 w-3" />
-                      </Button>
-                    </div>
-
-                    {/* Image Metadata Editor */}
-                    {editingImage === file.id && (
-                      <div className="mt-3 p-3 bg-white rounded border">
-                        <div className="space-y-2">
-                          <div>
-                            <Label htmlFor={`title-${file.id}`} className="text-xs">Title</Label>
-                            <Input
-                              id={`title-${file.id}`}
-                              value={imageMetadata[file.fileName]?.title || file.title || ''}
-                              onChange={(e) => handleMetadataChange(file.fileName, 'title', e.target.value)}
-                              placeholder="Image title"
-                              className="h-7 text-xs"
-                            />
-                          </div>
-                          <div>
-                            <Label htmlFor={`alt-${file.id}`} className="text-xs">Alt Text</Label>
-                            <Input
-                              id={`alt-${file.id}`}
-                              value={imageMetadata[file.fileName]?.altText || file.altText || ''}
-                              onChange={(e) => handleMetadataChange(file.fileName, 'altText', e.target.value)}
-                              placeholder="Alt text for accessibility"
-                              className="h-7 text-xs"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Upload Summary */}
-          {uploadedFiles.length > 0 && (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-              <div className="flex items-center gap-2 text-blue-800">
-                <CheckCircle className="h-4 w-4" />
-                <span className="font-medium">Upload Summary</span>
-              </div>
-              <p className="text-sm text-blue-700 mt-1">
-                {uploadedFiles.length} image(s) successfully uploaded and ready to use.
-                {uploadedFiles.length > 1 && ' The first image will be used as the main product image.'}
-              </p>
+              <Progress value={uploadProgress} className="w-full" />
             </div>
           )}
         </CardContent>
       </Card>
+
+      {/* Uploaded Files */}
+      {uploadedFiles.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle>File yang Diupload ({uploadedFiles.length})</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {uploadedFiles.map((file) => (
+                <div key={file.id} className="relative group">
+                  <div className="aspect-square rounded-lg overflow-hidden border bg-gray-50">
+                    <img
+                      src={file.filePath}
+                      alt={file.title || file.fileName}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  {/* File Info */}
+                  <div className="mt-2">
+                    <p className="text-sm font-medium truncate">{file.fileName}</p>
+                    <p className="text-xs text-gray-500">{formatFileSize(file.fileSize)}</p>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      className="w-8 h-8"
+                      onClick={() => handleDeleteFile(file.id, file.fileName)}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+
+                  {/* Success Indicator */}
+                  <div className="absolute top-2 left-2">
+                    <CheckCircle className="w-5 h-5 text-green-500" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Metadata Form (if enabled) */}
+      {showMetadata && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Metadata Gambar</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="title">Judul</Label>
+                <Input
+                  id="title"
+                  placeholder="Masukkan judul gambar"
+                  onChange={(e) => handleMetadataChange('default', 'title', e.target.value)}
+                />
+              </div>
+              <div>
+                <Label htmlFor="description">Deskripsi</Label>
+                <Textarea
+                  id="description"
+                  placeholder="Masukkan deskripsi gambar"
+                  onChange={(e) => handleMetadataChange('default', 'description', e.target.value)}
+                />
+              </div>
+              <div>
+                <Label htmlFor="altText">Teks Alternatif</Label>
+                <Input
+                  id="altText"
+                  placeholder="Masukkan teks alternatif untuk aksesibilitas"
+                  onChange={(e) => handleMetadataChange('default', 'altText', e.target.value)}
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   )
 } 

@@ -24,17 +24,17 @@ export function AdminDashboard({ user, onLogout }: AdminDashboardProps) {
       case "products":
         return <ProductManagement />
       case "services":
-        return <PageManagement pageType="services" title="Services Management" />
+        return <PageManagement pageType="services" title="Manajemen Layanan" />
       case "gallery":
-        return <PageManagement pageType="gallery" title="Gallery Management" />
+        return <PageManagement pageType="gallery" title="Manajemen Galeri" />
       case "customers":
-        return <PageManagement pageType="customers" title="Customer Management" />
+        return <PageManagement pageType="customers" title="Manajemen Pelanggan" />
       case "certifications":
-        return <PageManagement pageType="certifications" title="Certification Management" />
+        return <PageManagement pageType="certifications" title="Manajemen Sertifikasi" />
       case "blog":
-        return <PageManagement pageType="blog" title="Blog Management" />
+        return <PageManagement pageType="blog" title="Manajemen Blog" />
       case "contact":
-        return <PageManagement pageType="contact" title="Contact Management" />
+        return <PageManagement pageType="contact" title="Manajemen Kontak" />
       case "settings":
         return <SettingsManagement />
       default:
