@@ -47,24 +47,36 @@ export async function GET(request: NextRequest) {
 // POST /api/categories - Create new category (Admin only)
 export async function POST(request: NextRequest) {
   try {
+    console.log('POST /api/categories - Starting')
+    
     // Check admin permission
-    if (!(await isAdmin(request))) {
+    const adminCheck = await isAdmin(request)
+    console.log('Admin check result:', adminCheck)
+    
+    if (!adminCheck) {
+      console.log('Admin access denied')
       return unauthorizedResponse('Admin access required')
     }
 
     const body = await request.json()
+    console.log('Request body:', body)
 
     // Validate input
     const result = createCategorySchema.safeParse(body)
+    console.log('Validation result:', result)
+    
     if (!result.success) {
+      console.log('Validation failed:', result.error)
       const errors = result.error.flatten().fieldErrors
       return validationErrorResponse(errors)
     }
 
     const { name, description, icon, color } = result.data
+    console.log('Validated data:', { name, description, icon, color })
 
     // Generate slug
     const slug = slugify(name, { lower: true, strict: true })
+    console.log('Generated slug:', slug)
 
     // Check if category already exists
     const existingCategory = await db.category.findFirst({
@@ -75,21 +87,27 @@ export async function POST(request: NextRequest) {
         ]
       }
     })
+    console.log('Existing category check:', existingCategory)
 
     if (existingCategory) {
+      console.log('Category already exists')
       return errorResponse('Category with this name already exists', 409)
     }
 
     // Create category
+    const categoryData = {
+      name,
+      slug,
+      description: description || null,
+      icon: icon || null,
+      color: color || null,
+    }
+    console.log('Creating category with data:', categoryData)
+    
     const category = await db.category.create({
-      data: {
-        name,
-        slug,
-        description,
-        icon,
-        color,
-      }
+      data: categoryData
     })
+    console.log('Created category:', category)
 
     return successResponse(category, 'Category created successfully', 201)
 

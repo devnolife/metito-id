@@ -231,7 +231,7 @@ export default function ProductsPage() {
                   {/* Price Range */}
                   {showPrices && (
                     <div className="mb-6">
-                      <label className="block text-sm font-semibold text-gray-700 mb-3">Rentang Harga (USD)</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-3">Rentang Harga (IDR)</label>
                       <Slider
                         value={priceRange}
                         onValueChange={setPriceRange}
@@ -240,8 +240,16 @@ export default function ProductsPage() {
                         className="mb-4"
                       />
                       <div className="flex justify-between text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
-                        <span className="font-medium">${priceRange[0].toLocaleString()}</span>
-                        <span className="font-medium">${priceRange[1].toLocaleString()}</span>
+                        <span className="font-medium">{new Intl.NumberFormat('id-ID', { 
+                          style: 'currency', 
+                          currency: 'IDR',
+                          minimumFractionDigits: 0
+                        }).format(priceRange[0])}</span>
+                        <span className="font-medium">{new Intl.NumberFormat('id-ID', { 
+                          style: 'currency', 
+                          currency: 'IDR',
+                          minimumFractionDigits: 0
+                        }).format(priceRange[1])}</span>
                       </div>
                     </div>
                   )}
@@ -354,7 +362,11 @@ export default function ProductsPage() {
                         {product.originalPrice && (
                           <div className="absolute bottom-4 left-4">
                             <Badge className="bg-red-500 text-white">
-                              Hemat ${(product.originalPrice - product.price).toLocaleString()}
+                              Hemat {new Intl.NumberFormat('id-ID', { 
+                                style: 'currency', 
+                                currency: 'IDR',
+                                minimumFractionDigits: 0
+                              }).format(product.originalPrice - product.price)}
                             </Badge>
                           </div>
                         )}
@@ -414,11 +426,19 @@ export default function ProductsPage() {
                             {showPrices ? (
                               <>
                                 <span className="text-2xl font-bold text-blue-600">
-                                  ${product.price.toLocaleString()}
+                                  {new Intl.NumberFormat('id-ID', { 
+                                    style: 'currency', 
+                                    currency: 'IDR',
+                                    minimumFractionDigits: 0
+                                  }).format(product.price)}
                                 </span>
                                 {product.originalPrice && (
                                   <span className="text-sm text-gray-500 line-through ml-2">
-                                    ${product.originalPrice.toLocaleString()}
+                                    {new Intl.NumberFormat('id-ID', { 
+                                      style: 'currency', 
+                                      currency: 'IDR',
+                                      minimumFractionDigits: 0
+                                    }).format(product.originalPrice)}
                                   </span>
                                 )}
                               </>

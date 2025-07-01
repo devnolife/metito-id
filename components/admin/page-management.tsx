@@ -141,12 +141,12 @@ export function PageManagement({ pageType, title }: PageManagementProps) {
       </div>
 
       <div>
-        <Label htmlFor="image">URL Gambar</Label>
+        <Label htmlFor="image">Tambahkan Gambar</Label>
         <Input
           id="image"
           value={formData.image}
           onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-          placeholder="Masukkan URL gambar atau kosongkan untuk placeholder"
+          placeholder="Masukkan gambar atau kosongkan untuk placeholder"
         />
       </div>
 

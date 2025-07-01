@@ -88,7 +88,13 @@ export default function CartPage() {
                         </div>
 
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                          <div className="text-2xl font-bold text-primary-blue">${item.price.toLocaleString()}</div>
+                          <div className="text-2xl font-bold text-primary-blue">
+                            {new Intl.NumberFormat('id-ID', { 
+                              style: 'currency', 
+                              currency: 'IDR',
+                              minimumFractionDigits: 0
+                            }).format(item.price)}
+                          </div>
 
                           <div className="flex items-center gap-4">
                             <div className="flex items-center border rounded-lg">
@@ -142,7 +148,13 @@ export default function CartPage() {
                 <CardContent className="space-y-4">
                   <div className="flex justify-between">
                     <span>Subtotal ({cartItems.length} item)</span>
-                    <span>${subtotal.toLocaleString()}</span>
+                    <span>
+                      {new Intl.NumberFormat('id-ID', { 
+                        style: 'currency', 
+                        currency: 'IDR',
+                        minimumFractionDigits: 0
+                      }).format(subtotal)}
+                    </span>
                   </div>
 
                   <div className="flex justify-between">
@@ -150,19 +162,37 @@ export default function CartPage() {
                       <Truck className="w-4 h-4 mr-1" />
                       Pengiriman
                     </span>
-                    <span>${shipping.toLocaleString()}</span>
+                    <span>
+                      {new Intl.NumberFormat('id-ID', { 
+                        style: 'currency', 
+                        currency: 'IDR',
+                        minimumFractionDigits: 0
+                      }).format(shipping)}
+                    </span>
                   </div>
 
                   <div className="flex justify-between">
                     <span>Pajak (8%)</span>
-                    <span>${tax.toLocaleString()}</span>
+                    <span>
+                      {new Intl.NumberFormat('id-ID', { 
+                        style: 'currency', 
+                        currency: 'IDR',
+                        minimumFractionDigits: 0
+                      }).format(tax)}
+                    </span>
                   </div>
 
                   <Separator />
 
                   <div className="flex justify-between text-lg font-bold">
                     <span>Total</span>
-                    <span className="text-primary-blue">${total.toLocaleString()}</span>
+                    <span className="text-primary-blue">
+                      {new Intl.NumberFormat('id-ID', { 
+                        style: 'currency', 
+                        currency: 'IDR',
+                        minimumFractionDigits: 0
+                      }).format(total)}
+                    </span>
                   </div>
 
                   <div className="space-y-3 pt-4">
