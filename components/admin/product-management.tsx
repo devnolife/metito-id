@@ -463,36 +463,59 @@ export function ProductManagement() {
   // Check authentication and load data on component mount
   useEffect(() => {
     const initializeData = async () => {
+      console.log('=== INITIALIZING COMPONENT ===')
+      
       try {
+        console.log('Checking authentication...')
+        
         // Check authentication
         const authResponse = await fetch('/api/auth/me', {
           credentials: 'include'
         })
 
+        console.log('Auth response status:', authResponse.status)
+        console.log('Auth response ok:', authResponse.ok)
+
         if (authResponse.ok) {
           const authData = await authResponse.json()
+          console.log('Auth data received:', authData)
+          
           if (authData.success && authData.data?.role === 'ADMIN') {
+            console.log('User is authenticated as ADMIN, setting isAuthenticated to true')
             setIsAuthenticated(true)
 
+            console.log('Loading categories...')
             // Load categories
             const categoriesResponse = await fetch('/api/categories')
             if (categoriesResponse.ok) {
               const categoriesData = await categoriesResponse.json()
+              console.log('Categories loaded:', categoriesData.data?.length || 0, 'categories')
               setCategories(categoriesData.data || [])
+            } else {
+              console.error('Failed to load categories, status:', categoriesResponse.status)
             }
 
+            console.log('Loading products...')
             // Load products
             await loadProducts()
           } else {
+            console.log('User is not ADMIN or auth failed:', authData)
             toast.error('Memerlukan akses admin')
+            setIsAuthenticated(false)
           }
         } else {
+          console.log('Auth response not ok, status:', authResponse.status)
+          const errorText = await authResponse.text()
+          console.log('Auth error response:', errorText)
           toast.error('Memerlukan autentikasi')
+          setIsAuthenticated(false)
         }
       } catch (error) {
         console.error('Initialization failed:', error)
         toast.error('Gagal menginisialisasi data')
+        setIsAuthenticated(false)
       } finally {
+        console.log('Setting isLoading to false')
         setIsLoading(false)
       }
     }
@@ -597,7 +620,13 @@ export function ProductManagement() {
         <div className="text-center">
           <div className="text-6xl mb-4">🔒</div>
           <h3 className="text-xl font-bold text-primary-blue mb-2">Akses Ditolak</h3>
-          <p className="text-gray-600">Anda memerlukan akses admin untuk melihat halaman ini</p>
+          <p className="text-gray-600 mb-4">Anda memerlukan akses admin untuk melihat halaman ini</p>
+          <Button 
+            onClick={() => window.location.href = '/admin'}
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+          >
+            Login Admin
+          </Button>
         </div>
       </div>
     )
@@ -813,26 +842,56 @@ export function ProductManagement() {
   }
 
   const handleAddCategory = async () => {
+    console.log('=== HANDLE ADD CATEGORY CALLED ===')
     console.log('handleAddCategory called with:', categoryFormData)
     
     if (!categoryFormData.name.trim()) {
+      console.log('ERROR: Category name is empty')
       toast.error("Nama kategori wajib diisi")
       return
     }
 
     // Validate minimum character length
     if (categoryFormData.name.trim().length < 2) {
+      console.log('ERROR: Category name too short')
       toast.error("Nama kategori harus minimal 2 karakter")
       return
     }
 
     // Check if user is still authenticated before making the request
     if (!isAuthenticated) {
+      console.log('ERROR: User not authenticated')
       toast.error("Sesi telah berakhir, silakan login kembali")
       return
     }
 
+    console.log('All validations passed, checking authentication status...')
+
     try {
+      // First, let's verify we're still authenticated by checking the auth endpoint
+      const authCheckResponse = await fetch('/api/auth/me', {
+        credentials: 'include'
+      })
+      
+      console.log('Auth check response status:', authCheckResponse.status)
+      
+      if (!authCheckResponse.ok) {
+        console.log('ERROR: Auth check failed, user not authenticated')
+        toast.error("Sesi telah berakhir, silakan login kembali")
+        return
+      }
+
+      const authData = await authCheckResponse.json()
+      console.log('Auth check data:', authData)
+      
+      if (!authData.success || authData.data?.role !== 'ADMIN') {
+        console.log('ERROR: User is not admin')
+        toast.error("Akses admin diperlukan")
+        return
+      }
+
+      console.log('Authentication verified, making category creation request...')
+
       const requestBody = {
         name: categoryFormData.name,
         description: categoryFormData.description,
@@ -840,30 +899,20 @@ export function ProductManagement() {
       
       console.log('Making request to /api/categories:', requestBody)
 
-      // Get auth token from cookie
-      const authToken = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('auth-token='))
-        ?.split('=')[1];
-      
-      if (!authToken) {
-        toast.error("Token autentikasi tidak ditemukan, silakan login kembali")
-        return
-      }
-
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`
-      }
-
       const response = await fetch('/api/categories', {
         method: 'POST',
-        headers,
+        headers: {
+          'Content-Type': 'application/json',
+        },
         credentials: 'include',
         body: JSON.stringify(requestBody),
       })
 
+      console.log('Response status:', response.status)
+      console.log('Response ok:', response.ok)
+
       const responseText = await response.text()
+      console.log('Response text:', responseText)
 
       if (response.ok) {
         let result
@@ -901,6 +950,12 @@ export function ProductManagement() {
         // Handle specific error codes
         if (response.status === 401) {
           errorMessage = "Sesi telah berakhir, silakan login kembali"
+          // Also update the authentication state
+          setIsAuthenticated(false)
+          // Redirect to login page after a short delay
+          setTimeout(() => {
+            window.location.href = '/admin'
+          }, 2000)
         } else if (response.status === 403) {
           errorMessage = "Akses admin diperlukan"
         } else if (response.status === 409) {
@@ -1438,7 +1493,7 @@ export function ProductManagement() {
 
                 <div className="mt-6">
                   <Button 
-                    className="primary-blue hover:bg-blue-800" 
+                    className="bg-blue-600 hover:bg-blue-700 text-white" 
                     onClick={(e) => {
                       e.preventDefault()
                       resetCategoryForm()
@@ -1555,8 +1610,13 @@ export function ProductManagement() {
             </div>
 
             <Button 
-              onClick={handleAddCategory} 
-              className="w-full primary-blue hover:bg-blue-800"
+              onClick={(e) => {
+                console.log("=== TAMBAH KATEGORI BUTTON CLICKED ===")
+                console.log("Current categoryFormData:", categoryFormData)
+                console.log("Calling handleAddCategory...")
+                handleAddCategory()
+              }}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
             >
               Tambah Kategori
             </Button>
@@ -1598,7 +1658,7 @@ export function ProductManagement() {
               />
             </div>
 
-            <Button onClick={handleEditCategory} className="w-full primary-blue hover:bg-blue-800">
+            <Button onClick={handleEditCategory} className="w-full bg-blue-600 hover:bg-blue-700 text-white">
               Perbarui Kategori
             </Button>
           </div>
