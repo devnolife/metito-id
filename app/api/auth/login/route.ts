@@ -1,8 +1,19 @@
 import { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { db } from '@/lib/db'
-import { verifyPassword, signJWT } from '@/lib/auth'
+import { verifyPassword } from '@/lib/auth'
 import { successResponse, errorResponse, validationErrorResponse } from '@/lib/api-response'
+import { SignJWT } from 'jose'
+
+// Edge-compatible JWT signing
+async function signJWTEdge(payload: { userId: string; email: string; role: string }): Promise<string> {
+  const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'your-secret-key')
+  return await new SignJWT(payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('7d')
+    .sign(secret)
+}
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -53,7 +64,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate JWT token
-    const token = signJWT({
+    const token = await signJWTEdge({
       userId: user.id,
       email: user.email,
       role: user.role,
@@ -67,13 +78,25 @@ export async function POST(request: NextRequest) {
       token,
     }, 'Login successful')
 
-    // Set HTTP-only cookie
+    // Set HTTP-only cookie with proper configuration
     response.cookies.set('auth-token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 1, // 1 day
+      sameSite: 'lax', // Always use 'lax' for better compatibility
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7, // 7 days to match JWT expiry
     })
+
+    // Also set a client-side readable cookie for auth status
+    response.cookies.set('auth-status', 'authenticated', {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax', // Always use 'lax' for better compatibility
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    })
+
+
 
     return response
 

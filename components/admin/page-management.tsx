@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog"
 import { Plus, Edit, Trash2, Search, Eye } from "lucide-react"
 
 interface PageItem {
@@ -187,6 +187,9 @@ export function PageManagement({ pageType, title }: PageManagementProps) {
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Tambah {pageType.charAt(0).toUpperCase() + pageType.slice(1, -1)} Baru</DialogTitle>
+              <DialogDescription>
+                Buat {pageType} baru untuk ditampilkan di website. Pastikan semua field yang wajib diisi telah terisi dengan benar.
+              </DialogDescription>
             </DialogHeader>
             <ItemForm
               onSubmit={handleAddItem}
@@ -221,8 +224,8 @@ export function PageManagement({ pageType, title }: PageManagementProps) {
                 <div className="absolute top-4 right-4">
                   <span
                     className={`px-2 py-1 rounded-full text-xs font-medium ${item.status === "published"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-yellow-100 text-yellow-800"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-yellow-100 text-yellow-800"
                       }`}
                   >
                     {item.status === "published" ? "Diterbitkan" : "Draf"}
@@ -266,6 +269,9 @@ export function PageManagement({ pageType, title }: PageManagementProps) {
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit {pageType.charAt(0).toUpperCase() + pageType.slice(1, -1)}</DialogTitle>
+            <DialogDescription>
+              Ubah informasi {pageType} sesuai kebutuhan. Pastikan semua field yang wajib diisi telah terisi dengan benar.
+            </DialogDescription>
           </DialogHeader>
           <ItemForm
             onSubmit={handleEditItem}

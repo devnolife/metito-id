@@ -42,7 +42,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
 
       const data = await response.json()
 
-      if (data.success) {
+      if (response.ok && data.success) {
         // Check if user is admin
         if (data.data.user.role !== 'ADMIN') {
           setError("Akses ditolak. Memerlukan hak akses admin.")
@@ -56,7 +56,6 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
         onLogin(false)
       }
     } catch (error) {
-      console.error('Login error:', error)
       setError("Login gagal. Silakan periksa koneksi Anda dan coba lagi.")
       onLogin(false)
     } finally {

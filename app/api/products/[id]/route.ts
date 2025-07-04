@@ -30,11 +30,12 @@ const updateProductSchema = z.object({
 // GET /api/products/[id] - Get single product
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const product = await db.product.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         category: {
           select: { id: true, name: true, slug: true }
@@ -57,9 +58,11 @@ export async function GET(
 // PUT /api/products/[id] - Update product (Admin only)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
+
     // Check admin permission
     if (!(await isAdmin(request))) {
       return unauthorizedResponse('Admin access required')
@@ -78,7 +81,7 @@ export async function PUT(
 
     // Check if product exists
     const existingProduct = await db.product.findUnique({
-      where: { id: params.id }
+      where: { id }
     })
 
     if (!existingProduct) {
@@ -89,10 +92,10 @@ export async function PUT(
     let slug = existingProduct.slug
     if (data.name !== existingProduct.name) {
       slug = slugify(data.name, { lower: true, strict: true })
-      
+
       // Check if new slug already exists
       const slugExists = await db.product.findUnique({
-        where: { slug, NOT: { id: params.id } }
+        where: { slug, NOT: { id } }
       })
 
       if (slugExists) {
@@ -111,7 +114,7 @@ export async function PUT(
 
     // Update product
     const product = await db.product.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         ...data,
         slug,
@@ -134,9 +137,11 @@ export async function PUT(
 // DELETE /api/products/[id] - Delete product (Admin only)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
+
     // Check admin permission
     if (!(await isAdmin(request))) {
       return unauthorizedResponse('Admin access required')
@@ -144,7 +149,7 @@ export async function DELETE(
 
     // Check if product exists
     const existingProduct = await db.product.findUnique({
-      where: { id: params.id }
+      where: { id }
     })
 
     if (!existingProduct) {
@@ -153,7 +158,7 @@ export async function DELETE(
 
     // Delete product (this will also delete related cart items and inquiries due to cascade)
     await db.product.delete({
-      where: { id: params.id }
+      where: { id }
     })
 
     return successResponse(null, 'Product deleted successfully')

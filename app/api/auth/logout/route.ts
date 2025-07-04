@@ -8,9 +8,21 @@ export async function POST(request: NextRequest) {
   response.cookies.set('auth-token', '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    sameSite: 'lax', // Always use 'lax' for better compatibility
+    path: '/',
     maxAge: 0,
   })
+
+  // Clear the auth status cookie
+  response.cookies.set('auth-status', '', {
+    httpOnly: false,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax', // Always use 'lax' for better compatibility
+    path: '/',
+    maxAge: 0,
+  })
+
+
 
   return response
 } 

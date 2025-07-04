@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { NextRequest } from 'next/server'
 import { db } from './db'
+import { jwtVerify, SignJWT } from 'jose'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key'
 
@@ -25,9 +26,30 @@ export const signJWT = (payload: JWTPayload): string => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' })
 }
 
+// Edge-compatible JWT utilities
+export const signJWTEdge = async (payload: JWTPayload): Promise<string> => {
+  const secret = new TextEncoder().encode(JWT_SECRET)
+  return await new SignJWT(payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('7d')
+    .sign(secret)
+}
+
+export const verifyJWTEdge = async (token: string): Promise<JWTPayload | null> => {
+  try {
+    const secret = new TextEncoder().encode(JWT_SECRET)
+    const { payload } = await jwtVerify(token, secret)
+    return payload as JWTPayload
+  } catch (error) {
+    return null
+  }
+}
+
 export const verifyJWT = (token: string): JWTPayload | null => {
   try {
-    return jwt.verify(token, JWT_SECRET) as JWTPayload
+    const payload = jwt.verify(token, JWT_SECRET) as JWTPayload
+    return payload
   } catch (error) {
     return null
   }
@@ -36,8 +58,9 @@ export const verifyJWT = (token: string): JWTPayload | null => {
 // Get user from request
 export const getUserFromRequest = async (request: NextRequest) => {
   try {
-    const token = request.headers.get('authorization')?.replace('Bearer ', '') ||
-      request.cookies.get('auth-token')?.value
+    const authHeader = request.headers.get('authorization')
+    const cookieToken = request.cookies.get('auth-token')?.value
+    const token = authHeader?.replace('Bearer ', '') || cookieToken
 
     if (!token) {
       return null
@@ -65,9 +88,48 @@ export const getUserFromRequest = async (request: NextRequest) => {
   }
 }
 
+// Edge-compatible user retrieval
+export const getUserFromRequestEdge = async (request: NextRequest) => {
+  try {
+    const authHeader = request.headers.get('authorization')
+    const cookieToken = request.cookies.get('auth-token')?.value
+    const token = authHeader?.replace('Bearer ', '') || cookieToken
+
+    if (!token) {
+      return null
+    }
+
+    const payload = await verifyJWTEdge(token)
+    if (!payload) {
+      return null
+    }
+
+    const user = await db.user.findUnique({
+      where: { id: payload.userId },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        isActive: true,
+      }
+    })
+
+    return user
+  } catch (error) {
+    return null
+  }
+}
+
 // Check if user is admin
 export const isAdmin = async (request: NextRequest): Promise<boolean> => {
   const user = await getUserFromRequest(request)
+  return user?.role === 'ADMIN' && user?.isActive === true
+}
+
+// Edge-compatible admin check
+export const isAdminEdge = async (request: NextRequest): Promise<boolean> => {
+  const user = await getUserFromRequestEdge(request)
   return user?.role === 'ADMIN' && user?.isActive === true
 }
 

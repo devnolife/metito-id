@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server'
-import { verifyJWT } from '@/lib/auth'
+import { verifyJWTEdge } from '@/lib/auth'
 
 // Paths that require admin authentication
 const adminPaths = [
@@ -32,7 +32,7 @@ const adminApiRoutes = [
   '/api/newsletter'
 ]
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Skip middleware for public assets and auth routes
@@ -84,7 +84,7 @@ export function middleware(request: NextRequest) {
     }
 
     // Verify token if it exists
-    const payload = token ? verifyJWT(token) : null
+    const payload = token ? await verifyJWTEdge(token) : null
 
     if (token && !payload) {
       // Return 401 for API routes with invalid token

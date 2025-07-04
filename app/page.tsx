@@ -115,6 +115,100 @@ export default function Home() {
       {/* Product Showcase with Hover Effects */}
       <ProductShowcase />
 
+      {/* Partnership Section with Auto-Sliding Logos */}
+      <section className="py-16 px-4 bg-gray-50 overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
+              Partner Terpercaya
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Dipercaya oleh Perusahaan Terkemuka
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Lebih dari 500+ perusahaan di berbagai industri telah mempercayakan kebutuhan pengolahan air mereka kepada kami.
+            </p>
+          </div>
+
+          {/* Auto-sliding logos container */}
+          <div className="relative">
+            <div className="flex animate-scroll space-x-16 items-center">
+              {/* First set of logos */}
+              <div className="flex space-x-16 items-center min-w-max">
+                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
+                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">PERTAMINA</div>
+                </div>
+                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
+                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">PLN</div>
+                </div>
+                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
+                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">TELKOM</div>
+                </div>
+                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
+                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">BUMN</div>
+                </div>
+                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
+                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">AQUA</div>
+                </div>
+                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
+                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">UNILEVER</div>
+                </div>
+                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
+                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">WINGS</div>
+                </div>
+                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
+                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">NESTLE</div>
+                </div>
+              </div>
+
+              {/* Duplicate set for seamless loop */}
+              <div className="flex space-x-16 items-center min-w-max">
+                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
+                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">PERTAMINA</div>
+                </div>
+                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
+                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">PLN</div>
+                </div>
+                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
+                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">TELKOM</div>
+                </div>
+                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
+                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">BUMN</div>
+                </div>
+                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
+                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">AQUA</div>
+                </div>
+                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
+                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">UNILEVER</div>
+                </div>
+                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
+                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">WINGS</div>
+                </div>
+                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
+                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">NESTLE</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Partnership Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-blue-600 mb-2">500+</div>
+              <div className="text-gray-600 font-medium">Perusahaan Partner</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-green-600 mb-2">15+</div>
+              <div className="text-gray-600 font-medium">Industri Berbeda</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-600 mb-2">98%</div>
+              <div className="text-gray-600 font-medium">Tingkat Retensi</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Why Choose Us */}
       <section className="py-20 px-4 bg-white">
         <div className="max-w-7xl mx-auto">

@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { AdminLogin } from "@/components/admin/admin-login"
 import { AdminDashboard } from "@/components/admin/admin-dashboard"
 
+
+
 function AdminPageContent() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -23,6 +25,9 @@ function AdminPageContent() {
       const response = await fetch('/api/auth/me', {
         method: 'GET',
         credentials: 'include', // Include cookies
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
       })
 
       if (response.ok) {
@@ -32,6 +37,11 @@ function AdminPageContent() {
         if (data.success && data.data.role === 'ADMIN') {
           setIsAuthenticated(true)
           setUser(data.data)
+
+          // Store user data in localStorage as backup
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('adminUser', JSON.stringify(data.data))
+          }
 
           // Redirect to intended page if this is a redirect from middleware
           if (redirectTo && redirectTo !== '/admin') {
@@ -43,9 +53,20 @@ function AdminPageContent() {
           router.push('/unauthorized')
           return
         }
+      } else {
+        // Check if we have user data in localStorage as fallback
+        if (typeof window !== 'undefined') {
+          const storedUser = localStorage.getItem('adminUser')
+          if (storedUser) {
+            localStorage.removeItem('adminUser')
+          }
+        }
       }
     } catch (error) {
-      console.error('Auth check failed:', error)
+      // Clear any stored user data on error
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('adminUser')
+      }
     } finally {
       setIsLoading(false)
     }
@@ -61,9 +82,19 @@ function AdminPageContent() {
       setIsAuthenticated(true)
       setUser(userData)
 
+      // Store user data in localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('adminUser', JSON.stringify(userData))
+      }
+
       // Redirect to intended page
       if (redirectTo && redirectTo !== '/admin') {
         router.push(redirectTo)
+      }
+    } else {
+      // Clear any stored data on failed login
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('adminUser')
       }
     }
   }
@@ -75,10 +106,17 @@ function AdminPageContent() {
         credentials: 'include',
       })
     } catch (error) {
-      console.error('Logout failed:', error)
+      // Ignore logout errors
     } finally {
+      // Always clear state and storage
       setIsAuthenticated(false)
       setUser(null)
+
+      // Clear localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('adminUser')
+      }
+
       router.push('/admin')
     }
   }

@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { db } from '@/lib/db'
-import { isAdmin } from '@/lib/auth'
+import { isAdminEdge } from '@/lib/auth'
 import { successResponse, errorResponse, validationErrorResponse, unauthorizedResponse } from '@/lib/api-response'
 import slugify from 'slugify'
 
@@ -47,36 +47,27 @@ export async function GET(request: NextRequest) {
 // POST /api/categories - Create new category (Admin only)
 export async function POST(request: NextRequest) {
   try {
-    console.log('POST /api/categories - Starting')
-    
     // Check admin permission
-    const adminCheck = await isAdmin(request)
-    console.log('Admin check result:', adminCheck)
-    
+    const adminCheck = await isAdminEdge(request)
+
     if (!adminCheck) {
-      console.log('Admin access denied')
       return unauthorizedResponse('Admin access required')
     }
 
     const body = await request.json()
-    console.log('Request body:', body)
 
     // Validate input
     const result = createCategorySchema.safeParse(body)
-    console.log('Validation result:', result)
-    
+
     if (!result.success) {
-      console.log('Validation failed:', result.error)
       const errors = result.error.flatten().fieldErrors
       return validationErrorResponse(errors)
     }
 
     const { name, description, icon, color } = result.data
-    console.log('Validated data:', { name, description, icon, color })
 
     // Generate slug
     const slug = slugify(name, { lower: true, strict: true })
-    console.log('Generated slug:', slug)
 
     // Check if category already exists
     const existingCategory = await db.category.findFirst({
@@ -87,10 +78,8 @@ export async function POST(request: NextRequest) {
         ]
       }
     })
-    console.log('Existing category check:', existingCategory)
 
     if (existingCategory) {
-      console.log('Category already exists')
       return errorResponse('Category with this name already exists', 409)
     }
 
@@ -102,12 +91,10 @@ export async function POST(request: NextRequest) {
       icon: icon || null,
       color: color || null,
     }
-    console.log('Creating category with data:', categoryData)
-    
+
     const category = await db.category.create({
       data: categoryData
     })
-    console.log('Created category:', category)
 
     return successResponse(category, 'Category created successfully', 201)
 

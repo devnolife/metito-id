@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { db } from '@/lib/db'
-import { isAdmin } from '@/lib/auth'
+import { isAdminEdge } from '@/lib/auth'
 import { successResponse, errorResponse, validationErrorResponse, unauthorizedResponse } from '@/lib/api-response'
 import slugify from 'slugify'
 
@@ -124,7 +124,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     // Check admin permission
-    if (!(await isAdmin(request))) {
+    if (!(await isAdminEdge(request))) {
       return unauthorizedResponse('Admin access required')
     }
 
