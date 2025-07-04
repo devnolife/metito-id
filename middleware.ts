@@ -55,6 +55,11 @@ export function middleware(request: NextRequest) {
   const requiresAdmin = adminPaths.some(path => pathname.startsWith(path))
   const requiresAuth = protectedPaths.some(path => pathname.startsWith(path))
 
+  // Special case: Allow GET requests to categories without authentication
+  if (pathname === '/api/categories' && request.method === 'GET') {
+    return NextResponse.next()
+  }
+
   if (requiresAdmin || requiresAuth) {
     if (!token) {
       // Return 401 for API routes

@@ -12,28 +12,28 @@ export default function ServicesPage() {
       title: "Sistem Pengolahan Air",
       description: "Solusi pengolahan air lengkap untuk aplikasi industri dan kota",
       features: ["Reverse Osmosis", "Ultrafiltrasi", "Nanofiltrasi", "Pertukaran Ion"],
-      price: "Mulai $5,000"
+      price: "Mulai Rp 75.000.000"
     },
     {
       icon: <Filter className="w-8 h-8 text-blue-600" />,
       title: "Solusi Filtrasi",
       description: "Sistem filtrasi canggih untuk berbagai kebutuhan kualitas air",
       features: ["Filter Pasir", "Filter Karbon", "Filter Multimedia", "Filter Kantong"],
-      price: "Mulai $2,500"
+      price: "Mulai Rp 37.500.000"
     },
     {
       icon: <Zap className="w-8 h-8 text-blue-600" />,
       title: "Sistem Disinfeksi",
       description: "Sistem disinfeksi UV dan ozon untuk pasokan air yang aman",
       features: ["Sterilisator UV", "Generator Ozon", "Klorinasi", "Elektroklorinasi"],
-      price: "Mulai $3,000"
+      price: "Mulai Rp 45.000.000"
     },
     {
       icon: <Shield className="w-8 h-8 text-blue-600" />,
       title: "Pemantauan Kualitas Air",
       description: "Sistem pemantauan dan kontrol real-time untuk jaminan kualitas air",
       features: ["Pemantauan pH", "Kontrol Kekeruhan", "Pengukur Konduktivitas", "Pemantauan Jarak Jauh"],
-      price: "Mulai $1,500"
+      price: "Mulai Rp 22.500.000"
     },
     {
       icon: <Wrench className="w-8 h-8 text-blue-600" />,

@@ -26,47 +26,47 @@ export function FeaturedProducts() {
   const products = [
     {
       id: 1,
-      name: "CAT 320D Excavator",
-      price: "$285,000",
-      originalPrice: "$320,000",
+      name: "Sistem RO Industri 5000 LPH",
+      price: "Rp 1.125.000.000",
+      originalPrice: "Rp 1.275.000.000",
       rating: 4.8,
       reviews: 124,
       image: "/placeholder.svg?height=300&width=400",
       badge: "Best Seller",
-      specs: ["20 Ton", "2019 Model", "1,200 Hours"],
+      specs: ["5000 LPH", "Kelas Industri", "Auto Flush"],
     },
     {
       id: 2,
-      name: "Komatsu D65PX Bulldozer",
-      price: "$420,000",
+      name: "Sistem Pengolahan Air Kota",
+      price: "Rp 3.750.000.000",
       originalPrice: null,
       rating: 4.9,
       reviews: 89,
       image: "/placeholder.svg?height=300&width=400",
       badge: "New Arrival",
-      specs: ["180 HP", "2022 Model", "GPS Ready"],
+      specs: ["50.000 LPD", "SCADA Ready", "Auto Control"],
     },
     {
       id: 3,
-      name: "Liebherr LTM 1090 Crane",
-      price: "$650,000",
-      originalPrice: "$720,000",
+      name: "Sistem Pengolahan Air Limbah",
+      price: "Rp 1.800.000.000",
+      originalPrice: "Rp 2.025.000.000",
       rating: 4.7,
       reviews: 67,
       image: "/placeholder.svg?height=300&width=400",
       badge: "Featured",
-      specs: ["90 Ton", "2020 Model", "All Terrain"],
+      specs: ["1000 CMD", "Teknologi MBR", "Daur Ulang"],
     },
     {
       id: 4,
-      name: "Volvo L120H Loader",
-      price: "$195,000",
+      name: "Sistem Disinfeksi UV",
+      price: "Rp 225.000.000",
       originalPrice: null,
       rating: 4.6,
       reviews: 156,
       image: "/placeholder.svg?height=300&width=400",
       badge: "Popular",
-      specs: ["4.5m³ Bucket", "2021 Model", "Low Hours"],
+      specs: ["500 LPM", "UV-C", "Auto Clean"],
     },
   ]
 
@@ -74,9 +74,9 @@ export function FeaturedProducts() {
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Equipment</h2>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">Produk Unggulan</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Discover our handpicked selection of premium heavy equipment, featuring the latest models and best deals.
+            Temukan pilihan terbaik sistem pengolahan air kami, menampilkan teknologi terbaru dan penawaran terbaik.
           </p>
         </div>
 
@@ -143,10 +143,10 @@ export function FeaturedProducts() {
                 <div className="flex gap-2">
                   <Button className="flex-1 primary-blue hover:bg-blue-800" size="sm">
                     <ShoppingCart className="w-4 h-4 mr-2" />
-                    Add to Cart
+                    Tambah ke Keranjang
                   </Button>
                   <Button variant="outline" size="sm" asChild>
-                    <Link href={`/products/${product.id}`}>View</Link>
+                    <Link href={`/products/${product.id}`}>Lihat Detail</Link>
                   </Button>
                 </div>
               </CardContent>
@@ -161,7 +161,7 @@ export function FeaturedProducts() {
             className="border-primary-blue text-primary-blue hover:bg-primary-blue hover:text-white"
             asChild
           >
-            <Link href="/products">View All Equipment</Link>
+            <Link href="/products">Lihat Semua Produk</Link>
           </Button>
         </div>
       </div>
