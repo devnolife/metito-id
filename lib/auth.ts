@@ -4,7 +4,7 @@ import { NextRequest } from 'next/server'
 import { db } from './db'
 import { jwtVerify, SignJWT } from 'jose'
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key'
+const JWT_SECRET = process.env.JWT_SECRET || 'metito-tempur'
 
 export interface JWTPayload {
   userId: string
