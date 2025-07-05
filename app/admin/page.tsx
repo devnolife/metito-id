@@ -3,7 +3,6 @@
 import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { AdminLogin } from "@/components/admin/admin-login"
-import { AdminDashboard } from "@/components/admin/admin-dashboard"
 
 
 
@@ -13,7 +12,7 @@ function AdminPageContent() {
   const [user, setUser] = useState(null)
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirectTo = searchParams.get('redirect') || '/admin'
+  const redirectTo = searchParams.get('redirect') || '/admin/dashboard'
 
   useEffect(() => {
     checkAuthStatus()
@@ -43,11 +42,9 @@ function AdminPageContent() {
             localStorage.setItem('adminUser', JSON.stringify(data.data))
           }
 
-          // Redirect to intended page if this is a redirect from middleware
-          if (redirectTo && redirectTo !== '/admin') {
-            router.push(redirectTo)
-            return
-          }
+          // Redirect to dashboard
+          router.push('/admin/dashboard')
+          return
         } else if (data.success && data.data.role !== 'ADMIN') {
           // User is authenticated but not admin
           router.push('/unauthorized')
@@ -87,37 +84,13 @@ function AdminPageContent() {
         localStorage.setItem('adminUser', JSON.stringify(userData))
       }
 
-      // Redirect to intended page
-      if (redirectTo && redirectTo !== '/admin') {
-        router.push(redirectTo)
-      }
+      // Redirect to dashboard
+      router.push('/admin/dashboard')
     } else {
       // Clear any stored data on failed login
       if (typeof window !== 'undefined') {
         localStorage.removeItem('adminUser')
       }
-    }
-  }
-
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/auth/logout', {
-        method: 'POST',
-        credentials: 'include',
-      })
-    } catch (error) {
-      // Ignore logout errors
-    } finally {
-      // Always clear state and storage
-      setIsAuthenticated(false)
-      setUser(null)
-
-      // Clear localStorage
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('adminUser')
-      }
-
-      router.push('/admin')
     }
   }
 
@@ -131,11 +104,7 @@ function AdminPageContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {!isAuthenticated ? (
-        <AdminLogin onLogin={handleLogin} />
-      ) : (
-        <AdminDashboard user={user} onLogout={handleLogout} />
-      )}
+      <AdminLogin onLogin={handleLogin} />
     </div>
   )
 }

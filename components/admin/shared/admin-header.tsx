@@ -5,15 +5,16 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Bell, LogOut, User } from "lucide-react"
 
 interface AdminHeaderProps {
-  onLogout: () => void
+  title?: string
+  onLogout?: () => void
 }
 
-export function AdminHeader({ onLogout }: AdminHeaderProps) {
+export function AdminHeader({ title = "Dashboard Admin", onLogout }: AdminHeaderProps) {
   return (
     <header className="bg-white border-b border-gray-200 px-6 py-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-primary-blue">Dashboard Admin</h1>
+          <h1 className="text-2xl font-bold text-primary-blue">{title}</h1>
           <p className="text-gray-600">Kelola katalog solusi teknik air Anda</p>
         </div>
 
@@ -35,15 +36,17 @@ export function AdminHeader({ onLogout }: AdminHeaderProps) {
             </div>
           </div>
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onLogout}
-            className="border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300"
-          >
-            <LogOut className="w-4 h-4 mr-2" />
-            Keluar
-          </Button>
+          {onLogout && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onLogout}
+              className="border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Keluar
+            </Button>
+          )}
         </div>
       </div>
     </header>
