@@ -1,31 +1,32 @@
 "use client"
 
 import { useState } from "react"
+import { SidebarLayout } from "@/components/sidebar-layout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { Minus, Plus, Trash2, ShoppingCart, CreditCard, Truck } from "lucide-react"
+import { Minus, Plus, Trash2, ShoppingCart, CreditCard, Truck, Shield } from "lucide-react"
 import Link from "next/link"
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
-      name: "CAT 320D Excavator",
-      price: 285000,
+      name: "Reverse Osmosis System RO-5000",
+      price: 45000000,
       quantity: 1,
       image: "/placeholder.svg?height=200&width=300",
-      specs: ["20 Ton", "Model 2019", "1.200 Jam"],
+      specs: ["Kapasitas 5.000 L/h", "Pressure 15 bar", "Efisiensi 85%"],
     },
     {
       id: 2,
-      name: "Komatsu D65PX Bulldozer",
-      price: 420000,
+      name: "Water Treatment Plant WTP-10000",
+      price: 120000000,
       quantity: 1,
       image: "/placeholder.svg?height=200&width=300",
-      specs: ["180 HP", "Model 2022", "GPS Ready"],
+      specs: ["Kapasitas 10.000 L/h", "Automated Control", "Multi-stage Filter"],
     },
   ])
 
@@ -39,26 +40,24 @@ export default function CartPage() {
   }
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const shipping = 5000 // Fixed shipping cost
-  const tax = subtotal * 0.08 // 8% tax
+  const shipping = 2500000 // Fixed shipping cost
+  const tax = subtotal * 0.11 // 11% tax
   const total = subtotal + shipping + tax
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Keranjang Belanja</h1>
-          <p className="text-gray-600">Tinjau peralatan yang Anda pilih sebelum checkout</p>
-        </div>
-
+    <SidebarLayout
+      title="Keranjang Belanja"
+      description="Tinjau produk pengolahan air yang Anda pilih sebelum melakukan pemesanan."
+    >
+      <div className="space-y-8">
         {cartItems.length === 0 ? (
           <Card className="text-center py-16">
             <CardContent>
               <ShoppingCart className="w-16 h-16 text-gray-400 mx-auto mb-4" />
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Keranjang Anda kosong</h2>
-              <p className="text-gray-600 mb-6">Mulai berbelanja untuk menambahkan peralatan ke keranjang</p>
-              <Button className="primary-blue" asChild>
-                <Link href="/products">Jelajahi Peralatan</Link>
+              <p className="text-gray-600 mb-6">Mulai berbelanja untuk menambahkan produk ke keranjang</p>
+              <Button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800" asChild>
+                <Link href="/products">Jelajahi Produk</Link>
               </Button>
             </CardContent>
           </Card>
@@ -67,7 +66,7 @@ export default function CartPage() {
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-6">
               {cartItems.map((item) => (
-                <Card key={item.id}>
+                <Card key={item.id} className="shadow-lg border-0">
                   <CardContent className="p-6">
                     <div className="flex flex-col md:flex-row gap-6">
                       <img
@@ -79,18 +78,18 @@ export default function CartPage() {
                       <div className="flex-1">
                         <h3 className="text-xl font-bold text-gray-900 mb-2">{item.name}</h3>
 
-                        <div className="flex flex-wrap gap-1 mb-4">
+                        <div className="flex flex-wrap gap-2 mb-4">
                           {item.specs.map((spec, index) => (
-                            <Badge key={index} variant="secondary" className="text-xs">
+                            <Badge key={index} variant="outline" className="text-xs text-blue-600 border-blue-200">
                               {spec}
                             </Badge>
                           ))}
                         </div>
 
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                          <div className="text-2xl font-bold text-primary-blue">
-                            {new Intl.NumberFormat('id-ID', { 
-                              style: 'currency', 
+                          <div className="text-2xl font-bold text-blue-600">
+                            {new Intl.NumberFormat('id-ID', {
+                              style: 'currency',
                               currency: 'IDR',
                               minimumFractionDigits: 0
                             }).format(item.price)}
@@ -141,16 +140,16 @@ export default function CartPage() {
 
             {/* Order Summary */}
             <div className="lg:col-span-1">
-              <Card className="sticky top-24">
+              <Card className="sticky top-8 shadow-lg border-0">
                 <CardHeader>
-                  <CardTitle>Ringkasan Pesanan</CardTitle>
+                  <CardTitle className="text-xl font-bold text-gray-900">Ringkasan Pesanan</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex justify-between">
                     <span>Subtotal ({cartItems.length} item)</span>
                     <span>
-                      {new Intl.NumberFormat('id-ID', { 
-                        style: 'currency', 
+                      {new Intl.NumberFormat('id-ID', {
+                        style: 'currency',
                         currency: 'IDR',
                         minimumFractionDigits: 0
                       }).format(subtotal)}
@@ -159,12 +158,12 @@ export default function CartPage() {
 
                   <div className="flex justify-between">
                     <span className="flex items-center">
-                      <Truck className="w-4 h-4 mr-1" />
-                      Pengiriman
+                      <Truck className="w-4 h-4 mr-2 text-blue-600" />
+                      Pengiriman & Instalasi
                     </span>
                     <span>
-                      {new Intl.NumberFormat('id-ID', { 
-                        style: 'currency', 
+                      {new Intl.NumberFormat('id-ID', {
+                        style: 'currency',
                         currency: 'IDR',
                         minimumFractionDigits: 0
                       }).format(shipping)}
@@ -172,10 +171,10 @@ export default function CartPage() {
                   </div>
 
                   <div className="flex justify-between">
-                    <span>Pajak (8%)</span>
+                    <span>Pajak (11%)</span>
                     <span>
-                      {new Intl.NumberFormat('id-ID', { 
-                        style: 'currency', 
+                      {new Intl.NumberFormat('id-ID', {
+                        style: 'currency',
                         currency: 'IDR',
                         minimumFractionDigits: 0
                       }).format(tax)}
@@ -186,9 +185,9 @@ export default function CartPage() {
 
                   <div className="flex justify-between text-lg font-bold">
                     <span>Total</span>
-                    <span className="text-primary-blue">
-                      {new Intl.NumberFormat('id-ID', { 
-                        style: 'currency', 
+                    <span className="text-blue-600">
+                      {new Intl.NumberFormat('id-ID', {
+                        style: 'currency',
                         currency: 'IDR',
                         minimumFractionDigits: 0
                       }).format(total)}
@@ -196,25 +195,20 @@ export default function CartPage() {
                   </div>
 
                   <div className="space-y-3 pt-4">
-                    <Button className="w-full primary-blue hover:bg-blue-800" size="lg">
+                    <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800" size="lg">
                       <CreditCard className="w-4 h-4 mr-2" />
                       Lanjutkan ke Pembayaran
                     </Button>
-
-                    <Button variant="outline" className="w-full" asChild>
+                    <Button variant="outline" className="w-full" size="lg" asChild>
                       <Link href="/products">Lanjutkan Berbelanja</Link>
                     </Button>
                   </div>
 
-                  <div className="text-sm text-gray-600 pt-4">
-                    <p className="flex items-center mb-2">
-                      <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                      Gratis pengiriman untuk pesanan di atas $500.000
-                    </p>
-                    <p className="flex items-center">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
-                      Opsi pembiayaan tersedia
-                    </p>
+                  <div className="pt-4 border-t">
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <Shield className="w-4 h-4 text-green-600" />
+                      <span>Pembayaran aman & terenkripsi</span>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -222,6 +216,6 @@ export default function CartPage() {
           </div>
         )}
       </div>
-    </div>
+    </SidebarLayout>
   )
 }

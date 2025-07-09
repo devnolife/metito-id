@@ -1,5 +1,4 @@
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
+import { SidebarLayout } from "@/components/sidebar-layout"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -95,40 +94,23 @@ export default function CustomerPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white py-20 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center mb-6">
-            <Badge className="bg-blue-500/20 text-blue-100 px-4 py-2 text-sm font-medium">
-              Kisah Sukses Pelanggan
-            </Badge>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Apa Kata
-            <span className="block bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">
-              Pelanggan Kami
-            </span>
-          </h1>
-          <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Temukan mengapa perusahaan terkemuka di seluruh Indonesia mempercayai Metito Water Engineer untuk kebutuhan pengolahan air mereka.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              Lihat Studi Kasus
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
-              Hubungi Kami
-            </Button>
-          </div>
+    <SidebarLayout
+      title="Pelanggan & Testimoni"
+      description="Temukan mengapa perusahaan terkemuka di seluruh Indonesia mempercayai Metito Water Engineer untuk kebutuhan pengolahan air mereka."
+    >
+      <div className="space-y-16">
+        {/* Quick Action */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 px-8 py-3 rounded-xl font-semibold">
+            Lihat Studi Kasus
+          </Button>
+          <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+            Hubungi Kami
+          </Button>
         </div>
-      </section>
 
-      {/* Stats Section */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+        {/* Stats Section */}
+        <section className="bg-white rounded-2xl p-8 shadow-lg">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center group">
@@ -140,24 +122,25 @@ export default function CustomerPage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Testimonials */}
-      <section className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        {/* Testimonials */}
+        <section>
+          <div className="text-center mb-12">
+            <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
               Testimoni Pelanggan
+            </Badge>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Apa Kata Pelanggan
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 max-w-2xl mx-auto">
               Baca apa yang dikatakan pelanggan berharga kami tentang pengalaman mereka dengan solusi pengolahan air kami.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map((testimonial) => (
-              <Card key={testimonial.id} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:scale-105">
+              <Card key={testimonial.id} className="group hover:shadow-lg transition-all duration-300 border-0 shadow-md">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-1">
@@ -168,7 +151,7 @@ export default function CustomerPage() {
                     <Quote className="w-8 h-8 text-blue-200 group-hover:text-blue-300 transition-colors" />
                   </div>
 
-                  <p className="text-gray-700 mb-6 leading-relaxed">
+                  <p className="text-gray-700 mb-6 leading-relaxed text-sm">
                     "{testimonial.review}"
                   </p>
 
@@ -204,56 +187,47 @@ export default function CustomerPage() {
               </Card>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Industries We Serve */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Industri yang Kami Layani
+        {/* Industries Served */}
+        <section className="bg-white rounded-2xl p-8 shadow-lg">
+          <div className="text-center mb-8">
+            <Badge className="bg-green-100 text-green-800 px-4 py-2 text-sm font-medium mb-4">
+              Industri yang Dilayani
+            </Badge>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Beragam Industri
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Solusi pengolahan air kami melayani berbagai industri di seluruh Indonesia.
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Kami melayani berbagai industri dengan solusi pengolahan air yang disesuaikan dengan kebutuhan spesifik.
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {industries.map((industry, index) => (
-              <Badge
-                key={index}
-                variant="outline"
-                className="px-6 py-3 text-base font-medium border-blue-200 text-blue-700 hover:bg-blue-50 transition-colors cursor-pointer"
-              >
-                {industry}
-              </Badge>
+              <div key={index} className="bg-gray-50 rounded-xl p-4 text-center hover:bg-blue-50 transition-colors">
+                <span className="font-medium text-gray-900">{industry}</span>
+              </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-blue-700">
-        <div className="max-w-4xl mx-auto text-center text-white">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Siap Bergabung dengan Kisah Sukses Kami?
-          </h2>
-          <p className="text-xl mb-8 text-blue-100">
-            Biarkan kami membantu Anda mencapai tujuan pengolahan air dengan solusi yang terbukti dan dukungan ahli kami.
+        {/* CTA Section */}
+        <section className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-white text-center">
+          <h2 className="text-3xl font-bold mb-4">Bergabunglah dengan Pelanggan Puas Kami</h2>
+          <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
+            Mulai perjalanan Anda menuju solusi pengolahan air terbaik. Konsultasikan kebutuhan Anda dengan tim ahli kami.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              Dapatkan Konsultasi Gratis
+              Konsultasi Gratis
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
-              Unduh Brosur
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+              Minta Penawaran
             </Button>
           </div>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
+        </section>
+      </div>
+    </SidebarLayout>
   )
 } 

@@ -1,5 +1,4 @@
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
+import { SidebarLayout } from "@/components/sidebar-layout"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -134,52 +133,40 @@ export default function CertificationPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white py-20 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center mb-6">
-            <Badge className="bg-blue-500/20 text-blue-100 px-4 py-2 text-sm font-medium">
-              Jaminan Mutu & Sertifikasi
-            </Badge>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Sertifikasi
-            <span className="block bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">
-              Kami
-            </span>
-          </h1>
-          <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Berkomitmen untuk keunggulan melalui sertifikasi dan standar kualitas yang diakui secara internasional.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              Unduh Sertifikat
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
-              Kebijakan Mutu
-            </Button>
-          </div>
+    <SidebarLayout
+      title="Sertifikasi & Standar"
+      description="Berkomitmen untuk keunggulan melalui sertifikasi dan standar kualitas yang diakui secara internasional."
+    >
+      <div className="space-y-16">
+        {/* Quick Actions */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 px-8 py-3 rounded-xl font-semibold">
+            <Download className="w-4 h-4 mr-2" />
+            Unduh Sertifikat
+          </Button>
+          <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+            <Building className="w-4 h-4 mr-2" />
+            Kebijakan Mutu
+          </Button>
         </div>
-      </section>
 
-      {/* Certifications Grid */}
-      <section className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        {/* Certifications Grid */}
+        <section>
+          <div className="text-center mb-12">
+            <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
               Sertifikasi Internasional
+            </Badge>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Portofolio Sertifikasi
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 max-w-2xl mx-auto">
               Komitmen kami terhadap kualitas ditunjukkan melalui portofolio sertifikasi internasional yang komprehensif.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {certifications.map((cert) => (
-              <Card key={cert.id} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:scale-105">
+              <Card key={cert.id} className="group hover:shadow-lg transition-all duration-300 border-0 shadow-md">
                 <CardHeader className="pb-4">
                   <div className="flex items-center justify-between mb-4">
                     <div className="p-3 bg-blue-50 rounded-xl group-hover:bg-blue-100 transition-colors">
@@ -199,41 +186,29 @@ export default function CertificationPage() {
                         className="object-contain"
                       />
                     </div>
-                    <Badge className="bg-blue-100 text-blue-800 mb-2">
+                    <h3 className="font-bold text-lg text-gray-900 mb-2">{cert.name}</h3>
+                    <p className="text-sm text-gray-600 mb-2">{cert.title}</p>
+                    <Badge variant="secondary" className="text-xs">
                       {cert.category}
                     </Badge>
                   </div>
-                  <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors text-center">
-                    {cert.name}
-                  </CardTitle>
-                  <p className="text-lg font-semibold text-gray-700 text-center">{cert.title}</p>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600 mb-6 text-center">
+                  <p className="text-gray-600 text-sm mb-4 leading-relaxed">
                     {cert.description}
                   </p>
-
-                  <div className="space-y-3 mb-6">
-                    {cert.benefits.map((benefit, idx) => (
-                      <div key={idx} className="flex items-center gap-3">
+                  <div className="space-y-2 mb-4">
+                    {cert.benefits.map((benefit, index) => (
+                      <div key={index} className="flex items-center gap-2 text-sm">
                         <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                        <span className="text-gray-700 text-sm">{benefit}</span>
+                        <span className="text-gray-700">{benefit}</span>
                       </div>
                     ))}
                   </div>
-
-                  <div className="border-t pt-4 mb-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-                      <Building className="w-4 h-4" />
-                      <span>{cert.issuer}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                      <Calendar className="w-4 h-4" />
-                      <span>Berlaku hingga {cert.validUntil}</span>
-                    </div>
+                  <div className="text-xs text-gray-500 mb-4">
+                    <p>Diterbitkan oleh: {cert.issuer}</p>
                   </div>
-
-                  <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl">
+                  <Button variant="outline" className="w-full group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all">
                     <Download className="w-4 h-4 mr-2" />
                     Unduh Sertifikat
                   </Button>
@@ -241,89 +216,88 @@ export default function CertificationPage() {
               </Card>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Accreditations */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        {/* Accreditations */}
+        <section className="bg-white rounded-2xl p-8 shadow-lg">
+          <div className="text-center mb-8">
+            <Badge className="bg-green-100 text-green-800 px-4 py-2 text-sm font-medium mb-4">
               Akreditasi Nasional
+            </Badge>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Akreditasi & Izin Usaha
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Diakui oleh badan regulasi Indonesia untuk keahlian dan kepatuhan kami.
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Dipercaya oleh lembaga akreditasi nasional untuk memberikan layanan terbaik.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {accreditations.map((accred, index) => (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow">
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl mx-auto mb-6 flex items-center justify-center">
-                    <Award className="w-8 h-8 text-white" />
+              <Card key={index} className="hover:shadow-lg transition-shadow border-0 shadow-md">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Award className="w-6 h-6 text-blue-600" />
+                    <Badge variant="outline" className="text-green-600 border-green-200">
+                      {accred.year}
+                    </Badge>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{accred.name}</h3>
-                  <p className="text-gray-600 mb-4">{accred.description}</p>
-                  <Badge variant="outline" className="text-green-600 border-green-200">
-                    {accred.year}
-                  </Badge>
+                  <h3 className="font-semibold text-gray-900 mb-2">{accred.name}</h3>
+                  <p className="text-sm text-gray-600">{accred.description}</p>
                 </CardContent>
               </Card>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Standards Compliance */}
-      <section className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Kepatuhan Standar Internasional
+        {/* Standards */}
+        <section>
+          <div className="text-center mb-8">
+            <Badge className="bg-purple-100 text-purple-800 px-4 py-2 text-sm font-medium mb-4">
+              Standar Industri
+            </Badge>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Standar yang Kami Terapkan
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Produk dan layanan kami mematuhi berbagai standar dan spesifikasi internasional.
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Mengikuti standar industri terkemuka untuk memastikan kualitas terbaik.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {standards.map((standard, index) => (
-              <div key={index} className="flex items-center gap-4 p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Globe className="w-6 h-6 text-blue-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900">{standard}</h3>
-                  <p className="text-sm text-gray-600">Kepatuhan terverifikasi</p>
-                </div>
-              </div>
+              <Card key={index} className="hover:shadow-lg transition-shadow border-0 shadow-md">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-3">
+                    <Globe className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                    <span className="font-medium text-gray-900">{standard}</span>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-blue-700">
-        <div className="max-w-4xl mx-auto text-center text-white">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Mutu yang Dapat Anda Percaya
-          </h2>
-          <p className="text-xl mb-8 text-blue-100">
-            Sertifikasi kami memastikan Anda menerima solusi pengolahan air berkualitas tertinggi yang memenuhi standar internasional.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              Hubungi Tim Mutu
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
-              Unduh Semua Sertifikat
-            </Button>
+        {/* Quality Commitment */}
+        <section className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-white text-center">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold mb-4">Komitmen Kualitas Kami</h2>
+            <p className="text-lg text-blue-100 mb-8">
+              Setiap sertifikasi dan standar yang kami pegang mencerminkan dedikasi kami untuk memberikan solusi pengolahan air terbaik dengan kualitas yang terjamin dan dapat dipercaya.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+                <Calendar className="w-5 h-5 mr-2" />
+                Jadwalkan Audit
+              </Button>
+              <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+                <Download className="w-5 h-5 mr-2" />
+                Unduh Kebijakan Mutu
+              </Button>
+            </div>
           </div>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
+        </section>
+      </div>
+    </SidebarLayout>
   )
 } 
