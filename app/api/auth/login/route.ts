@@ -7,7 +7,7 @@ import { SignJWT } from 'jose'
 
 // Edge-compatible JWT signing
 async function signJWTEdge(payload: { userId: string; email: string; role: string }): Promise<string> {
-  const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'your-secret-key')
+  const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'metito-tempur')
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()

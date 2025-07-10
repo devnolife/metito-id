@@ -8,14 +8,14 @@ import { WhatsAppFloat } from "@/components/whatsapp-float"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Users, Award, Globe, Shield, Droplets, Filter, Zap, Settings, Star, CheckCircle, ArrowRight } from "lucide-react"
+import { Users, Award, Globe, Shield, Droplets, Filter, Zap, Settings, Star, CheckCircle, ArrowRight, Target, Lightbulb, Heart } from "lucide-react"
 
 export default function Home() {
   const stats = [
-    { icon: <Users className="w-8 h-8" />, value: "500+", label: "Pelanggan Puas", color: "text-blue-600" },
-    { icon: <Award className="w-8 h-8" />, value: "25+", label: "Tahun Pengalaman", color: "text-green-600" },
-    { icon: <Globe className="w-8 h-8" />, value: "50+", label: "Negara Dilayani", color: "text-purple-600" },
-    { icon: <Shield className="w-8 h-8" />, value: "99%", label: "Kepuasan Pelanggan", color: "text-orange-600" }
+    { icon: <Target className="w-8 h-8" />, value: "100%", label: "Komitmen Kualitas", color: "text-blue-600" },
+    { icon: <Lightbulb className="w-8 h-8" />, value: "24/7", label: "Layanan Siap", color: "text-green-600" },
+    { icon: <Heart className="w-8 h-8" />, value: "∞", label: "Dedikasi Tinggi", color: "text-purple-600" },
+    { icon: <Shield className="w-8 h-8" />, value: "100%", label: "Jaminan Kualitas", color: "text-orange-600" }
   ]
 
   const services = [
@@ -42,7 +42,7 @@ export default function Home() {
   ]
 
   const features = [
-    "Manajemen Kualitas Bersertifikat ISO 9001:2015",
+    "Teknologi Terdepan dan Inovatif",
     "Dukungan Teknis 24/7 Tersedia",
     "Solusi Kustom untuk Setiap Kebutuhan",
     "Sistem Monitoring dan Kontrol Canggih",
@@ -60,13 +60,13 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
-              Dipercaya Seluruh Dunia
+              Solusi Terpercaya
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Solusi Pengolahan Air Terdepan
+              Solusi Pengolahan Air Profesional
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Lebih dari dua dekade keunggulan dalam teknologi pengolahan air, melayani pelanggan di seluruh dunia.
+              Perusahaan baru yang berkomitmen memberikan solusi pengolahan air terbaik dengan teknologi modern dan layanan prima.
             </p>
           </div>
 
@@ -115,96 +115,45 @@ export default function Home() {
       {/* Product Showcase with Hover Effects */}
       <ProductShowcase />
 
-      {/* Partnership Section with Auto-Sliding Logos */}
-      <section className="py-16 px-4 bg-gray-50 overflow-hidden">
+      {/* Mission & Vision Section */}
+      <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
-              Partner Terpercaya
+              Visi & Misi Kami
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Dipercaya oleh Perusahaan Terkemuka
+              Komitmen Terhadap Masa Depan Air Bersih
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Lebih dari 500+ perusahaan di berbagai industri telah mempercayakan kebutuhan pengolahan air mereka kepada kami.
+              Sebagai perusahaan baru, kami berkomitmen untuk menjadi pioneer dalam teknologi pengolahan air yang berkelanjutan.
             </p>
           </div>
 
-          {/* Auto-sliding logos container */}
-          <div className="relative">
-            <div className="flex animate-scroll space-x-16 items-center">
-              {/* First set of logos */}
-              <div className="flex space-x-16 items-center min-w-max">
-                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">PERTAMINA</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-8">
+                <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                  <Target className="w-8 h-8 text-blue-600" />
                 </div>
-                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">PLN</div>
-                </div>
-                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">TELKOM</div>
-                </div>
-                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">BUMN</div>
-                </div>
-                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">AQUA</div>
-                </div>
-                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">UNILEVER</div>
-                </div>
-                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">WINGS</div>
-                </div>
-                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">NESTLE</div>
-                </div>
-              </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Visi Kami</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Menjadi perusahaan terdepan dalam solusi pengolahan air yang berkelanjutan dan ramah lingkungan di Indonesia.
+                </p>
+              </CardContent>
+            </Card>
 
-              {/* Duplicate set for seamless loop */}
-              <div className="flex space-x-16 items-center min-w-max">
-                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">PERTAMINA</div>
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-8">
+                <div className="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mb-6">
+                  <Lightbulb className="w-8 h-8 text-green-600" />
                 </div>
-                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">PLN</div>
-                </div>
-                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">TELKOM</div>
-                </div>
-                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">BUMN</div>
-                </div>
-                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">AQUA</div>
-                </div>
-                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">UNILEVER</div>
-                </div>
-                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">WINGS</div>
-                </div>
-                <div className="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center group hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-gray-400 group-hover:text-blue-600 transition-colors">NESTLE</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Partnership Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600 mb-2">500+</div>
-              <div className="text-gray-600 font-medium">Perusahaan Partner</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-600 mb-2">15+</div>
-              <div className="text-gray-600 font-medium">Industri Berbeda</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600 mb-2">98%</div>
-              <div className="text-gray-600 font-medium">Tingkat Retensi</div>
-            </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Misi Kami</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Menyediakan solusi pengolahan air berkualitas tinggi dengan teknologi terkini dan layanan pelanggan yang prima.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
@@ -221,7 +170,7 @@ export default function Home() {
                 Keunggulan dalam Solusi Pengolahan Air
               </h2>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Dengan pengalaman lebih dari 25 tahun, kami menyediakan solusi pengolahan air inovatif yang memenuhi standar kualitas tertinggi dan melebihi harapan pelanggan.
+                Sebagai perusahaan baru, kami berkomitmen memberikan solusi pengolahan air inovatif dengan teknologi terdepan dan dedikasi tinggi untuk memenuhi kebutuhan pelanggan.
               </p>
 
               <div className="space-y-4 mb-8">
@@ -241,7 +190,7 @@ export default function Home() {
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
                 <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50 rounded-xl">
-                  Lihat Sertifikasi
+                  Hubungi Kami
                 </Button>
               </div>
             </div>
@@ -254,8 +203,8 @@ export default function Home() {
                       <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
                         <Star className="w-6 h-6 text-blue-600" />
                       </div>
-                      <div className="text-2xl font-bold text-gray-900 mb-1">Bersertifikat ISO</div>
-                      <div className="text-sm text-gray-600">Manajemen Kualitas</div>
+                      <div className="text-2xl font-bold text-gray-900 mb-1">Teknologi Terkini</div>
+                      <div className="text-sm text-gray-600">Inovasi Terdepan</div>
                     </CardContent>
                   </Card>
 
@@ -274,10 +223,10 @@ export default function Home() {
                   <Card className="border-0 shadow-lg">
                     <CardContent className="p-6 text-center">
                       <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <Globe className="w-6 h-6 text-purple-600" />
+                        <Heart className="w-6 h-6 text-purple-600" />
                       </div>
-                      <div className="text-2xl font-bold text-gray-900 mb-1">Jangkauan Global</div>
-                      <div className="text-sm text-gray-600">50+ Negara</div>
+                      <div className="text-2xl font-bold text-gray-900 mb-1">Dedikasi Tinggi</div>
+                      <div className="text-sm text-gray-600">Komitmen Total</div>
                     </CardContent>
                   </Card>
 
@@ -286,8 +235,8 @@ export default function Home() {
                       <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-4">
                         <Award className="w-6 h-6 text-orange-600" />
                       </div>
-                      <div className="text-2xl font-bold text-gray-900 mb-1">Tim Ahli</div>
-                      <div className="text-sm text-gray-600">Pengalaman 25+ Tahun</div>
+                      <div className="text-2xl font-bold text-gray-900 mb-1">Tim Profesional</div>
+                      <div className="text-sm text-gray-600">Ahli Terpercaya</div>
                     </CardContent>
                   </Card>
                 </div>

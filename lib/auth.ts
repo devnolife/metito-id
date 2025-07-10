@@ -67,7 +67,7 @@ export const getUserFromRequest = async (request: NextRequest) => {
       return null
     }
 
-    const payload = verifyJWT(token)
+    const payload = await verifyJWTEdge(token)
     if (!payload) {
       return null
     }
@@ -85,6 +85,10 @@ export const getUserFromRequest = async (request: NextRequest) => {
 
     return user
   } catch (error) {
+    // Only log actual errors, not expected authentication failures
+    if (error instanceof Error && !error.message.includes('Invalid compact JWE')) {
+      console.error('Error in getUserFromRequest:', error)
+    }
     return null
   }
 }
