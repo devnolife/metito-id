@@ -9,315 +9,148 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Search, Filter, Grid, List, Star, Heart, ShoppingCart, Droplets, Gauge, Calendar, MapPin, CheckCircle, X } from "lucide-react"
+import { Search, Filter, Grid, List, Star, Heart, ShoppingCart, Droplets, Gauge, Calendar, MapPin, CheckCircle } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { getSetting } from "@/lib/settings"
 
-// Product Detail Dialog Component
-function ProductDetailDialog({ product, showPrices }: { product: any; showPrices: boolean }) {
-  const [isOpen, setIsOpen] = useState(false)
-
-  return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="rounded-xl border-blue-200 text-blue-600 hover:bg-blue-50 h-9 px-4 text-sm">
-          Lihat Detail
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-gray-900">{product.name}</DialogTitle>
-        </DialogHeader>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Product Image */}
-          <div className="relative">
-            <Image
-              src={product.image}
-              alt={product.name}
-              width={500}
-              height={400}
-              className="w-full h-80 object-cover rounded-xl"
-            />
-            <div className="absolute top-4 left-4">
-              <Badge className={`${product.inStock ? "bg-green-500" : "bg-orange-500"} text-white`}>
-                {product.inStock ? "Tersedia" : "Pesan Terlebih Dahulu"}
-              </Badge>
-            </div>
-            {product.originalPrice && (
-              <div className="absolute top-4 right-4">
-                <Badge className="bg-red-500 text-white">
-                  Hemat {new Intl.NumberFormat('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR',
-                    minimumFractionDigits: 0
-                  }).format(product.originalPrice - product.price)}
-                </Badge>
-              </div>
-            )}
-          </div>
-
-          {/* Product Info */}
-          <div className="space-y-6">
-            {/* Rating and Category */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`w-5 h-5 ${i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"}`}
-                  />
-                ))}
-                <span className="text-sm text-gray-600 ml-2 font-medium">({product.reviews} ulasan)</span>
-              </div>
-              <Badge variant="outline" className="text-blue-600 border-blue-200">
-                {product.category}
-              </Badge>
-            </div>
-
-            {/* Description */}
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Deskripsi</h3>
-              <p className="text-gray-600 leading-relaxed">{product.description}</p>
-            </div>
-
-            {/* Specifications */}
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Spesifikasi</h3>
-              <div className="grid grid-cols-2 gap-3">
-                {product.specs.map((spec: string, index: number) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span className="text-sm text-gray-700">{spec}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Product Details */}
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Detail Produk</h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 text-gray-600">
-                  <Droplets className="w-5 h-5 text-blue-600" />
-                  <span>Kapasitas: {product.capacity}</span>
-                </div>
-                <div className="flex items-center gap-3 text-gray-600">
-                  <Calendar className="w-5 h-5 text-blue-600" />
-                  <span>Garansi: {product.warranty}</span>
-                </div>
-                <div className="flex items-center gap-3 text-gray-600">
-                  <MapPin className="w-5 h-5 text-blue-600" />
-                  <span>Pengiriman: {product.delivery}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Features */}
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Fitur Utama</h3>
-              <div className="grid grid-cols-2 gap-2">
-                {product.features.map((feature: string, index: number) => (
-                  <Badge key={index} variant="secondary" className="text-xs px-3 py-1">
-                    {feature}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-
-            {/* Price */}
-            <div className="border-t pt-4">
-              <div className="mb-4">
-                {showPrices ? (
-                  <div>
-                    <span className="text-3xl font-bold text-blue-600">
-                      {new Intl.NumberFormat('id-ID', {
-                        style: 'currency',
-                        currency: 'IDR',
-                        minimumFractionDigits: 0
-                      }).format(product.price)}
-                    </span>
-                    {product.originalPrice && (
-                      <span className="text-lg text-gray-500 line-through ml-3">
-                        {new Intl.NumberFormat('id-ID', {
-                          style: 'currency',
-                          currency: 'IDR',
-                          minimumFractionDigits: 0
-                        }).format(product.originalPrice)}
-                      </span>
-                    )}
-                  </div>
-                ) : (
-                  <span className="text-2xl font-semibold text-gray-600">
-                    Hubungi untuk Harga
-                  </span>
-                )}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex gap-3">
-                <Button
-                  className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl"
-                  disabled={!product.inStock}
-                >
-                  <ShoppingCart className="w-4 h-4 mr-2" />
-                  {product.inStock ? "Tambah ke Keranjang" : "Pesan Terlebih Dahulu"}
-                </Button>
-                <Button variant="outline" className="rounded-xl border-blue-200 text-blue-600 hover:bg-blue-50">
-                  Hubungi Kami
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
-  )
+interface Product {
+  id: string
+  name: string
+  description: string
+  price: number
+  originalPrice?: number
+  image: string
+  category: string
+  rating: number
+  reviews: number
+  inStock: boolean
+  specs: string[]
+  capacity: string
+  warranty: string
+  delivery: string
 }
 
-export default function ProductsPage() {
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
-  const [priceRange, setPriceRange] = useState([5000, 500000])
-  const [showPrices, setShowPrices] = useState(true)
+interface Category {
+  name: string
+  count: number
+}
 
+// Mock data
+const mockProducts: Product[] = [
+  {
+    id: "1",
+    name: "Sistem RO Industrial 10.000 LPH",
+    description: "Sistem reverse osmosis untuk kebutuhan industri dengan kapasitas tinggi",
+    price: 85000000,
+    originalPrice: 95000000,
+    image: "/images/products/1751113221463_vprh85xdwf.jpg",
+    category: "Reverse Osmosis",
+    rating: 4.8,
+    reviews: 24,
+    inStock: true,
+    specs: ["10.000 LPH", "Efisiensi 95%", "Otomatis"],
+    capacity: "10.000 LPH",
+    warranty: "2 Tahun",
+    delivery: "2-3 Minggu"
+  },
+  {
+    id: "2",
+    name: "Filter Air Multimedia 5.000 LPH",
+    description: "Sistem filtrasi multimedia untuk pengolahan air bersih",
+    price: 45000000,
+    image: "/images/products/1751115076198_7co6h7om303.jpg",
+    category: "Multimedia Filter",
+    rating: 4.7,
+    reviews: 18,
+    inStock: true,
+    specs: ["5.000 LPH", "Multi-layer", "Backwash Otomatis"],
+    capacity: "5.000 LPH",
+    warranty: "1 Tahun",
+    delivery: "1-2 Minggu"
+  },
+  {
+    id: "3",
+    name: "Sistem UV Sterilizer 3.000 LPH",
+    description: "Sistem sterilisasi UV untuk disinfeksi air",
+    price: 25000000,
+    image: "/images/products/1751121933661_pcw7o3dbzfs.jpg",
+    category: "UV Sterilizer",
+    rating: 4.6,
+    reviews: 15,
+    inStock: false,
+    specs: ["3.000 LPH", "UV-C", "Stainless Steel"],
+    capacity: "3.000 LPH",
+    warranty: "1 Tahun",
+    delivery: "3-4 Minggu"
+  }
+]
+
+const mockCategories: Category[] = [
+  { name: "Reverse Osmosis", count: 12 },
+  { name: "Multimedia Filter", count: 8 },
+  { name: "UV Sterilizer", count: 6 },
+  { name: "Softener", count: 4 },
+  { name: "Dosing System", count: 3 }
+]
+
+export default function ProductsPage() {
+  const [products, setProducts] = useState<Product[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("all")
+  const [priceRange, setPriceRange] = useState([0, 500000])
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
+  const [showPrices, setShowPrices] = useState(true)
+  const [showOnlyInStock, setShowOnlyInStock] = useState(true)
+
+  // Load initial data
   useEffect(() => {
-    const loadSettings = async () => {
-      try {
-        const showPricesSetting = await getSetting('show_prices')
-        setShowPrices(showPricesSetting !== false)
-      } catch (error) {
-        console.error('Error loading price settings:', error)
-        // Default to showing prices on error
-        setShowPrices(true)
-      }
-    }
-    loadSettings()
+    setProducts(mockProducts)
+    setCategories(mockCategories)
+    setFilteredProducts(mockProducts)
   }, [])
 
-  const products = [
-    {
-      id: 1,
-      name: "Sistem Pengolahan Air RO Industri",
-      price: 75000,
-      originalPrice: 85000,
-      rating: 4.9,
-      reviews: 142,
-      image: "/placeholder.jpg",
-      category: "Reverse Osmosis",
-      capacity: "5000 LPH",
-      year: 2024,
-      specs: ["5000 LPH", "Kelas Industri", "Pembersihan Otomatis", "Pemantauan Jarak Jauh"],
-      description: "Sistem reverse osmosis kapasitas tinggi yang dirancang untuk aplikasi industri dengan fitur pemantauan dan kontrol canggih.",
-      features: ["Konstruksi 304SS", "Kontrol PLC", "Sistem CIP", "Pemantauan TDS"],
-      inStock: true,
-      warranty: "2 Tahun",
-      delivery: "2-3 Minggu"
-    },
-    {
-      id: 2,
-      name: "Pabrik Pengolahan Air Kota",
-      price: 250000,
-      originalPrice: null,
-      rating: 4.8,
-      reviews: 89,
-      image: "/placeholder.jpg",
-      category: "Sistem Kota",
-      capacity: "50.000 LPD",
-      year: 2024,
-      specs: ["50.000 LPD", "Kelas Kota", "Otomatis", "Siap SCADA"],
-      description: "Solusi pengolahan air kota lengkap dengan otomasi canggih dan integrasi SCADA untuk operasi skala besar.",
-      features: ["Kontrol SCADA", "Filtrasi Multi-Tahap", "Dosis Kimia", "Sistem Backwash"],
-      inStock: true,
-      warranty: "3 Tahun",
-      delivery: "6-8 Minggu"
-    },
-    {
-      id: 3,
-      name: "Sistem Pengolahan Air Limbah",
-      price: 120000,
-      originalPrice: 135000,
-      rating: 4.7,
-      reviews: 76,
-      image: "/placeholder.jpg",
-      category: "Pengolahan Air Limbah",
-      capacity: "1000 CMD",
-      year: 2024,
-      specs: ["1000 CMD", "Perawatan Biologis", "Daur Ulang Efluen", "Energi Rendah"],
-      description: "Sistem pengolahan air limbah biologis canggih dengan kemampuan daur ulang efluen untuk operasi berkelanjutan.",
-      features: ["Teknologi MBR", "Penghilangan Nutrien", "Perawatan Lumpur", "Daur Ulang Efluen"],
-      inStock: true,
-      warranty: "2 Tahun",
-      delivery: "4-5 Minggu"
-    },
-    {
-      id: 4,
-      name: "Sistem Disinfeksi UV",
-      price: 15000,
-      originalPrice: null,
-      rating: 4.9,
-      reviews: 203,
-      image: "/placeholder.jpg",
-      category: "Disinfeksi",
-      capacity: "500 LPM",
-      year: 2024,
-      specs: ["Teknologi UV-C", "500 LPM", "Pemeliharaan Rendah", "Ramah Lingkungan"],
-      description: "Sistem disinfeksi UV bebas kimia yang memberikan eliminasi patogen 99,99% untuk pasokan air yang aman.",
-      features: ["Lampu UV-C", "Monitor Intensitas UV", "Pembersihan Otomatis", "Sistem Alarm"],
-      inStock: true,
-      warranty: "1 Tahun",
-      delivery: "1-2 Minggu"
-    },
-    {
-      id: 5,
-      name: "Pabrik Pelunak Air",
-      price: 25000,
-      originalPrice: 28000,
-      rating: 4.6,
-      reviews: 158,
-      image: "/placeholder.jpg",
-      category: "Pelunak Air",
-      capacity: "2000 LPH",
-      year: 2024,
-      specs: ["Pertukaran Ion", "2000 LPH", "Regenerasi Otomatis", "Efisien Garam"],
-      description: "Sistem pelunak air otomatis menggunakan teknologi pertukaran ion untuk menghilangkan mineral kekerasan dari air.",
-      features: ["Resin Pertukaran Ion", "Regenerasi Otomatis", "Tangki Brine", "Monitor Kekerasan"],
-      inStock: false,
-      warranty: "18 Bulan",
-      delivery: "3-4 Minggu"
-    },
-    {
-      id: 6,
-      name: "Pabrik Desalinasi",
-      price: 180000,
-      originalPrice: null,
-      rating: 4.8,
-      reviews: 45,
-      image: "/placeholder.jpg",
-      category: "Desalinasi",
-      capacity: "10.000 LPD",
-      year: 2024,
-      specs: ["RO Air Laut", "10.000 LPD", "Pemulihan Energi", "Kontrol Jarak Jauh"],
-      description: "Pabrik desalinasi reverse osmosis air laut dengan sistem pemulihan energi untuk komunitas pesisir.",
-      features: ["Pemulihan Energi", "Intake Air Laut", "Perawatan Pasca", "Pembuangan Brine"],
-      inStock: true,
-      warranty: "3 Tahun",
-      delivery: "8-10 Minggu"
+  // Filter products based on search and filters
+  useEffect(() => {
+    let filtered = [...products]
+
+    // Search filter
+    if (searchTerm) {
+      filtered = filtered.filter(product =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchTerm.toLowerCase())
+      )
     }
-  ]
 
-  const [filteredProducts, setFilteredProducts] = useState(products)
+    // Category filter
+    if (selectedCategory !== "all") {
+      filtered = filtered.filter(product => product.category === selectedCategory)
+    }
 
-  const categories = [
-    { name: "Semua Kategori", value: "all", count: products.length },
-    { name: "Reverse Osmosis", value: "reverse-osmosis", count: 2 },
-    { name: "Sistem Kota", value: "municipal", count: 1 },
-    { name: "Pengolahan Air Limbah", value: "wastewater", count: 1 },
-    { name: "Disinfeksi", value: "disinfection", count: 1 },
-    { name: "Pelunak Air", value: "softening", count: 1 },
-    { name: "Desalinasi", value: "desalination", count: 1 }
-  ]
+    // Stock filter
+    if (showOnlyInStock) {
+      filtered = filtered.filter(product => product.inStock)
+    }
+
+    // Price filter
+    if (showPrices) {
+      filtered = filtered.filter(product =>
+        product.price >= priceRange[0] && product.price <= priceRange[1]
+      )
+    }
+
+    setFilteredProducts(filtered)
+  }, [products, searchTerm, selectedCategory, showOnlyInStock, priceRange, showPrices])
+
+  const handleSearch = (value: string) => {
+    setSearchTerm(value)
+  }
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category)
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -371,6 +204,8 @@ export default function ProductsPage() {
                       <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                       <Input
                         placeholder="Cari peralatan..."
+                        value={searchTerm}
+                        onChange={(e) => handleSearch(e.target.value)}
                         className="pl-12 pr-4 py-3 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       />
                     </div>
@@ -380,8 +215,21 @@ export default function ProductsPage() {
                   <div className="mb-6">
                     <label className="block text-sm font-semibold text-gray-700 mb-3">Kategori</label>
                     <div className="space-y-2">
+                      <div
+                        onClick={() => handleCategoryChange("all")}
+                        className="flex items-center justify-between p-3 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors"
+                      >
+                        <span className="text-gray-700 hover:text-blue-600 font-medium">Semua Kategori</span>
+                        <Badge variant="secondary" className="text-xs">
+                          {products.length}
+                        </Badge>
+                      </div>
                       {categories.map((category, index) => (
-                        <div key={index} className="flex items-center justify-between p-3 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors">
+                        <div
+                          key={index}
+                          onClick={() => handleCategoryChange(category.name)}
+                          className="flex items-center justify-between p-3 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors"
+                        >
                           <span className="text-gray-700 hover:text-blue-600 font-medium">{category.name}</span>
                           <Badge variant="secondary" className="text-xs">
                             {category.count}
@@ -398,8 +246,8 @@ export default function ProductsPage() {
                       <Slider
                         value={priceRange}
                         onValueChange={setPriceRange}
-                        max={500000}
-                        step={5000}
+                        max={100000000}
+                        step={1000000}
                         className="mb-4"
                       />
                       <div className="flex justify-between text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
@@ -438,7 +286,12 @@ export default function ProductsPage() {
                     <label className="block text-sm font-semibold text-gray-700 mb-3">Ketersediaan</label>
                     <div className="space-y-2">
                       <label className="flex items-center">
-                        <input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" defaultChecked />
+                        <input
+                          type="checkbox"
+                          checked={showOnlyInStock}
+                          onChange={(e) => setShowOnlyInStock(e.target.checked)}
+                          className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        />
                         <span className="ml-2 text-sm text-gray-700">Tersedia</span>
                       </label>
                       <label className="flex items-center">
@@ -541,7 +394,8 @@ export default function ProductsPage() {
                             {[...Array(5)].map((_, i) => (
                               <Star
                                 key={i}
-                                className={`w-4 h-4 ${i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"}`}
+                                className={`w-4 h-4 ${i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"
+                                  }`}
                               />
                             ))}
                             <span className="text-sm text-gray-600 ml-2 font-medium">({product.reviews})</span>
@@ -559,21 +413,35 @@ export default function ProductsPage() {
                           <p className="text-gray-600 mb-4 leading-relaxed">{product.description}</p>
                         )}
 
-                        {/* Key Specs - Only show 2 most important */}
                         <div className="flex flex-wrap gap-2 mb-4">
-                          {product.specs.slice(0, 2).map((spec, index) => (
+                          {product.specs.map((spec, index) => (
                             <Badge key={index} variant="secondary" className="text-xs px-2 py-1">
                               {spec}
                             </Badge>
                           ))}
                         </div>
 
-                        {/* Price */}
+                        {/* Product Details */}
+                        <div className="space-y-2 mb-4 text-sm">
+                          <div className="flex items-center gap-2 text-gray-600">
+                            <Droplets className="w-4 h-4 text-blue-600" />
+                            <span>Kapasitas: {product.capacity}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-gray-600">
+                            <Calendar className="w-4 h-4 text-blue-600" />
+                            <span>Garansi: {product.warranty}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-gray-600">
+                            <MapPin className="w-4 h-4 text-blue-600" />
+                            <span>Pengiriman: {product.delivery}</span>
+                          </div>
+                        </div>
+
                         <div className="flex items-center justify-between mb-4">
                           <div>
                             {showPrices ? (
                               <>
-                                <span className="text-xl font-bold text-blue-600">
+                                <span className="text-2xl font-bold text-blue-600">
                                   {new Intl.NumberFormat('id-ID', {
                                     style: 'currency',
                                     currency: 'IDR',
@@ -598,16 +466,20 @@ export default function ProductsPage() {
                           </div>
                         </div>
 
-                        {/* Action Buttons */}
                         <div className="flex gap-2">
                           <Button
-                            className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl h-9 px-4 text-sm"
+                            className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl"
+                            size="sm"
                             disabled={!product.inStock}
                           >
                             <ShoppingCart className="w-4 h-4 mr-2" />
                             {product.inStock ? "Tambah ke Keranjang" : "Pesan Terlebih Dahulu"}
                           </Button>
-                          <ProductDetailDialog product={product} showPrices={showPrices} />
+                          <Button variant="outline" size="sm" asChild className="rounded-xl border-blue-200 text-blue-600 hover:bg-blue-50">
+                            <Link href={`/products/${product.id}`}>
+                              Lihat Detail
+                            </Link>
+                          </Button>
                         </div>
                       </CardContent>
                     </div>

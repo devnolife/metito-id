@@ -1,5 +1,4 @@
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
+import { SidebarLayout } from "@/components/sidebar-layout"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
@@ -106,51 +105,37 @@ export default function BlogPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white py-20 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center mb-6">
-            <Badge className="bg-blue-500/20 text-blue-100 px-4 py-2 text-sm font-medium">
-              Pusat Pengetahuan
-            </Badge>
+    <SidebarLayout
+      title="Blog & Artikel"
+      description="Wawasan terkini tentang teknologi pengolahan air, tren industri, dan praktik terbaik dari para ahli."
+    >
+      <div className="space-y-16">
+        {/* Search Section */}
+        <div className="flex flex-col sm:flex-row gap-4 max-w-2xl">
+          <div className="relative flex-1">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Input
+              placeholder="Cari artikel..."
+              className="pl-12 pr-4 py-3 border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-xl"
+            />
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Pengolahan Air
-            <span className="block bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">
-              Wawasan & Berita
-            </span>
-          </h1>
-          <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Tetap terbaru dengan tren, teknologi, dan praktik terbaik terbaru dalam industri pengolahan air.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-            <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-300 w-5 h-5" />
-              <Input
-                placeholder="Cari artikel..."
-                className="pl-12 pr-4 py-3 bg-white/10 border-white/20 text-white placeholder:text-blue-200 focus:bg-white focus:text-gray-900 rounded-xl"
-              />
-            </div>
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-xl font-semibold">
-              Cari
-            </Button>
-          </div>
+          <Button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 px-6 py-3 rounded-xl font-semibold">
+            Cari
+          </Button>
         </div>
-      </section>
 
-      {/* Featured Article */}
-      <section className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        {/* Featured Article */}
+        <section>
+          <div className="text-center mb-8">
+            <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
               Artikel Unggulan
+            </Badge>
+            <h2 className="text-3xl font-bold text-gray-900">
+              Artikel Pilihan
             </h2>
           </div>
 
-          <Card className="overflow-hidden border-0 shadow-2xl hover:shadow-3xl transition-all duration-300">
+          <Card className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
               <div className="relative h-64 lg:h-auto">
                 <Image
@@ -165,7 +150,7 @@ export default function BlogPage() {
                   </Badge>
                 </div>
               </div>
-              <CardContent className="p-8 lg:p-12 flex flex-col justify-center">
+              <CardContent className="p-6 lg:p-8 flex flex-col justify-center">
                 <div className="flex flex-wrap gap-2 mb-4">
                   {featuredPost.tags.map((tag, index) => (
                     <Badge key={index} variant="outline" className="text-blue-600 border-blue-200">
@@ -174,22 +159,22 @@ export default function BlogPage() {
                     </Badge>
                   ))}
                 </div>
-                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 leading-tight">
+                <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-3 leading-tight">
                   {featuredPost.title}
                 </h3>
-                <p className="text-gray-600 mb-6 text-lg leading-relaxed">
+                <p className="text-gray-600 mb-4 leading-relaxed">
                   {featuredPost.excerpt}
                 </p>
-                <div className="flex items-center gap-6 mb-6 text-sm text-gray-500">
-                  <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
+                  <div className="flex items-center gap-1">
                     <User className="w-4 h-4" />
                     <span>{featuredPost.author}</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" />
                     <span>{new Date(featuredPost.date).toLocaleDateString('id-ID')}</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1">
                     <Clock className="w-4 h-4" />
                     <span>{featuredPost.readTime}</span>
                   </div>
@@ -201,16 +186,14 @@ export default function BlogPage() {
               </CardContent>
             </div>
           </Card>
-        </div>
-      </section>
+        </section>
 
-      {/* Blog Grid */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row gap-12">
+        {/* Blog Grid */}
+        <section>
+          <div className="flex flex-col lg:flex-row gap-8">
             {/* Main Content */}
             <div className="flex-1">
-              <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-900">Artikel Terbaru</h2>
                 <Button variant="outline" className="gap-2">
                   <Filter className="w-4 h-4" />
@@ -218,39 +201,39 @@ export default function BlogPage() {
                 </Button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {blogPosts.map((post) => (
-                  <Card key={post.id} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:scale-105">
+                  <Card key={post.id} className="group hover:shadow-lg transition-all duration-300 border-0 shadow-md">
                     <div className="relative overflow-hidden">
                       <Image
                         src={post.image}
                         alt={post.title}
                         width={400}
-                        height={250}
-                        className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                        height={200}
+                        className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
                       />
-                      <div className="absolute top-4 left-4">
-                        <Badge className="bg-blue-600 text-white">
+                      <div className="absolute top-3 left-3">
+                        <Badge className="bg-blue-600 text-white text-xs">
                           {post.category}
                         </Badge>
                       </div>
                     </div>
-                    <CardContent className="p-6">
-                      <div className="flex flex-wrap gap-2 mb-3">
+                    <CardContent className="p-5">
+                      <div className="flex flex-wrap gap-1 mb-2">
                         {post.tags.slice(0, 2).map((tag, index) => (
                           <Badge key={index} variant="outline" className="text-xs text-blue-600 border-blue-200">
                             {tag}
                           </Badge>
                         ))}
                       </div>
-                      <h3 className="font-bold text-lg text-gray-900 mb-3 group-hover:text-blue-600 transition-colors leading-tight">
+                      <h3 className="font-bold text-lg text-gray-900 mb-2 group-hover:text-blue-600 transition-colors leading-tight">
                         {post.title}
                       </h3>
-                      <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
+                      <p className="text-gray-600 mb-3 text-sm leading-relaxed line-clamp-2">
                         {post.excerpt}
                       </p>
                       <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-3">
                           <div className="flex items-center gap-1">
                             <User className="w-3 h-3" />
                             <span>{post.author}</span>
@@ -275,7 +258,7 @@ export default function BlogPage() {
               </div>
 
               {/* Load More */}
-              <div className="text-center mt-12">
+              <div className="text-center mt-8">
                 <Button size="lg" variant="outline" className="px-8 py-3 rounded-xl">
                   Muat Artikel Lainnya
                 </Button>
@@ -283,13 +266,13 @@ export default function BlogPage() {
             </div>
 
             {/* Sidebar */}
-            <div className="w-full lg:w-80 space-y-8">
+            <div className="w-full lg:w-80 space-y-6">
               {/* Categories */}
               <Card className="border-0 shadow-lg">
                 <CardHeader>
                   <h3 className="text-lg font-bold text-gray-900">Kategori</h3>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-2">
                   {categories.map((category, index) => (
                     <div key={index} className="flex items-center justify-between p-3 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors">
                       <span className="text-gray-700 hover:text-blue-600 font-medium">{category.name}</span>
@@ -338,10 +321,8 @@ export default function BlogPage() {
               </Card>
             </div>
           </div>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
+        </section>
+      </div>
+    </SidebarLayout>
   )
 } 

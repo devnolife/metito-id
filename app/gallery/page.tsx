@@ -1,5 +1,4 @@
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
+import { SidebarLayout } from "@/components/sidebar-layout"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -107,66 +106,48 @@ export default function GalleryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white py-20 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center mb-6">
-            <Badge className="bg-blue-500/20 text-blue-100 px-4 py-2 text-sm font-medium">
-              Portofolio Proyek
-            </Badge>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Galeri
-            <span className="block bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">
-              Proyek Kami
-            </span>
-          </h1>
-          <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Jelajahi instalasi pengolahan air yang berhasil di seluruh Indonesia, menampilkan solusi inovatif dan keunggulan teknik.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              Lihat Semua Proyek
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
-              Unduh Brosur
-            </Button>
-          </div>
+    <SidebarLayout
+      title="Galeri Proyek"
+      description="Jelajahi instalasi pengolahan air yang berhasil di seluruh Indonesia, menampilkan solusi inovatif dan keunggulan teknik."
+    >
+      <div className="space-y-16">
+        {/* Quick Actions */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 px-8 py-3 rounded-xl font-semibold">
+            Lihat Semua Proyek
+          </Button>
+          <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+            <Download className="w-4 h-4 mr-2" />
+            Unduh Brosur
+          </Button>
         </div>
-      </section>
 
-      {/* Project Gallery */}
-      <section className="py-16 px-4 bg-gradient-to-br from-gray-50 to-blue-50/30">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center p-2 bg-blue-100 rounded-full mb-4">
-              <Badge className="bg-blue-600 text-white px-4 py-2 text-sm font-medium">
-                Portfolio Terbaik
-              </Badge>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
+        {/* Project Gallery */}
+        <section>
+          <div className="text-center mb-8">
+            <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
+              Portfolio Terbaik
+            </Badge>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Proyek Unggulan
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-gray-600 max-w-3xl mx-auto">
               Jelajahi portofolio komprehensif proyek pengolahan air kami di berbagai industri dan aplikasi dengan standar kualitas tertinggi.
             </p>
           </div>
 
           <Tabs defaultValue="all" className="w-full">
-            <div className="flex justify-center mb-12">
+            <div className="flex justify-center mb-8">
               <TabsList className="inline-flex h-auto p-1 bg-white/80 backdrop-blur-sm shadow-lg border border-gray-200/50 rounded-2xl">
-                {categories.map((category, index) => (
+                {categories.map((category) => (
                   <TabsTrigger
                     key={category.id}
                     value={category.id}
-                    className="relative px-6 py-3 text-sm font-semibold text-gray-600 data-[state=active]:text-white data-[state=active]:bg-blue-600 rounded-xl transition-all duration-200 hover:text-blue-600"
+                    className="relative px-4 py-2 text-sm font-semibold text-gray-600 data-[state=active]:text-white data-[state=active]:bg-blue-600 rounded-xl transition-all duration-200 hover:text-blue-600"
                   >
                     <div className="flex items-center gap-2">
                       <span>{category.name}</span>
-                      <Badge variant="secondary" className="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 data-[state=active]:bg-blue-500 data-[state=active]:text-white">
+                      <Badge variant="secondary" className="bg-gray-100 text-gray-600 text-xs px-2 py-0.5">
                         {category.count}
                       </Badge>
                     </div>
@@ -177,16 +158,16 @@ export default function GalleryPage() {
 
             {categories.map((category) => (
               <TabsContent key={category.id} value={category.id} className="mt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {filterProjects(category.id).map((project, index) => (
-                    <Card key={project.id} className="group relative bg-white rounded-3xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:border-blue-200 hover:-translate-y-1">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filterProjects(category.id).map((project) => (
+                    <Card key={project.id} className="group relative bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200">
                       <div className="relative overflow-hidden">
                         <div className="aspect-[4/3] relative">
                           <Image
                             src={project.image}
                             alt={project.title}
                             fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-110"
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         </div>
@@ -199,107 +180,73 @@ export default function GalleryPage() {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                          <Button
-                            size="icon"
-                            className="w-10 h-10 bg-white/95 text-blue-600 hover:bg-blue-600 hover:text-white rounded-full shadow-lg backdrop-blur-sm border border-white/20 transition-all duration-200"
-                          >
-                            <Eye className="w-4 h-4" />
-                          </Button>
-                          <Button
-                            size="icon"
-                            className="w-10 h-10 bg-white/95 text-blue-600 hover:bg-blue-600 hover:text-white rounded-full shadow-lg backdrop-blur-sm border border-white/20 transition-all duration-200"
-                          >
-                            <Download className="w-4 h-4" />
-                          </Button>
-                        </div>
-
-                        {/* Project Number */}
-                        <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
-                            {String(index + 1).padStart(2, '0')}
+                        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="flex gap-2">
+                            <Button size="sm" className="bg-white/90 text-gray-700 hover:bg-white rounded-full w-8 h-8 p-0">
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                            <Button size="sm" className="bg-white/90 text-gray-700 hover:bg-white rounded-full w-8 h-8 p-0">
+                              <Download className="w-4 h-4" />
+                            </Button>
                           </div>
                         </div>
                       </div>
 
                       <CardContent className="p-6">
-                        <div className="space-y-4">
-                          <div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors duration-200 line-clamp-2">
-                              {project.title}
-                            </h3>
-                            <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
-                              {project.description}
-                            </p>
-                          </div>
+                        <h3 className="font-bold text-lg text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                          {project.title}
+                        </h3>
+                        <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                          {project.description}
+                        </p>
 
-                          <div className="space-y-2 pt-2 border-t border-gray-100">
-                            <div className="flex items-center gap-2 text-sm text-gray-500">
-                              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                              <MapPin className="w-4 h-4" />
-                              <span className="font-medium">{project.location}</span>
-                            </div>
-                            <div className="flex items-center justify-between text-sm text-gray-500">
-                              <div className="flex items-center gap-2">
-                                <Calendar className="w-4 h-4" />
-                                <span>{project.year}</span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <Building className="w-4 h-4" />
-                                <span className="font-medium">{project.client}</span>
-                              </div>
-                            </div>
+                        <div className="space-y-2 text-sm text-gray-500">
+                          <div className="flex items-center gap-2">
+                            <Building className="w-4 h-4" />
+                            <span>{project.client}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <MapPin className="w-4 h-4" />
+                            <span>{project.location}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4" />
+                            <span>{project.year}</span>
                           </div>
                         </div>
 
-                        {/* Progress Bar Animation */}
-                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-100">
-                          <div className="h-full bg-gradient-to-r from-blue-500 to-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                        <div className="mt-4 pt-4 border-t">
+                          <Button variant="outline" className="w-full group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all">
+                            <Eye className="w-4 h-4 mr-2" />
+                            Lihat Detail
+                          </Button>
                         </div>
                       </CardContent>
                     </Card>
                   ))}
                 </div>
-
-                {/* Load More Button */}
-                {filterProjects(category.id).length > 6 && (
-                  <div className="text-center mt-12">
-                    <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-200">
-                      Lihat Lebih Banyak Proyek
-                    </Button>
-                  </div>
-                )}
               </TabsContent>
             ))}
           </Tabs>
-        </div>
-      </section>
+        </section>
 
-      {/* Stats Section */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-blue-600 mb-2">500+</div>
-              <div className="text-gray-600 font-medium">Proyek Selesai</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-green-600 mb-2">25+</div>
-              <div className="text-gray-600 font-medium">Tahun Pengalaman</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-purple-600 mb-2">100+</div>
-              <div className="text-gray-600 font-medium">Klien Puas</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-orange-600 mb-2">24/7</div>
-              <div className="text-gray-600 font-medium">Dukungan Tersedia</div>
-            </div>
+        {/* CTA Section */}
+        <section className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-white text-center">
+          <h2 className="text-3xl font-bold mb-4">Tertarik dengan Proyek Kami?</h2>
+          <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
+            Hubungi kami untuk diskusi mendalam tentang bagaimana kami dapat membantu proyek pengolahan air Anda berikutnya.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+              Konsultasi Proyek
+            </Button>
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+              <Download className="w-5 h-5 mr-2" />
+              Portfolio Lengkap
+            </Button>
           </div>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
+        </section>
+      </div>
+    </SidebarLayout>
   )
 } 
