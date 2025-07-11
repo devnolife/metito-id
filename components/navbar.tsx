@@ -23,7 +23,7 @@ export function Navbar() {
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
-                Metito Water Engineer
+                Metito Water Solution
               </span>
               <span className="text-xs text-gray-500 -mt-1">Solusi Teknik Air</span>
             </div>

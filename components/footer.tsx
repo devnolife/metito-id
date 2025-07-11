@@ -11,16 +11,16 @@ export function Footer() {
           <div className="space-y-6">
             <div className="flex items-center space-x-3">
               <div className="relative w-12 h-12 p-2 bg-white rounded-xl">
-                <Image src="/images/logo.png" alt="Metito Water Engineer" fill className="object-contain" />
+                <Image src="/images/logo.png" alt="Metito Water Solutions" fill className="object-contain" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white">Metito Water Engineer</h3>
+                <h3 className="text-xl font-bold text-white">Metito Water Solutions</h3>
                 <p className="text-sm text-blue-200">Solusi Teknik Pengolahan Air</p>
               </div>
             </div>
             <p className="text-blue-100 leading-relaxed">
-              Penyedia terdepan solusi pengolahan air dan air limbah canggih dengan pengalaman lebih dari 25 tahun. Kami
-              menyediakan teknologi pengolahan air yang inovatif, berkelanjutan, dan hemat biaya di seluruh dunia.
+              Penyedia terdepan solusi pengolahan air dan air limbah canggih. Kami
+              menyediakan teknologi pengolahan air yang inovatif, berkelanjutan, dan hemat biaya di seluruh Indonesia.
             </p>
             <div className="flex space-x-4">
               <Link
@@ -166,7 +166,7 @@ export function Footer() {
       <div className="border-t border-blue-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-blue-200 text-sm">© 2025 Metito Water Engineer. Semua hak dilindungi.</p>
+            <p className="text-blue-200 text-sm">© 2025 Metito Water Solutions. Semua hak dilindungi.</p>
             <div className="flex gap-6 text-sm">
               <Link href="#" className="text-blue-200 hover:text-accent-orange transition-colors">
                 Kebijakan Privasi

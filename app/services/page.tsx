@@ -1,7 +1,7 @@
-import { SidebarLayout } from "@/components/sidebar-layout"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Footer } from "@/components/footer"
 import { Droplets, Filter, Zap, Shield, Wrench, Clock, Phone, Mail, CheckCircle } from "lucide-react"
 
 export default function ServicesPage() {
@@ -85,14 +85,39 @@ export default function ServicesPage() {
   ]
 
   return (
-    <SidebarLayout
-      title="Layanan Teknik"
-      description="Solusi lengkap pengolahan air dengan layanan profesional dari konsultasi hingga maintenance. Dipercaya oleh industri terkemuka."
-    >
-      <div className="space-y-16">
-        {/* Services Grid */}
-        <section>
-          <div className="text-center mb-12">
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white py-20 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="flex items-center justify-center mb-6">
+            <Badge className="bg-blue-500/20 text-blue-100 px-4 py-2 text-sm font-medium">
+              Layanan Profesional
+            </Badge>
+          </div>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            Layanan Pengolahan
+            <span className="block bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">
+              Air Komprehensif
+            </span>
+          </h1>
+          <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+            Dapatkan solusi pengolahan air terbaik dengan layanan komprehensif dari tim ahli berpengalaman.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+              Konsultasi Gratis
+            </Button>
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
+              Lihat Portfolio
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
             <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
               Layanan Kami
             </Badge>
@@ -106,7 +131,7 @@ export default function ServicesPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service) => (
-              <Card key={service.id} className="hover:shadow-lg transition-all duration-300 border-0 shadow-md group">
+              <Card key={service.id} className="hover:shadow-xl transition-all duration-300 border-0 shadow-lg group hover:scale-105">
                 <CardHeader className="text-center pb-6">
                   <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl mb-6 group-hover:scale-110 transition-transform">
                     {service.icon}
@@ -137,11 +162,13 @@ export default function ServicesPage() {
               </Card>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Process Section */}
-        <section className="bg-white rounded-2xl p-8 shadow-lg">
-          <div className="text-center mb-12">
+      {/* Process Section */}
+      <section className="py-20 px-4 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
             <Badge className="bg-green-100 text-green-800 px-4 py-2 text-sm font-medium mb-4">
               Proses Kerja
             </Badge>
@@ -156,7 +183,7 @@ export default function ServicesPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
             {process.map((step, index) => (
               <div key={index} className="text-center relative">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform">
                   <span className="text-white font-bold text-lg">{step.step}</span>
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">{step.title}</h3>
@@ -168,13 +195,17 @@ export default function ServicesPage() {
               </div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CTA Section */}
-        <section className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-white text-center">
-          <h2 className="text-3xl font-bold mb-4">Siap Memulai Proyek Anda?</h2>
-          <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
-            Hubungi tim ahli kami untuk konsultasi gratis dan dapatkan solusi pengolahan air yang tepat
+      {/* CTA Section */}
+      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-blue-700">
+        <div className="max-w-4xl mx-auto text-center text-white">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            Siap Memulai Proyek Anda?
+          </h2>
+          <p className="text-xl mb-8 text-blue-100">
+            Hubungi tim ahli kami untuk konsultasi gratis dan dapatkan solusi pengolahan air yang tepat untuk kebutuhan Anda.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
@@ -186,8 +217,10 @@ export default function ServicesPage() {
               Konsultasi Email
             </Button>
           </div>
-        </section>
-      </div>
-    </SidebarLayout>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
   )
 } 

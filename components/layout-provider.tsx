@@ -113,7 +113,7 @@ function getPageTitle(pathname: string): string {
     '/cart': 'Keranjang Belanja'
   }
 
-  return titles[pathname] || 'Metito Water Engineer'
+  return titles[pathname] || 'Metito Water Solution'
 }
 
 // Helper function to get page description based on route
@@ -124,7 +124,7 @@ function getPageDescription(pathname: string): string {
     '/blog': 'Wawasan terkini tentang teknologi pengolahan air, tren industri, dan praktik terbaik dari para ahli.',
     '/gallery': 'Galeri project dan instalasi pengolahan air yang telah kami selesaikan untuk berbagai klien.',
     '/contact': 'Hubungi tim ahli kami untuk konsultasi dan penawaran solusi pengolahan air yang tepat untuk kebutuhan Anda.',
-    '/customer': 'Temukan mengapa perusahaan terkemuka di seluruh Indonesia mempercayai Metito Water Engineer untuk kebutuhan pengolahan air mereka.',
+    '/customer': 'Temukan mengapa perusahaan terkemuka di seluruh Indonesia mempercayai Metito Water Solution untuk kebutuhan pengolahan air mereka.',
     '/certification': 'Sertifikasi internasional dan penghargaan yang membuktikan komitmen kami terhadap kualitas dan keunggulan.',
     '/cart': 'Kelola produk pilihan Anda dan lakukan pemesanan dengan mudah melalui sistem keranjang belanja kami.'
   }

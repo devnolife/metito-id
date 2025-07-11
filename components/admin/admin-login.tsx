@@ -84,7 +84,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
           <div>
             <CardTitle className="text-2xl font-bold text-gray-900">Admin Login</CardTitle>
             <CardDescription className="text-gray-600">
-              Masuk ke panel admin Metito Water Engineer
+              Masuk ke panel admin Metito Water Solution
             </CardDescription>
           </div>
         </CardHeader>

@@ -1,7 +1,23 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
+import { ImageSlider } from "@/components/ui/image-slider"
 import { ArrowDown, Star, Award, Users, Shield, Droplets } from "lucide-react"
+import { useState } from "react"
 
 export function Hero() {
+  // Modern slider images for hero section
+  const heroImages = [
+    "/images/products/product-1.jpg",
+    "/images/products/product-2.jpg",
+    "/images/products/1751113221463_vprh85xdwf.jpg",
+    "/images/products/1751115076198_7co6h7om303.jpg",
+    "/images/products/1751121933661_pcw7o3dbzfs.jpg",
+    "/images/products/1751207300894_y53c2mjo2z.jpg"
+  ]
+
+  const [currentSlide, setCurrentSlide] = useState(0)
+
   return (
     <section
       id="home"
@@ -14,99 +30,70 @@ export function Hero() {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8">
-            <div className="space-y-6">
+        <div className="grid lg:grid-cols-5 gap-12 items-start">
+          <div className="space-y-8 lg:col-span-2">
+            <div className="space-y-8">
               <div className="inline-flex items-center px-4 py-2 primary-blue text-white rounded-full text-sm font-medium shadow-lg">
                 <Droplets className="w-4 h-4 mr-2" />
-                Penyedia Solusi Pengolahan Air Terdepan
+                Teknologi Pengolahan Air Terdepan
               </div>
 
               <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
-                <span className="text-primary-blue">Metito Water Engineer</span>
+                <span className="text-primary-blue">Metito Water Solutions</span>
                 <br />
-                <span className="text-gray-800">Solusi</span>
+                <span className="text-gray-800">Inovasi</span>
                 <br />
                 <span className="text-accent-orange">Pengolahan Air</span>
               </h1>
 
               <p className="text-xl text-gray-600 leading-relaxed">
-                Temukan rangkaian lengkap solusi pengolahan air dan air limbah yang canggih. Dari sistem membran
-                hingga unit filtrasi, kami menyediakan solusi terdepan untuk aplikasi industri dan perkotaan
-                di seluruh dunia.
+                Temukan rangkaian lengkap teknologi pengolahan air dan air limbah yang canggih. Dari sistem membran
+                hingga unit filtrasi, kami menyediakan inovasi terdepan untuk aplikasi industri dan perkotaan
+                di seluruh Indonesia.
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 size="lg"
-                className="gradient-accent hover:shadow-xl text-white font-semibold px-8 py-4 text-lg rounded-lg transition-all duration-300 hover:scale-105"
+                className="gradient-accent hover:shadow-xl text-white font-semibold px-6 py-3 text-base rounded-lg transition-all duration-300 hover:scale-105"
               >
-                Jelajahi Produk Kami
-                <ArrowDown className="ml-2 w-5 h-5" />
+                Jelajahi Produk
+                <ArrowDown className="ml-2 w-4 h-4" />
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                className="border-2 border-primary-blue text-primary-blue hover:bg-primary-blue hover:text-white font-semibold px-8 py-4 text-lg rounded-lg transition-all duration-300"
+                className="border-2 border-primary-blue text-primary-blue hover:bg-primary-blue hover:text-white font-semibold px-6 py-3 text-base rounded-lg transition-all duration-300"
               >
-                Hubungi Ahli Kami
+                Hubungi Kami
               </Button>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8">
-              <div className="text-center p-4 bg-white rounded-xl shadow-lg">
-                <div className="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Award className="w-6 h-6 text-white" />
-                </div>
-                <div className="text-2xl font-bold text-primary-blue">200+</div>
-                <div className="text-gray-600 text-sm">Model Peralatan</div>
-              </div>
-              <div className="text-center p-4 bg-white rounded-xl shadow-lg">
-                <div className="w-12 h-12 gradient-water rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Users className="w-6 h-6 text-white" />
-                </div>
-                <div className="text-2xl font-bold text-primary-blue">25+</div>
-                <div className="text-gray-600 text-sm">Tahun Pengalaman</div>
-              </div>
-              <div className="text-center p-4 bg-white rounded-xl shadow-lg">
-                <div className="w-12 h-12 primary-blue rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Shield className="w-6 h-6 text-white" />
-                </div>
-                <div className="text-2xl font-bold text-primary-blue">100%</div>
-                <div className="text-gray-600 text-sm">Kualitas Terjamin</div>
-              </div>
-              <div className="text-center p-4 bg-white rounded-xl shadow-lg">
-                <div className="w-12 h-12 gradient-accent rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Star className="w-6 h-6 text-white" />
-                </div>
-                <div className="text-2xl font-bold text-primary-blue">24/7</div>
-                <div className="text-gray-600 text-sm">Layanan Dukungan</div>
-              </div>
-            </div>
+
           </div>
 
-          <div className="relative">
-            <div className="aspect-square rounded-3xl overflow-hidden bg-gradient-to-br from-blue-100 to-orange-100 p-8 shadow-2xl">
-              <img
-                src="/placeholder.svg?height=600&width=600"
-                alt="Solusi Teknik Pengolahan Air"
-                className="w-full h-full object-cover rounded-2xl"
-              />
-            </div>
+          <div className="relative lg:col-span-3">
+            <ImageSlider
+              images={heroImages}
+              autoSlide={true}
+              autoSlideInterval={5000}
+              className="mb-8"
+              onSlideChange={setCurrentSlide}
+            />
 
             {/* Floating Cards */}
-            <div className="absolute -top-6 -right-6 bg-white p-6 rounded-2xl shadow-xl border-l-4 border-accent-orange">
+            <div className="absolute -top-6 -right-6 bg-white p-4 rounded-2xl shadow-xl border-l-4 border-green-500">
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary-blue">ISO</div>
-                <div className="text-sm text-gray-600">Bersertifikat</div>
+                <div className="text-2xl font-bold text-green-600">✓</div>
+                <div className="text-xs text-gray-600">Berkualitas</div>
               </div>
             </div>
 
-            <div className="absolute -bottom-6 -left-6 primary-blue text-white p-6 rounded-2xl shadow-xl">
+            <div className="absolute -bottom-6 -left-6 primary-blue text-white p-4 rounded-2xl shadow-xl">
               <div className="text-center">
-                <div className="text-3xl font-bold">500+</div>
-                <div className="text-sm opacity-90">Proyek Selesai</div>
+                <div className="text-2xl font-bold">100%</div>
+                <div className="text-xs opacity-90">Kepuasan</div>
               </div>
             </div>
           </div>

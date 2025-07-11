@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { usePathname } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { Menu, X, Search, Phone, Mail, Clock, MapPin, User } from "lucide-react"
@@ -9,17 +10,31 @@ import { Input } from "@/components/ui/input"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const pathname = usePathname()
 
   const navigationItems = [
-    { name: "Beranda", href: "#home" },
-    { name: "Produk", href: "/products" },
-    { name: "Layanan", href: "/services" },
-    { name: "Galeri", href: "/gallery" },
-    { name: "Pelanggan", href: "/customer" },
-    { name: "Sertifikasi", href: "/certification" },
-    { name: "Blog", href: "/blog" },
-    { name: "Kontak", href: "/contact" },
+    { name: "Beranda", href: "/", matchPaths: ["/"] },
+    { name: "Produk", href: "/products", matchPaths: ["/products"] },
+    { name: "Layanan", href: "/services", matchPaths: ["/services"] },
+    { name: "Galeri", href: "/gallery", matchPaths: ["/gallery"] },
+    { name: "Pelanggan", href: "/customer", matchPaths: ["/customer"] },
+    { name: "Sertifikasi", href: "/certification", matchPaths: ["/certification"] },
+    { name: "Blog", href: "/blog", matchPaths: ["/blog"] },
+    { name: "Kontak", href: "/contact", matchPaths: ["/contact"] },
   ]
+
+  const isActive = (item: typeof navigationItems[0]) => {
+    // Exact match for home page
+    if (item.href === "/" && pathname === "/") return true
+
+    // For other pages, check if pathname starts with the href (for nested routes)
+    if (item.href !== "/" && pathname.startsWith(item.href)) return true
+
+    // Check additional match paths
+    return item.matchPaths.some(path =>
+      path === "/" ? pathname === path : pathname.startsWith(path)
+    )
+  }
 
   return (
     <header className="bg-white/95 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-100">
@@ -55,13 +70,13 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="relative w-12 h-12 bg-gradient-to-br from-blue-50 to-orange-50 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105 flex items-center justify-center">
-              <Image src="/images/logo.png" alt="Metito Water Engineer" fill className="object-contain" />
+              <Image src="/images/logo.png" alt="Metito Water Solutions" fill className="object-contain" />
             </div>
             <div className="flex flex-col justify-center">
-              <span className="text-lg md:text-xl font-extrabold text-gray-900 group-hover:text-blue-600 leading-tight whitespace-nowrap">
-                Metito Water Engineer
+              <span className="text-base md:text-lg font-extrabold text-gray-900 group-hover:text-blue-600 leading-tight whitespace-nowrap">
+                Metito Water Solutions
               </span>
-              <span className="text-xs md:text-sm text-gray-500 font-medium leading-tight whitespace-nowrap">
+              <span className="text-xs text-gray-500 font-medium leading-tight whitespace-nowrap">
                 Solusi Teknik Air
               </span>
             </div>
@@ -73,9 +88,15 @@ export function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="relative text-gray-700 hover:text-blue-600 font-medium transition-all duration-200 px-3 py-2 rounded-lg hover:bg-blue-50 group"
+                className={`relative font-medium transition-all duration-200 px-3 py-2 rounded-lg group ${isActive(item)
+                  ? "text-blue-600 bg-blue-50 shadow-sm border border-blue-100"
+                  : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                  }`}
               >
                 {item.name}
+                {isActive(item) && (
+                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-blue-600 rounded-full"></div>
+                )}
               </Link>
             ))}
           </nav>
@@ -140,10 +161,16 @@ export function Header() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="flex items-center justify-center px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 font-medium text-sm"
+                    className={`flex items-center justify-center px-3 py-2 rounded-lg transition-all duration-200 font-medium text-sm ${isActive(item)
+                        ? "text-blue-600 bg-blue-50 shadow-sm border border-blue-100"
+                        : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                      }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {item.name}
+                    {isActive(item) && (
+                      <div className="ml-2 w-2 h-2 bg-blue-600 rounded-full"></div>
+                    )}
                   </Link>
                 ))}
               </div>

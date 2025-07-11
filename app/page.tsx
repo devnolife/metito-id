@@ -1,8 +1,5 @@
-import { Header } from "@/components/header"
 import { Hero } from "@/components/hero"
 import { ProductShowcase } from "@/components/product-showcase"
-import { FeaturedProducts } from "@/components/featured-products"
-import { WhyChooseUs } from "@/components/why-choose-us"
 import { Footer } from "@/components/footer"
 import { WhatsAppFloat } from "@/components/whatsapp-float"
 import { Badge } from "@/components/ui/badge"
@@ -52,7 +49,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header />
       <Hero />
 
       {/* Stats Section */}
@@ -66,7 +62,7 @@ export default function Home() {
               Solusi Pengolahan Air Profesional
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Perusahaan baru yang berkomitmen memberikan solusi pengolahan air terbaik dengan teknologi modern dan layanan prima.
+              Perusahaan yang berkomitmen memberikan solusi pengolahan air terbaik dengan teknologi modern dan layanan prima.
             </p>
           </div>
 
@@ -126,7 +122,7 @@ export default function Home() {
               Komitmen Terhadap Masa Depan Air Bersih
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Sebagai perusahaan baru, kami berkomitmen untuk menjadi pioneer dalam teknologi pengolahan air yang berkelanjutan.
+              Kami berkomitmen untuk menjadi pioneer dalam teknologi pengolahan air yang berkelanjutan.
             </p>
           </div>
 
@@ -164,13 +160,13 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
-                Mengapa Memilih Metito Water Engineer
+                Mengapa Memilih Metito Water Solutions
               </Badge>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                 Keunggulan dalam Solusi Pengolahan Air
               </h2>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Sebagai perusahaan baru, kami berkomitmen memberikan solusi pengolahan air inovatif dengan teknologi terdepan dan dedikasi tinggi untuk memenuhi kebutuhan pelanggan.
+                Kami berkomitmen memberikan solusi pengolahan air inovatif dengan teknologi terdepan dan dedikasi tinggi untuk memenuhi kebutuhan pelanggan.
               </p>
 
               <div className="space-y-4 mb-8">

@@ -1,8 +1,8 @@
-import { SidebarLayout } from "@/components/sidebar-layout"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Footer } from "@/components/footer"
 import { Eye, Download, MapPin, Calendar, Building } from "lucide-react"
 import Image from "next/image"
 
@@ -106,38 +106,53 @@ export default function GalleryPage() {
   }
 
   return (
-    <SidebarLayout
-      title="Galeri Proyek"
-      description="Jelajahi instalasi pengolahan air yang berhasil di seluruh Indonesia, menampilkan solusi inovatif dan keunggulan teknik."
-    >
-      <div className="space-y-16">
-        {/* Quick Actions */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 px-8 py-3 rounded-xl font-semibold">
-            Lihat Semua Proyek
-          </Button>
-          <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-            <Download className="w-4 h-4 mr-2" />
-            Unduh Brosur
-          </Button>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white py-20 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="flex items-center justify-center mb-6">
+            <Badge className="bg-blue-500/20 text-blue-100 px-4 py-2 text-sm font-medium">
+              Portfolio Terbaik
+            </Badge>
+          </div>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            Galeri Proyek
+            <span className="block bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">
+              Unggulan Kami
+            </span>
+          </h1>
+          <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+            Jelajahi portofolio komprehensif proyek pengolahan air kami di berbagai industri dan aplikasi dengan standar kualitas tertinggi.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+              Lihat Semua Proyek
+            </Button>
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
+              <Download className="w-4 h-4 mr-2" />
+              Unduh Brosur
+            </Button>
+          </div>
         </div>
+      </section>
 
-        {/* Project Gallery */}
-        <section>
-          <div className="text-center mb-8">
+      {/* Project Gallery Section */}
+      <section className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
             <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
               Portfolio Terbaik
             </Badge>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Proyek Unggulan
             </h2>
-            <p className="text-gray-600 max-w-3xl mx-auto">
-              Jelajahi portofolio komprehensif proyek pengolahan air kami di berbagai industri dan aplikasi dengan standar kualitas tertinggi.
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Koleksi lengkap proyek-proyek pengolahan air yang telah kami kerjakan dengan standar internasional
             </p>
           </div>
 
           <Tabs defaultValue="all" className="w-full">
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center mb-12">
               <TabsList className="inline-flex h-auto p-1 bg-white/80 backdrop-blur-sm shadow-lg border border-gray-200/50 rounded-2xl">
                 {categories.map((category) => (
                   <TabsTrigger
@@ -158,18 +173,18 @@ export default function GalleryPage() {
 
             {categories.map((category) => (
               <TabsContent key={category.id} value={category.id} className="mt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {filterProjects(category.id).map((project) => (
-                    <Card key={project.id} className="group relative bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200">
+                    <Card key={project.id} className="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-0 hover:scale-105">
                       <div className="relative overflow-hidden">
                         <div className="aspect-[4/3] relative">
                           <Image
                             src={project.image}
                             alt={project.title}
                             fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            className="object-cover transition-transform duration-300 group-hover:scale-110"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         </div>
 
                         {/* Category Badge */}
@@ -182,10 +197,10 @@ export default function GalleryPage() {
                         {/* Action Buttons */}
                         <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                           <div className="flex gap-2">
-                            <Button size="sm" className="bg-white/90 text-gray-700 hover:bg-white rounded-full w-8 h-8 p-0">
+                            <Button size="sm" className="bg-white/90 text-gray-700 hover:bg-white rounded-full w-10 h-10 p-0">
                               <Eye className="w-4 h-4" />
                             </Button>
-                            <Button size="sm" className="bg-white/90 text-gray-700 hover:bg-white rounded-full w-8 h-8 p-0">
+                            <Button size="sm" className="bg-white/90 text-gray-700 hover:bg-white rounded-full w-10 h-10 p-0">
                               <Download className="w-4 h-4" />
                             </Button>
                           </div>
@@ -202,23 +217,22 @@ export default function GalleryPage() {
 
                         <div className="space-y-2 text-sm text-gray-500">
                           <div className="flex items-center gap-2">
-                            <Building className="w-4 h-4" />
-                            <span>{project.client}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <MapPin className="w-4 h-4" />
+                            <MapPin className="w-4 h-4 text-blue-600" />
                             <span>{project.location}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4" />
+                            <Calendar className="w-4 h-4 text-blue-600" />
                             <span>{project.year}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Building className="w-4 h-4 text-blue-600" />
+                            <span>{project.client}</span>
                           </div>
                         </div>
 
-                        <div className="mt-4 pt-4 border-t">
-                          <Button variant="outline" className="w-full group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all">
-                            <Eye className="w-4 h-4 mr-2" />
-                            Lihat Detail
+                        <div className="mt-4 pt-4 border-t border-gray-100">
+                          <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl text-sm">
+                            Lihat Detail Proyek
                           </Button>
                         </div>
                       </CardContent>
@@ -228,13 +242,17 @@ export default function GalleryPage() {
               </TabsContent>
             ))}
           </Tabs>
-        </section>
+        </div>
+      </section>
 
-        {/* CTA Section */}
-        <section className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-white text-center">
-          <h2 className="text-3xl font-bold mb-4">Tertarik dengan Proyek Kami?</h2>
-          <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
-            Hubungi kami untuk diskusi mendalam tentang bagaimana kami dapat membantu proyek pengolahan air Anda berikutnya.
+      {/* CTA Section */}
+      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-blue-700">
+        <div className="max-w-4xl mx-auto text-center text-white">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            Tertarik dengan Proyek Kami?
+          </h2>
+          <p className="text-xl mb-8 text-blue-100">
+            Konsultasikan kebutuhan proyek pengolahan air Anda dengan tim ahli kami untuk mendapatkan solusi terbaik.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
@@ -242,11 +260,13 @@ export default function GalleryPage() {
             </Button>
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
               <Download className="w-5 h-5 mr-2" />
-              Portfolio Lengkap
+              Download Portfolio
             </Button>
           </div>
-        </section>
-      </div>
-    </SidebarLayout>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
   )
 } 
