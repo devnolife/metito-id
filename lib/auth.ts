@@ -59,9 +59,13 @@ export const verifyJWT = (token: string): JWTPayload | null => {
 // Get user from request
 export const getUserFromRequest = async (request: NextRequest) => {
   try {
+    // Try multiple token sources for better compatibility
     const authHeader = request.headers.get('authorization')
     const cookieToken = request.cookies.get('auth-token')?.value
-    const token = authHeader?.replace('Bearer ', '') || cookieToken
+    const bearerToken = authHeader?.replace('Bearer ', '') || null
+
+    // Prioritize Authorization header, then cookie
+    const token = bearerToken || cookieToken
 
     if (!token) {
       return null

@@ -25,9 +25,9 @@ interface AdminSidebarProps {
 
 export function AdminSidebar({ collapsed = false, onToggleCollapse }: AdminSidebarProps) {
   const pathname = usePathname()
-  
+
   const menuItems = [
-    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, href: "/admin/dashboard" },
+    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, href: "/admin" },
     { id: "products", label: "Produk", icon: Package, href: "/admin/products" },
     { id: "services", label: "Layanan", icon: Settings, href: "/admin/services" },
     { id: "gallery", label: "Galeri", icon: ImageIcon, href: "/admin/gallery" },
@@ -40,7 +40,7 @@ export function AdminSidebar({ collapsed = false, onToggleCollapse }: AdminSideb
 
   return (
     <div
-      className={`fixed left-0 top-0 h-full primary-blue text-white transition-all duration-300 z-30 ${collapsed ? "w-16" : "w-64"
+      className={`fixed left-0 top-0 h-full bg-blue-900 text-white transition-all duration-300 z-30 ${collapsed ? "w-16" : "w-64"
         }`}
     >
       {/* Header */}

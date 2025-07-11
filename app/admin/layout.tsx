@@ -1,45 +1,101 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { AdminSidebar } from "@/components/admin/shared/admin-sidebar"
+import { AdminHeader } from "@/components/admin/shared/admin-header"
+import { LoadingOverlay } from "@/components/admin/ui/loading-overlay"
+import { useToast } from "@/hooks/use-toast"
 
 interface AdminLayoutProps {
   children: React.ReactNode
+}
+
+interface AdminUser {
+  id: string
+  email: string
+  name: string
+  role: string
+  createdAt: string
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [user, setUser] = useState<AdminUser | null>(null)
   const router = useRouter()
+  const pathname = usePathname()
+  const { toast } = useToast()
+
+  // Pages that don't require authentication
+  const publicPages = ['/admin/login']
+  const isPublicPage = publicPages.includes(pathname)
 
   useEffect(() => {
-    checkAuthStatus()
-  }, [])
+    if (!isPublicPage) {
+      checkAuthStatus()
+    } else {
+      setIsLoading(false)
+    }
+  }, [pathname, isPublicPage])
 
   const checkAuthStatus = async () => {
     try {
+      setIsLoading(true)
+
+      const authToken = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null
+      const headers: HeadersInit = {
+        'Cache-Control': 'no-cache',
+      }
+
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`
+      }
+
       const response = await fetch('/api/auth/me', {
         method: 'GET',
         credentials: 'include',
-        headers: {
-          'Cache-Control': 'no-cache',
-        },
+        headers,
       })
 
       if (response.ok) {
         const data = await response.json()
         if (data.success && data.data.role === 'ADMIN') {
           setIsAuthenticated(true)
-        } else {
-          router.push('/admin')
+          setUser(data.data)
+
+          // Store user data in localStorage
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('adminUser', JSON.stringify(data.data))
+          }
+          return
         }
-      } else {
-        router.push('/admin')
       }
+
+      // Not authenticated, redirect to login
+      setIsAuthenticated(false)
+      setUser(null)
+
+      // Clear stored data
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('adminUser')
+        localStorage.removeItem('authToken')
+      }
+
+      router.push('/admin/login?redirect=' + encodeURIComponent(pathname))
     } catch (error) {
-      router.push('/admin')
+      console.error('Auth check error:', error)
+      setIsAuthenticated(false)
+      setUser(null)
+
+      toast({
+        title: "Kesalahan Jaringan",
+        description: "Tidak dapat memverifikasi akses. Silakan login kembali.",
+        variant: "destructive",
+      })
+
+      router.push('/admin/login?redirect=' + encodeURIComponent(pathname))
     } finally {
       setIsLoading(false)
     }
@@ -47,41 +103,94 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   const handleLogout = async () => {
     try {
+      setIsLoading(true)
+
       await fetch('/api/auth/logout', {
         method: 'POST',
         credentials: 'include',
       })
+
+      toast({
+        title: "Logout Berhasil",
+        description: "Anda telah berhasil logout.",
+        variant: "default",
+      })
     } catch (error) {
-      // Ignore logout errors
+      console.error('Logout error:', error)
+      toast({
+        title: "Kesalahan",
+        description: "Terjadi kesalahan saat logout.",
+        variant: "destructive",
+      })
     } finally {
+      // Clear stored data
       if (typeof window !== 'undefined') {
         localStorage.removeItem('adminUser')
+        localStorage.removeItem('authToken')
       }
-      router.push('/admin')
+
+      setIsAuthenticated(false)
+      setUser(null)
+      setIsLoading(false)
+
+      router.push('/admin/login')
     }
   }
 
+  // Loading state
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-blue"></div>
-      </div>
+      <LoadingOverlay
+        message="Memuat halaman admin..."
+        submessage="Mohon tunggu sebentar"
+        type="default"
+      />
     )
   }
 
-  if (!isAuthenticated) {
-    return null // Router will redirect
+  // Public pages (like login) - render without sidebar
+  if (isPublicPage) {
+    return <>{children}</>
   }
 
+  // Private pages - require authentication
+  if (!isAuthenticated || !user) {
+    return null // Will redirect to login
+  }
+
+  // Authenticated admin - render with sidebar
   return (
     <div className="flex h-screen bg-gray-50">
       <AdminSidebar
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
-      <main className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
-        {children}
-      </main>
+      <div className={`flex-1 flex flex-col transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
+        <AdminHeader
+          title={getPageTitle(pathname)}
+          user={user}
+          onLogout={handleLogout}
+        />
+        <main className="flex-1 overflow-auto">
+          {children}
+        </main>
+      </div>
     </div>
   )
+}
+
+function getPageTitle(pathname: string): string {
+  const titleMap: { [key: string]: string } = {
+    '/admin': 'Dashboard Admin',
+    '/admin/products': 'Manajemen Produk',
+    '/admin/services': 'Manajemen Layanan',
+    '/admin/customers': 'Manajemen Pelanggan',
+    '/admin/gallery': 'Manajemen Galeri',
+    '/admin/blog': 'Manajemen Blog',
+    '/admin/certifications': 'Manajemen Sertifikasi',
+    '/admin/contact': 'Manajemen Kontak',
+    '/admin/settings': 'Pengaturan',
+  }
+
+  return titleMap[pathname] || 'Dashboard Admin'
 }

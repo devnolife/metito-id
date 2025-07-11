@@ -81,8 +81,8 @@ export async function POST(request: NextRequest) {
     // Set HTTP-only cookie with proper configuration
     response.cookies.set('auth-token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax', // Always use 'lax' for better compatibility
+      secure: false, // Set to false for development (localhost)
+      sameSite: 'lax',
       path: '/',
       maxAge: 60 * 60 * 24 * 7, // 7 days to match JWT expiry
     })
@@ -90,8 +90,8 @@ export async function POST(request: NextRequest) {
     // Also set a client-side readable cookie for auth status
     response.cookies.set('auth-status', 'authenticated', {
       httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax', // Always use 'lax' for better compatibility
+      secure: false, // Set to false for development (localhost)
+      sameSite: 'lax',
       path: '/',
       maxAge: 60 * 60 * 24 * 7, // 7 days
     })

@@ -9,10 +9,173 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
-import { Search, Filter, Grid, List, Star, Heart, ShoppingCart, Droplets, Gauge, Calendar, MapPin, CheckCircle } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Search, Filter, Grid, List, Star, Heart, ShoppingCart, Droplets, Gauge, Calendar, MapPin, CheckCircle, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { getSetting } from "@/lib/settings"
+
+// Product Detail Dialog Component
+function ProductDetailDialog({ product, showPrices }: { product: any; showPrices: boolean }) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" className="rounded-xl border-blue-200 text-blue-600 hover:bg-blue-50 h-9 px-4 text-sm">
+          Lihat Detail
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold text-gray-900">{product.name}</DialogTitle>
+        </DialogHeader>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Product Image */}
+          <div className="relative">
+            <Image
+              src={product.image}
+              alt={product.name}
+              width={500}
+              height={400}
+              className="w-full h-80 object-cover rounded-xl"
+            />
+            <div className="absolute top-4 left-4">
+              <Badge className={`${product.inStock ? "bg-green-500" : "bg-orange-500"} text-white`}>
+                {product.inStock ? "Tersedia" : "Pesan Terlebih Dahulu"}
+              </Badge>
+            </div>
+            {product.originalPrice && (
+              <div className="absolute top-4 right-4">
+                <Badge className="bg-red-500 text-white">
+                  Hemat {new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    minimumFractionDigits: 0
+                  }).format(product.originalPrice - product.price)}
+                </Badge>
+              </div>
+            )}
+          </div>
+
+          {/* Product Info */}
+          <div className="space-y-6">
+            {/* Rating and Category */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className={`w-5 h-5 ${i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"}`}
+                  />
+                ))}
+                <span className="text-sm text-gray-600 ml-2 font-medium">({product.reviews} ulasan)</span>
+              </div>
+              <Badge variant="outline" className="text-blue-600 border-blue-200">
+                {product.category}
+              </Badge>
+            </div>
+
+            {/* Description */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Deskripsi</h3>
+              <p className="text-gray-600 leading-relaxed">{product.description}</p>
+            </div>
+
+            {/* Specifications */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Spesifikasi</h3>
+              <div className="grid grid-cols-2 gap-3">
+                {product.specs.map((spec: string, index: number) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span className="text-sm text-gray-700">{spec}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Product Details */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Detail Produk</h3>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 text-gray-600">
+                  <Droplets className="w-5 h-5 text-blue-600" />
+                  <span>Kapasitas: {product.capacity}</span>
+                </div>
+                <div className="flex items-center gap-3 text-gray-600">
+                  <Calendar className="w-5 h-5 text-blue-600" />
+                  <span>Garansi: {product.warranty}</span>
+                </div>
+                <div className="flex items-center gap-3 text-gray-600">
+                  <MapPin className="w-5 h-5 text-blue-600" />
+                  <span>Pengiriman: {product.delivery}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Features */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Fitur Utama</h3>
+              <div className="grid grid-cols-2 gap-2">
+                {product.features.map((feature: string, index: number) => (
+                  <Badge key={index} variant="secondary" className="text-xs px-3 py-1">
+                    {feature}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            {/* Price */}
+            <div className="border-t pt-4">
+              <div className="mb-4">
+                {showPrices ? (
+                  <div>
+                    <span className="text-3xl font-bold text-blue-600">
+                      {new Intl.NumberFormat('id-ID', {
+                        style: 'currency',
+                        currency: 'IDR',
+                        minimumFractionDigits: 0
+                      }).format(product.price)}
+                    </span>
+                    {product.originalPrice && (
+                      <span className="text-lg text-gray-500 line-through ml-3">
+                        {new Intl.NumberFormat('id-ID', {
+                          style: 'currency',
+                          currency: 'IDR',
+                          minimumFractionDigits: 0
+                        }).format(product.originalPrice)}
+                      </span>
+                    )}
+                  </div>
+                ) : (
+                  <span className="text-2xl font-semibold text-gray-600">
+                    Hubungi untuk Harga
+                  </span>
+                )}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <Button
+                  className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl"
+                  disabled={!product.inStock}
+                >
+                  <ShoppingCart className="w-4 h-4 mr-2" />
+                  {product.inStock ? "Tambah ke Keranjang" : "Pesan Terlebih Dahulu"}
+                </Button>
+                <Button variant="outline" className="rounded-xl border-blue-200 text-blue-600 hover:bg-blue-50">
+                  Hubungi Kami
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
 
 export default function ProductsPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
@@ -240,13 +403,13 @@ export default function ProductsPage() {
                         className="mb-4"
                       />
                       <div className="flex justify-between text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
-                        <span className="font-medium">{new Intl.NumberFormat('id-ID', { 
-                          style: 'currency', 
+                        <span className="font-medium">{new Intl.NumberFormat('id-ID', {
+                          style: 'currency',
                           currency: 'IDR',
                           minimumFractionDigits: 0
                         }).format(priceRange[0])}</span>
-                        <span className="font-medium">{new Intl.NumberFormat('id-ID', { 
-                          style: 'currency', 
+                        <span className="font-medium">{new Intl.NumberFormat('id-ID', {
+                          style: 'currency',
                           currency: 'IDR',
                           minimumFractionDigits: 0
                         }).format(priceRange[1])}</span>
@@ -362,8 +525,8 @@ export default function ProductsPage() {
                         {product.originalPrice && (
                           <div className="absolute bottom-4 left-4">
                             <Badge className="bg-red-500 text-white">
-                              Hemat {new Intl.NumberFormat('id-ID', { 
-                                style: 'currency', 
+                              Hemat {new Intl.NumberFormat('id-ID', {
+                                style: 'currency',
                                 currency: 'IDR',
                                 minimumFractionDigits: 0
                               }).format(product.originalPrice - product.price)}
@@ -378,8 +541,7 @@ export default function ProductsPage() {
                             {[...Array(5)].map((_, i) => (
                               <Star
                                 key={i}
-                                className={`w-4 h-4 ${i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"
-                                  }`}
+                                className={`w-4 h-4 ${i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"}`}
                               />
                             ))}
                             <span className="text-sm text-gray-600 ml-2 font-medium">({product.reviews})</span>
@@ -397,45 +559,31 @@ export default function ProductsPage() {
                           <p className="text-gray-600 mb-4 leading-relaxed">{product.description}</p>
                         )}
 
+                        {/* Key Specs - Only show 2 most important */}
                         <div className="flex flex-wrap gap-2 mb-4">
-                          {product.specs.map((spec, index) => (
+                          {product.specs.slice(0, 2).map((spec, index) => (
                             <Badge key={index} variant="secondary" className="text-xs px-2 py-1">
                               {spec}
                             </Badge>
                           ))}
                         </div>
 
-                        {/* Product Details */}
-                        <div className="space-y-2 mb-4 text-sm">
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <Droplets className="w-4 h-4 text-blue-600" />
-                            <span>Kapasitas: {product.capacity}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <Calendar className="w-4 h-4 text-blue-600" />
-                            <span>Garansi: {product.warranty}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <MapPin className="w-4 h-4 text-blue-600" />
-                            <span>Pengiriman: {product.delivery}</span>
-                          </div>
-                        </div>
-
+                        {/* Price */}
                         <div className="flex items-center justify-between mb-4">
                           <div>
                             {showPrices ? (
                               <>
-                                <span className="text-2xl font-bold text-blue-600">
-                                  {new Intl.NumberFormat('id-ID', { 
-                                    style: 'currency', 
+                                <span className="text-xl font-bold text-blue-600">
+                                  {new Intl.NumberFormat('id-ID', {
+                                    style: 'currency',
                                     currency: 'IDR',
                                     minimumFractionDigits: 0
                                   }).format(product.price)}
                                 </span>
                                 {product.originalPrice && (
                                   <span className="text-sm text-gray-500 line-through ml-2">
-                                    {new Intl.NumberFormat('id-ID', { 
-                                      style: 'currency', 
+                                    {new Intl.NumberFormat('id-ID', {
+                                      style: 'currency',
                                       currency: 'IDR',
                                       minimumFractionDigits: 0
                                     }).format(product.originalPrice)}
@@ -450,20 +598,16 @@ export default function ProductsPage() {
                           </div>
                         </div>
 
+                        {/* Action Buttons */}
                         <div className="flex gap-2">
                           <Button
-                            className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl"
-                            size="sm"
+                            className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl h-9 px-4 text-sm"
                             disabled={!product.inStock}
                           >
                             <ShoppingCart className="w-4 h-4 mr-2" />
                             {product.inStock ? "Tambah ke Keranjang" : "Pesan Terlebih Dahulu"}
                           </Button>
-                          <Button variant="outline" size="sm" asChild className="rounded-xl border-blue-200 text-blue-600 hover:bg-blue-50">
-                            <Link href={`/products/${product.id}`}>
-                              Lihat Detail
-                            </Link>
-                          </Button>
+                          <ProductDetailDialog product={product} showPrices={showPrices} />
                         </div>
                       </CardContent>
                     </div>

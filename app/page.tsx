@@ -8,7 +8,7 @@ import { WhatsAppFloat } from "@/components/whatsapp-float"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Users, Award, Globe, Shield, Droplets, Filter, Zap, Settings, Star, CheckCircle, ArrowRight, Target, Lightbulb, Heart } from "lucide-react"
+import { Award, Shield, Droplets, Filter, Zap, Settings, Star, CheckCircle, ArrowRight, Target, Lightbulb, Heart } from "lucide-react"
 
 export default function Home() {
   const stats = [

@@ -1,15 +1,12 @@
 "use client"
 
-import { useState, useEffect, Suspense } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { AdminLogin } from "@/components/admin/admin-login"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { LoadingOverlay } from "@/components/admin/ui/loading-overlay"
-import { ErrorHandler, useErrorHandler } from "@/components/admin/ui/error-handler"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Settings, Users, Package, FileText, Image, Phone, Shield, ArrowRight, CheckCircle } from "lucide-react"
-import { adminDebugger, debugFetch, useAdminDebug } from "@/lib/admin-debug"
+import { useToast } from "@/hooks/use-toast"
+import { Settings, Users, Package, FileText, Image, Phone, TrendingUp, Calendar, Bell, Activity } from "lucide-react"
 
 interface AdminUser {
   id: string
@@ -19,274 +16,292 @@ interface AdminUser {
   createdAt: string
 }
 
-function AdminPageContent() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+interface DashboardStats {
+  totalProducts: number
+  totalCustomers: number
+  totalOrders: number
+  totalRevenue: number
+}
+
+export default function AdminDashboard() {
   const [user, setUser] = useState<AdminUser | null>(null)
-  const [showWelcome, setShowWelcome] = useState(false)
-  const [redirectCountdown, setRedirectCountdown] = useState(3)
+  const [isLoading, setIsLoading] = useState(true)
+  const [stats, setStats] = useState<DashboardStats>({
+    totalProducts: 0,
+    totalCustomers: 0,
+    totalOrders: 0,
+    totalRevenue: 0
+  })
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const redirectTo = searchParams.get('redirect') || '/admin/dashboard'
-  const { error, errorType, handleError, clearError, autoHandleError } = useErrorHandler()
-  const { debug } = useAdminDebug()
+  const { toast } = useToast()
 
   useEffect(() => {
     checkAuthStatus()
   }, [])
 
-  // Countdown untuk redirect
-  useEffect(() => {
-    if (showWelcome && redirectCountdown > 0) {
-      const timer = setTimeout(() => {
-        setRedirectCountdown(redirectCountdown - 1)
-      }, 1000)
-      return () => clearTimeout(timer)
-    } else if (showWelcome && redirectCountdown === 0) {
-      router.push(redirectTo)
-    }
-  }, [showWelcome, redirectCountdown, router, redirectTo])
-
   const checkAuthStatus = async () => {
     try {
       setIsLoading(true)
-      clearError()
-      adminDebugger.authCheck('checking', { url: '/api/auth/me' })
 
-      // Check authentication with backend
-      const response = await debugFetch('/api/auth/me', {
+      const authToken = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null
+      const headers: HeadersInit = {
+        'Cache-Control': 'no-cache',
+      }
+
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`
+      }
+
+      const response = await fetch('/api/auth/me', {
         method: 'GET',
         credentials: 'include',
-        headers: {
-          'Cache-Control': 'no-cache',
-        },
+        headers,
       })
 
       if (response.ok) {
         const data = await response.json()
-        adminDebugger.authCheck('success', data)
 
-        // Check if user is admin
         if (data.success && data.data.role === 'ADMIN') {
-          setIsAuthenticated(true)
           setUser(data.data)
-          setShowWelcome(true)
-          adminDebugger.authSuccess(data.data)
-
-          // Store user data in localStorage as backup
-          if (typeof window !== 'undefined') {
-            localStorage.setItem('adminUser', JSON.stringify(data.data))
-            adminDebugger.info('auth', 'User data stored in localStorage')
-          }
-
+          // Load dashboard stats here
+          loadDashboardStats()
           return
         } else if (data.success && data.data.role !== 'ADMIN') {
-          // User is authenticated but not admin
-          adminDebugger.warn('auth', `User ${data.data.email} is not admin`, { role: data.data.role })
-          handleError('Akses ditolak. Anda tidak memiliki hak akses admin.', 'permission')
+          toast({
+            title: "Akses Ditolak",
+            description: "Anda tidak memiliki hak akses admin.",
+            variant: "destructive",
+          })
+          router.push('/admin/login')
           return
         }
-      } else if (response.status === 401) {
-        // Unauthorized - show login
-        adminDebugger.info('auth', 'User not authenticated, showing login form')
-        clearError()
-      } else {
-        // Other errors
-        adminDebugger.error('auth', `Server error: ${response.status}`, {
-          status: response.status,
-          statusText: response.statusText
-        })
-        autoHandleError(new Error(`Server error: ${response.status}`))
-        return
       }
+
+      // Redirect to login if not authenticated
+      router.push('/admin/login')
     } catch (error) {
-      adminDebugger.authFailure(error)
-      autoHandleError(error)
+      console.error('Auth check error:', error)
+      toast({
+        title: "Kesalahan Jaringan",
+        description: "Tidak dapat memverifikasi akses. Silakan login kembali.",
+        variant: "destructive",
+      })
+      router.push('/admin/login')
     } finally {
       setIsLoading(false)
     }
   }
 
-  const handleLogin = async (success: boolean, userData: any = null) => {
+  const loadDashboardStats = async () => {
     try {
-      if (success && userData) {
-        if (userData.role !== 'ADMIN') {
-          handleError('Akses ditolak. Anda tidak memiliki hak akses admin.', 'permission')
-          return
-        }
-
-        setIsAuthenticated(true)
-        setUser(userData)
-        setShowWelcome(true)
-
-        // Store user data in localStorage
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('adminUser', JSON.stringify(userData))
-        }
-
-        clearError()
-      } else {
-        // Clear any stored data on failed login
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem('adminUser')
-        }
-        handleError('Login gagal. Silakan periksa kredensial Anda.', 'auth')
-      }
+      // TODO: Implement actual API calls for dashboard stats
+      // For now, using mock data
+      setStats({
+        totalProducts: 45,
+        totalCustomers: 128,
+        totalOrders: 89,
+        totalRevenue: 2500000
+      })
     } catch (error) {
-      autoHandleError(error)
+      console.error('Error loading dashboard stats:', error)
     }
   }
 
-  const handleRetry = () => {
-    clearError()
-    checkAuthStatus()
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0
+    }).format(amount)
   }
 
-  const handleGoHome = () => {
-    router.push('/')
-  }
-
-  const handleSkipWelcome = () => {
-    setRedirectCountdown(0)
-  }
-
-  // Show error page if there's an error
-  if (error) {
-    return (
-      <ErrorHandler
-        error={error}
-        type={errorType}
-        onRetry={handleRetry}
-        onGoHome={handleGoHome}
-        showRetry={errorType !== 'permission'}
-        showGoHome={true}
-      />
-    )
-  }
-
-  // Show loading state
   if (isLoading) {
     return (
       <LoadingOverlay
-        message="Memverifikasi akses admin..."
-        submessage="Mohon tunggu, kami sedang memeriksa kredensial Anda"
-        type="auth"
-      />
-    )
-  }
-
-  // Show welcome screen for authenticated admin
-  if (isAuthenticated && showWelcome && user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-orange-50 p-4">
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-          <div className="absolute top-40 right-10 w-72 h-72 bg-orange-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-        </div>
-
-        <div className="relative z-10 max-w-2xl w-full">
-          <Card className="shadow-2xl border-0">
-            <CardHeader className="text-center pb-6">
-              <div className="flex justify-center mb-4">
-                <div className="relative w-16 h-16 p-3 bg-gradient-to-br from-green-50 to-blue-50 rounded-2xl">
-                  <CheckCircle className="w-10 h-10 text-green-600" />
-                </div>
-              </div>
-              <CardTitle className="text-2xl font-bold text-gray-800">
-                Selamat Datang, {user.name}!
-              </CardTitle>
-              <p className="text-gray-600 mt-2">
-                Anda berhasil login sebagai administrator
-              </p>
-            </CardHeader>
-
-            <CardContent className="space-y-6">
-              {/* User Info */}
-              <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
-                <div className="flex items-center space-x-3">
-                  <Shield className="w-5 h-5 text-blue-600" />
-                  <div>
-                    <p className="font-medium text-gray-800">{user.email}</p>
-                    <p className="text-sm text-gray-600">Administrator</p>
-                  </div>
-                </div>
-                <Badge variant="secondary" className="bg-blue-100 text-blue-800">
-                  {user.role}
-                </Badge>
-              </div>
-
-              {/* Quick Access Menu */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <div className="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                  <Users className="w-8 h-8 text-blue-600 mb-2" />
-                  <span className="text-sm font-medium text-gray-700">Customers</span>
-                </div>
-                <div className="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                  <Package className="w-8 h-8 text-green-600 mb-2" />
-                  <span className="text-sm font-medium text-gray-700">Products</span>
-                </div>
-                <div className="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                  <FileText className="w-8 h-8 text-purple-600 mb-2" />
-                  <span className="text-sm font-medium text-gray-700">Blog</span>
-                </div>
-                <div className="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                  <Image className="w-8 h-8 text-orange-600 mb-2" />
-                  <span className="text-sm font-medium text-gray-700">Gallery</span>
-                </div>
-                <div className="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                  <Phone className="w-8 h-8 text-red-600 mb-2" />
-                  <span className="text-sm font-medium text-gray-700">Contact</span>
-                </div>
-                <div className="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                  <Settings className="w-8 h-8 text-gray-600 mb-2" />
-                  <span className="text-sm font-medium text-gray-700">Settings</span>
-                </div>
-              </div>
-
-              {/* Redirect Info */}
-              <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-orange-50 rounded-lg border border-blue-200">
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">{redirectCountdown}</span>
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-800">Menuju Dashboard</p>
-                    <p className="text-sm text-gray-600">Redirecting in {redirectCountdown} seconds...</p>
-                  </div>
-                </div>
-                <Button
-                  onClick={handleSkipWelcome}
-                  className="bg-primary-blue hover:bg-blue-700 text-white"
-                  size="sm"
-                >
-                  Lanjutkan <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    )
-  }
-
-  // Show login form
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <AdminLogin onLogin={handleLogin} />
-    </div>
-  )
-}
-
-export default function AdminPage() {
-  return (
-    <Suspense fallback={
-      <LoadingOverlay
-        message="Memuat halaman admin..."
+        message="Memuat dashboard..."
         submessage="Mohon tunggu sebentar"
         type="default"
       />
-    }>
-      <AdminPageContent />
-    </Suspense>
+    )
+  }
+
+  if (!user) {
+    return null // Will redirect to login
+  }
+
+  return (
+    <div className="p-6 space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Dashboard Admin</h1>
+          <p className="text-gray-600">Selamat datang kembali, {user.name}</p>
+        </div>
+        <div className="flex items-center space-x-4">
+          <Badge variant="outline" className="text-blue-600 border-blue-600">
+            {user.role}
+          </Badge>
+          <div className="text-sm text-gray-500">
+            {new Date().toLocaleDateString('id-ID', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Produk</CardTitle>
+            <Package className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.totalProducts}</div>
+            <p className="text-xs text-muted-foreground">Produk aktif</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Pelanggan</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.totalCustomers}</div>
+            <p className="text-xs text-muted-foreground">Pelanggan terdaftar</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Pesanan</CardTitle>
+            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.totalOrders}</div>
+            <p className="text-xs text-muted-foreground">Pesanan bulan ini</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+            <Activity className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{formatCurrency(stats.totalRevenue)}</div>
+            <p className="text-xs text-muted-foreground">Revenue bulan ini</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Package className="h-5 w-5" />
+              Manajemen Produk
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600 mb-4">Kelola katalog produk dan layanan</p>
+            <div className="space-y-2">
+              <a href="/admin/products" className="block p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                <div className="font-medium">Produk</div>
+                <div className="text-sm text-gray-600">Manage products</div>
+              </a>
+              <a href="/admin/services" className="block p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
+                <div className="font-medium">Layanan</div>
+                <div className="text-sm text-gray-600">Manage services</div>
+              </a>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Users className="h-5 w-5" />
+              Manajemen Pelanggan
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600 mb-4">Kelola data pelanggan dan kontak</p>
+            <div className="space-y-2">
+              <a href="/admin/customers" className="block p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
+                <div className="font-medium">Pelanggan</div>
+                <div className="text-sm text-gray-600">Manage customers</div>
+              </a>
+              <a href="/admin/contact" className="block p-3 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors">
+                <div className="font-medium">Kontak</div>
+                <div className="text-sm text-gray-600">Manage inquiries</div>
+              </a>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <FileText className="h-5 w-5" />
+              Konten & Media
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600 mb-4">Kelola konten dan media</p>
+            <div className="space-y-2">
+              <a href="/admin/blog" className="block p-3 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">
+                <div className="font-medium">Blog</div>
+                <div className="text-sm text-gray-600">Manage blog posts</div>
+              </a>
+              <a href="/admin/gallery" className="block p-3 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition-colors">
+                <div className="font-medium">Galeri</div>
+                <div className="text-sm text-gray-600">Manage gallery</div>
+              </a>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Recent Activity */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Bell className="h-5 w-5" />
+            Aktivitas Terbaru
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex items-center space-x-4">
+              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <div className="flex-1">
+                <p className="text-sm font-medium">Produk baru ditambahkan</p>
+                <p className="text-xs text-gray-500">2 jam yang lalu</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <div className="flex-1">
+                <p className="text-sm font-medium">Pelanggan baru mendaftar</p>
+                <p className="text-xs text-gray-500">5 jam yang lalu</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+              <div className="flex-1">
+                <p className="text-sm font-medium">Pesanan baru diterima</p>
+                <p className="text-xs text-gray-500">1 hari yang lalu</p>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   )
 }
