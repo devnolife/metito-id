@@ -37,7 +37,7 @@ export function ProductFormDialog({
         </DialogHeader>
 
         <ProductForm
-          product={product}
+          product={product || undefined}
           isEdit={isEdit}
           onSubmit={onSubmit}
           onCancel={onClose}
