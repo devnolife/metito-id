@@ -118,20 +118,6 @@ export function AdminSidebar({ collapsed, onToggleCollapse }: AdminSidebarProps)
         })}
       </nav>
 
-      {/* Footer */}
-      <div className="p-4 border-t border-gray-200">
-        <Button
-          variant="ghost"
-          onClick={handleLogout}
-          className={cn(
-            "w-full justify-start p-3 h-auto text-left text-red-600 hover:bg-red-50 hover:text-red-700",
-            collapsed ? "px-3" : "px-4"
-          )}
-        >
-          <LogOut className="w-5 h-5 flex-shrink-0 mr-3" />
-          {!collapsed && <span className="font-medium">Logout</span>}
-        </Button>
-      </div>
     </div>
   )
 } 
