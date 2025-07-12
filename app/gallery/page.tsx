@@ -12,7 +12,7 @@ export default function GalleryPage() {
       id: 1,
       title: "Pabrik Pengolahan Air Industri",
       category: "industrial",
-      location: "Jakarta, Indonesia",
+      location: "Makassar, Indonesia",
       year: "2023",
       client: "PT Manufacturing Corp",
       image: "/placeholder.jpg",

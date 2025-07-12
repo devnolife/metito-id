@@ -562,7 +562,7 @@ async function main() {
         image: '/images/gallery/ro-plant-jakarta.jpg',
         category: 'Industrial Projects',
         projectType: 'INDUSTRIAL',
-        location: 'Jakarta, Indonesia',
+        location: 'Makassar, Indonesia',
         completedAt: new Date('2023-08-15'),
         isFeatured: true
       }

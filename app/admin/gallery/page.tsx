@@ -37,7 +37,7 @@ export default function AdminGalleryPage() {
       tags: ["pengolahan air", "industri", "limbah"],
       uploadDate: "2024-01-15",
       photographer: "Tim Dokumentasi",
-      location: "Jakarta, Indonesia",
+      location: "Makassar, Indonesia",
       dimensions: "1920x1080",
       fileSize: "2.3 MB",
       isPublic: true,

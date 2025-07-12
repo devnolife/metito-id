@@ -415,7 +415,7 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                   id="location"
                   value={formData.location || ''}
                   onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
-                  placeholder="Contoh: Jakarta, Indonesia"
+                  placeholder="Contoh: Makassar, Indonesia"
                 />
               </div>
             </CardContent>

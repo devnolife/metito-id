@@ -10,9 +10,13 @@ export function Footer() {
           {/* Company Info */}
           <div className="space-y-6">
             <div className="flex items-center space-x-3">
-              <div className="relative w-12 h-12 p-2 bg-white rounded-xl">
-                <Image src="/images/logo.png" alt="Metito Water Solutions" fill className="object-contain" />
-              </div>
+              <Image
+                src="/images/logo.png"
+                alt="Metito Water Solutions"
+                width={48}
+                height={48}
+                className="bg-white rounded-xl p-1"
+              />
               <div>
                 <h3 className="text-xl font-bold text-white">Metito Water Solutions</h3>
                 <p className="text-sm text-blue-200">Solusi Teknik Pengolahan Air</p>
@@ -133,7 +137,7 @@ export function Footer() {
                 <div className="text-blue-100">
                   <p>Jl. Teknologi Air No. 123</p>
                   <p>Kawasan Inovasi</p>
-                  <p>Jakarta, Indonesia 12345</p>
+                  <p>Makassar, Indonesia 12345</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">

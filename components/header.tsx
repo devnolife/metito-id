@@ -53,7 +53,7 @@ export function Header() {
               </div>
               <div className="hidden lg:flex items-center space-x-2 group">
                 <MapPin className="w-4 h-4 group-hover:text-blue-200 transition-colors" />
-                <span className="font-medium">Jakarta, Indonesia</span>
+                <span className="font-medium">Makassar, Indonesia</span>
               </div>
             </div>
             <div className="hidden md:flex items-center space-x-2">
@@ -68,10 +68,14 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-12 h-12 bg-gradient-to-br from-blue-50 to-orange-50 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105 flex items-center justify-center">
-              <Image src="/images/logo.png" alt="Metito Water Solutions" fill className="object-contain" />
-            </div>
+          <Link href="/" className="flex items-center gap-3 group pr-4">
+            <Image
+              src="/images/logo.png"
+              alt="Metito Water Solutions"
+              width={48}
+              height={48}
+              className="group-hover:scale-105 transition-transform duration-300"
+            />
             <div className="flex flex-col justify-center">
               <span className="text-base md:text-lg font-extrabold text-gray-900 group-hover:text-blue-600 leading-tight whitespace-nowrap">
                 Metito Water Solutions
@@ -162,8 +166,8 @@ export function Header() {
                     key={item.name}
                     href={item.href}
                     className={`flex items-center justify-center px-3 py-2 rounded-lg transition-all duration-200 font-medium text-sm ${isActive(item)
-                        ? "text-blue-600 bg-blue-50 shadow-sm border border-blue-100"
-                        : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                      ? "text-blue-600 bg-blue-50 shadow-sm border border-blue-100"
+                      : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
                       }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
