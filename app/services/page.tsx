@@ -9,6 +9,7 @@ export default function ServicesPage() {
     {
       id: 1,
       icon: <Droplets className="w-8 h-8 text-blue-600" />,
+      iconBg: "bg-gradient-to-br from-blue-500 to-blue-600",
       title: "Pengolahan Air Bersih",
       description: "Sistem pengolahan air bersih untuk kebutuhan domestik dan komersial dengan teknologi terdepan.",
       features: ["Sistem filtrasi multi-stage", "Teknologi reverse osmosis", "Monitoring kualitas real-time"],
@@ -16,7 +17,8 @@ export default function ServicesPage() {
     },
     {
       id: 2,
-      icon: <Filter className="w-8 h-8 text-blue-600" />,
+      icon: <Filter className="w-8 h-8 text-orange-600" />,
+      iconBg: "bg-gradient-to-br from-orange-500 to-orange-600",
       title: "Pengolahan Air Limbah",
       description: "Solusi lengkap pengolahan air limbah industri dan domestik sesuai standar lingkungan.",
       features: ["Sistem biologis dan kimia", "Teknologi MBR", "Sertifikasi lingkungan"],
@@ -24,7 +26,8 @@ export default function ServicesPage() {
     },
     {
       id: 3,
-      icon: <Zap className="w-8 h-8 text-blue-600" />,
+      icon: <Zap className="w-8 h-8 text-yellow-600" />,
+      iconBg: "bg-gradient-to-br from-yellow-500 to-yellow-600",
       title: "Sistem Desalinasi",
       description: "Teknologi desalinasi untuk mengubah air laut menjadi air tawar berkualitas tinggi.",
       features: ["Reverse osmosis seawater", "Sistem energi efisien", "Otomasi penuh"],
@@ -32,7 +35,8 @@ export default function ServicesPage() {
     },
     {
       id: 4,
-      icon: <Shield className="w-8 h-8 text-blue-600" />,
+      icon: <Shield className="w-8 h-8 text-green-600" />,
+      iconBg: "bg-gradient-to-br from-green-500 to-green-600",
       title: "Water Quality Testing",
       description: "Layanan pengujian kualitas air komprehensif dengan laboratorium terakreditasi.",
       features: ["Pengujian parameter lengkap", "Sertifikat resmi", "Konsultasi ahli"],
@@ -40,7 +44,8 @@ export default function ServicesPage() {
     },
     {
       id: 5,
-      icon: <Wrench className="w-8 h-8 text-blue-600" />,
+      icon: <Wrench className="w-8 h-8 text-purple-600" />,
+      iconBg: "bg-gradient-to-br from-purple-500 to-purple-600",
       title: "Maintenance & Service",
       description: "Layanan perawatan berkala dan perbaikan sistem pengolahan air existing.",
       features: ["Maintenance rutin", "Emergency repair", "Spare part original"],
@@ -48,7 +53,8 @@ export default function ServicesPage() {
     },
     {
       id: 6,
-      icon: <Clock className="w-8 h-8 text-blue-600" />,
+      icon: <Clock className="w-8 h-8 text-pink-600" />,
+      iconBg: "bg-gradient-to-br from-pink-500 to-pink-600",
       title: "Konsultasi Teknis",
       description: "Konsultasi dan desain sistem pengolahan air sesuai kebutuhan spesifik.",
       features: ["Survei lokasi", "Desain engineering", "Kalkulasi ROI"],
@@ -133,7 +139,7 @@ export default function ServicesPage() {
             {services.map((service) => (
               <Card key={service.id} className="hover:shadow-xl transition-all duration-300 border-0 shadow-lg group hover:scale-105">
                 <CardHeader className="text-center pb-6">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl mb-6 group-hover:scale-110 transition-transform">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 group-hover:scale-110 transition-transform">
                     {service.icon}
                   </div>
                   <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">

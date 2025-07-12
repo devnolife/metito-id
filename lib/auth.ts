@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { NextRequest } from 'next/server'
-import { db } from './db'
+import { prisma } from './db'
 import { jwtVerify, SignJWT } from 'jose'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'metito-tempur'
@@ -76,7 +76,7 @@ export const getUserFromRequest = async (request: NextRequest) => {
       return null
     }
 
-    const user = await db.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id: payload.userId },
       select: {
         id: true,
@@ -113,7 +113,7 @@ export const getUserFromRequestEdge = async (request: NextRequest) => {
       return null
     }
 
-    const user = await db.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id: payload.userId },
       select: {
         id: true,

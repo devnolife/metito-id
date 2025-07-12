@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { verifyAdminAuth } from '@/lib/admin-auth'
+import slugify from 'slugify'
 
 export async function GET(request: NextRequest) {
   try {
@@ -16,7 +17,6 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '10')
-    const categoryId = searchParams.get('categoryId')
     const status = searchParams.get('status') // active, inactive, all
     const search = searchParams.get('search')
     const featured = searchParams.get('featured')
@@ -25,10 +25,6 @@ export async function GET(request: NextRequest) {
 
     // Build where clause
     const where: any = {}
-
-    if (categoryId && categoryId !== 'all') {
-      where.categoryId = categoryId
-    }
 
     if (status && status !== 'all') {
       where.isActive = status === 'active'
@@ -46,25 +42,15 @@ export async function GET(request: NextRequest) {
       ]
     }
 
-    // Fetch products with pagination
-    const [products, totalCount] = await Promise.all([
-      prisma.product.findMany({
+    // Fetch services with pagination
+    const [services, totalCount] = await Promise.all([
+      prisma.service.findMany({
         where,
         skip,
         take: limit,
-        orderBy: { createdAt: 'desc' },
-        include: {
-          category: {
-            select: { id: true, name: true, slug: true }
-          },
-          productImages: {
-            where: { isActive: true },
-            orderBy: { sortOrder: 'asc' },
-            take: 1
-          }
-        }
+        orderBy: { createdAt: 'desc' }
       }),
-      prisma.product.count({ where })
+      prisma.service.count({ where })
     ])
 
     const totalPages = Math.ceil(totalCount / limit)
@@ -72,7 +58,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       data: {
-        products,
+        services,
         pagination: {
           page,
           limit,
@@ -85,7 +71,7 @@ export async function GET(request: NextRequest) {
     })
 
   } catch (error) {
-    console.error('Products API Error:', error)
+    console.error('Services API Error:', error)
     return NextResponse.json(
       {
         success: false,
@@ -111,87 +97,60 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const {
       name,
-      slug,
       description,
       shortDesc,
-      price,
-      capacity,
-      efficiency,
-      location,
-      application,
-      specs,
+      icon,
       features,
-      warranty,
-      delivery,
-      images,
-      documents,
-      categoryId,
-      inStock,
+      pricing,
       isFeatured,
-      isActive,
-      metaTitle,
-      metaDescription
+      isActive
     } = body
 
     // Validate required fields
-    if (!name || !slug || !categoryId) {
+    if (!name || !description) {
       return NextResponse.json(
-        { success: false, message: 'Missing required fields' },
+        { success: false, message: 'Name and description are required' },
         { status: 400 }
       )
     }
 
+    // Generate slug
+    const slug = slugify(name, { lower: true, strict: true })
+
     // Check if slug already exists
-    const existingProduct = await prisma.product.findUnique({
+    const existingService = await prisma.service.findUnique({
       where: { slug }
     })
 
-    if (existingProduct) {
+    if (existingService) {
       return NextResponse.json(
-        { success: false, message: 'Product with this slug already exists' },
+        { success: false, message: 'Service with this name already exists' },
         { status: 400 }
       )
     }
 
-    // Create new product
-    const newProduct = await prisma.product.create({
+    // Create new service
+    const newService = await prisma.service.create({
       data: {
         name,
         slug,
         description,
         shortDesc,
-        price: parseFloat(price) || 0,
-        capacity,
-        efficiency,
-        location,
-        application,
-        specs: specs || {},
+        icon,
         features: features || [],
-        warranty,
-        delivery,
-        images: images || [],
-        documents: documents || [],
-        categoryId,
-        inStock: inStock ?? true,
+        pricing: pricing || {},
         isFeatured: isFeatured ?? false,
-        isActive: isActive ?? true,
-        metaTitle,
-        metaDescription
-      },
-      include: {
-        category: {
-          select: { id: true, name: true, slug: true }
-        }
+        isActive: isActive ?? true
       }
     })
 
     return NextResponse.json({
       success: true,
-      data: newProduct
+      data: newService
     })
 
   } catch (error) {
-    console.error('Product Create API Error:', error)
+    console.error('Service Create API Error:', error)
     return NextResponse.json(
       {
         success: false,
@@ -201,4 +160,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
-}
+} 

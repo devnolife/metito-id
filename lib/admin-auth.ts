@@ -3,6 +3,34 @@ import { getUserFromRequest, isAdmin } from './auth'
 import { errorResponse } from './api-response'
 
 /**
+ * Verify admin authentication and return result
+ * Used in API routes for admin authentication
+ */
+export async function verifyAdminAuth(request: NextRequest) {
+  try {
+    // Check if user is admin
+    const isAdminUser = await isAdmin(request)
+
+    if (!isAdminUser) {
+      return { success: false, message: 'Admin access required' }
+    }
+
+    // Get user data
+    const user = await getUserFromRequest(request)
+
+    if (!user) {
+      return { success: false, message: 'Authentication required' }
+    }
+
+    return { success: true, user }
+
+  } catch (error) {
+    console.error('Admin auth error:', error)
+    return { success: false, message: 'Authentication failed' }
+  }
+}
+
+/**
  * Higher-order function to protect admin API routes
  * Usage: export const POST = withAdminAuth(async (request, user) => { ... })
  */
