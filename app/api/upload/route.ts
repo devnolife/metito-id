@@ -8,9 +8,28 @@ import { db } from '@/lib/db'
 // Force Node.js runtime to avoid Edge Runtime issues with bcryptjs and jsonwebtoken
 export const runtime = 'nodejs'
 
-// Allowed file types
-const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif']
-const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
+// Allowed file types by category
+const ALLOWED_TYPES = {
+  products: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'],
+  gallery: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'],
+  customers: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'],
+  testimonials: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'],
+  blog: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'],
+  certificates: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'],
+  documents: [
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/vnd.ms-powerpoint',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    'text/plain',
+    'image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif' // Allow images in documents too
+  ]
+}
+
+const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB
 
 // Upload directories
 const UPLOAD_DIRS = {
@@ -78,10 +97,24 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate file type
-    if (!ALLOWED_TYPES.includes(file.type)) {
-      console.log('Invalid file type:', file.type)
+    const allowedTypes = ALLOWED_TYPES[category as keyof typeof ALLOWED_TYPES]
+    if (!allowedTypes?.includes(file.type)) {
+      console.log('Invalid file type:', file.type, 'for category:', category)
+      const allowedExtensions = allowedTypes?.map(type => {
+        if (type.startsWith('image/')) return type.replace('image/', '.')
+        if (type === 'application/pdf') return '.pdf'
+        if (type === 'application/msword') return '.doc'
+        if (type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') return '.docx'
+        if (type === 'application/vnd.ms-excel') return '.xls'
+        if (type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') return '.xlsx'
+        if (type === 'application/vnd.ms-powerpoint') return '.ppt'
+        if (type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') return '.pptx'
+        if (type === 'text/plain') return '.txt'
+        return type
+      }).join(', ')
+
       return NextResponse.json(
-        { success: false, message: 'Invalid file type. Only JPEG, PNG, WebP, and GIF are allowed' },
+        { success: false, message: `Invalid file type for ${category}. Allowed types: ${allowedExtensions}` },
         { status: 400 }
       )
     }
@@ -90,7 +123,7 @@ export async function POST(request: NextRequest) {
     if (file.size > MAX_FILE_SIZE) {
       console.log('File too large:', file.size)
       return NextResponse.json(
-        { success: false, message: 'File size too large. Maximum size is 5MB' },
+        { success: false, message: 'File size too large. Maximum size is 10MB' },
         { status: 400 }
       )
     }

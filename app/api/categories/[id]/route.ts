@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { db } from '@/lib/db'
-import { isAdmin } from '@/lib/auth'
+import { isAdminEdge } from '@/lib/auth'
 import { successResponse, errorResponse, validationErrorResponse, unauthorizedResponse } from '@/lib/api-response'
 import slugify from 'slugify'
 
@@ -10,30 +10,21 @@ const updateCategorySchema = z.object({
   description: z.string().optional(),
   icon: z.string().optional(),
   color: z.string().optional(),
+  isActive: z.boolean().optional(),
 })
 
-// GET /api/categories/[id] - Get category by ID
+// GET /api/categories/[id] - Get single category
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = await params
     const category = await db.category.findUnique({
-      where: {
-        id,
-        isActive: true
-      },
+      where: { id: params.id },
       include: {
-        products: {
-          where: { isActive: true },
+        _count: {
           select: {
-            id: true,
-            name: true,
-            slug: true,
-            price: true,
-            images: true,
-            isFeatured: true,
+            products: true
           }
         }
       }
@@ -54,13 +45,11 @@ export async function GET(
 // PUT /api/categories/[id] - Update category (Admin only)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = await params
-
     // Check admin permission
-    if (!(await isAdmin(request))) {
+    if (!(await isAdminEdge(request))) {
       return unauthorizedResponse('Admin access required')
     }
 
@@ -73,50 +62,41 @@ export async function PUT(
       return validationErrorResponse(errors)
     }
 
-    const { name, description, icon, color } = result.data
+    const data = result.data
 
     // Check if category exists
     const existingCategory = await db.category.findUnique({
-      where: {
-        id,
-        isActive: true
-      }
+      where: { id: params.id }
     })
 
     if (!existingCategory) {
       return errorResponse('Category not found', 404)
     }
 
-    // Generate new slug if name is being updated
-    let slug = existingCategory.slug
-    if (name && name !== existingCategory.name) {
-      slug = slugify(name, { lower: true, strict: true })
+    // If name is being updated, generate new slug and check for conflicts
+    let updateData = { ...data }
+    if (data.name && data.name !== existingCategory.name) {
+      const newSlug = slugify(data.name, { lower: true, strict: true })
 
-      // Check if new name/slug already exists
-      const duplicateCategory = await db.category.findFirst({
+      // Check if new slug already exists (excluding current category)
+      const slugConflict = await db.category.findFirst({
         where: {
-          id: { not: id },
-          OR: [
-            { name },
-            { slug }
-          ]
+          slug: newSlug,
+          NOT: { id: params.id }
         }
       })
 
-      if (duplicateCategory) {
+      if (slugConflict) {
         return errorResponse('Category with this name already exists', 409)
       }
+
+      updateData.slug = newSlug
     }
 
     // Update category
     const category = await db.category.update({
-      where: { id },
-      data: {
-        ...(name && { name, slug }),
-        ...(description !== undefined && { description }),
-        ...(icon !== undefined && { icon }),
-        ...(color !== undefined && { color }),
-      }
+      where: { id: params.id },
+      data: updateData
     })
 
     return successResponse(category, 'Category updated successfully')
@@ -130,54 +110,40 @@ export async function PUT(
 // DELETE /api/categories/[id] - Delete category (Admin only)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = await params
-    console.log('Attempting to delete category:', id)
-
     // Check admin permission
-    if (!(await isAdmin(request))) {
-      console.log('Admin permission denied')
+    if (!(await isAdminEdge(request))) {
       return unauthorizedResponse('Admin access required')
     }
 
     // Check if category exists
-    const existingCategory = await db.category.findUnique({
-      where: {
-        id,
-        isActive: true
-      },
+    const category = await db.category.findUnique({
+      where: { id: params.id },
       include: {
-        products: {
-          where: { isActive: true }
+        _count: {
+          select: {
+            products: true
+          }
         }
       }
     })
 
-    if (!existingCategory) {
-      console.log('Category not found:', id)
+    if (!category) {
       return errorResponse('Category not found', 404)
     }
 
-    console.log('Found category:', existingCategory.name, 'with', existingCategory.products.length, 'products')
-
-    // Check if category has products and handle them
-    if (existingCategory.products.length > 0) {
-      // Option 1: Move products to a default category or set categoryId to null
-      // For now, we'll just soft delete the category and let products keep their categoryId
-      // (they will show as "No Category" in the UI)
-
-      console.log(`Category has ${existingCategory.products.length} products. Proceeding with soft delete.`)
+    // Check if category has products
+    if (category._count.products > 0) {
+      return errorResponse('Cannot delete category with existing products', 400)
     }
 
-    // Soft delete category (set isActive to false)
-    await db.category.update({
-      where: { id },
-      data: { isActive: false }
+    // Delete category
+    await db.category.delete({
+      where: { id: params.id }
     })
 
-    console.log('Category successfully deleted:', id)
     return successResponse(null, 'Category deleted successfully')
 
   } catch (error) {

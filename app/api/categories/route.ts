@@ -12,28 +12,34 @@ const createCategorySchema = z.object({
   color: z.string().optional(),
 })
 
+const updateCategorySchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters').optional(),
+  description: z.string().optional(),
+  icon: z.string().optional(),
+  color: z.string().optional(),
+  isActive: z.boolean().optional(),
+})
+
 // GET /api/categories - List all categories
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
-    const includeProducts = searchParams.get('includeProducts') === 'true'
+    const includeInactive = searchParams.get('includeInactive') === 'true'
+
+    const where = includeInactive ? {} : { isActive: true }
 
     const categories = await db.category.findMany({
-      where: { isActive: true },
-      include: includeProducts ? {
-        products: {
-          where: { isActive: true },
+      where,
+      orderBy: {
+        name: 'asc'
+      },
+      include: {
+        _count: {
           select: {
-            id: true,
-            name: true,
-            slug: true,
-            price: true,
-            images: true,
-            isFeatured: true,
+            products: true
           }
         }
-      } : undefined,
-      orderBy: { name: 'asc' }
+      }
     })
 
     return successResponse(categories)
@@ -48,9 +54,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     // Check admin permission
-    const adminCheck = await isAdminEdge(request)
-
-    if (!adminCheck) {
+    if (!(await isAdminEdge(request))) {
       return unauthorizedResponse('Admin access required')
     }
 
@@ -58,25 +62,19 @@ export async function POST(request: NextRequest) {
 
     // Validate input
     const result = createCategorySchema.safeParse(body)
-
     if (!result.success) {
       const errors = result.error.flatten().fieldErrors
       return validationErrorResponse(errors)
     }
 
-    const { name, description, icon, color } = result.data
+    const data = result.data
 
     // Generate slug
-    const slug = slugify(name, { lower: true, strict: true })
+    const slug = slugify(data.name, { lower: true, strict: true })
 
-    // Check if category already exists
-    const existingCategory = await db.category.findFirst({
-      where: {
-        OR: [
-          { name },
-          { slug }
-        ]
-      }
+    // Check if slug already exists
+    const existingCategory = await db.category.findUnique({
+      where: { slug }
     })
 
     if (existingCategory) {
@@ -84,16 +82,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Create category
-    const categoryData = {
-      name,
-      slug,
-      description: description || null,
-      icon: icon || null,
-      color: color || null,
-    }
-
     const category = await db.category.create({
-      data: categoryData
+      data: {
+        ...data,
+        slug,
+      }
     })
 
     return successResponse(category, 'Category created successfully', 201)

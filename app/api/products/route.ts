@@ -13,7 +13,7 @@ const createProductSchema = z.object({
   capacity: z.string().optional(),
   efficiency: z.string().optional(),
   location: z.string().optional(),
-  application: z.enum(['Industrial', 'Municipal']).optional(),
+  application: z.enum(['Industrial', 'Municipal']).optional().or(z.literal('')).transform(val => val === '' ? undefined : val),
   specs: z.record(z.any()).optional(),
   features: z.array(z.string()).default([]),
   warranty: z.string().optional(),
@@ -129,15 +129,18 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
+    console.log('Received product data:', body)
 
     // Validate input
     const result = createProductSchema.safeParse(body)
     if (!result.success) {
       const errors = result.error.flatten().fieldErrors
+      console.error('Validation errors:', errors)
       return validationErrorResponse(errors)
     }
 
     const data = result.data
+    console.log('Validated data:', data)
 
     // Generate slug
     const slug = slugify(data.name, { lower: true, strict: true })

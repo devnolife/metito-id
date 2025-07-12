@@ -157,4 +157,48 @@ body {
   .whatsapp-btn {
     background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
   }
+
+  /* Dialog Form Styles */
+  .dialog-form-container {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f5f9;
+  }
+
+  .dialog-form-container::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .dialog-form-container::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+  }
+
+  .dialog-form-container::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+  }
+
+  .dialog-form-container::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+
+  /* Smooth scroll behavior */
+  .dialog-form-container {
+    scroll-behavior: smooth;
+  }
+
+  /* Form spacing optimization */
+  .dialog-form .space-y-4 > * + * {
+    margin-top: 1rem;
+  }
+
+  .dialog-form .space-y-3 > * + * {
+    margin-top: 0.75rem;
+  }
+
+  /* Prevent layout shift */
+  .dialog-form-wrapper {
+    min-height: 0;
+    flex: 1;
+  }
 }
