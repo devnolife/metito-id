@@ -33,10 +33,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const isPublicPage = publicPages.includes(pathname)
 
   useEffect(() => {
-    if (!isPublicPage) {
-      checkAuthStatus()
-    } else {
+    // For /admin page, let the page component handle auth
+    if (isPublicPage) {
       setIsLoading(false)
+    } else {
+      checkAuthStatus()
     }
   }, [pathname, isPublicPage])
 
@@ -73,7 +74,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         }
       }
 
-      // Not authenticated, redirect to login
+      // Not authenticated or token expired, clear everything and redirect
       setIsAuthenticated(false)
       setUser(null)
 
@@ -81,13 +82,22 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       if (typeof window !== 'undefined') {
         localStorage.removeItem('adminUser')
         localStorage.removeItem('authToken')
+        sessionStorage.clear()
       }
 
-      router.push('/admin/login?redirect=' + encodeURIComponent(pathname))
+      // Force redirect to login page
+      window.location.href = '/admin/login?redirect=' + encodeURIComponent(pathname)
     } catch (error) {
       console.error('Auth check error:', error)
       setIsAuthenticated(false)
       setUser(null)
+
+      // Clear stored data on error
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('adminUser')
+        localStorage.removeItem('authToken')
+        sessionStorage.clear()
+      }
 
       toast({
         title: "Kesalahan Jaringan",
@@ -95,7 +105,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         variant: "destructive",
       })
 
-      router.push('/admin/login?redirect=' + encodeURIComponent(pathname))
+      // Force redirect to login page
+      window.location.href = '/admin/login?redirect=' + encodeURIComponent(pathname)
     } finally {
       setIsLoading(false)
     }
@@ -127,13 +138,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       if (typeof window !== 'undefined') {
         localStorage.removeItem('adminUser')
         localStorage.removeItem('authToken')
+        sessionStorage.clear()
       }
 
       setIsAuthenticated(false)
       setUser(null)
       setIsLoading(false)
 
-      router.push('/admin/login')
+      // Force redirect to login page
+      window.location.href = '/admin/login'
     }
   }
 

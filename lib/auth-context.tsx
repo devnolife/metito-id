@@ -112,6 +112,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (typeof window !== 'undefined') {
         localStorage.removeItem('adminUser')
         localStorage.removeItem('authToken')
+        // Clear any other auth-related data
+        sessionStorage.clear()
+        // Force reload to clear any cached state
+        window.location.href = '/admin'
       }
     }
   }

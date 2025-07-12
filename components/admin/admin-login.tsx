@@ -8,6 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Lock, User, Eye, EyeOff } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import Image from "next/image"
+import { ArrowLeft } from "lucide-react"
 
 interface AdminLoginProps {
   onLogin: (success: boolean, userData?: any, errorMessage?: string) => void
@@ -52,12 +54,18 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
 
       if (response.ok && data.success) {
         // Check if user is admin
-        if (data.data.role === 'ADMIN') {
+        if (data.data.user.role === 'ADMIN') {
+          // Store token in localStorage
+          if (typeof window !== 'undefined' && data.data.token) {
+            localStorage.setItem('authToken', data.data.token)
+            localStorage.setItem('adminUser', JSON.stringify(data.data.user))
+          }
+
           toast({
             title: "Login Berhasil",
             description: "Selamat datang di admin panel",
           })
-          onLogin(true, data.data)
+          onLogin(true, data.data.user)
         } else {
           setError('Akses ditolak. Hanya admin yang dapat mengakses panel ini.')
           onLogin(false)
@@ -75,12 +83,20 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <Card className="w-full max-w-md shadow-xl">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      {/* Logo at the top */}
+      <div className="mb-6 flex justify-center">
+        <Image
+          src="/images/logo.png"
+          alt="Metito Logo"
+          width={120}
+          height={120}
+          className="object-contain drop-shadow-lg"
+          priority
+        />
+      </div>
+      <Card className="w-full max-w-md bg-white/70 backdrop-blur-md shadow-2xl rounded-2xl border-0">
         <CardHeader className="text-center space-y-4">
-          <div className="mx-auto w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
-            <Lock className="w-8 h-8 text-white" />
-          </div>
           <div>
             <CardTitle className="text-2xl font-bold text-gray-900">Admin Login</CardTitle>
             <CardDescription className="text-gray-600">
@@ -88,7 +104,6 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
             </CardDescription>
           </div>
         </CardHeader>
-
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
@@ -98,7 +113,6 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                 </AlertDescription>
               </Alert>
             )}
-
             <div className="space-y-2">
               <Label htmlFor="email" className="text-sm font-medium text-gray-700">
                 Email
@@ -118,7 +132,6 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                 />
               </div>
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="password" className="text-sm font-medium text-gray-700">
                 Password
@@ -152,7 +165,6 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                 </Button>
               </div>
             </div>
-
             <Button
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
@@ -168,7 +180,6 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
               )}
             </Button>
           </form>
-
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Lupa password? Hubungi administrator sistem.
@@ -176,6 +187,16 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
           </div>
         </CardContent>
       </Card>
+      {/* Back to landing page button */}
+      <div className="mt-8 flex justify-center w-full max-w-md">
+        <a
+          href="/"
+          className="flex items-center gap-2 w-full justify-center border border-blue-600 text-blue-700 hover:bg-blue-50 font-medium py-2 px-4 rounded-lg transition-colors duration-200 shadow-sm bg-white/80 backdrop-blur-md"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          Kembali ke Beranda
+        </a>
+      </div>
     </div>
   )
 } 

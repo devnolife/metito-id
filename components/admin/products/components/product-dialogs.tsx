@@ -221,7 +221,6 @@ export function ProductDialogs({
                   </div>
                 )}
 
-                {/* SEO Info */}
                 {(viewDialog.product.metaTitle || viewDialog.product.metaDescription) && (
                   <div>
                     <h4 className="text-md font-semibold text-gray-900 mb-3">SEO Information</h4>
@@ -258,13 +257,11 @@ export function ProductDialogs({
                         />
                       </div>
 
-                      {/* Image Counter */}
                       <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
                         {selectedImageIndex + 1} / {viewDialog.product.images.length}
                       </div>
                     </div>
 
-                    {/* Image Thumbnails */}
                     {viewDialog.product.images.length > 1 && (
                       <div className="space-y-2">
                         <h4 className="text-sm font-medium text-gray-700">Pilih Gambar:</h4>
@@ -280,7 +277,7 @@ export function ProductDialogs({
                             >
                               <Image
                                 src={image}
-                                alt={`${viewDialog.product.name} - Thumbnail ${index + 1}`}
+                                alt={`${viewDialog.product?.name ?? 'Product'} - Thumbnail ${index + 1}`}
                                 fill
                                 className="object-cover"
                                 sizes="(max-width: 768px) 25vw, (max-width: 1200px) 16vw, 12vw"

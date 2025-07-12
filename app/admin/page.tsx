@@ -1,20 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { LoadingOverlay } from "@/components/admin/ui/loading-overlay"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { useToast } from "@/hooks/use-toast"
 import { Users, Package, FileText, Image, Phone, TrendingUp, Calendar, Bell, Activity } from "lucide-react"
-
-interface AdminUser {
-  id: string
-  email: string
-  name: string
-  role: string
-  createdAt: string
-}
 
 interface DashboardStats {
   totalProducts: number
@@ -23,74 +12,17 @@ interface DashboardStats {
   totalRevenue: number
 }
 
-export default function AdminDashboard() {
-  const [user, setUser] = useState<AdminUser | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+export default function AdminPage() {
   const [stats, setStats] = useState<DashboardStats>({
     totalProducts: 0,
     totalCustomers: 0,
     totalOrders: 0,
     totalRevenue: 0
   })
-  const router = useRouter()
-  const { toast } = useToast()
 
   useEffect(() => {
-    checkAuthStatus()
+    loadDashboardStats()
   }, [])
-
-  const checkAuthStatus = async () => {
-    try {
-      setIsLoading(true)
-
-      const authToken = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null
-      const headers: HeadersInit = {
-        'Cache-Control': 'no-cache',
-      }
-
-      if (authToken) {
-        headers['Authorization'] = `Bearer ${authToken}`
-      }
-
-      const response = await fetch('/api/auth/me', {
-        method: 'GET',
-        credentials: 'include',
-        headers,
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-
-        if (data.success && data.data.role === 'ADMIN') {
-          setUser(data.data)
-          // Load dashboard stats here
-          loadDashboardStats()
-          return
-        } else if (data.success && data.data.role !== 'ADMIN') {
-          toast({
-            title: "Akses Ditolak",
-            description: "Anda tidak memiliki hak akses admin.",
-            variant: "destructive",
-          })
-          router.push('/admin/login')
-          return
-        }
-      }
-
-      // Redirect to login if not authenticated
-      router.push('/admin/login')
-    } catch (error) {
-      console.error('Auth check error:', error)
-      toast({
-        title: "Kesalahan Jaringan",
-        description: "Tidak dapat memverifikasi akses. Silakan login kembali.",
-        variant: "destructive",
-      })
-      router.push('/admin/login')
-    } finally {
-      setIsLoading(false)
-    }
-  }
 
   const loadDashboardStats = async () => {
     try {
@@ -115,43 +47,8 @@ export default function AdminDashboard() {
     }).format(amount)
   }
 
-  if (isLoading) {
-    return (
-      <LoadingOverlay
-        message="Memuat dashboard..."
-        submessage="Mohon tunggu sebentar"
-        type="default"
-      />
-    )
-  }
-
-  if (!user) {
-    return null // Will redirect to login
-  }
-
   return (
     <div className="p-6 space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard Admin</h1>
-          <p className="text-gray-600">Selamat datang kembali, {user.name}</p>
-        </div>
-        <div className="flex items-center space-x-4">
-          <Badge variant="outline" className="text-blue-600 border-blue-600">
-            {user.role}
-          </Badge>
-          <div className="text-sm text-gray-500">
-            {new Date().toLocaleDateString('id-ID', {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}
-          </div>
-        </div>
-      </div>
-
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>

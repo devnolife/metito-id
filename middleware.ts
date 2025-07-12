@@ -42,7 +42,9 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/images') ||
     pathname.startsWith('/documents') ||
     pathname.startsWith('/certificates') ||
-    pathname.includes('.')
+    pathname.includes('.') ||
+    pathname === '/admin' || // Let the admin page handle its own auth
+    pathname === '/admin/login' // Let the login page handle its own auth
   ) {
     return NextResponse.next()
   }
@@ -74,10 +76,9 @@ export async function middleware(request: NextRequest) {
         )
       }
 
-      // For admin pages, let them through to handle auth on client side
-      // Only redirect if it's not the base admin page
-      if (pathname.startsWith('/admin') && pathname !== '/admin') {
-        const loginUrl = new URL('/admin', request.url)
+      // For admin pages, redirect to login
+      if (pathname.startsWith('/admin') && pathname !== '/admin' && pathname !== '/admin/login') {
+        const loginUrl = new URL('/admin/login', request.url)
         loginUrl.searchParams.set('redirect', pathname)
         return NextResponse.redirect(loginUrl)
       }
@@ -99,9 +100,10 @@ export async function middleware(request: NextRequest) {
         )
       }
 
-      // For admin pages with invalid token, let client handle it
-      if (pathname.startsWith('/admin') && pathname !== '/admin') {
-        const loginUrl = new URL('/admin', request.url)
+      // For admin pages with invalid token, redirect to login
+      if (pathname.startsWith('/admin') && pathname !== '/admin' && pathname !== '/admin/login') {
+        const loginUrl = new URL('/admin/login', request.url)
+        loginUrl.searchParams.set('redirect', pathname)
         return NextResponse.redirect(loginUrl)
       }
     }

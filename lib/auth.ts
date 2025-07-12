@@ -24,7 +24,7 @@ export const verifyPassword = async (password: string, hashedPassword: string): 
 
 // JWT utilities
 export const signJWT = (payload: JWTPayload): string => {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' })
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: '12h' })
 }
 
 // Edge-compatible JWT utilities
@@ -33,7 +33,7 @@ export const signJWTEdge = async (payload: JWTPayload): Promise<string> => {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('7d')
+    .setExpirationTime('12h')
     .sign(secret)
 }
 

@@ -11,7 +11,7 @@ async function signJWTEdge(payload: { userId: string; email: string; role: strin
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('7d')
+    .setExpirationTime('12h')
     .sign(secret)
 }
 
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
       secure: false, // Set to false for development (localhost)
       sameSite: 'lax',
       path: '/',
-      maxAge: 60 * 60 * 24 * 7, // 7 days to match JWT expiry
+      maxAge: 60 * 60 * 12, // 12 hours to match JWT expiry
     })
 
     // Also set a client-side readable cookie for auth status
@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
       secure: false, // Set to false for development (localhost)
       sameSite: 'lax',
       path: '/',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: 60 * 60 * 12, // 12 hours
     })
 
 
