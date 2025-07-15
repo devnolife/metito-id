@@ -10,7 +10,10 @@ export function Hero() {
   const heroImages = [
     "/images/products/product-1.jpg",
     "/images/products/product-2.jpg",
-    "/images/products/product-3.jpeg"
+    "/images/products/product-3.jpeg",
+    "/images/products/product-10.jpg",
+    "/images/products/product-11.jpg",
+    "/images/products/product-12.jpg",
   ]
 
   const [currentSlide, setCurrentSlide] = useState(0)

@@ -45,7 +45,7 @@ export function Header() {
             <div className="flex items-center space-x-8">
               <div className="flex items-center space-x-2 group">
                 <Phone className="w-4 h-4 group-hover:text-blue-200 transition-colors" />
-                <span className="font-medium">+62 21 5555 1234</span>
+                <span className="font-medium">+62 812-1760-3950</span>
               </div>
               <div className="flex items-center space-x-2 group">
                 <Mail className="w-4 h-4 group-hover:text-blue-200 transition-colors" />
@@ -72,8 +72,8 @@ export function Header() {
             <Image
               src="/images/logo.png"
               alt="Metito Water Solutions"
-              width={48}
-              height={48}
+              width={58}
+              height={58}
               className="group-hover:scale-105 transition-transform duration-300"
             />
             <div className="flex flex-col justify-center">
@@ -200,7 +200,7 @@ export function Header() {
                     <Phone className="w-4 h-4 text-blue-600" />
                     <div>
                       <p className="text-xs font-medium text-gray-700">Telepon Kami</p>
-                      <p className="text-xs text-gray-500">+62 21 5555 1234</p>
+                      <p className="text-xs text-gray-500">+62 812-1760-3950</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3 px-3 py-2 bg-gray-50 rounded-lg">

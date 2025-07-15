@@ -23,7 +23,7 @@ export function ContactPage() {
       icon: <Phone className="w-6 h-6 text-green-600" />,
       title: "Nomor Telepon",
       details: [
-        "+62 21 5555 1234",
+        "+62 812-1760-3950",
         "+62 21 5555 5678",
         "WhatsApp: +62 812 3456 7890"
       ]
@@ -52,7 +52,7 @@ export function ContactPage() {
     {
       city: "Jakarta",
       address: "Jl. Sudirman No. 123, Jakarta Pusat 10220",
-      phone: "+62 21 5555 1234",
+      phone: "+62 812-1760-3950",
       email: "jakarta@metito.id",
       manager: "Ir. Ahmad Santoso"
     },
@@ -126,7 +126,7 @@ export function ContactPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              Telepon Sekarang: +62 21 5555 1234
+              Telepon Sekarang: +62 812-1760-3950
             </Button>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
               Kirim Email

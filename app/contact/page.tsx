@@ -12,7 +12,7 @@ export default function ContactPage() {
     {
       icon: <Phone className="w-6 h-6" />,
       title: "Telepon",
-      details: ["+62 21 5555 1234", "+62 21 5555 1235"],
+      details: ["+62 812-1760-3950", "+62 21 5555 1235"],
       subtitle: "Sen - Jum: 08:00 - 18:00"
     },
     {
@@ -41,7 +41,7 @@ export default function ContactPage() {
       title: "Tim Sales",
       description: "Konsultasi produk dan harga",
       contact: "sales@metito.id",
-      phone: "+62 21 5555 1234"
+      phone: "+62 812-1760-3950"
     },
     {
       icon: <Headphones className="w-8 h-8" />,

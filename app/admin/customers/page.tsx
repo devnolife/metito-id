@@ -37,7 +37,7 @@ export default function AdminCustomersPage() {
       name: "Dr. Ahmad Surya",
       company: "PT Industri Kimia Nusantara",
       email: "ahmad.surya@ikn.co.id",
-      phone: "+62 21 5555 1234",
+      phone: "+62 812-1760-3950",
       address: "Jl. Industri Raya No. 123, Cikarang, Bekasi",
       industry: "Kimia & Petrokimia",
       projectType: "Sistem Pengolahan Air Limbah",
@@ -355,7 +355,7 @@ export default function AdminCustomersPage() {
             id="phone"
             value={formData.phone}
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-            placeholder="+62 21 5555 1234"
+            placeholder="+62 812-1760-3950"
           />
         </div>
       </div>
