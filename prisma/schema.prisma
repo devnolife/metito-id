@@ -1,0 +1,325 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  CUSTOMER
+}
+
+enum ApplicationType {
+  Industrial
+  Municipal
+}
+
+enum ProjectType {
+  INDUSTRIAL
+  MUNICIPAL
+  RESIDENTIAL
+  COMMERCIAL
+}
+
+enum InquiryStatus {
+  PENDING
+  RESPONDED
+  CLOSED
+}
+
+enum ImageType {
+  PRODUCT
+  GALLERY
+  CUSTOMER
+  TESTIMONIAL
+  BLOG
+  CERTIFICATE
+  DOCUMENT
+}
+
+// User model for authentication and user management
+model User {
+  id          String   @id @default(cuid())
+  name        String
+  email       String   @unique
+  password    String
+  phone       String?
+  company     String?
+  role        UserRole @default(CUSTOMER)
+  avatar      String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  cartItems     CartItem[]
+  testimonials  Testimonial[]
+  inquiries     Inquiry[]
+  images        Image[]
+
+  @@map("users")
+}
+
+// Category model for product categorization
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  icon        String?
+  color       String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  products    Product[]
+
+  @@map("categories")
+}
+
+// Product model for water engineering solutions
+model Product {
+  id              String           @id @default(cuid())
+  name            String
+  slug            String           @unique
+  description     String?
+  shortDesc       String?
+  price           Float
+  capacity        String?
+  efficiency      String?
+  location        String?
+  application     ApplicationType?
+  specs           Json?
+  features        String[]         @default([])
+  warranty        String?
+  delivery        String?
+  images          String[]         @default([])
+  documents       String[]         @default([])
+  categoryId      String
+  inStock         Boolean          @default(true)
+  isFeatured      Boolean          @default(false)
+  isActive        Boolean          @default(true)
+  metaTitle       String?
+  metaDescription String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  // Relations
+  category        Category         @relation(fields: [categoryId], references: [id])
+  cartItems       CartItem[]
+  inquiries       Inquiry[]
+  productImages   Image[]
+
+  @@map("products")
+}
+
+// Image model for storing image metadata
+model Image {
+  id          String    @id @default(cuid())
+  fileName    String
+  originalName String
+  filePath    String
+  fileSize    Int
+  fileType    String
+  imageType   ImageType
+  title       String?
+  description String?
+  altText     String?
+  isActive    Boolean   @default(true)
+  isFeatured  Boolean   @default(false)
+  sortOrder   Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  userId      String?
+  productId   String?
+  user        User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product     Product?  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("images")
+}
+
+// BlogPost model for blog content
+model BlogPost {
+  id              String    @id @default(cuid())
+  title           String
+  slug            String    @unique
+  content         String
+  excerpt         String?
+  coverImage      String?
+  authorName      String
+  authorEmail     String?
+  isPublished     Boolean   @default(false)
+  isFeatured      Boolean   @default(false)
+  metaTitle       String?
+  metaDescription String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  tags            BlogTag[]
+
+  @@map("blog_posts")
+}
+
+// BlogTag model for blog categorization
+model BlogTag {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  slug      String     @unique
+  color     String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  // Relations
+  posts     BlogPost[]
+
+  @@map("blog_tags")
+}
+
+// Testimonial model for customer reviews
+model Testimonial {
+  id          String   @id @default(cuid())
+  name        String
+  company     String?
+  position    String?
+  content     String
+  rating      Int      @default(5)
+  avatar      String?
+  userId      String?
+  isApproved  Boolean  @default(false)
+  isFeatured  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user        User?    @relation(fields: [userId], references: [id])
+
+  @@map("testimonials")
+}
+
+// Service model for service offerings
+model Service {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String
+  shortDesc   String?
+  icon        String?
+  features    String[] @default([])
+  pricing     Json?
+  isFeatured  Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("services")
+}
+
+// Newsletter model for email subscriptions
+model Newsletter {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  name        String?
+  isActive    Boolean  @default(true)
+  isConfirmed Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("newsletters")
+}
+
+// GalleryItem model for project showcase
+model GalleryItem {
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  image       String
+  category    String?
+  projectType ProjectType @default(INDUSTRIAL)
+  location    String?
+  completedAt DateTime?
+  isFeatured  Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@map("gallery_items")
+}
+
+// Inquiry model for contact/product inquiries
+model Inquiry {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  company   String?
+  subject   String
+  message   String
+  productId String?
+  userId    String?
+  status    InquiryStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  // Relations
+  product   Product?      @relation(fields: [productId], references: [id])
+  user      User?         @relation(fields: [userId], references: [id])
+
+  @@map("inquiries")
+}
+
+// Certification model for company certifications
+model Certification {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  issuer      String
+  certificate String?
+  issuedAt    DateTime
+  expiresAt   DateTime?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("certifications")
+}
+
+// CartItem model for shopping cart functionality
+model CartItem {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  // Composite unique constraint
+  @@unique([userId, productId])
+  @@map("cart_items")
+}
+
+// Settings model for site configuration
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  type      String   @default("string") // string, boolean, number, json
+  category  String   @default("general")
+  label     String?
+  description String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}
