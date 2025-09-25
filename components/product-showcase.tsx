@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -26,18 +26,19 @@ export function ProductShowcase() {
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [selectedApplication, setSelectedApplication] = useState("all")
   const [showPrices, setShowPrices] = useState(true)
-  const [whatsappNumber, setWhatsappNumber] = useState("6281234567890")
+  // Kontak WhatsApp (tiga nomor yang diminta sebelumnya)
+  const contacts = useRef([
+    { name: 'Khudaivi', phone: '08979380767', template: 'Halo Khudaivi, saya tertarik dengan informasi produk Metito.' },
+    { name: 'Musthamu', phone: '082322345616', template: 'Halo Musthamu, saya ingin menanyakan detail produk Metito.' },
+    { name: 'Sales 1', phone: '081217603950', template: 'Halo Sales 1, saya membutuhkan penawaran terkait solusi pengolahan air.' }
+  ])
+  // Tidak perlu indeks; gunakan pemilihan acak
 
   useEffect(() => {
     const loadSettings = async () => {
       try {
         const showPricesLanding = await getSetting('show_prices_landing')
-        const whatsappNum = await getSetting('whatsapp_number')
-
         setShowPrices(showPricesLanding !== false)
-        if (whatsappNum) {
-          setWhatsappNumber(whatsappNum)
-        }
       } catch (error) {
         console.error('Error loading settings:', error)
         // Default to showing prices on error
@@ -201,10 +202,32 @@ export function ProductShowcase() {
     return matchesSearch && matchesCategory && matchesApplication
   })
 
+  const normalizeNumber = (num: string) => {
+    let digits = num.replace(/[^0-9+]/g, '')
+    if (digits.startsWith('+')) digits = digits.slice(1)
+    if (digits.startsWith('0')) digits = '62' + digits.slice(1)
+    if (!digits.startsWith('62')) digits = '62' + digits
+    return digits
+  }
+
+  const pickRandomContact = () => {
+    const arr = contacts.current
+    return arr[Math.floor(Math.random() * arr.length)]
+  }
+
   const handleWhatsAppClick = (product: (typeof products)[0]) => {
-    const message = encodeURIComponent(product.whatsappMessage)
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`
-    window.open(whatsappUrl, "_blank")
+  const contact = pickRandomContact()
+    const baseTemplate = contact.template
+    const productLine = product ? `\nProduk: ${product.name}` : ''
+    const messageFull = `${baseTemplate}${productLine}\n\n(Kirim dari halaman produk Metito)`
+    const encoded = encodeURIComponent(messageFull)
+    const number = normalizeNumber(contact.phone)
+    const url = `https://wa.me/${number}?text=${encoded}`
+    const win = window.open(url, '_blank')
+    if (!win) {
+      navigator.clipboard?.writeText(messageFull)
+      alert('Tidak bisa membuka WhatsApp. Pesan sudah disalin, tempel manual di aplikasi WhatsApp.')
+    }
   }
 
   return (
