@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState, useCallback, memo, useEffect, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -26,45 +26,126 @@ interface BlogPost {
   readTime: number
 }
 
+// Form state shape extracted so BlogForm can live outside main component
+type BlogFormState = {
+  title: string
+  content: string
+  excerpt: string
+  category: string
+  tags: string
+  author: string
+  featuredImage: string
+  status: "published" | "draft"
+  seoTitle: string
+  seoDescription: string
+  readTime: number
+}
+
+interface BlogFormProps {
+  form: BlogFormState
+  categories: string[]
+  onChange: (patch: Partial<BlogFormState>) => void
+  onSubmit: () => void
+  submitLabel: string
+  errors?: Record<string, string[]>
+}
+
+const BlogForm = memo(function BlogForm({ form, categories, onChange, onSubmit, submitLabel, errors }: BlogFormProps) {
+  return (
+    <div className="space-y-4">
+      <div>
+        <Label htmlFor="title">Judul Artikel</Label>
+        <Input id="title" value={form.title} onChange={(e) => onChange({ title: e.target.value })} placeholder="Masukkan judul artikel" />
+        {errors?.title && <p className="mt-1 text-xs text-red-500">{errors.title[0]}</p>}
+      </div>
+      <div>
+        <Label htmlFor="excerpt">Ringkasan</Label>
+        <Textarea id="excerpt" value={form.excerpt} onChange={(e) => onChange({ excerpt: e.target.value })} rows={2} placeholder="Ringkasan singkat artikel" />
+      </div>
+      <div>
+        <Label htmlFor="content">Konten Artikel</Label>
+        <Textarea id="content" value={form.content} onChange={(e) => onChange({ content: e.target.value })} rows={8} placeholder="Tulis konten artikel lengkap" />
+        {errors?.content && <p className="mt-1 text-xs text-red-500">{errors.content[0]}</p>}
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="category">Kategori</Label>
+          <select id="category" value={form.category} onChange={(e) => onChange({ category: e.target.value })} className="w-full p-2 border border-gray-300 rounded-md">
+            <option value="">Pilih kategori</option>
+            {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+          </select>
+        </div>
+        <div>
+          <Label htmlFor="author">Penulis</Label>
+          <Input id="author" value={form.author} onChange={(e) => onChange({ author: e.target.value })} placeholder="Nama penulis" />
+          {errors?.author && <p className="mt-1 text-xs text-red-500">{errors.author[0]}</p>}
+        </div>
+      </div>
+      <div>
+        <Label htmlFor="tags">Tags (pisahkan dengan koma)</Label>
+        <Input id="tags" value={form.tags} onChange={(e) => onChange({ tags: e.target.value })} placeholder="teknologi, air, inovasi" />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="featuredImage">Gambar Utama</Label>
+        {form.featuredImage && (
+          <div className="w-full aspect-video rounded border overflow-hidden flex items-center justify-center bg-gray-50">
+            <img src={form.featuredImage} alt="Featured" className="object-cover w-full h-full" />
+          </div>
+        )}
+        <input
+          id="featuredFile"
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files?.[0]
+            if (file) {
+              onChange({ featuredImage: `FILE_OBJECT:${file.name}` } as any)
+              // file object marker; real upload handled in parent before submit
+              ;(onChange as any)({ __localFile: file })
+            }
+          }}
+          className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+        />
+        <p className="text-xs text-gray-500">Pilih gambar dari komputer Anda. Maks 10MB.</p>
+      </div>
+      <div>
+        <Label htmlFor="readTime">Waktu Baca (menit)</Label>
+        <Input id="readTime" type="number" value={form.readTime} onChange={(e) => onChange({ readTime: parseInt(e.target.value) || 5 })} placeholder="5" />
+      </div>
+      <div>
+        <Label htmlFor="seoTitle">SEO Title</Label>
+        <Input id="seoTitle" value={form.seoTitle} onChange={(e) => onChange({ seoTitle: e.target.value })} placeholder="Judul untuk SEO" />
+      </div>
+      <div>
+        <Label htmlFor="seoDescription">SEO Description</Label>
+        <Textarea id="seoDescription" value={form.seoDescription} onChange={(e) => onChange({ seoDescription: e.target.value })} rows={2} placeholder="Deskripsi untuk SEO" />
+      </div>
+      <div>
+        <Label htmlFor="status">Status</Label>
+        <select id="status" value={form.status} onChange={(e) => onChange({ status: e.target.value as any })} className="w-full p-2 border border-gray-300 rounded-md">
+          <option value="published">Diterbitkan</option>
+          <option value="draft">Draf</option>
+        </select>
+      </div>
+      <Button onClick={onSubmit} className="w-full bg-blue-600 hover:bg-blue-700">{submitLabel}</Button>
+    </div>
+  )
+})
+BlogForm.displayName = 'BlogForm'
+
 export default function AdminBlogPage() {
-  const [posts, setPosts] = useState<BlogPost[]>([
-    {
-      id: 1,
-      title: "Teknologi Terbaru dalam Pengolahan Air",
-      content: "Artikel tentang inovasi terbaru dalam teknologi pengolahan air yang ramah lingkungan dan efisien...",
-      excerpt: "Mengenal berbagai teknologi mutakhir untuk pengolahan air yang berkelanjutan",
-      category: "Teknologi",
-      tags: ["teknologi", "pengolahan air", "inovasi"],
-      author: "Admin",
-      featuredImage: "/images/blog/water-technology.jpg",
-      publishedDate: "2024-01-15",
-      status: "published",
-      seoTitle: "Teknologi Terbaru dalam Pengolahan Air | Metito",
-      seoDescription: "Pelajari teknologi terbaru dalam pengolahan air yang ramah lingkungan dan efisien dari Metito Indonesia",
-      readTime: 5
-    },
-    {
-      id: 2,
-      title: "Tips Perawatan Sistem Water Treatment",
-      content: "Panduan lengkap untuk merawat sistem water treatment agar tetap optimal dan tahan lama...",
-      excerpt: "Panduan praktis perawatan sistem water treatment untuk performa optimal",
-      category: "Panduan",
-      tags: ["perawatan", "water treatment", "maintenance"],
-      author: "Admin",
-      featuredImage: "/images/blog/maintenance-guide.jpg",
-      publishedDate: "2024-01-10",
-      status: "draft",
-      seoTitle: "Tips Perawatan Sistem Water Treatment | Metito",
-      seoDescription: "Pelajari cara merawat sistem water treatment dengan tips dari ahli Metito Indonesia",
-      readTime: 7
-    }
-  ])
+  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [loadingPosts, setLoadingPosts] = useState(false)
+  const [uploadingImage, setUploadingImage] = useState(false)
+  const localFileRef = useRef<File | null>(null)
+  const [formErrors, setFormErrors] = useState<Record<string, string[]>>({})
+  const [submitting, setSubmitting] = useState(false)
 
   const [searchTerm, setSearchTerm] = useState("")
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null)
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<BlogFormState>({
     title: "",
     content: "",
     excerpt: "",
@@ -88,54 +169,133 @@ export default function AdminBlogPage() {
       post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
   )
 
-  const handleAddPost = () => {
-    const newPost: BlogPost = {
-      id: Date.now(),
+  async function fetchPosts() {
+    setLoadingPosts(true)
+    try {
+      const res = await fetch('/api/blog?limit=100')
+      const json = await res.json()
+      if (json.success) {
+        const mapped: BlogPost[] = json.data.posts.map((p: any) => ({
+          id: p.id,
+          title: p.title,
+            content: p.content,
+            excerpt: p.excerpt || '',
+            category: p.tags?.[0]?.name || '',
+            tags: p.tags?.map((t: any) => t.name) || [],
+            author: p.authorName || 'Admin',
+            featuredImage: p.coverImage || '',
+            publishedDate: p.createdAt.split('T')[0],
+            status: p.isPublished ? 'published' : 'draft',
+            seoTitle: p.metaTitle || '',
+            seoDescription: p.metaDescription || '',
+            readTime: Math.max(1, Math.round(p.content.split(/\s+/).length / 200))
+        }))
+        setPosts(mapped)
+      }
+    } catch (e) {
+      console.error('Failed fetch posts', e)
+    } finally {
+      setLoadingPosts(false)
+    }
+  }
+
+  useEffect(() => { fetchPosts() }, [])
+
+  async function uploadFeaturedIfNeeded(): Promise<string | undefined> {
+    if (!localFileRef.current) return formData.featuredImage || undefined
+    try {
+      setUploadingImage(true)
+      const fd = new FormData()
+      fd.append('file', localFileRef.current)
+      fd.append('category', 'blog')
+      const res = await fetch('/api/upload', { method: 'POST', body: fd })
+      const json = await res.json()
+      if (json.success) {
+        return json.data.filePath
+      } else {
+        console.error('Upload failed', json.message)
+      }
+    } catch (e) {
+      console.error('Upload error', e)
+    } finally {
+      setUploadingImage(false)
+    }
+  }
+
+  const handleAddPost = async () => {
+    if (!validateForm()) return
+    setSubmitting(true)
+    const imagePath = await uploadFeaturedIfNeeded()
+    const payload = {
       title: formData.title,
       content: formData.content,
       excerpt: formData.excerpt,
-      category: formData.category,
-      tags: formData.tags.split(",").map(tag => tag.trim()),
-      author: formData.author,
-      featuredImage: formData.featuredImage || "/placeholder.svg?height=200&width=300",
-      publishedDate: new Date().toISOString().split("T")[0],
-      status: formData.status,
-      seoTitle: formData.seoTitle,
-      seoDescription: formData.seoDescription,
-      readTime: formData.readTime
+      coverImage: imagePath,
+      authorName: formData.author || 'Admin',
+      isPublished: formData.status === 'published',
+      metaTitle: formData.seoTitle || undefined,
+      metaDescription: formData.seoDescription || undefined,
+      tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean)
     }
-    setPosts([...posts, newPost])
-    setIsAddDialogOpen(false)
-    resetForm()
+    const res = await fetch('/api/blog', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    const json = await res.json()
+    if (json.success) {
+      setIsAddDialogOpen(false)
+      resetForm()
+      localFileRef.current = null
+      fetchPosts()
+    } else {
+      if (res.status === 422 && json.errors) {
+        setFormErrors(json.errors)
+      } else {
+        alert(json.message || 'Gagal menyimpan artikel')
+      }
+    }
+    setSubmitting(false)
   }
 
-  const handleEditPost = () => {
+  const handleEditPost = async () => {
     if (!editingPost) return
-
-    const updatedPost: BlogPost = {
-      ...editingPost,
+    if (!validateForm()) return
+    setSubmitting(true)
+    const imagePath = await uploadFeaturedIfNeeded()
+    const payload: any = {
       title: formData.title,
       content: formData.content,
       excerpt: formData.excerpt,
-      category: formData.category,
-      tags: formData.tags.split(",").map(tag => tag.trim()),
-      author: formData.author,
-      featuredImage: formData.featuredImage || "/placeholder.svg?height=200&width=300",
-      status: formData.status,
-      seoTitle: formData.seoTitle,
-      seoDescription: formData.seoDescription,
-      readTime: formData.readTime
+      coverImage: imagePath,
+      authorName: formData.author,
+      isPublished: formData.status === 'published',
+      metaTitle: formData.seoTitle || undefined,
+      metaDescription: formData.seoDescription || undefined,
+      tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean)
     }
-
-    setPosts(posts.map((post) => (post.id === editingPost.id ? updatedPost : post)))
-    setIsEditDialogOpen(false)
-    setEditingPost(null)
-    resetForm()
+    const res = await fetch(`/api/blog/${editingPost.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    const json = await res.json()
+    if (json.success) {
+      setIsEditDialogOpen(false)
+      setEditingPost(null)
+      resetForm()
+      localFileRef.current = null
+      fetchPosts()
+    } else {
+      if (res.status === 422 && json.errors) {
+        setFormErrors(json.errors)
+      } else {
+        alert(json.message || 'Gagal memperbarui artikel')
+      }
+    }
+    setSubmitting(false)
   }
 
-  const handleDeletePost = (id: number) => {
-    if (confirm("Apakah Anda yakin ingin menghapus artikel blog ini?")) {
-      setPosts(posts.filter((post) => post.id !== id))
+  const handleDeletePost = async (id: string | number) => {
+    if (!confirm('Apakah Anda yakin ingin menghapus artikel blog ini?')) return
+    const res = await fetch(`/api/blog/${id}`, { method: 'DELETE' })
+    const json = await res.json()
+    if (json.success) {
+      fetchPosts()
+    } else {
+      alert(json.message || 'Gagal menghapus artikel')
     }
   }
 
@@ -173,144 +333,41 @@ export default function AdminBlogPage() {
     })
   }
 
-  const BlogForm = ({ onSubmit, submitLabel }: { onSubmit: () => void; submitLabel: string }) => (
-    <div className="space-y-4">
-      <div>
-        <Label htmlFor="title">Judul Artikel</Label>
-        <Input
-          id="title"
-          value={formData.title}
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          placeholder="Masukkan judul artikel"
-        />
-      </div>
+  // (BlogForm moved outside component to keep stable identity & prevent caret resets)
 
-      <div>
-        <Label htmlFor="excerpt">Ringkasan</Label>
-        <Textarea
-          id="excerpt"
-          value={formData.excerpt}
-          onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-          placeholder="Ringkasan singkat artikel"
-          rows={2}
-        />
-      </div>
+  const handleFormPatch = useCallback((patch: Partial<typeof formData> & { __localFile?: File }) => {
+    if (patch.__localFile) {
+      localFileRef.current = patch.__localFile
+      // create object URL for preview
+      const url = URL.createObjectURL(patch.__localFile)
+      setFormData(prev => ({ ...prev, featuredImage: url }))
+      return
+    }
+    setFormData(prev => ({ ...prev, ...patch }))
+  }, [])
 
-      <div>
-        <Label htmlFor="content">Konten Artikel</Label>
-        <Textarea
-          id="content"
-          value={formData.content}
-          onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-          placeholder="Tulis konten artikel lengkap"
-          rows={8}
-        />
-      </div>
+  function validateForm(): boolean {
+    const errs: Record<string, string[]> = {}
+    if (!formData.title || formData.title.trim().length < 5) {
+      errs.title = ['Judul minimal 5 karakter']
+    }
+    if (!formData.content || formData.content.trim().length < 50) {
+      errs.content = ['Konten minimal 50 karakter']
+    }
+    if (!formData.author || formData.author.trim().length < 2) {
+      errs.author = ['Nama penulis minimal 2 karakter']
+    }
+    setFormErrors(errs)
+    return Object.keys(errs).length === 0
+  }
 
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="category">Kategori</Label>
-          <select
-            id="category"
-            value={formData.category}
-            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          >
-            <option value="">Pilih kategori</option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <Label htmlFor="author">Penulis</Label>
-          <Input
-            id="author"
-            value={formData.author}
-            onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-            placeholder="Nama penulis"
-          />
-        </div>
-      </div>
-
-      <div>
-        <Label htmlFor="tags">Tags (pisahkan dengan koma)</Label>
-        <Input
-          id="tags"
-          value={formData.tags}
-          onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-          placeholder="teknologi, air, inovasi"
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="featuredImage">Gambar Utama</Label>
-        <Input
-          id="featuredImage"
-          value={formData.featuredImage}
-          onChange={(e) => setFormData({ ...formData, featuredImage: e.target.value })}
-          placeholder="URL gambar utama"
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="readTime">Waktu Baca (menit)</Label>
-        <Input
-          id="readTime"
-          type="number"
-          value={formData.readTime}
-          onChange={(e) => setFormData({ ...formData, readTime: parseInt(e.target.value) || 5 })}
-          placeholder="5"
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="seoTitle">SEO Title</Label>
-        <Input
-          id="seoTitle"
-          value={formData.seoTitle}
-          onChange={(e) => setFormData({ ...formData, seoTitle: e.target.value })}
-          placeholder="Judul untuk SEO"
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="seoDescription">SEO Description</Label>
-        <Textarea
-          id="seoDescription"
-          value={formData.seoDescription}
-          onChange={(e) => setFormData({ ...formData, seoDescription: e.target.value })}
-          placeholder="Deskripsi untuk SEO"
-          rows={2}
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="status">Status</Label>
-        <select
-          id="status"
-          value={formData.status}
-          onChange={(e) => setFormData({ ...formData, status: e.target.value as "published" | "draft" })}
-          className="w-full p-2 border border-gray-300 rounded-md"
-        >
-          <option value="published">Diterbitkan</option>
-          <option value="draft">Draf</option>
-        </select>
-      </div>
-
-      <Button onClick={onSubmit} className="w-full bg-blue-600 hover:bg-blue-700">
-        {submitLabel}
-      </Button>
-    </div>
-  )
+  function renderFieldError(name: string) {
+    if (!formErrors[name]) return null
+    return <p className="mt-1 text-xs text-red-500">{formErrors[name][0]}</p>
+  }
 
   return (
     <div className="flex flex-col h-full">
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <h1 className="text-2xl font-bold text-blue-600">Manajemen Blog</h1>
-        <p className="text-gray-600">Kelola artikel dan konten blog</p>
-      </div>
 
       <div className="flex-1 p-6 overflow-auto">
         <div className="space-y-6">
@@ -335,7 +392,7 @@ export default function AdminBlogPage() {
                     Buat artikel blog baru untuk ditampilkan di website. Pastikan semua field yang wajib diisi telah terisi dengan benar.
                   </DialogDescription>
                 </DialogHeader>
-                <BlogForm onSubmit={handleAddPost} submitLabel="Tambah Artikel" />
+                <BlogForm errors={formErrors} form={formData} categories={categories} onChange={(p)=>{ if (formErrors[Object.keys(p)[0] as string]) setFormErrors(prev=>{ const copy={...prev}; delete copy[Object.keys(p)[0] as string]; return copy }) ; handleFormPatch(p) }} onSubmit={handleAddPost} submitLabel={submitting ? "Menyimpan..." : "Tambah Artikel"} />
               </DialogContent>
             </Dialog>
           </div>
@@ -353,8 +410,9 @@ export default function AdminBlogPage() {
 
           {/* Posts Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPosts.map((post) => (
-              <Card key={post.id} className="hover:shadow-lg transition-shadow">
+            {loadingPosts && <div className="col-span-full text-center text-sm text-gray-500">Memuat artikel...</div>}
+            {!loadingPosts && filteredPosts.map((post) => (
+              <Card key={post.id as any} className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-0">
                   <div className="aspect-video bg-gray-100 rounded-t-lg overflow-hidden">
                     <img
@@ -431,7 +489,7 @@ export default function AdminBlogPage() {
                   Ubah informasi artikel blog. Pastikan semua field yang wajib diisi telah terisi dengan benar.
                 </DialogDescription>
               </DialogHeader>
-              <BlogForm onSubmit={handleEditPost} submitLabel="Simpan Perubahan" />
+              <BlogForm errors={formErrors} form={formData} categories={categories} onChange={(p)=>{ if (formErrors[Object.keys(p)[0] as string]) setFormErrors(prev=>{ const copy={...prev}; delete copy[Object.keys(p)[0] as string]; return copy }) ; handleFormPatch(p) }} onSubmit={handleEditPost} submitLabel={submitting ? "Menyimpan..." : "Simpan Perubahan"} />
             </DialogContent>
           </Dialog>
         </div>

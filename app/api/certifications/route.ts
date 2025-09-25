@@ -11,6 +11,11 @@ const createCertificationSchema = z.object({
   certificate: z.string().optional(),
   issuedAt: z.string().datetime('Invalid issued date'),
   expiresAt: z.string().datetime('Invalid expiry date').optional(),
+  certificateNumber: z.string().optional(),
+  credentialUrl: z.string().url('Invalid credential URL').optional().or(z.literal('')).optional(),
+  category: z.string().optional(),
+  level: z.string().optional(),
+  status: z.enum(['active','expired','pending']).optional(),
 })
 
 // GET /api/certifications - List all certifications
@@ -59,12 +64,20 @@ export async function POST(request: NextRequest) {
       return validationErrorResponse(errors)
     }
 
-    const { issuedAt, expiresAt, ...data } = result.data
+    const { issuedAt, expiresAt, status, ...rest } = result.data
+    // derive status if not provided
+    let finalStatus = status
+    if (!finalStatus) {
+      const expDate = expiresAt ? new Date(expiresAt) : null
+      if (expDate && expDate < new Date()) finalStatus = 'expired'
+      else finalStatus = 'active'
+    }
 
     // Create certification
     const certification = await db.certification.create({
       data: {
-        ...data,
+        ...rest,
+        status: finalStatus,
         issuedAt: new Date(issuedAt),
         expiresAt: expiresAt ? new Date(expiresAt) : null,
       }

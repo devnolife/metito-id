@@ -71,17 +71,17 @@ export function Header() {
           <Link href="/" className="flex items-center gap-3 group pr-4">
             <Image
               src="/images/logo.png"
-              alt="Metito Water Solutions"
+              alt="MULTI ENVIRO TIRTA TEKNOLOGI (Metito)"
               width={58}
               height={58}
               className="group-hover:scale-105 transition-transform duration-300"
             />
             <div className="flex flex-col justify-center">
               <span className="text-base md:text-lg font-extrabold text-gray-900 group-hover:text-blue-600 leading-tight whitespace-nowrap">
-                Metito Water Solutions
+                MULTI ENVIRO TIRTA TEKNOLOGI
               </span>
               <span className="text-xs text-gray-500 font-medium leading-tight whitespace-nowrap">
-                Solusi Teknik Air
+                Innovation for water solutions
               </span>
             </div>
           </Link>

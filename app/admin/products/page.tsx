@@ -128,10 +128,8 @@ export default function AdminProductsPage() {
   }
 
   const handleEdit = (product: Product) => {
-    toast({
-      title: "Coming Soon",
-      description: "Fitur edit produk akan segera hadir"
-    })
+    // Redirect ke halaman edit produk
+    window.location.href = `/admin/products/${product.id}/edit`
   }
 
   const handleDelete = (productId: string) => {

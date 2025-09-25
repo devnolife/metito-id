@@ -283,7 +283,13 @@ model Certification {
   certificate String?
   issuedAt    DateTime
   expiresAt   DateTime?
-  isActive    Boolean   @default(true)
+  // Extended fields to support admin UI
+  certificateNumber String?  // nomor sertifikat
+  credentialUrl     String?  // url verifikasi
+  category          String?  // kategori (Quality Management, etc)
+  level             String?  // level (International, National, etc)
+  status            String?  // active | expired | pending (UI status)
+  isActive          Boolean   @default(true)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
@@ -322,4 +328,32 @@ model Setting {
   updatedAt DateTime @updatedAt
 
   @@map("settings")
+}
+
+// Customer model for managing client contacts & testimonials (admin UI)
+model Customer {
+  id                String   @id @default(cuid())
+  name              String
+  company           String?
+  email             String   @unique
+  phone             String?
+  address           String?
+  industry          String?
+  projectType       String?
+  testimonial       String?
+  rating            Int      @default(0)
+  avatar            String?
+  website           String?
+  contactDate       DateTime? // stored as Date; UI will send ISO string
+  projectValue      String?
+  status            String   @default("potential") // potential | active | completed
+  isPublicTestimonial Boolean @default(false)
+  featured          Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("customers")
+  @@index([status])
+  @@index([industry])
+  @@index([featured])
 }

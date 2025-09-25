@@ -9,6 +9,11 @@ import { db } from '@/lib/db'
 export const runtime = 'nodejs'
 
 // Allowed file types by category
+// Accept both 'certificates' (old) and 'certifications' (UI form) mapping them to same rules
+// NOTE: We now accept both 'certificates' and legacy/UX label 'certifications'.
+// Frontend form sends 'certifications'; we normalize to 'certificates' internally so
+// storage path and ImageType remain consistent. Keep both keys in ALLOWED_TYPES / UPLOAD_DIRS
+// for backward compatibility with any existing clients.
 const ALLOWED_TYPES = {
   products: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'],
   gallery: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'],
@@ -16,6 +21,7 @@ const ALLOWED_TYPES = {
   testimonials: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'],
   blog: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'],
   certificates: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'],
+  certifications: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'],
   documents: [
     'application/pdf',
     'application/msword',
@@ -39,6 +45,7 @@ const UPLOAD_DIRS = {
   testimonials: 'public/images/testimonials',
   blog: 'public/images/blog',
   certificates: 'public/certificates',
+  certifications: 'public/certificates',
   documents: 'public/documents/products'
 }
 
@@ -50,6 +57,7 @@ const CATEGORY_TO_IMAGE_TYPE = {
   testimonials: 'TESTIMONIAL',
   blog: 'BLOG',
   certificates: 'CERTIFICATE',
+  certifications: 'CERTIFICATE',
   documents: 'DOCUMENT'
 } as const
 
@@ -71,7 +79,9 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData()
     const file = formData.get('file') as File
-    const category = formData.get('category') as string
+  const rawCategory = formData.get('category') as string
+  // Normalize category alias
+  const category = rawCategory === 'certifications' ? 'certificates' : rawCategory
     const productId = formData.get('productId') as string // Optional, for product-specific uploads
     const userId = formData.get('userId') as string // Optional, for user-specific uploads
     const title = formData.get('title') as string // Optional
@@ -97,7 +107,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate file type
-    const allowedTypes = ALLOWED_TYPES[category as keyof typeof ALLOWED_TYPES]
+  const allowedTypes = ALLOWED_TYPES[rawCategory as keyof typeof ALLOWED_TYPES] || ALLOWED_TYPES[category as keyof typeof ALLOWED_TYPES]
     if (!allowedTypes?.includes(file.type)) {
       console.log('Invalid file type:', file.type, 'for category:', category)
       const allowedExtensions = allowedTypes?.map(type => {
@@ -138,7 +148,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create upload directory if it doesn't exist
-    const uploadDir = UPLOAD_DIRS[category as keyof typeof UPLOAD_DIRS]
+  const uploadDir = UPLOAD_DIRS[category as keyof typeof UPLOAD_DIRS]
     console.log('Upload directory:', uploadDir)
 
     try {

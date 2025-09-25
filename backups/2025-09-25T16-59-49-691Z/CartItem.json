@@ -1,0 +1,26 @@
+[
+  {
+    "id": "cmfzmx157001f7a16313vutdh",
+    "userId": "cmfzmx0xw00037a16jbjlxn4w",
+    "productId": "cmfzmx10z000d7a16l7uuog9s",
+    "quantity": 1,
+    "createdAt": "2025-09-25T16:35:53.996Z",
+    "updatedAt": "2025-09-25T16:35:53.996Z"
+  },
+  {
+    "id": "cmfzmx157001d7a16t77wp9r3",
+    "userId": "cmfzmx0vf00017a16kuf3ob39",
+    "productId": "cmfzmx10z000f7a1610w9zfqy",
+    "quantity": 1,
+    "createdAt": "2025-09-25T16:35:53.995Z",
+    "updatedAt": "2025-09-25T16:35:53.995Z"
+  },
+  {
+    "id": "cmfzmx157001c7a166d7crebm",
+    "userId": "cmfzmx0xw00037a16jbjlxn4w",
+    "productId": "cmfzmx10z000c7a16jxq0mia6",
+    "quantity": 2,
+    "createdAt": "2025-09-25T16:35:53.995Z",
+    "updatedAt": "2025-09-25T16:35:53.995Z"
+  }
+]

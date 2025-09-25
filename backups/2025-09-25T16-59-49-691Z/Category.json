@@ -1,0 +1,46 @@
+[
+  {
+    "id": "cmfzmx0yo00057a166q9k4mvs",
+    "name": "Filtration Equipment",
+    "slug": "filtration-equipment",
+    "description": "High-performance filtration systems and equipment",
+    "icon": "filter",
+    "color": "#10b981",
+    "isActive": true,
+    "createdAt": "2025-09-25T16:35:53.761Z",
+    "updatedAt": "2025-09-25T16:35:53.761Z"
+  },
+  {
+    "id": "cmfzmx0yo00067a169byiy81e",
+    "name": "Membrane Technology",
+    "slug": "membrane-technology",
+    "description": "Advanced membrane filtration technology",
+    "icon": "layers",
+    "color": "#8b5cf6",
+    "isActive": true,
+    "createdAt": "2025-09-25T16:35:53.761Z",
+    "updatedAt": "2025-09-25T16:35:53.761Z"
+  },
+  {
+    "id": "cmfzmx0yo00047a164gflfazw",
+    "name": "Reverse Osmosis Systems",
+    "slug": "reverse-osmosis-systems",
+    "description": "Advanced reverse osmosis water treatment systems for industrial and municipal use",
+    "icon": "water-drop",
+    "color": "#0ea5e9",
+    "isActive": true,
+    "createdAt": "2025-09-25T16:35:53.761Z",
+    "updatedAt": "2025-09-25T16:35:53.761Z"
+  },
+  {
+    "id": "cmfzmx0zf00077a16yodbzury",
+    "name": "Chemical Treatment",
+    "slug": "chemical-treatment",
+    "description": "Chemical dosing and treatment systems",
+    "icon": "flask",
+    "color": "#f59e0b",
+    "isActive": true,
+    "createdAt": "2025-09-25T16:35:53.761Z",
+    "updatedAt": "2025-09-25T16:35:53.761Z"
+  }
+]

@@ -8,7 +8,7 @@ export function WhatsAppFloat() {
   const admins = [
     {
       id: 1,
-      name: "Admin 1",
+      name: "Sales 1",
       phoneNumber: "6281234567890",
       message: "Halo, saya tertarik dengan produk Metito Water Solutions. Bisa bantu saya?",
       color: "bg-green-500 hover:bg-green-600",

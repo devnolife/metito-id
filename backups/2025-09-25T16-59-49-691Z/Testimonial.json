@@ -1,0 +1,44 @@
+[
+  {
+    "id": "cmfzmx13z000s7a168s2nj20z",
+    "name": "Budi Santoso",
+    "company": "PT Petrochemical Indonesia",
+    "position": "Plant Manager",
+    "content": "Metito has provided excellent water treatment solutions for our petrochemical facility. Their industrial RO system has been running flawlessly for over 2 years with minimal maintenance. The water quality consistently meets our strict requirements.",
+    "rating": 5,
+    "avatar": "/images/testimonials/budi-santoso.jpg",
+    "userId": "cmfzmx0vf00017a16kuf3ob39",
+    "isApproved": true,
+    "isFeatured": true,
+    "createdAt": "2025-09-25T16:35:53.951Z",
+    "updatedAt": "2025-09-25T16:35:53.951Z"
+  },
+  {
+    "id": "cmfzmx13z000t7a1626lgchru",
+    "name": "Ahmad Rahman",
+    "company": "CV Water Works",
+    "position": "Technical Director",
+    "content": "Working with Metito has been a great experience. Their chemical dosing system is precise and reliable. The technical support team is very responsive and knowledgeable.",
+    "rating": 4,
+    "avatar": "/images/testimonials/ahmad-rahman.jpg",
+    "userId": "cmfzmx0w400027a16f1y5tjpj",
+    "isApproved": true,
+    "isFeatured": false,
+    "createdAt": "2025-09-25T16:35:53.951Z",
+    "updatedAt": "2025-09-25T16:35:53.951Z"
+  },
+  {
+    "id": "cmfzmx13z000u7a16kbg98tky",
+    "name": "Sari Indrawati",
+    "company": "PT Manufaktur Jaya",
+    "position": "Operations Director",
+    "content": "The ultrafiltration system from Metito has significantly improved our manufacturing process water quality. Their team provided excellent support during installation and commissioning. Highly recommended for industrial applications.",
+    "rating": 5,
+    "avatar": "/images/testimonials/sari-indrawati.jpg",
+    "userId": "cmfzmx0xw00037a16jbjlxn4w",
+    "isApproved": true,
+    "isFeatured": true,
+    "createdAt": "2025-09-25T16:35:53.951Z",
+    "updatedAt": "2025-09-25T16:35:53.951Z"
+  }
+]

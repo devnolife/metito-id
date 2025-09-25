@@ -1,0 +1,122 @@
+[
+  {
+    "id": "cmfzmx13r000o7a161q5t3i4t",
+    "name": "Water Treatment Consultation",
+    "slug": "water-treatment-consultation",
+    "description": "Expert consultation services for water treatment system design, optimization, and troubleshooting.",
+    "shortDesc": "Expert water treatment consultation and design services",
+    "icon": "consulting",
+    "features": [
+      "System design and engineering",
+      "Water quality analysis",
+      "Process optimization",
+      "Regulatory compliance",
+      "Cost-benefit analysis"
+    ],
+    "pricing": {
+      "basic": {
+        "price": 2500000,
+        "duration": "1 day",
+        "includes": [
+          "Site visit",
+          "Basic analysis",
+          "Recommendations report"
+        ]
+      },
+      "comprehensive": {
+        "price": 7500000,
+        "duration": "1 week",
+        "includes": [
+          "Detailed analysis",
+          "System design",
+          "Implementation plan",
+          "Training"
+        ]
+      }
+    },
+    "isFeatured": true,
+    "isActive": true,
+    "createdAt": "2025-09-25T16:35:53.944Z",
+    "updatedAt": "2025-09-25T16:35:53.944Z"
+  },
+  {
+    "id": "cmfzmx13r000n7a16qasaqkg4",
+    "name": "Maintenance & Support",
+    "slug": "maintenance-support",
+    "description": "Comprehensive maintenance and technical support services to keep your systems running optimally.",
+    "shortDesc": "Ongoing maintenance and technical support",
+    "icon": "maintenance",
+    "features": [
+      "Preventive maintenance",
+      "Emergency repairs",
+      "24/7 technical support",
+      "Spare parts supply",
+      "Remote monitoring"
+    ],
+    "pricing": {
+      "basic": {
+        "price": 1500000,
+        "duration": "Monthly",
+        "includes": [
+          "Basic maintenance",
+          "Phone support",
+          "Quarterly visits"
+        ]
+      },
+      "premium": {
+        "price": 3500000,
+        "duration": "Monthly",
+        "includes": [
+          "Full maintenance",
+          "24/7 support",
+          "Monthly visits",
+          "Remote monitoring"
+        ]
+      }
+    },
+    "isFeatured": false,
+    "isActive": true,
+    "createdAt": "2025-09-25T16:35:53.944Z",
+    "updatedAt": "2025-09-25T16:35:53.944Z"
+  },
+  {
+    "id": "cmfzmx13r000m7a16gbihsvnz",
+    "name": "System Installation & Commissioning",
+    "slug": "system-installation-commissioning",
+    "description": "Professional installation and commissioning services for all water engineering solutions.",
+    "shortDesc": "Professional installation and commissioning services",
+    "icon": "installation",
+    "features": [
+      "Equipment installation",
+      "Piping and electrical work",
+      "System commissioning",
+      "Performance testing",
+      "Operator training"
+    ],
+    "pricing": {
+      "premium": {
+        "price": 12000000,
+        "duration": "2-3 weeks",
+        "includes": [
+          "Full installation",
+          "Comprehensive testing",
+          "Training",
+          "Warranty"
+        ]
+      },
+      "standard": {
+        "price": 5000000,
+        "duration": "1-2 weeks",
+        "includes": [
+          "Installation",
+          "Basic commissioning",
+          "Documentation"
+        ]
+      }
+    },
+    "isFeatured": true,
+    "isActive": true,
+    "createdAt": "2025-09-25T16:35:53.944Z",
+    "updatedAt": "2025-09-25T16:35:53.944Z"
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "cmfzmx14t00137a16xorzw7oy",
+    "email": "engineer@watertech.co.id",
+    "name": "Water Tech Engineer",
+    "isActive": true,
+    "isConfirmed": false,
+    "createdAt": "2025-09-25T16:35:53.981Z",
+    "updatedAt": "2025-09-25T16:35:53.981Z"
+  },
+  {
+    "id": "cmfzmx14t00127a16cszcujgd",
+    "email": "jane.smith@company.com",
+    "name": "Jane Smith",
+    "isActive": true,
+    "isConfirmed": true,
+    "createdAt": "2025-09-25T16:35:53.981Z",
+    "updatedAt": "2025-09-25T16:35:53.981Z"
+  },
+  {
+    "id": "cmfzmx14t00117a16dp1jm9tq",
+    "email": "john.doe@example.com",
+    "name": "John Doe",
+    "isActive": true,
+    "isConfirmed": true,
+    "createdAt": "2025-09-25T16:35:53.981Z",
+    "updatedAt": "2025-09-25T16:35:53.981Z"
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "id": "cmfzmx14m000z7a16aw7710ah",
+    "title": "Ultrafiltration System - Manufacturing Plant",
+    "description": "UF membrane system installation for food processing facility",
+    "image": "/images/gallery/uf-system-manufacturing.jpg",
+    "category": "Industrial Projects",
+    "projectType": "INDUSTRIAL",
+    "location": "Surabaya, Indonesia",
+    "completedAt": "2023-09-10T00:00:00.000Z",
+    "isFeatured": false,
+    "createdAt": "2025-09-25T16:35:53.975Z",
+    "updatedAt": "2025-09-25T16:35:53.975Z"
+  },
+  {
+    "id": "cmfzmx14m00107a160r84s8ln",
+    "title": "Municipal Water Treatment Plant - Bandung",
+    "description": "Complete municipal water treatment facility serving 50,000 residents in Bandung",
+    "image": "/images/gallery/municipal-plant-bandung.jpg",
+    "category": "Municipal Projects",
+    "projectType": "MUNICIPAL",
+    "location": "Bandung, Indonesia",
+    "completedAt": "2023-05-20T00:00:00.000Z",
+    "isFeatured": true,
+    "createdAt": "2025-09-25T16:35:53.975Z",
+    "updatedAt": "2025-09-25T16:35:53.975Z"
+  },
+  {
+    "id": "cmfzmx14m000y7a16dyrtwxqj",
+    "title": "Industrial RO Plant Installation - Jakarta",
+    "description": "Successful installation of 1000 GPD industrial reverse osmosis system at petrochemical facility in Jakarta",
+    "image": "/images/gallery/ro-plant-jakarta.jpg",
+    "category": "Industrial Projects",
+    "projectType": "INDUSTRIAL",
+    "location": "Makassar, Indonesia",
+    "completedAt": "2023-08-15T00:00:00.000Z",
+    "isFeatured": true,
+    "createdAt": "2025-09-25T16:35:53.975Z",
+    "updatedAt": "2025-09-25T16:35:53.975Z"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "cmfzmx14g000x7a16t1274fmq",
+    "name": "OHSAS 18001 Occupational Health & Safety",
+    "description": "Occupational health and safety management systems",
+    "issuer": "TUV Rheinland",
+    "certificate": "/certificates/ohsas-18001.pdf",
+    "issuedAt": "2023-06-10T00:00:00.000Z",
+    "expiresAt": "2026-06-10T00:00:00.000Z",
+    "isActive": true,
+    "createdAt": "2025-09-25T16:35:53.968Z",
+    "updatedAt": "2025-09-25T16:35:53.968Z"
+  },
+  {
+    "id": "cmfzmx14g000w7a16pzbo98l0",
+    "name": "ISO 9001:2015 Quality Management System",
+    "description": "International standard for quality management systems",
+    "issuer": "Bureau Veritas",
+    "certificate": "/certificates/iso-9001-2015.pdf",
+    "issuedAt": "2023-01-15T00:00:00.000Z",
+    "expiresAt": "2026-01-15T00:00:00.000Z",
+    "isActive": true,
+    "createdAt": "2025-09-25T16:35:53.968Z",
+    "updatedAt": "2025-09-25T16:35:53.968Z"
+  },
+  {
+    "id": "cmfzmx14g000v7a16ja99bit3",
+    "name": "ISO 14001:2015 Environmental Management",
+    "description": "Environmental management systems standard",
+    "issuer": "SGS Indonesia",
+    "certificate": "/certificates/iso-14001-2015.pdf",
+    "issuedAt": "2023-03-20T00:00:00.000Z",
+    "expiresAt": "2026-03-20T00:00:00.000Z",
+    "isActive": true,
+    "createdAt": "2025-09-25T16:35:53.968Z",
+    "updatedAt": "2025-09-25T16:35:53.968Z"
+  }
+]

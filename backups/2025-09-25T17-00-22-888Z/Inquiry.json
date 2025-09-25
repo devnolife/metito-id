@@ -1,0 +1,44 @@
+[
+  {
+    "id": "cmfzmx15000187a16s7q5uocm",
+    "name": "Ahmad Rahman",
+    "email": "ahmad@waterworks.id",
+    "phone": "+62-21-4567-8901",
+    "company": "CV Water Works",
+    "subject": "Technical Support Request",
+    "message": "Need technical assistance with chemical dosing system calibration. System is not maintaining consistent dosing rates.",
+    "productId": "cmfzmx10z000d7a16l7uuog9s",
+    "userId": "cmfzmx0w400027a16f1y5tjpj",
+    "status": "RESPONDED",
+    "createdAt": "2025-09-25T16:35:53.988Z",
+    "updatedAt": "2025-09-25T16:35:53.988Z"
+  },
+  {
+    "id": "cmfzmx15000197a16hncv2q5z",
+    "name": "Municipal Water Authority",
+    "email": "info@waterauth.gov.id",
+    "phone": "+62-21-6666-5678",
+    "company": "Municipal Water Authority",
+    "subject": "Municipal Water Treatment Plant Proposal",
+    "message": "We need a proposal for a municipal water treatment plant with 15,000 m³/day capacity. Please include timeline and budget estimates.",
+    "productId": "cmfzmx10z000e7a16c2w8cq8n",
+    "userId": null,
+    "status": "RESPONDED",
+    "createdAt": "2025-09-25T16:35:53.988Z",
+    "updatedAt": "2025-09-25T16:35:53.988Z"
+  },
+  {
+    "id": "cmfzmx15000177a16zh7k3hkr",
+    "name": "PT Chemical Industries",
+    "email": "procurement@chemical.co.id",
+    "phone": "+62-21-5555-1234",
+    "company": "PT Chemical Industries",
+    "subject": "Inquiry for Industrial RO System",
+    "message": "We are interested in your 1000 GPD industrial RO system for our new facility. Please provide detailed specifications and pricing.",
+    "productId": "cmfzmx10z000f7a1610w9zfqy",
+    "userId": null,
+    "status": "PENDING",
+    "createdAt": "2025-09-25T16:35:53.988Z",
+    "updatedAt": "2025-09-25T16:35:53.988Z"
+  }
+]

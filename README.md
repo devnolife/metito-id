@@ -28,3 +28,38 @@ Continue building your app on:
 2. Deploy your chats from the v0 interface
 3. Changes are automatically pushed to this repository
 4. Vercel deploys the latest version from this repository
+
+## Database Backup & Restore (Development)
+
+Seed script wipes tables using `deleteMany()`. To prevent accidental loss you can create JSON backups of all models and optionally auto-backup before reseeding.
+
+### Backup
+
+```
+pnpm db:backup
+```
+
+Creates: `backups/<timestamp>/<Model>.json`.
+
+### Restore (latest)
+
+```
+pnpm db:restore
+```
+
+### Restore (specific directory)
+
+```
+node scripts/restore-db.js backups/2025-09-25T16-55-00-123Z
+```
+
+### Auto-backup before seed
+
+```
+RUN_SEED_BACKUP=1 pnpm db:seed
+```
+
+### Notes
+* Restore uses `createMany(skipDuplicates=true)` so existing rows are kept.
+* Do not commit real backup data; consider adding `backups/` to `.gitignore` if sensitive.
+* Adjust model order in `scripts/backup-utils.js` if you add new relations.

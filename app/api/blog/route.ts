@@ -66,9 +66,6 @@ export async function GET(request: NextRequest) {
         include: {
           tags: {
             select: { id: true, name: true, slug: true, color: true }
-          },
-          _count: {
-            select: { comments: true }
           }
         },
         orderBy: [

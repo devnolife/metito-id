@@ -29,7 +29,8 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
     name: '',
     description: '',
     shortDesc: '',
-    price: 0,
+    // Biarkan undefined sampai user mengisi untuk menghindari mengirim 0 (invalid)
+    price: undefined,
     capacity: '',
     efficiency: '',
     location: '',
@@ -96,7 +97,9 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
       newErrors.name = 'Product name is required'
     }
 
-    if (!formData.price || formData.price <= 0) {
+    if (formData.price === undefined || formData.price === null || isNaN(Number(formData.price))) {
+      newErrors.price = 'Price is required'
+    } else if (Number(formData.price) <= 0) {
       newErrors.price = 'Price must be greater than 0'
     }
 
@@ -249,22 +252,19 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                 <div className="space-y-2">
                   <Label htmlFor="categoryId">Kategori *</Label>
                   <Select
-                    value={formData.categoryId || ''}
+                    value={formData.categoryId || undefined}
                     onValueChange={(value) => setFormData(prev => ({ ...prev, categoryId: value }))}
+                    disabled={categoriesLoading}
                   >
                     <SelectTrigger className={errors.categoryId ? "border-red-500" : ""}>
-                      <SelectValue placeholder="Pilih kategori" />
+                      <SelectValue placeholder={categoriesLoading ? 'Memuat kategori...' : 'Pilih kategori'} />
                     </SelectTrigger>
                     <SelectContent>
-                      {categoriesLoading ? (
-                        <SelectItem value="" disabled>Loading...</SelectItem>
-                      ) : (
-                        categories.map((category) => (
-                          <SelectItem key={category.id} value={category.id}>
-                            {category.name}
-                          </SelectItem>
-                        ))
-                      )}
+                      {categories.map((category) => (
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   {errors.categoryId && <p className="text-sm text-red-500">{errors.categoryId}</p>}
@@ -300,13 +300,16 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                   <Input
                     id="price"
                     type="number"
-                    value={formData.price || ''}
-                    onChange={(e) => setFormData(prev => ({ ...prev, price: Number(e.target.value) }))}
+                    value={formData.price === undefined ? '' : formData.price}
+                    onChange={(e) => {
+                      const val = e.target.value
+                      setFormData(prev => ({ ...prev, price: val === '' ? undefined : Number(val) }))
+                    }}
                     placeholder="15000000"
                     className={errors.price ? "border-red-500" : ""}
                   />
-                  {formData.price && formData.price > 0 && (
-                    <p className="text-sm text-gray-500">{formatCurrency(formData.price)}</p>
+                  {formData.price !== undefined && formData.price > 0 && (
+                    <p className="text-sm text-gray-500">{formatCurrency(Number(formData.price))}</p>
                   )}
                   {errors.price && <p className="text-sm text-red-500">{errors.price}</p>}
                 </div>
@@ -314,7 +317,7 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                 <div className="space-y-2">
                   <Label htmlFor="application">Aplikasi</Label>
                   <Select
-                    value={formData.application || ''}
+                    value={formData.application || undefined}
                     onValueChange={(value) => setFormData(prev => ({
                       ...prev,
                       application: value as 'Industrial' | 'Municipal'

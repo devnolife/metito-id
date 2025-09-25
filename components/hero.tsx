@@ -33,17 +33,16 @@ export function Hero() {
         <div className="grid lg:grid-cols-5 gap-12 items-start">
           <div className="space-y-8 lg:col-span-2">
             <div className="space-y-8">
-              <div className="inline-flex items-center px-4 py-2 primary-blue text-white rounded-full text-sm font-medium shadow-lg">
+              <div className="inline-flex items-center px-4 py-2 primary-blue text-white rounded-full text-xs font-medium shadow-lg">
                 <Droplets className="w-4 h-4 mr-2" />
                 Teknologi Pengolahan Air Terdepan
               </div>
 
-              <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
-                <span className="text-primary-blue">Metito Water Solutions</span>
+              <h1 className="text-3xl lg:text-5xl font-bold leading-tight">
+                <span className="text-primary-blue">MULTI ENVIRO TIRTA TEKNOLOGI (Metito)</span>
                 <br />
-                <span className="text-gray-800">Inovasi</span>
                 <br />
-                <span className="text-accent-orange">Pengolahan Air</span>
+                <span className="text-accent-orange">Innovation for water solutions</span>
               </h1>
 
               <p className="text-xl text-gray-600 leading-relaxed">

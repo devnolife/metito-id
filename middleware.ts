@@ -1,5 +1,17 @@
 import { NextResponse, NextRequest } from 'next/server'
-import { verifyJWTEdge } from '@/lib/auth'
+import { jwtVerify } from 'jose'
+
+// Lightweight JWT verify (duplicate of logic without importing prisma-dependent auth.ts)
+const JWT_SECRET = process.env.JWT_SECRET || 'metito-tempur'
+async function verifyTokenSimple(token: string) {
+  try {
+    const secret = new TextEncoder().encode(JWT_SECRET)
+    const { payload } = await jwtVerify(token, secret)
+    return payload as any
+  } catch {
+    return null
+  }
+}
 
 // Paths that require admin authentication
 const adminPaths = [
@@ -12,6 +24,7 @@ const adminPaths = [
   '/api/certifications',
   '/api/gallery',
   '/api/newsletter'
+  // '/api/customers'  // remove from strict admin list: GET should be public; mutations guarded in handlers
 ]
 
 // Paths that require any authentication
@@ -85,7 +98,7 @@ export async function middleware(request: NextRequest) {
     }
 
     // Verify token if it exists
-    const payload = token ? await verifyJWTEdge(token) : null
+  const payload = token ? await verifyTokenSimple(token) : null
 
     if (token && !payload) {
       // Return 401 for API routes with invalid token

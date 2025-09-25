@@ -1,0 +1,34 @@
+[
+  {
+    "id": "cmfzmx131000k7a16lzs00rsh",
+    "title": "Industrial Water Treatment Best Practices",
+    "slug": "industrial-water-treatment-best-practices",
+    "content": "\n        <p>Implementing effective water treatment practices is crucial for industrial operations. This article outlines key strategies for optimizing your industrial water treatment systems.</p>\n        \n        <h2>Pre-treatment Considerations</h2>\n        <p>Proper pre-treatment is essential for protecting downstream equipment and ensuring consistent water quality. This includes sediment filtration, chemical adjustment, and biological treatment where necessary.</p>\n        \n        <h2>System Monitoring and Maintenance</h2>\n        <p>Regular monitoring of key parameters such as pH, conductivity, and turbidity helps maintain optimal system performance and prevents costly downtime.</p>\n        \n        <h2>Energy Efficiency</h2>\n        <p>Modern water treatment systems incorporate energy recovery technologies and optimized operating procedures to minimize energy consumption and operating costs.</p>\n        ",
+    "excerpt": "Learn essential best practices for industrial water treatment to optimize efficiency, reduce costs, and ensure consistent water quality.",
+    "coverImage": "/images/blog/industrial-best-practices.jpg",
+    "authorName": "Eng. Siti Nurhaliza",
+    "authorEmail": "siti@metito.id",
+    "isPublished": true,
+    "isFeatured": false,
+    "metaTitle": "Industrial Water Treatment Best Practices - Metito Blog",
+    "metaDescription": "Comprehensive guide to industrial water treatment best practices for optimal efficiency and water quality.",
+    "createdAt": "2025-09-25T16:35:53.918Z",
+    "updatedAt": "2025-09-25T16:35:53.918Z"
+  },
+  {
+    "id": "cmfzmx131000l7a16q0tdf9ru",
+    "title": "The Future of Water Treatment Technology",
+    "slug": "future-of-water-treatment-technology",
+    "content": "\n        <p>Water treatment technology is rapidly evolving to meet the growing demands of industrial and municipal applications. In this comprehensive guide, we explore the latest innovations that are shaping the future of water treatment.</p>\n        \n        <h2>Advanced Membrane Technologies</h2>\n        <p>Modern membrane technologies, including reverse osmosis and ultrafiltration, are becoming more efficient and cost-effective. These systems offer superior contaminant removal while reducing energy consumption.</p>\n        \n        <h2>Smart Water Management</h2>\n        <p>IoT-enabled water treatment systems provide real-time monitoring and predictive maintenance capabilities, ensuring optimal performance and reduced downtime.</p>\n        \n        <h2>Sustainable Solutions</h2>\n        <p>The industry is moving towards more sustainable practices, including energy recovery systems and environmentally friendly treatment chemicals.</p>\n        ",
+    "excerpt": "Discover the latest innovations in water treatment technology and how they are revolutionizing industrial and municipal water processing.",
+    "coverImage": "/images/blog/water-treatment-future.jpg",
+    "authorName": "Dr. Ahmad Hidayat",
+    "authorEmail": "ahmad@metito.id",
+    "isPublished": true,
+    "isFeatured": true,
+    "metaTitle": "The Future of Water Treatment Technology - Metito Blog",
+    "metaDescription": "Explore cutting-edge water treatment technologies and innovations shaping the future of industrial and municipal water processing.",
+    "createdAt": "2025-09-25T16:35:53.918Z",
+    "updatedAt": "2025-09-25T16:35:53.918Z"
+  }
+]

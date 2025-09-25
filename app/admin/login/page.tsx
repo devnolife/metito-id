@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { LoadingOverlay } from "@/components/admin/ui/loading-overlay"
 import { AdminLogin } from "@/components/admin/admin-login"
@@ -23,6 +23,9 @@ export default function AdminLoginPage() {
   const { toast } = useToast()
 
   useEffect(() => {
+    // Prevent duplicate execution under React Strict Mode dev double-invoke
+    if (authCheckRan.current) return
+    authCheckRan.current = true
     checkAuthStatus()
   }, [])
 
@@ -43,6 +46,7 @@ export default function AdminLoginPage() {
         method: 'GET',
         credentials: 'include',
         headers,
+        cache: 'no-store'
       })
 
       if (response.ok) {
@@ -64,8 +68,12 @@ export default function AdminLoginPage() {
         }
       }
 
-      // Not authenticated, show login form
-      setShowLogin(true)
+      if (response.status === 401) {
+        // Silently show login without spamming console (avoid repeating logs)
+        setShowLogin(true)
+      } else {
+        setShowLogin(true)
+      }
     } catch (error) {
       console.error('Auth check error:', error)
       toast({
@@ -78,6 +86,9 @@ export default function AdminLoginPage() {
       setIsLoading(false)
     }
   }
+
+  // Ref to prevent duplicate auth check in dev
+  const authCheckRan = useRef(false)
 
   const handleLoginSuccess = (success: boolean, userData?: any, errorMessage?: string) => {
     if (success && userData) {

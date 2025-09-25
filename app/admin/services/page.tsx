@@ -8,7 +8,9 @@ import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Plus, Search, Edit, Trash2, Star, Settings, Droplets, Wrench, Zap, Shield, Target, Users, Globe, Cog } from "lucide-react"
+import { Plus, Search, Edit, Trash2, Star, Settings, Droplets, Wrench, Zap, Shield, Target, Users, Globe, Cog, Loader2 } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
+import { DialogFooter } from "@/components/ui/dialog"
 
 interface Service {
   id: string
@@ -51,6 +53,7 @@ const getRandomIconConfig = () => {
 }
 
 export default function AdminServicesPage() {
+  const { toast } = useToast()
   const [services, setServices] = useState<Service[]>([])
   const [pagination, setPagination] = useState<Pagination | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -71,6 +74,10 @@ export default function AdminServicesPage() {
     isFeatured: false,
     isActive: true
   })
+  const [editDialogOpen, setEditDialogOpen] = useState(false)
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [currentService, setCurrentService] = useState<Service | null>(null)
+  const [loadingAction, setLoadingAction] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
@@ -154,12 +161,82 @@ export default function AdminServicesPage() {
             isActive: true
           })
           loadServices()
+          toast({ title: 'Berhasil', description: 'Layanan berhasil dibuat' })
         }
       }
     } catch (error) {
       console.error('Error creating service:', error)
+      toast({ title: 'Gagal', description: 'Tidak dapat membuat layanan', variant: 'destructive' })
     } finally {
       setIsSubmitting(false)
+    }
+  }
+
+  const openEdit = (service: Service) => {
+    setCurrentService(service)
+    setFormData({
+      name: service.name,
+      description: service.description,
+      shortDesc: service.shortDesc || '',
+      icon: service.icon || '',
+      features: service.features || [],
+      pricing: service.pricing || {},
+      isFeatured: service.isFeatured,
+      isActive: service.isActive
+    })
+    setEditDialogOpen(true)
+  }
+
+  const handleUpdateService = async () => {
+    if (!currentService) return
+    try {
+      setLoadingAction(true)
+      const authToken = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null
+      const headers: HeadersInit = { 'Content-Type': 'application/json' }
+      if (authToken) headers['Authorization'] = `Bearer ${authToken}`
+
+      const res = await fetch(`/api/admin/services/${currentService.id}`, {
+        method: 'PUT',
+        headers,
+        credentials: 'include',
+        body: JSON.stringify(formData)
+      })
+      const data = await res.json()
+      if (!res.ok || !data.success) throw new Error(data.message || 'Gagal update layanan')
+      toast({ title: 'Berhasil', description: 'Layanan diperbarui' })
+      setEditDialogOpen(false)
+      setCurrentService(null)
+      loadServices()
+    } catch (e: any) {
+      toast({ title: 'Gagal', description: e.message || 'Tidak dapat update layanan', variant: 'destructive' })
+    } finally {
+      setLoadingAction(false)
+    }
+  }
+
+  const openDelete = (service: Service) => {
+    setCurrentService(service)
+    setDeleteDialogOpen(true)
+  }
+
+  const handleDeleteService = async () => {
+    if (!currentService) return
+    try {
+      setLoadingAction(true)
+      const authToken = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null
+      const headers: HeadersInit = { 'Content-Type': 'application/json' }
+      if (authToken) headers['Authorization'] = `Bearer ${authToken}`
+      const res = await fetch(`/api/admin/services/${currentService.id}`, { method: 'DELETE', headers, credentials: 'include' })
+      const data = await res.json()
+      if (!res.ok || !data.success) throw new Error(data.message || 'Gagal menghapus layanan')
+      toast({ title: 'Berhasil', description: 'Layanan dihapus' })
+      setDeleteDialogOpen(false)
+      setCurrentService(null)
+      loadServices()
+    } catch (e: any) {
+      toast({ title: 'Gagal', description: e.message || 'Tidak dapat menghapus layanan', variant: 'destructive' })
+    } finally {
+      setLoadingAction(false)
     }
   }
 
@@ -378,6 +455,7 @@ export default function AdminServicesPage() {
                     <Button
                       variant="outline"
                       size="sm"
+                      onClick={() => openEdit(service)}
                       className="hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-colors"
                     >
                       <Edit className="w-4 h-4" />
@@ -385,6 +463,7 @@ export default function AdminServicesPage() {
                     <Button
                       variant="outline"
                       size="sm"
+                      onClick={() => openDelete(service)}
                       className="hover:bg-red-50 hover:border-red-300 hover:text-red-700 transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -448,6 +527,100 @@ export default function AdminServicesPage() {
           </CardContent>
         </Card>
       )}
+
+      {/* Edit Service Dialog */}
+      <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Edit Layanan</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium">Nama *</label>
+              <Input
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium">Deskripsi *</label>
+              <Textarea
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                rows={3}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium">Deskripsi Singkat</label>
+              <Input
+                value={formData.shortDesc}
+                onChange={(e) => setFormData({ ...formData, shortDesc: e.target.value })}
+              />
+            </div>
+            <div className="flex gap-4">
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="edit_isFeatured"
+                  checked={formData.isFeatured}
+                  onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
+                />
+                <label htmlFor="edit_isFeatured" className="text-sm">Featured</label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="edit_isActive"
+                  checked={formData.isActive}
+                  onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
+                />
+                <label htmlFor="edit_isActive" className="text-sm">Active</label>
+              </div>
+            </div>
+          </div>
+          <DialogFooter className="flex gap-2 mt-4">
+            <Button
+              variant="outline"
+              onClick={() => setEditDialogOpen(false)}
+              disabled={loadingAction}
+            >
+              Batal
+            </Button>
+            <Button
+              onClick={handleUpdateService}
+              disabled={loadingAction || !formData.name || !formData.description}
+            >
+              {loadingAction ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin"/>Menyimpan...</>) : 'Simpan Perubahan'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Hapus Layanan</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-gray-600">Apakah Anda yakin ingin menghapus layanan <strong>{currentService?.name}</strong>? Tindakan ini tidak bisa dibatalkan.</p>
+          <DialogFooter className="flex gap-2 mt-4">
+            <Button
+              variant="outline"
+              onClick={() => setDeleteDialogOpen(false)}
+              disabled={loadingAction}
+            >
+              Batal
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDeleteService}
+              disabled={loadingAction}
+            >
+              {loadingAction ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin"/>Menghapus...</>) : 'Hapus'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

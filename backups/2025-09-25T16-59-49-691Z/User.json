@@ -1,0 +1,54 @@
+[
+  {
+    "id": "cmfzmx0ut00007a16ez9pxdav",
+    "name": "Admin Metito",
+    "email": "admin@metito.id",
+    "password": "$2a$12$lhY4nhhAIGJ3HrosRszHseebXkQKJYcmiFus1sAC3u/IFbjFgQLV2",
+    "phone": "+62-21-1234-5678",
+    "company": "Metito Indonesia",
+    "role": "ADMIN",
+    "avatar": "/images/users/admin-avatar.jpg",
+    "isActive": true,
+    "createdAt": "2025-09-25T16:35:53.621Z",
+    "updatedAt": "2025-09-25T16:35:53.621Z"
+  },
+  {
+    "id": "cmfzmx0vf00017a16kuf3ob39",
+    "name": "Budi Santoso",
+    "email": "budi@petrochemical.co.id",
+    "password": "$2a$12$lhY4nhhAIGJ3HrosRszHseebXkQKJYcmiFus1sAC3u/IFbjFgQLV2",
+    "phone": "+62-21-2345-6789",
+    "company": "PT Petrochemical Indonesia",
+    "role": "CUSTOMER",
+    "avatar": "/images/users/customer-1.jpg",
+    "isActive": true,
+    "createdAt": "2025-09-25T16:35:53.643Z",
+    "updatedAt": "2025-09-25T16:35:53.643Z"
+  },
+  {
+    "id": "cmfzmx0w400027a16f1y5tjpj",
+    "name": "Ahmad Rahman",
+    "email": "ahmad@waterworks.id",
+    "password": "$2a$12$lhY4nhhAIGJ3HrosRszHseebXkQKJYcmiFus1sAC3u/IFbjFgQLV2",
+    "phone": "+62-21-4567-8901",
+    "company": "CV Water Works",
+    "role": "CUSTOMER",
+    "avatar": "/images/users/customer-3.jpg",
+    "isActive": true,
+    "createdAt": "2025-09-25T16:35:53.643Z",
+    "updatedAt": "2025-09-25T16:35:53.643Z"
+  },
+  {
+    "id": "cmfzmx0xw00037a16jbjlxn4w",
+    "name": "Sari Indrawati",
+    "email": "sari@manufaktur.com",
+    "password": "$2a$12$lhY4nhhAIGJ3HrosRszHseebXkQKJYcmiFus1sAC3u/IFbjFgQLV2",
+    "phone": "+62-21-3456-7890",
+    "company": "PT Manufaktur Jaya",
+    "role": "CUSTOMER",
+    "avatar": "/images/users/customer-2.jpg",
+    "isActive": true,
+    "createdAt": "2025-09-25T16:35:53.643Z",
+    "updatedAt": "2025-09-25T16:35:53.643Z"
+  }
+]

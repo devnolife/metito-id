@@ -1,10 +1,35 @@
+import 'dotenv/config'
 import { PrismaClient } from '@prisma/client'
 import { hash } from 'bcryptjs'
+import { mkdirSync, writeFileSync, existsSync } from 'fs'
+import { join } from 'path'
 
 const prisma = new PrismaClient()
 
+async function backupIfRequested(prisma: PrismaClient) {
+  if (process.env.RUN_SEED_BACKUP !== '1') return
+  const ts = new Date().toISOString().replace(/[:.]/g, '-')
+  const dir = join(process.cwd(), 'backups', ts)
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
+  console.log(`🛟 RUN_SEED_BACKUP=1 -> creating pre-seed backup at ${dir}`)
+  const modelNames = [
+    'User','Category','Product','Image','BlogTag','BlogPost','Service','GalleryItem','Certification','Testimonial','Inquiry','CartItem','Setting','Customer','Newsletter'
+  ]
+  for (const m of modelNames) {
+    const accessor = m.charAt(0).toLowerCase() + m.slice(1) as keyof PrismaClient & string
+    // @ts-ignore dynamic access
+    if (!prisma[accessor]) continue
+    // @ts-ignore dynamic access
+    const rows = await prisma[accessor].findMany()
+    writeFileSync(join(dir, `${m}.json`), JSON.stringify(rows, null, 2))
+  }
+  console.log('✅ Backup finished.')
+}
+
 async function main() {
   console.log('🌱 Starting seed process...')
+
+  await backupIfRequested(prisma)
 
   // Clear existing data
   console.log('🧹 Cleaning existing data...')
@@ -19,11 +44,12 @@ async function main() {
   await prisma.category.deleteMany()
   await prisma.blogPost.deleteMany()
   await prisma.blogTag.deleteMany()
+  await prisma.customer.deleteMany()
   await prisma.user.deleteMany()
 
   // Create Users
   console.log('👤 Creating users...')
-  const hashedPassword = await hash('password123', 12)
+  const hashedPassword = await hash('Metito123!', 12)
 
   const admin = await prisma.user.create({
     data: {
@@ -694,6 +720,110 @@ async function main() {
 
   console.log('✅ Seed data created successfully!')
   console.log(`📊 Summary:`)
+  // Create Customers (custom business contacts)
+  console.log('👥 Creating business customers...')
+  const createdCustomers = await Promise.all([
+    prisma.customer.create({
+      data: {
+        name: 'Dr. Ahmad Surya',
+        company: 'PT Industri Kimia Nusantara',
+        email: 'ahmad.surya@ikn.co.id',
+        phone: '+62 812-1760-3950',
+        address: 'Jl. Industri Raya No. 123, Cikarang, Bekasi',
+        industry: 'Kimia & Petrokimia',
+        projectType: 'Sistem Pengolahan Air Limbah',
+        testimonial: 'Layanan Metito sangat profesional dan berkualitas tinggi. Sistem yang diinstal bekerja dengan sempurna dan memenuhi standar lingkungan yang ketat. Tim teknis sangat berpengalaman dan responsif.',
+        rating: 5,
+        avatar: '/images/testimonials/customer-1.jpg',
+        website: 'https://ikn.co.id',
+        contactDate: new Date('2023-02-15'),
+        projectValue: 'Rp 2.5 Miliar',
+        status: 'completed',
+        isPublicTestimonial: true,
+        featured: true
+      }
+    }),
+    prisma.customer.create({
+      data: {
+        name: 'Siti Nurhaliza',
+        company: 'Hotel Grand Majestic',
+        email: 'siti.nurhaliza@grandmajestic.com',
+        phone: '+62 21 5555 5678',
+        address: 'Jl. Sudirman No. 456, Jakarta Pusat',
+        industry: 'Hospitality & Tourism',
+        projectType: 'Sistem Water Treatment Hotel',
+        testimonial: 'Instalasi sistem air bersih untuk hotel kami sangat memuaskan. Kualitas air menjadi lebih baik dan tamu-tamu memberikan feedback positif. Pelayanan after-sales juga sangat baik.',
+        rating: 5,
+        avatar: '/images/testimonials/customer-2.jpg',
+        website: 'https://grandmajestic.com',
+        contactDate: new Date('2023-04-20'),
+        projectValue: 'Rp 1.8 Miliar',
+        status: 'completed',
+        isPublicTestimonial: true,
+        featured: false
+      }
+    }),
+    prisma.customer.create({
+      data: {
+        name: 'Bambang Wijaya',
+        company: 'PT Perumahan Griya Indah',
+        email: 'bambang.wijaya@griyaindah.co.id',
+        phone: '+62 21 5555 9012',
+        address: 'Jl. Raya Serpong No. 789, Tangerang Selatan',
+        industry: 'Real Estate & Construction',
+        projectType: 'Sistem Distribusi Air Bersih',
+        testimonial: 'Sistem distribusi air untuk kompleks perumahan kami sangat efisien. Instalasi cepat dan tidak mengganggu aktivitas penghuni. Kualitas air yang dihasilkan sesuai standar kesehatan.',
+        rating: 4,
+        avatar: '/images/testimonials/customer-3.jpg',
+        contactDate: new Date('2023-06-10'),
+        projectValue: 'Rp 3.2 Miliar',
+        status: 'active',
+        isPublicTestimonial: false,
+        featured: false
+      }
+    }),
+    prisma.customer.create({
+      data: {
+        name: 'Lisa Permata',
+        company: 'PT Tekstil Mandiri',
+        email: 'lisa.permata@tekstilmandiri.com',
+        phone: '+62 21 5555 3456',
+        address: 'Jl. Industri Tekstil No. 321, Bandung',
+        industry: 'Textile & Fashion',
+        projectType: 'Sistem Pengolahan Air Proses',
+        testimonial: 'Solusi pengolahan air proses untuk produksi tekstil kami sangat efektif. Membantu mengurangi limbah dan meningkatkan efisiensi produksi. Investasi yang sangat berharga.',
+        rating: 5,
+        avatar: '/images/testimonials/customer-4.jpg',
+        website: 'https://tekstilmandiri.com',
+        contactDate: new Date('2023-08-05'),
+        projectValue: 'Rp 4.1 Miliar',
+        status: 'completed',
+        isPublicTestimonial: true,
+        featured: true
+      }
+    }),
+    prisma.customer.create({
+      data: {
+        name: 'Robert Tanaka',
+        company: 'Manufacturing Excellence Corp',
+        email: 'robert.tanaka@mexcel.com',
+        phone: '+62 21 5555 7890',
+        address: 'Kawasan Industri MM2100, Cikarang Barat',
+        industry: 'Manufacturing',
+        projectType: 'Sistem RO Industrial',
+        testimonial: '',
+        rating: 0,
+        avatar: '/images/testimonials/customer-5.jpg',
+        website: 'https://mexcel.com',
+        contactDate: new Date('2024-01-15'),
+        projectValue: 'Rp 5.5 Miliar',
+        status: 'potential',
+        isPublicTestimonial: false,
+        featured: false
+      }
+    })
+  ])
+  console.log(`- Customers: ${createdCustomers.length}`)
   console.log(`- Users: ${1 + customers.length}`)
   console.log(`- Categories: ${categories.length}`)
   console.log(`- Products: ${products.length}`)
@@ -715,4 +845,4 @@ main()
   })
   .finally(async () => {
     await prisma.$disconnect()
-  }) 
+  })
