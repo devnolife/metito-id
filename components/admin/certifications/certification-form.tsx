@@ -194,7 +194,11 @@ export const CertificationForm: React.FC<CertificationFormProps> = React.memo(({
         <Label htmlFor="certificateImage">Gambar Sertifikat</Label>
         {(certPreview || values.certificateImage) && (
           <div className="mb-2 w-40 h-28 border rounded overflow-hidden relative">
-            <img src={certPreview || values.certificateImage} className="w-full h-full object-cover" alt="Preview" />
+            <img 
+              src={certPreview || (values.certificateImage.startsWith('/api/') ? values.certificateImage : `/api/images/${values.certificateImage.replace(/^\/+/, '')}`)} 
+              className="w-full h-full object-cover" 
+              alt="Preview" 
+            />
             {certPreview && !values.certificateImage && (
               <span className="absolute bottom-0 left-0 right-0 bg-amber-500 text-[10px] text-white text-center py-0.5">Belum diupload</span>
             )}
