@@ -249,7 +249,7 @@ export function ProductDialogs({
                     <div className="relative bg-gray-50 rounded-lg overflow-hidden">
                       <div className="aspect-video relative">
                         <Image
-                          src={viewDialog.product.images[selectedImageIndex]}
+                          src={viewDialog.product.images[selectedImageIndex].startsWith('/api/') ? viewDialog.product.images[selectedImageIndex] : `/api/images/${viewDialog.product.images[selectedImageIndex].replace(/^\/+/, '')}`}
                           alt={`${viewDialog.product.name} - Gambar ${selectedImageIndex + 1}`}
                           fill
                           className="object-contain"
@@ -276,7 +276,7 @@ export function ProductDialogs({
                                 }`}
                             >
                               <Image
-                                src={image}
+                                src={image.startsWith('/api/') ? image : `/api/images/${image.replace(/^\/+/, '')}`}
                                 alt={`${viewDialog.product?.name ?? 'Product'} - Thumbnail ${index + 1}`}
                                 fill
                                 className="object-cover"

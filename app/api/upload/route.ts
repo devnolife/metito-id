@@ -207,8 +207,24 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Generate public URL
-    const publicUrl = `/${uploadDir.replace('public', '')}/${productId ? `${productId}/` : ''}${fileName}`.replace(/\/+/g, '/')
+    // Generate public URL - Use API routes for dynamic serving
+    let publicUrl: string
+    if (uploadDir.includes('public/images/')) {
+      // For images, use the images API route
+      const imagePath = uploadDir.replace('public/images/', '')
+      publicUrl = `/api/images/${imagePath}/${productId ? `${productId}/` : ''}${fileName}`.replace(/\/+/g, '/')
+    } else if (uploadDir.includes('public/certificates')) {
+      // For certificates, use the certificates API route
+      const certPath = uploadDir.replace('public/certificates/', '')
+      publicUrl = `/api/certificates/${certPath ? `${certPath}/` : ''}${fileName}`.replace(/\/+/g, '/')
+    } else if (uploadDir.includes('public/documents')) {
+      // For documents, use the documents API route
+      const docPath = uploadDir.replace('public/documents/', '')
+      publicUrl = `/api/documents/${docPath ? `${docPath}/` : ''}${fileName}`.replace(/\/+/g, '/')
+    } else {
+      // Fallback to direct public path
+      publicUrl = `/${uploadDir.replace('public/', '')}/${productId ? `${productId}/` : ''}${fileName}`.replace(/\/+/g, '/')
+    }
     console.log('Upload directory:', uploadDir)
     console.log('Product ID:', productId)
     console.log('File name:', fileName)

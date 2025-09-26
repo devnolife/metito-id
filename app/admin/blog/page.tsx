@@ -416,7 +416,7 @@ export default function AdminBlogPage() {
                 <CardContent className="p-0">
                   <div className="aspect-video bg-gray-100 rounded-t-lg overflow-hidden">
                     <img
-                      src={post.featuredImage}
+                      src={post.featuredImage ? (post.featuredImage.startsWith('/api/') ? post.featuredImage : `/api/images/${post.featuredImage.replace(/^\/+/, '')}`) : '/placeholder.jpg'}
                       alt={post.title}
                       className="w-full h-full object-cover"
                     />

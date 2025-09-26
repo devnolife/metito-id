@@ -208,7 +208,7 @@ const GalleryGrid = memo(function GalleryGrid({ items, loadingList, openViewDial
         <Card key={item.id} className="hover:shadow-lg transition-shadow">
           <CardContent className="p-0">
             <div className="relative aspect-square bg-gray-100 rounded-t-lg overflow-hidden">
-              <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+              <img src={item.image.startsWith('/api/') ? item.image : `/api/images/${item.image.replace(/^\/+/, '')}`} alt={item.title} className="w-full h-full object-cover" />
               <div className="absolute top-2 right-2 flex gap-1">
                 {item.isFeatured && (
                   <Badge className="bg-yellow-500 text-white">Unggulan</Badge>
@@ -578,7 +578,7 @@ export default function AdminGalleryPage() {
               {viewingItem && (
                 <div className="space-y-4">
                   <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                    <img src={viewingItem.image} alt={viewingItem.title} className="w-full h-full object-contain" />
+                    <img src={viewingItem.image.startsWith('/api/') ? viewingItem.image : `/api/images/${viewingItem.image.replace(/^\/+/, '')}`} alt={viewingItem.title} className="w-full h-full object-contain" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>

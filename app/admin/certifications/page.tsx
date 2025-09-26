@@ -238,7 +238,7 @@ export default function AdminCertificationsPage() {
                 <CardContent className="p-0">
                   <div className="aspect-[4/3] bg-gray-100 rounded-t-lg overflow-hidden flex items-center justify-center relative">
                     {cert.certificateImage && !cert.certificateImage.toLowerCase().endsWith('.pdf') ? (
-                      <img src={cert.certificateImage} alt={cert.name} className="w-full h-full object-cover" />
+                      <img src={cert.certificateImage.startsWith('/api/') ? cert.certificateImage : `/api/images/${cert.certificateImage.replace(/^\/+/, '')}`} alt={cert.name} className="w-full h-full object-cover" />
                     ) : cert.certificateImage && cert.certificateImage.toLowerCase().endsWith('.pdf') ? (
                       <div className="flex flex-col items-center text-gray-600 text-xs gap-2">
                         <FileText className="w-8 h-8" />

@@ -606,7 +606,7 @@ export default function AdminCustomersPage() {
                 <CardContent className="p-4 space-y-3">
                   <div className="flex items-start gap-4">
                     <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
-                      {c.avatar ? <img src={c.avatar} alt={c.name} className="w-full h-full object-cover" /> : <User className="w-8 h-8 text-gray-400" />}
+                      {c.avatar ? <img src={c.avatar.startsWith('/api/') ? c.avatar : `/api/images/${c.avatar.replace(/^\/+/, '')}`} alt={c.name} className="w-full h-full object-cover" /> : <User className="w-8 h-8 text-gray-400" />}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
