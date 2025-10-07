@@ -23,10 +23,8 @@ export function ImageSlider({
   const [isHovered, setIsHovered] = useState(false)
   const onSlideChangeRef = useRef(onSlideChange)
 
-  // Keep ref updated
-  useEffect(() => {
-    onSlideChangeRef.current = onSlideChange
-  }, [onSlideChange])
+  // Update ref when onSlideChange changes
+  onSlideChangeRef.current = onSlideChange
 
   // Auto slide effect
   useEffect(() => {

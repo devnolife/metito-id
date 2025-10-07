@@ -1,74 +1,132 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Footer } from "@/components/footer"
-import { Award, Shield, CheckCircle, Download, Calendar, Building, Globe } from "lucide-react"
+import { Award, Shield, CheckCircle, Download, Calendar, Building, Globe, Loader2, AlertCircle, FileText, FileX } from "lucide-react"
 import Image from "next/image"
 
-export default function CertificationPage() {
-  const certifications = [
-    {
-      id: 1,
-      name: "ISO 9001:2015",
-      category: "Quality Management",
-      description: "Sistem manajemen mutu untuk memastikan konsistensi dalam memberikan produk dan layanan berkualitas tinggi",
-      issuer: "Bureau Veritas",
-      validUntil: "2026-12-31",
-      image: "/certificates/iso-9001.jpg",
-      downloadUrl: "/certificates/iso-9001.pdf"
-    },
-    {
-      id: 2,
-      name: "ISO 14001:2015",
-      category: "Environmental Management",
-      description: "Sistem manajemen lingkungan untuk memastikan operasi yang ramah lingkungan dan berkelanjutan",
-      issuer: "TUV Rheinland",
-      validUntil: "2026-08-15",
-      image: "/certificates/iso-14001.jpg",
-      downloadUrl: "/certificates/iso-14001.pdf"
-    },
-    {
-      id: 3,
-      name: "ISO 45001:2018",
-      category: "Occupational Health & Safety",
-      description: "Sistem manajemen keselamatan dan kesehatan kerja untuk melindungi karyawan dan stakeholder",
-      issuer: "SGS Indonesia",
-      validUntil: "2027-03-20",
-      image: "/certificates/iso-45001.jpg",
-      downloadUrl: "/certificates/iso-45001.pdf"
-    },
-    {
-      id: 4,
-      name: "SNI 19-6728.1-2002",
-      category: "Water Quality Standards",
-      description: "Standar Nasional Indonesia untuk sistem penyediaan air minum - bagian sistem distribusi",
-      issuer: "BSN (Badan Standardisasi Nasional)",
-      validUntil: "2025-12-31",
-      image: "/certificates/sni-water.jpg",
-      downloadUrl: "/certificates/sni-water.pdf"
-    },
-    {
-      id: 5,
-      name: "ASME U-Stamp",
-      category: "Pressure Vessel",
-      description: "Sertifikasi untuk desain dan fabrikasi bejana tekan sesuai standar ASME Boiler and Pressure Vessel Code",
-      issuer: "American Society of Mechanical Engineers",
-      validUntil: "2026-06-30",
-      image: "/certificates/asme-u.jpg",
-      downloadUrl: "/certificates/asme-u.pdf"
-    },
-    {
-      id: 6,
-      name: "CE Marking",
-      category: "European Conformity",
-      description: "Tanda kesesuaian Eropa untuk produk yang memenuhi persyaratan kesehatan, keselamatan, dan perlindungan lingkungan",
-      issuer: "Notified Body EU",
-      validUntil: "2028-01-15",
-      image: "/certificates/ce-marking.jpg",
-      downloadUrl: "/certificates/ce-marking.pdf"
-    }
-  ]
+// Types
+interface Certification {
+  id: string
+  name: string
+  description?: string
+  issuer: string
+  certificate?: string
+  issuedAt: string
+  expiresAt?: string
+  certificateNumber?: string
+  credentialUrl?: string
+  category?: string
+  level?: string
+  status?: 'active' | 'expired' | 'pending'
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+}
 
+interface Category {
+  id: string
+  name: string
+  count: number
+  icon: React.ReactNode
+}
+
+export default function CertificationPage() {
+  const [certifications, setCertifications] = useState<Certification[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Icon mapping untuk categories
+  const categoryIcons: Record<string, React.ReactNode> = {
+    "Quality Management": <Award className="w-5 h-5" />,
+    "Environmental Management": <Globe className="w-5 h-5" />,
+    "Occupational Health & Safety": <Shield className="w-5 h-5" />,
+    "Water Quality Standards": <CheckCircle className="w-5 h-5" />,
+    "Pressure Vessel": <Building className="w-5 h-5" />,
+    "European Conformity": <CheckCircle className="w-5 h-5" />,
+    "International Standards": <Globe className="w-5 h-5" />,
+    "Safety Standards": <Shield className="w-5 h-5" />,
+  }
+
+  // Load certifications from API
+  useEffect(() => {
+    const loadCertifications = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+
+        const response = await fetch('/api/certifications?active=true')
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch certifications')
+        }
+
+        const data = await response.json()
+
+        if (data.success) {
+          const certs = data.data || []
+          setCertifications(certs)
+
+          // Generate categories dari data yang ada
+          const categoryCount: Record<string, number> = {}
+          certs.forEach((cert: Certification) => {
+            if (cert.category) {
+              categoryCount[cert.category] = (categoryCount[cert.category] || 0) + 1
+            }
+          })
+
+          const generatedCategories: Category[] = Object.entries(categoryCount).map(([name, count]) => ({
+            id: name.toLowerCase().replace(/\s+/g, '-'),
+            name,
+            count,
+            icon: categoryIcons[name] || <FileText className="w-5 h-5" />
+          }))
+
+          setCategories(generatedCategories)
+        } else {
+          throw new Error(data.message || 'Failed to load certifications')
+        }
+
+      } catch (error) {
+        console.error('Error loading certifications:', error)
+        setError('Gagal memuat data sertifikasi. Silakan refresh halaman.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadCertifications()
+  }, [])
+
+  // Helper functions
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('id-ID', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    })
+  }
+
+  const isExpired = (expiresAt?: string) => {
+    if (!expiresAt) return false
+    return new Date(expiresAt) < new Date()
+  }
+
+  const getStatusBadge = (cert: Certification) => {
+    if (cert.status === 'expired' || isExpired(cert.expiresAt)) {
+      return <Badge variant="destructive" className="text-xs">Kedaluwarsa</Badge>
+    }
+    if (cert.status === 'pending') {
+      return <Badge variant="secondary" className="text-xs">Pending</Badge>
+    }
+    return <Badge variant="default" className="bg-green-600 text-xs">Aktif</Badge>
+  }
+
+  // Static awards data (could be moved to database later)
   const awards = [
     {
       title: "Water Technology Company of the Year",
@@ -94,15 +152,6 @@ export default function CertificationPage() {
       organization: "Indonesian Engineering Association",
       description: "Penghargaan inovasi untuk teknologi desalinasi air laut"
     }
-  ]
-
-  const categories = [
-    { name: "Quality Management", count: 1, icon: <Award className="w-5 h-5" /> },
-    { name: "Environmental Management", count: 1, icon: <Globe className="w-5 h-5" /> },
-    { name: "Occupational Health & Safety", count: 1, icon: <Shield className="w-5 h-5" /> },
-    { name: "Water Quality Standards", count: 1, icon: <CheckCircle className="w-5 h-5" /> },
-    { name: "Pressure Vessel", count: 1, icon: <Building className="w-5 h-5" /> },
-    { name: "European Conformity", count: 1, icon: <CheckCircle className="w-5 h-5" /> }
   ]
 
   return (
@@ -179,51 +228,96 @@ export default function CertificationPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Sertifikat Resmi
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Koleksi lengkap sertifikasi yang membuktikan komitmen kami terhadap standar kualitas tertinggi
+            <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
+              Komitmen kami terhadap kualitas dan standar internasional tercermin dalam berbagai sertifikasi yang telah kami peroleh
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {certifications.map((cert) => (
-              <Card key={cert.id} className="hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:scale-105 overflow-hidden">
-                <div className="aspect-[4/3] relative">
-                  <Image
-                    src={cert.image}
-                    alt={cert.name}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <Badge className="bg-white/95 text-blue-700 font-semibold px-3 py-1.5 rounded-full shadow-sm backdrop-blur-sm">
-                      {cert.category}
-                    </Badge>
-                  </div>
-                </div>
-
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">{cert.name}</h3>
-                  <p className="text-gray-600 text-sm mb-4 leading-relaxed">{cert.description}</p>
-
-                  <div className="space-y-2 text-sm text-gray-500 mb-4">
-                    <div className="flex items-center gap-2">
-                      <Building className="w-4 h-4 text-blue-600" />
-                      <span>Penerbit: {cert.issuer}</span>
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(6)].map((_, i) => (
+                <Card key={i} className="animate-pulse">
+                  <div className="aspect-[4/3] bg-gray-200 rounded-t-lg"></div>
+                  <CardContent className="p-6 space-y-3">
+                    <div className="h-4 bg-gray-200 rounded"></div>
+                    <div className="h-3 bg-gray-200 rounded w-3/4"></div>
+                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : error ? (
+            <div className="text-center py-12">
+              <div className="text-red-600 mb-4">
+                <FileX className="w-16 h-16 mx-auto mb-4" />
+                <p className="text-lg font-semibold">{error}</p>
+              </div>
+              <Button
+                onClick={() => window.location.reload()}
+                className="bg-blue-600 hover:bg-blue-700"
+              >
+                Coba Lagi
+              </Button>
+            </div>
+          ) : certifications.length === 0 ? (
+            <div className="text-center py-12">
+              <FileText className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+              <p className="text-lg font-semibold text-gray-600">Belum ada sertifikasi</p>
+              <p className="text-gray-500">Sertifikasi akan ditampilkan di sini setelah ditambahkan</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {certifications.map((cert) => (
+                <Card key={cert.id} className="hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:scale-105 overflow-hidden">
+                  <div className="aspect-[4/3] relative">
+                    <Image
+                      src={cert.certificate || '/certificates/default-cert.jpg'}
+                      alt={cert.name}
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute top-4 left-4">
+                      <Badge className="bg-white/95 text-blue-700 font-semibold px-3 py-1.5 rounded-full shadow-sm backdrop-blur-sm">
+                        {cert.category}
+                      </Badge>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-blue-600" />
-                      <span>Berlaku hingga: {new Date(cert.validUntil).toLocaleDateString('id-ID')}</span>
+                    <div className="absolute top-4 right-4">
+                      {getStatusBadge(cert)}
                     </div>
                   </div>
 
-                  <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl text-sm">
-                    <Download className="w-4 h-4 mr-2" />
-                    Download Sertifikat
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                  <CardContent className="p-6">
+                    <h3 className="font-bold text-lg text-gray-900 mb-2">{cert.name}</h3>
+                    <p className="text-gray-600 text-sm mb-4 leading-relaxed">{cert.description}</p>
+
+                    <div className="space-y-2 text-sm text-gray-500 mb-4">
+                      <div className="flex items-center gap-2">
+                        <Building className="w-4 h-4 text-blue-600" />
+                        <span>Penerbit: {cert.issuer}</span>
+                      </div>
+                      {cert.expiresAt && (
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-blue-600" />
+                          <span>Berlaku hingga: {formatDate(cert.expiresAt)}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {cert.credentialUrl && (
+                      <Button
+                        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl text-sm"
+                        onClick={() => window.open(cert.credentialUrl, '_blank')}
+                      >
+                        <Download className="w-4 h-4 mr-2" />
+                        Download Sertifikat
+                      </Button>
+                    )}
+
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

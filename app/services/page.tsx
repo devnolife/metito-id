@@ -1,66 +1,85 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Footer } from "@/components/footer"
-import { Droplets, Filter, Zap, Shield, Wrench, Clock, Phone, Mail, CheckCircle } from "lucide-react"
+import { Droplets, Filter, Zap, Shield, Wrench, Clock, Phone, Mail, CheckCircle, Loader2, AlertCircle } from "lucide-react"
+
+// Types
+interface Service {
+  id: string
+  name: string
+  slug: string
+  description: string
+  shortDesc?: string
+  icon?: string
+  features: string[]
+  pricing?: any
+  isFeatured: boolean
+  isActive: boolean
+}
 
 export default function ServicesPage() {
-  const services = [
-    {
-      id: 1,
-      icon: <Droplets className="w-8 h-8 text-blue-600" />,
-      iconBg: "bg-gradient-to-br from-blue-500 to-blue-600",
-      title: "Pengolahan Air Bersih",
-      description: "Sistem pengolahan air bersih untuk kebutuhan domestik dan komersial dengan teknologi terdepan.",
-      features: ["Sistem filtrasi multi-stage", "Teknologi reverse osmosis", "Monitoring kualitas real-time"],
-      price: "Mulai dari Rp 15.000.000"
-    },
-    {
-      id: 2,
-      icon: <Filter className="w-8 h-8 text-orange-600" />,
-      iconBg: "bg-gradient-to-br from-orange-500 to-orange-600",
-      title: "Pengolahan Air Limbah",
-      description: "Solusi lengkap pengolahan air limbah industri dan domestik sesuai standar lingkungan.",
-      features: ["Sistem biologis dan kimia", "Teknologi MBR", "Sertifikasi lingkungan"],
-      price: "Mulai dari Rp 50.000.000"
-    },
-    {
-      id: 3,
-      icon: <Zap className="w-8 h-8 text-yellow-600" />,
-      iconBg: "bg-gradient-to-br from-yellow-500 to-yellow-600",
-      title: "Sistem Desalinasi",
-      description: "Teknologi desalinasi untuk mengubah air laut menjadi air tawar berkualitas tinggi.",
-      features: ["Reverse osmosis seawater", "Sistem energi efisien", "Otomasi penuh"],
-      price: "Mulai dari Rp 200.000.000"
-    },
-    {
-      id: 4,
-      icon: <Shield className="w-8 h-8 text-green-600" />,
-      iconBg: "bg-gradient-to-br from-green-500 to-green-600",
-      title: "Water Quality Testing",
-      description: "Layanan pengujian kualitas air komprehensif dengan laboratorium terakreditasi.",
-      features: ["Pengujian parameter lengkap", "Sertifikat resmi", "Konsultasi ahli"],
-      price: "Mulai dari Rp 500.000"
-    },
-    {
-      id: 5,
-      icon: <Wrench className="w-8 h-8 text-purple-600" />,
-      iconBg: "bg-gradient-to-br from-purple-500 to-purple-600",
-      title: "Maintenance & Service",
-      description: "Layanan perawatan berkala dan perbaikan sistem pengolahan air existing.",
-      features: ["Maintenance rutin", "Emergency repair", "Spare part original"],
-      price: "Mulai dari Rp 2.000.000"
-    },
-    {
-      id: 6,
-      icon: <Clock className="w-8 h-8 text-pink-600" />,
-      iconBg: "bg-gradient-to-br from-pink-500 to-pink-600",
-      title: "Konsultasi Teknis",
-      description: "Konsultasi dan desain sistem pengolahan air sesuai kebutuhan spesifik.",
-      features: ["Survei lokasi", "Desain engineering", "Kalkulasi ROI"],
-      price: "Mulai dari Rp 5.000.000"
+  const [services, setServices] = useState<Service[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Icon mapping untuk services
+  const iconMapping: Record<string, any> = {
+    "droplets": Droplets,
+    "filter": Filter,
+    "zap": Zap,
+    "shield": Shield,
+    "wrench": Wrench,
+    "clock": Clock,
+    "phone": Phone,
+    "mail": Mail,
+  }
+
+  const colorMapping: Record<string, { icon: string, bg: string }> = {
+    "droplets": { icon: "text-blue-600", bg: "bg-gradient-to-br from-blue-500 to-blue-600" },
+    "filter": { icon: "text-orange-600", bg: "bg-gradient-to-br from-orange-500 to-orange-600" },
+    "zap": { icon: "text-yellow-600", bg: "bg-gradient-to-br from-yellow-500 to-yellow-600" },
+    "shield": { icon: "text-green-600", bg: "bg-gradient-to-br from-green-500 to-green-600" },
+    "wrench": { icon: "text-purple-600", bg: "bg-gradient-to-br from-purple-500 to-purple-600" },
+    "clock": { icon: "text-pink-600", bg: "bg-gradient-to-br from-pink-500 to-pink-600" },
+    "phone": { icon: "text-blue-600", bg: "bg-gradient-to-br from-blue-500 to-blue-600" },
+    "mail": { icon: "text-indigo-600", bg: "bg-gradient-to-br from-indigo-500 to-indigo-600" },
+  }
+
+  // Load services from API
+  useEffect(() => {
+    const loadServices = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+
+        const response = await fetch('/api/services')
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch services')
+        }
+
+        const data = await response.json()
+
+        if (data.success) {
+          setServices(data.data || [])
+        } else {
+          throw new Error(data.message || 'Failed to load services')
+        }
+
+      } catch (error) {
+        console.error('Error loading services:', error)
+        setError('Gagal memuat data layanan. Silakan refresh halaman.')
+      } finally {
+        setLoading(false)
+      }
     }
-  ]
+
+    loadServices()
+  }, [])
 
   const process = [
     {
@@ -135,39 +154,89 @@ export default function ServicesPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service) => (
-              <Card key={service.id} className="hover:shadow-xl transition-all duration-300 border-0 shadow-lg group hover:scale-105">
-                <CardHeader className="text-center pb-6">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 group-hover:scale-110 transition-transform">
-                    {service.icon}
-                  </div>
-                  <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-                    {service.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="text-center space-y-4">
-                  <p className="text-gray-600 leading-relaxed">
-                    {service.description}
-                  </p>
-                  <div className="space-y-2">
-                    {service.features.map((feature, index) => (
-                      <div key={index} className="flex items-center text-sm text-gray-600">
-                        <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                        {feature}
+          {/* Loading State */}
+          {loading && (
+            <div className="flex justify-center items-center py-20">
+              <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+              <span className="ml-2 text-gray-600">Memuat layanan...</span>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && (
+            <div className="text-center py-16">
+              <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <AlertCircle className="w-12 h-12 text-red-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Terjadi Kesalahan</h3>
+              <p className="text-gray-600 mb-6">{error}</p>
+              <Button
+                onClick={() => window.location.reload()}
+                className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
+              >
+                Muat Ulang
+              </Button>
+            </div>
+          )}
+
+          {/* Services Grid */}
+          {!loading && !error && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {services.map((service) => {
+                const IconComponent = iconMapping[service.icon || 'droplets'] || Droplets
+                const colors = colorMapping[service.icon || 'droplets'] || colorMapping['droplets']
+
+                return (
+                  <Card key={service.id} className="hover:shadow-xl transition-all duration-300 border-0 shadow-lg group hover:scale-105">
+                    <CardHeader className="text-center pb-6">
+                      <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 group-hover:scale-110 transition-transform ${colors.bg}`}>
+                        <IconComponent className="w-8 h-8 text-white" />
                       </div>
-                    ))}
+                      <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                        {service.name}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-center space-y-4">
+                      <p className="text-gray-600 leading-relaxed">
+                        {service.shortDesc || service.description}
+                      </p>
+                      <div className="space-y-2">
+                        {service.features.slice(0, 4).map((feature: string, index: number) => (
+                          <div key={index} className="flex items-center text-sm text-gray-600">
+                            <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                            {feature}
+                          </div>
+                        ))}
+                      </div>
+                      {service.pricing && service.pricing.startingPrice ? (
+                        <div className="text-lg font-semibold text-blue-600 mb-4">
+                          {service.pricing.startingPrice}
+                        </div>
+                      ) : (
+                        <div className="text-lg font-semibold text-gray-600 mb-4">
+                          Hubungi untuk Harga
+                        </div>
+                      )}
+                      <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl">
+                        Konsultasi Gratis
+                      </Button>
+                    </CardContent>
+                  </Card>
+                )
+              })}
+
+              {/* No Services Found */}
+              {services.length === 0 && (
+                <div className="col-span-full text-center py-16">
+                  <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Shield className="w-12 h-12 text-gray-400" />
                   </div>
-                  <div className="text-lg font-semibold text-blue-600 mb-4">
-                    {service.price}
-                  </div>
-                  <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl">
-                    Konsultasi Gratis
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Belum Ada Layanan</h3>
+                  <p className="text-gray-600 mb-6">Layanan sedang dalam proses pengembangan</p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </section>
 
