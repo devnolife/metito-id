@@ -135,9 +135,8 @@ export function Footer() {
               <div className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-accent-orange mt-1 flex-shrink-0" />
                 <div className="text-blue-100">
-                  <p>Jl. Teknologi Air No. 123</p>
-                  <p>Kawasan Inovasi</p>
-                  <p>Makassar, Indonesia 12345</p>
+                  <p>Jl. Barombong</p>
+                  <p>Kab Gowa, Indonesia 12345</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
