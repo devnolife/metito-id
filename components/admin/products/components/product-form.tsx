@@ -25,12 +25,13 @@ interface ProductFormProps {
 }
 
 export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoading = false }: ProductFormProps) {
+  const [priceInputType, setPriceInputType] = useState<"number" | "text">("number")
   const [formData, setFormData] = useState<Partial<Product>>({
     name: '',
     description: '',
     shortDesc: '',
-    // Biarkan undefined sampai user mengisi untuk menghindari mengirim 0 (invalid)
-    price: undefined,
+    // Price is now string and optional
+    price: '',
     capacity: '',
     efficiency: '',
     location: '',
@@ -57,11 +58,16 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
   // Load product data if editing
   useEffect(() => {
     if (product && isEdit) {
+      // Detect if price is text or number
+      const priceValue = product.price || ''
+      const isNumericPrice = priceValue && !isNaN(parseFloat(priceValue.replace(/[^\d.-]/g, '')))
+      setPriceInputType(isNumericPrice ? "number" : "text")
+
       setFormData({
         name: product.name || '',
         description: product.description || '',
         shortDesc: product.shortDesc || '',
-        price: product.price || 0,
+        price: product.price || '',
         capacity: product.capacity || '',
         efficiency: product.efficiency || '',
         location: product.location || '',
@@ -97,11 +103,8 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
       newErrors.name = 'Product name is required'
     }
 
-    if (formData.price === undefined || formData.price === null || isNaN(Number(formData.price))) {
-      newErrors.price = 'Price is required'
-    } else if (Number(formData.price) <= 0) {
-      newErrors.price = 'Price must be greater than 0'
-    }
+    // Price is now optional and can be text
+    // No validation needed for price
 
     if (!formData.categoryId) {
       newErrors.categoryId = 'Category is required'
@@ -178,7 +181,35 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
     setSpecs(prev => prev.filter((_, i) => i !== index))
   }
 
-  const formatCurrency = (value: number) => {
+  // Handle toggle between number and text input
+  const handlePriceTypeToggle = (isText: boolean) => {
+    setPriceInputType(isText ? "text" : "number")
+    // Clear price when switching modes
+    if (isText) {
+      setFormData(prev => ({ ...prev, price: "" }))
+    }
+  }
+
+  const formatCurrency = (value?: string | number) => {
+    if (!value) return 'Rp 0'
+
+    // If already a string, return as is
+    if (typeof value === 'string') {
+      // Try to parse as number
+      const numValue = parseFloat(value.replace(/[^\d.-]/g, ''))
+      if (isNaN(numValue)) {
+        // If not a number, return the string as-is
+        return value
+      }
+      // Format as currency
+      return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0
+      }).format(numValue)
+    }
+
+    // If it's a number, format directly
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
       currency: 'IDR',
@@ -296,20 +327,37 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="price">Harga (IDR) *</Label>
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="price">Harga (IDR)</Label>
+                    <div className="flex items-center gap-2 text-xs">
+                      <span className={priceInputType === "number" ? "font-semibold text-blue-600" : "text-gray-500"}>
+                        Angka
+                      </span>
+                      <Switch
+                        checked={priceInputType === "text"}
+                        onCheckedChange={handlePriceTypeToggle}
+                      />
+                      <span className={priceInputType === "text" ? "font-semibold text-blue-600" : "text-gray-500"}>
+                        Teks
+                      </span>
+                    </div>
+                  </div>
                   <Input
                     id="price"
-                    type="number"
-                    value={formData.price === undefined ? '' : formData.price}
+                    type="text"
+                    value={formData.price || ''}
                     onChange={(e) => {
                       const val = e.target.value
-                      setFormData(prev => ({ ...prev, price: val === '' ? undefined : Number(val) }))
+                      setFormData(prev => ({ ...prev, price: val }))
                     }}
-                    placeholder="15000000"
+                    placeholder={priceInputType === "number" ? "Contoh: 1000000" : "Contoh: Hubungi Kami"}
                     className={errors.price ? "border-red-500" : ""}
                   />
-                  {formData.price !== undefined && formData.price > 0 && (
-                    <p className="text-sm text-gray-500">{formatCurrency(Number(formData.price))}</p>
+                  {formData.price && priceInputType === "number" && (
+                    <p className="text-sm text-gray-500">{formatCurrency(formData.price)}</p>
+                  )}
+                  {priceInputType === "text" && (
+                    <p className="text-xs text-gray-500">Masukkan teks seperti "Hubungi Kami", "Call for Price", dll</p>
                   )}
                   {errors.price && <p className="text-sm text-red-500">{errors.price}</p>}
                 </div>

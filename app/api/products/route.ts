@@ -9,7 +9,7 @@ const createProductSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   description: z.string().optional(),
   shortDesc: z.string().optional(),
-  price: z.number().positive('Price must be positive'),
+  price: z.string().optional(),
   capacity: z.string().optional(),
   efficiency: z.string().optional(),
   location: z.string().optional(),

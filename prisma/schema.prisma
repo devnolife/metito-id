@@ -89,7 +89,7 @@ model Product {
   slug            String           @unique
   description     String?
   shortDesc       String?
-  price           Float
+  price           String?
   capacity        String?
   efficiency      String?
   location        String?

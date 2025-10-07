@@ -35,7 +35,26 @@ export function ProductList({
   onView,
   onPageChange
 }: ProductListProps) {
-  const formatCurrency = (amount: number) => {
+  const formatCurrency = (amount?: string | number) => {
+    if (!amount) return 'Hubungi Kami'
+
+    // If already a string, return as is
+    if (typeof amount === 'string') {
+      // Try to parse as number
+      const numValue = parseFloat(amount.replace(/[^\d.-]/g, ''))
+      if (isNaN(numValue)) {
+        // If not a number, return the string as-is
+        return amount
+      }
+      // Format as currency
+      return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0
+      }).format(numValue)
+    }
+
+    // If it's a number, format directly
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
       currency: 'IDR',

@@ -43,7 +43,9 @@ export async function GET(request: NextRequest) {
 
     // Calculate total
     const total = cartItems.reduce((sum, item) => {
-      return sum + (item.product.price * item.quantity)
+      // Try to parse price as number, otherwise treat as 0
+      const priceNum = item.product.price ? parseFloat(item.product.price.replace(/[^\d.-]/g, '')) : 0
+      return sum + (isNaN(priceNum) ? 0 : priceNum * item.quantity)
     }, 0)
 
     return successResponse({

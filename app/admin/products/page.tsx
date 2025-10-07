@@ -171,7 +171,11 @@ export default function AdminProductsPage() {
   }
 
   // Calculate statistics
-  const totalValue = products.reduce((sum, p) => sum + (p.price * (p.inStock ? 1 : 0)), 0)
+  const totalValue = products.reduce((sum, p) => {
+    // Try to parse price as number, otherwise skip it
+    const priceNum = p.price ? parseFloat(p.price.replace(/[^\d.-]/g, '')) : 0
+    return sum + (isNaN(priceNum) ? 0 : priceNum * (p.inStock ? 1 : 0))
+  }, 0)
   const activeProducts = products.filter(p => p.isActive).length
   const featuredProducts = products.filter(p => p.isFeatured).length
   const inStockProducts = products.filter(p => p.inStock).length

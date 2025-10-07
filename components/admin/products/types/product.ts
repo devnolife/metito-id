@@ -4,7 +4,7 @@ export interface Product {
   slug: string
   description?: string
   shortDesc?: string
-  price: number
+  price?: string
   capacity?: string
   efficiency?: string
   location?: string
@@ -44,7 +44,7 @@ export interface Category {
     id: string
     name: string
     slug: string
-    price: number
+    price?: string
     images: string[]
     isFeatured: boolean
   }[]

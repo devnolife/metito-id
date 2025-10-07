@@ -51,6 +51,7 @@ interface ProductFormData {
 export function ProductCreateForm({ categories, onSuccess, onCancel }: ProductCreateFormProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [currentFeature, setCurrentFeature] = useState("")
+  const [priceInputType, setPriceInputType] = useState<"number" | "text">("number")
   const { toast } = useToast()
 
   const [formData, setFormData] = useState<ProductFormData>({
@@ -74,59 +75,20 @@ export function ProductCreateForm({ categories, onSuccess, onCancel }: ProductCr
     metaDescription: "",
   })
 
-  // Format rupiah function
-  const formatRupiah = (value: string): string => {
-    // Remove all non-numeric characters
-    const numericValue = value.replace(/\D/g, '')
-
-    if (numericValue === '') return ''
-
-    // Convert to number and format
-    const number = parseInt(numericValue, 10)
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(number)
-  }
-
-  // Parse rupiah to number
-  const parseRupiah = (value: string): number => {
-    const numericValue = value.replace(/\D/g, '')
-    return numericValue ? parseInt(numericValue, 10) : 0
-  }
-
-  // Handle price input with formatting
+  // Handle price input - allow any text input (text or numbers)
   const handlePriceChange = (value: string) => {
-    // Allow empty value or numeric input
-    if (value === '' || /^\d*$/.test(value)) {
-      setFormData(prev => ({
-        ...prev,
-        price: value
-      }))
-    }
+    setFormData(prev => ({
+      ...prev,
+      price: value
+    }))
   }
 
-  // Format price on blur (when user finishes typing)
-  const handlePriceBlur = () => {
-    if (formData.price && formData.price !== '') {
-      const formattedPrice = formatRupiah(formData.price)
-      setFormData(prev => ({
-        ...prev,
-        price: formattedPrice
-      }))
-    }
-  }
-
-  // Convert back to numeric when focusing (for editing)
-  const handlePriceFocus = () => {
-    if (formData.price && formData.price !== '') {
-      const numericValue = formData.price.replace(/\D/g, '')
-      setFormData(prev => ({
-        ...prev,
-        price: numericValue
-      }))
+  // Handle toggle between number and text input
+  const handlePriceTypeToggle = (isText: boolean) => {
+    setPriceInputType(isText ? "text" : "number")
+    // Clear price when switching modes
+    if (isText) {
+      setFormData(prev => ({ ...prev, price: "" }))
     }
   }
 
@@ -157,7 +119,7 @@ export function ProductCreateForm({ categories, onSuccess, onCancel }: ProductCr
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!formData.name || !formData.categoryId || parseRupiah(formData.price) <= 0) {
+    if (!formData.name || !formData.categoryId) {
       toast({
         title: "Error",
         description: "Mohon lengkapi semua field yang wajib diisi",
@@ -169,10 +131,10 @@ export function ProductCreateForm({ categories, onSuccess, onCancel }: ProductCr
     setIsLoading(true)
 
     try {
-      // Prepare data for API - convert price to number
+      // Prepare data for API - price is now string and optional
       const submitData = {
         ...formData,
-        price: parseRupiah(formData.price),
+        price: formData.price || undefined,
         // Ensure application is properly set or undefined
         application: formData.application || undefined
       }
@@ -309,18 +271,32 @@ export function ProductCreateForm({ categories, onSuccess, onCancel }: ProductCr
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div>
-              <Label htmlFor="price">Harga *</Label>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="price">Harga</Label>
+                <div className="flex items-center gap-2 text-xs">
+                  <span className={priceInputType === "number" ? "font-semibold text-blue-600" : "text-gray-500"}>
+                    Angka
+                  </span>
+                  <Switch
+                    checked={priceInputType === "text"}
+                    onCheckedChange={handlePriceTypeToggle}
+                  />
+                  <span className={priceInputType === "text" ? "font-semibold text-blue-600" : "text-gray-500"}>
+                    Teks
+                  </span>
+                </div>
+              </div>
               <Input
                 id="price"
                 type="text"
                 value={formData.price}
                 onChange={(e) => handlePriceChange(e.target.value)}
-                onBlur={handlePriceBlur}
-                onFocus={handlePriceFocus}
-                placeholder="Masukkan harga (contoh: 1000000)"
-                required
+                placeholder={priceInputType === "number" ? "Contoh: 1000000" : "Contoh: Hubungi Kami"}
               />
+              {priceInputType === "text" && (
+                <p className="text-xs text-gray-500">Masukkan teks seperti "Hubungi Kami", "Call for Price", dll</p>
+              )}
             </div>
             <div>
               <Label htmlFor="capacity">Kapasitas</Label>
