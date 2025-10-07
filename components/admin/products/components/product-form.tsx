@@ -7,14 +7,16 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Switch } from "@/components/ui/switch"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useCategories } from "../hooks/use-categories"
 import { useToast } from "@/hooks/use-toast"
-import { Plus, X, Upload, Save, Loader2 } from "lucide-react"
+import { Plus, X, Upload, Save, Loader2, ImageIcon } from "lucide-react"
 import { Product } from "../types/product"
+import Image from "next/image"
 
 interface ProductFormProps {
   product?: Product
@@ -26,6 +28,7 @@ interface ProductFormProps {
 
 export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoading = false }: ProductFormProps) {
   const [priceInputType, setPriceInputType] = useState<"number" | "text">("number")
+  const [uploading, setUploading] = useState(false)
   const [formData, setFormData] = useState<Partial<Product>>({
     name: '',
     description: '',
@@ -188,6 +191,89 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
     if (isText) {
       setFormData(prev => ({ ...prev, price: "" }))
     }
+  }
+
+  // Handle image upload
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (!files || files.length === 0) return
+
+    // Validate file type and size
+    const validFiles: File[] = []
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+      if (!file.type.startsWith('image/')) {
+        toast({
+          title: "Error",
+          description: `${file.name} bukan file gambar`,
+          variant: "destructive",
+        })
+        continue
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: "Error",
+          description: `${file.name} terlalu besar (max 5MB)`,
+          variant: "destructive",
+        })
+        continue
+      }
+      validFiles.push(file)
+    }
+
+    if (validFiles.length === 0) return
+
+    try {
+      setUploading(true)
+      const uploadedUrls: string[] = []
+
+      for (const file of validFiles) {
+        const formData = new FormData()
+        formData.append('file', file)
+        formData.append('type', 'products')
+
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          uploadedUrls.push(data.data.url)
+        } else {
+          throw new Error(`Failed to upload ${file.name}`)
+        }
+      }
+
+      // Add new images to existing images
+      setFormData(prev => ({
+        ...prev,
+        images: [...(prev.images || []), ...uploadedUrls]
+      }))
+
+      toast({
+        title: "Berhasil",
+        description: `${uploadedUrls.length} gambar berhasil diupload`,
+      })
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Gagal upload gambar",
+        variant: "destructive",
+      })
+    } finally {
+      setUploading(false)
+      // Reset input
+      e.target.value = ''
+    }
+  }
+
+  // Remove image
+  const handleRemoveImage = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      images: prev.images?.filter((_, i) => i !== index)
+    }))
   }
 
   const formatCurrency = (value?: string | number) => {
@@ -405,6 +491,83 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                   <Label htmlFor="isFeatured">Produk Unggulan</Label>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Images Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <ImageIcon className="w-5 h-5" />
+                Gambar Produk
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Upload Area */}
+              <div className="space-y-2">
+                <Label>Upload Gambar</Label>
+                <div className="border-2 border-dashed rounded-lg p-6 text-center hover:bg-gray-50 transition-colors">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImageUpload}
+                    className="hidden"
+                    id="productImages"
+                    disabled={uploading}
+                  />
+                  <label htmlFor="productImages" className="cursor-pointer">
+                    <div className="flex flex-col items-center gap-2">
+                      <Upload className="w-10 h-10 text-gray-400" />
+                      <div className="text-sm">
+                        <span className="font-semibold text-blue-600">Klik untuk upload</span>
+                        {" "}atau drag & drop
+                      </div>
+                      <p className="text-xs text-gray-500">PNG, JPG, GIF hingga 5MB (Multiple files)</p>
+                    </div>
+                  </label>
+                </div>
+                {uploading && (
+                  <div className="flex items-center gap-2 text-sm text-blue-600">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Uploading gambar...
+                  </div>
+                )}
+              </div>
+
+              {/* Image Preview Grid */}
+              {formData.images && formData.images.length > 0 && (
+                <div className="space-y-2">
+                  <Label>Gambar Saat Ini ({formData.images.length})</Label>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {formData.images.map((imageUrl, index) => (
+                      <div key={index} className="relative group aspect-square border rounded-lg overflow-hidden bg-gray-50">
+                        <Image
+                          src={imageUrl}
+                          alt={`Product ${index + 1}`}
+                          fill
+                          className="object-cover"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveImage(index)}
+                          className="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                        {index === 0 && (
+                          <div className="absolute bottom-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded">
+                            Utama
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-xs text-gray-500">
+                    Tip: Gambar pertama akan digunakan sebagai gambar utama
+                  </p>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>

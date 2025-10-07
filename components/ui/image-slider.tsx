@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -21,24 +21,30 @@ export function ImageSlider({
 }: ImageSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
+  const onSlideChangeRef = useRef(onSlideChange)
 
+  // Keep ref updated
+  useEffect(() => {
+    onSlideChangeRef.current = onSlideChange
+  }, [onSlideChange])
+
+  // Auto slide effect
   useEffect(() => {
     if (!autoSlide || isHovered) return
 
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => {
-        const newIndex = (prev + 1) % images.length
-        onSlideChange?.(newIndex)
-        return newIndex
-      })
+      setCurrentIndex((prev) => (prev + 1) % images.length)
     }, autoSlideInterval)
 
     return () => clearInterval(interval)
-  }, [autoSlide, autoSlideInterval, isHovered, images.length, onSlideChange])
+  }, [autoSlide, autoSlideInterval, isHovered, images.length])
 
+  // Separate effect for onSlideChange callback using ref
   useEffect(() => {
-    onSlideChange?.(currentIndex)
-  }, [currentIndex, onSlideChange])
+    if (onSlideChangeRef.current) {
+      onSlideChangeRef.current(currentIndex)
+    }
+  }, [currentIndex])
 
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)

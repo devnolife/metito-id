@@ -357,3 +357,28 @@ model Customer {
   @@index([industry])
   @@index([featured])
 }
+
+// PageContent model for managing all page content from admin
+model PageContent {
+  id          String   @id @default(cuid())
+  page        String   // home, footer, about, etc
+  section     String   // hero, stats, services, contact_info, etc
+  key         String   // unique identifier within section
+  title       String?
+  subtitle    String?
+  description String?  @db.Text
+  content     Json?    // flexible JSON for complex data
+  imageUrl    String?
+  link        String?
+  icon        String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([page, section, key])
+  @@index([page])
+  @@index([section])
+  @@index([isActive])
+  @@map("page_contents")
+}
