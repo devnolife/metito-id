@@ -137,7 +137,7 @@ export default function GalleryPage() {
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
               Lihat Semua Proyek
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 rounded-xl font-semibold">
               <Download className="w-4 h-4 mr-2" />
               Unduh Brosur
             </Button>

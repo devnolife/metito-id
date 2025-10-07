@@ -94,8 +94,8 @@ export function ProductShowcase() {
         setError(null)
 
         // Load settings
-        const showPricesLanding = await getSetting('show_prices_landing')
-        setShowPrices(showPricesLanding !== false)
+        const showPricesSetting = await getSetting('show_prices')
+        setShowPrices(showPricesSetting !== false)
 
         // Load categories and products
         const [categoriesRes, productsRes] = await Promise.all([

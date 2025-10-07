@@ -178,7 +178,7 @@ export default function CertificationPage() {
               <Download className="w-4 h-4 mr-2" />
               Download Sertifikat
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 rounded-xl font-semibold">
               Lihat Penghargaan
             </Button>
           </div>

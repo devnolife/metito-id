@@ -79,10 +79,10 @@ export default function ContactPage() {
             Tim ahli kami siap membantu Anda menemukan solusi pengolahan air yang tepat untuk kebutuhan spesifik Anda.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 rounded-xl font-semibold">
               Konsultasi Gratis
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 rounded-xl font-semibold">
               <Phone className="w-4 h-4 mr-2" />
               Hubungi Langsung
             </Button>
@@ -284,11 +284,11 @@ export default function ContactPage() {
             Tim ahli kami siap memberikan konsultasi dan solusi terbaik untuk kebutuhan pengolahan air Anda.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 rounded-xl font-semibold">
               <Phone className="w-5 h-5 mr-2" />
               Hubungi Sekarang
             </Button>
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 rounded-xl font-semibold">
               <MessageCircle className="w-5 h-5 mr-2" />
               Chat WhatsApp
             </Button>

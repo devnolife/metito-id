@@ -132,7 +132,7 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-// POST /api/settings - Create new setting (Admin only)
+// POST /api/settings - Create or update setting (Admin only)
 export async function POST(request: NextRequest) {
   try {
     const user = await validateAdminAccess(request)
@@ -156,8 +156,18 @@ export async function POST(request: NextRequest) {
       stringValue = String(value)
     }
 
-    const setting = await db.setting.create({
-      data: {
+    // Use upsert to create or update
+    const setting = await db.setting.upsert({
+      where: { key },
+      update: {
+        value: stringValue,
+        type,
+        category,
+        label,
+        description,
+        updatedAt: new Date()
+      },
+      create: {
         key,
         value: stringValue,
         type,
@@ -167,17 +177,14 @@ export async function POST(request: NextRequest) {
       }
     })
 
-    return successResponse(setting, 'Setting created successfully')
+    return successResponse(setting, 'Setting saved successfully')
   } catch (error) {
     console.error('Settings POST error:', error)
-    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') {
-      return errorResponse('Setting key already exists')
-    }
     if (error instanceof Error) {
       if (error.message === 'Authentication required' || error.message === 'Admin access required') {
         return unauthorizedResponse(error.message)
       }
     }
-    return errorResponse('Failed to create setting')
+    return errorResponse('Failed to save setting')
   }
 } 

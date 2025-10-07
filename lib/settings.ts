@@ -17,9 +17,8 @@ let cacheTimestamp = 0
 const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes
 
 // Default settings values
-const DEFAULT_SETTINGS = {
+const DEFAULT_SETTINGS: Record<string, any> = {
   show_prices: true,
-  show_prices_landing: true,
   contact_email: 'info@metito-water.com',
   contact_phone: '+1-555-0123',
   company_address: '123 Water Treatment St, Industrial Zone',
@@ -70,7 +69,7 @@ export async function getAllSettings(): Promise<Record<string, any>> {
     const data = await response.json()
 
     if (data.success) {
-      const settings = {}
+      const settings: Record<string, any> = {}
       data.data.forEach((setting: Setting) => {
         settings[setting.key] = setting.value
       })
@@ -118,11 +117,11 @@ export async function shouldShowPrices(): Promise<boolean> {
 }
 
 /**
- * Check if prices should be shown on landing page
+ * Check if prices should be shown on landing page (uses same setting as products page)
  */
 export async function shouldShowPricesOnLanding(): Promise<boolean> {
-  const showPricesLanding = await getSetting('show_prices_landing')
-  return showPricesLanding !== false // Default to true if not set
+  const showPrices = await getSetting('show_prices')
+  return showPrices !== false // Default to true if not set
 }
 
 /**

@@ -70,8 +70,8 @@ export async function middleware(request: NextRequest) {
   const requiresAdmin = adminPaths.some(path => pathname.startsWith(path))
   const requiresAuth = protectedPaths.some(path => pathname.startsWith(path))
 
-  // Special case: Allow GET requests to categories without authentication
-  if (pathname === '/api/categories' && request.method === 'GET') {
+  // Special case: Allow GET requests to categories and products without authentication
+  if ((pathname === '/api/categories' || pathname === '/api/products') && request.method === 'GET') {
     return NextResponse.next()
   }
 
@@ -98,7 +98,7 @@ export async function middleware(request: NextRequest) {
     }
 
     // Verify token if it exists
-  const payload = token ? await verifyTokenSimple(token) : null
+    const payload = token ? await verifyTokenSimple(token) : null
 
     if (token && !payload) {
       // Return 401 for API routes with invalid token

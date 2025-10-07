@@ -103,12 +103,30 @@ export default function ProductsPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [showPrices, setShowPrices] = useState(true)
   const [showOnlyInStock, setShowOnlyInStock] = useState(true)
+  const [loading, setLoading] = useState(true)
 
-  // Load initial data
+  // Load initial data and settings
   useEffect(() => {
-    setProducts(mockProducts)
-    setCategories(mockCategories)
-    setFilteredProducts(mockProducts)
+    const loadData = async () => {
+      try {
+        setLoading(true)
+
+        // Load show_prices setting from database
+        const showPricesSetting = await getSetting('show_prices')
+        setShowPrices(showPricesSetting !== false)
+
+        // Load products (using mock data for now)
+        setProducts(mockProducts)
+        setCategories(mockCategories)
+        setFilteredProducts(mockProducts)
+      } catch (error) {
+        console.error('Error loading data:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadData()
   }, [])
 
   // Filter products based on search and filters
@@ -175,7 +193,7 @@ export default function ProductsPage() {
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
               Minta Penawaran
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" variant="outline" className="border-white text-white px-8 py-3 rounded-xl font-semibold">
               Unduh Katalog
             </Button>
           </div>
@@ -515,7 +533,7 @@ export default function ProductsPage() {
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
               Minta Penawaran Kustom
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" variant="outline" className="border-white text-white px-8 py-3 rounded-xl font-semibold">
               Konsultasi dengan Insinyur
             </Button>
           </div>

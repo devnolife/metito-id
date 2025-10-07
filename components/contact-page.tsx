@@ -128,7 +128,7 @@ export function ContactPage() {
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
               Telepon Sekarang: +62 812-1760-3950
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" variant="outline" className="border-white text-white px-8 py-3 rounded-xl font-semibold">
               Kirim Email
             </Button>
           </div>
@@ -370,7 +370,7 @@ export function ContactPage() {
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
               Jadwalkan Konsultasi
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" variant="outline" className="border-white text-white px-8 py-3 rounded-xl font-semibold">
               Unduh Brosur
             </Button>
           </div>
