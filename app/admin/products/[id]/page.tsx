@@ -9,7 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import { ArrowLeft, Edit, Package, Tag, MapPin, Zap, Calendar, CheckCircle, XCircle, Star } from 'lucide-react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { ArrowLeft, Edit, Package, Tag, MapPin, Zap, Calendar, CheckCircle, XCircle, Star, ImageIcon, Maximize2 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -21,6 +22,7 @@ export default function ProductDetailPage() {
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [selectedImage, setSelectedImage] = useState<{ url: string; index: number } | null>(null)
 
   useEffect(() => {
     let isMounted = true
@@ -106,32 +108,138 @@ export default function ProductDetailPage() {
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-6">
           {/* Images */}
-          {product.images && product.images.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Gambar Produk</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {product.images.filter(url => url && url.trim() !== '').map((imageUrl, index) => (
-                    <div key={index} className="relative aspect-square border rounded-lg overflow-hidden bg-gray-50">
-                      <Image
-                        src={imageUrl}
-                        alt={`${product.name} - Gambar ${index + 1}`}
-                        fill
-                        className="object-cover"
-                      />
-                      {index === 0 && (
-                        <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded font-semibold">
-                          Utama
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <ImageIcon className="w-5 h-5" />
+                Gambar Produk
+                {product.images && product.images.filter(url => url && url.trim() !== '').length > 0 && (
+                  <Badge variant="secondary" className="ml-2">
+                    {product.images.filter(url => url && url.trim() !== '').length} Gambar
+                  </Badge>
+                )}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {product.images && product.images.filter(url => url && url.trim() !== '').length > 0 ? (
+                <div className="space-y-4">
+                  {/* Image Grid */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {product.images.filter(url => url && url.trim() !== '').map((imageUrl, index) => (
+                      <div
+                        key={index}
+                        className="relative aspect-square border-2 border-gray-200 rounded-lg overflow-hidden bg-gray-50 group cursor-pointer hover:border-blue-500 transition-all duration-200 hover:shadow-lg"
+                        onClick={() => setSelectedImage({ url: imageUrl, index })}
+                      >
+                        <Image
+                          src={imageUrl}
+                          alt={`${product.name} - Gambar ${index + 1}`}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-300"
+                        />
+
+                        {/* Overlay on hover */}
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-200 flex items-center justify-center">
+                          <Maximize2 className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                         </div>
-                      )}
-                    </div>
-                  ))}
+
+                        {/* Primary badge */}
+                        {index === 0 && (
+                          <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded font-semibold shadow-md">
+                            Gambar Utama
+                          </div>
+                        )}
+
+                        {/* Image number */}
+                        <div className="absolute top-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded font-semibold">
+                          #{index + 1}
+                        </div>
+
+                        {/* Bottom gradient */}
+                        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent h-12" />
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Image count info */}
+                  <div className="flex items-center gap-2 text-sm text-gray-600 bg-blue-50 p-3 rounded-lg">
+                    <ImageIcon className="w-4 h-4 text-blue-600" />
+                    <span>
+                      <strong className="text-blue-600">{product.images.filter(url => url && url.trim() !== '').length}</strong> gambar tersedia.
+                      Klik pada gambar untuk melihat lebih detail.
+                    </span>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
-          )}
+              ) : (
+                <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                  <ImageIcon className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                  <p className="text-gray-600 font-medium">Tidak ada gambar</p>
+                  <p className="text-sm text-gray-500 mt-1">Produk ini belum memiliki gambar</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Image Preview Modal */}
+          <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
+            <DialogContent className="max-w-4xl">
+              <DialogHeader>
+                <DialogTitle className="flex items-center justify-between">
+                  <span>
+                    {product.name} - Gambar #{selectedImage ? selectedImage.index + 1 : ''}
+                  </span>
+                  {selectedImage && selectedImage.index === 0 && (
+                    <Badge className="bg-blue-600">Gambar Utama</Badge>
+                  )}
+                </DialogTitle>
+              </DialogHeader>
+              {selectedImage && (
+                <div className="relative w-full aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                  <Image
+                    src={selectedImage.url}
+                    alt={`${product.name} - Gambar ${selectedImage.index + 1}`}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              )}
+              {selectedImage && product.images && (
+                <div className="flex items-center justify-between text-sm text-gray-600">
+                  <span>Gambar {selectedImage.index + 1} dari {product.images.filter(url => url && url.trim() !== '').length}</span>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={selectedImage.index === 0}
+                      onClick={() => {
+                        const prevIndex = selectedImage.index - 1
+                        const validImages = product.images?.filter(url => url && url.trim() !== '') || []
+                        if (prevIndex >= 0 && validImages[prevIndex]) {
+                          setSelectedImage({ url: validImages[prevIndex], index: prevIndex })
+                        }
+                      }}
+                    >
+                      ← Sebelumnya
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={selectedImage.index === (product.images?.filter(url => url && url.trim() !== '').length || 0) - 1}
+                      onClick={() => {
+                        const nextIndex = selectedImage.index + 1
+                        const validImages = product.images?.filter(url => url && url.trim() !== '') || []
+                        if (nextIndex < validImages.length && validImages[nextIndex]) {
+                          setSelectedImage({ url: validImages[nextIndex], index: nextIndex })
+                        }
+                      }}
+                    >
+                      Selanjutnya →
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </DialogContent>
+          </Dialog>
 
           {/* Description */}
           <Card>

@@ -239,9 +239,10 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
 
         if (response.ok) {
           const data = await response.json()
-          // Only push valid URLs
-          if (data.data?.url && data.data.url.trim() !== '') {
-            uploadedUrls.push(data.data.url)
+          console.log('Upload response:', data) // Debug log
+          // API returns filePath, not url
+          if (data.data?.filePath && data.data.filePath.trim() !== '') {
+            uploadedUrls.push(data.data.filePath)
           }
         } else {
           const errorData = await response.json().catch(() => ({ message: 'Upload failed' }))
@@ -524,11 +525,17 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                 Gambar Produk
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-6">
               {/* Upload Area */}
               <div className="space-y-2">
-                <Label>Upload Gambar</Label>
-                <div className="border-2 border-dashed rounded-lg p-6 text-center hover:bg-gray-50 transition-colors">
+                <Label className="text-sm font-semibold">Upload Gambar</Label>
+                <div className={`
+                  border-2 border-dashed rounded-lg p-6 text-center transition-all duration-200
+                  ${uploading
+                    ? 'border-blue-400 bg-blue-50'
+                    : 'border-gray-300 hover:border-blue-400 hover:bg-gray-50'
+                  }
+                `}>
                   <Input
                     type="file"
                     accept="image/*"
@@ -538,85 +545,137 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                     id="productImages"
                     disabled={uploading}
                   />
-                  <label htmlFor="productImages" className="cursor-pointer">
-                    <div className="flex flex-col items-center gap-2">
-                      <Upload className="w-10 h-10 text-gray-400" />
-                      <div className="text-sm">
-                        <span className="font-semibold text-blue-600">Klik untuk upload</span>
-                        {" "}atau drag & drop
+                  <label htmlFor="productImages" className={uploading ? 'cursor-wait' : 'cursor-pointer'}>
+                    <div className="flex flex-col items-center gap-3">
+                      {uploading ? (
+                        <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
+                      ) : (
+                        <div className="p-3 bg-blue-100 rounded-full">
+                          <Upload className="w-8 h-8 text-blue-600" />
+                        </div>
+                      )}
+
+                      <div className="space-y-1">
+                        <div className="text-sm font-medium">
+                          {uploading ? (
+                            <span className="text-blue-600">Mengupload gambar...</span>
+                          ) : (
+                            <>
+                              <span className="text-blue-600">Klik untuk upload</span>
+                              {" "}<span className="text-gray-600">atau drag & drop</span>
+                            </>
+                          )}
+                        </div>
+                        <p className="text-xs text-gray-500">
+                          PNG, JPG hingga 5MB per file
+                        </p>
+                        <p className="text-xs text-blue-600 font-medium">
+                          ✨ Bisa pilih multiple files sekaligus
+                        </p>
                       </div>
-                      <p className="text-xs text-gray-500">PNG, JPG, GIF hingga 5MB (Multiple files)</p>
                     </div>
                   </label>
                 </div>
+
                 {uploading && (
-                  <div className="flex items-center gap-2 text-sm text-blue-600">
+                  <div className="flex items-center justify-center gap-2 text-sm text-blue-600 bg-blue-50 py-2 px-3 rounded-lg border border-blue-200">
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    Uploading gambar...
+                    <span className="font-medium">Sedang mengupload gambar...</span>
                   </div>
                 )}
               </div>
 
+              {/* Separator */}
+              {formData.images && formData.images.filter(url => url && url.trim() !== '').length > 0 && (
+                <Separator className="my-4" />
+              )}
+
               {/* Image Preview Grid */}
               {formData.images && formData.images.filter(url => url && url.trim() !== '').length > 0 && (
-                <div className="space-y-2">
-                  <Label>Gambar Saat Ini ({formData.images.filter(url => url && url.trim() !== '').length})</Label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm font-semibold">
+                      Gambar Saat Ini ({formData.images.filter(url => url && url.trim() !== '').length})
+                    </Label>
+                    <Badge variant="secondary" className="text-xs">
+                      {formData.images.filter(url => url && url.trim() !== '').length} gambar
+                    </Badge>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                     {formData.images.filter(url => url && url.trim() !== '').map((imageUrl, index, validImages) => (
-                      <div key={index} className="relative group aspect-square border rounded-lg overflow-hidden bg-gray-50">
-                        <Image
-                          src={imageUrl}
-                          alt={`Product ${index + 1}`}
-                          fill
-                          className="object-cover"
-                        />
-                        {/* Remove button */}
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveImage(formData.images?.indexOf(imageUrl) ?? index)}
-                          className="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600 z-10"
-                          title="Hapus gambar"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                        {/* Move left button */}
-                        {index > 0 && (
+                      <div key={index} className="relative group">
+                        {/* Image Container */}
+                        <div className="relative aspect-square border-2 border-gray-200 rounded-lg overflow-hidden bg-gray-50 hover:border-blue-400 transition-all duration-200">
+                          <Image
+                            src={imageUrl}
+                            alt={`Product ${index + 1}`}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
+                          />
+
+                          {/* Hover Overlay */}
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200" />
+
+                          {/* Remove button - Always visible on mobile, hover on desktop */}
                           <button
                             type="button"
-                            onClick={() => handleMoveImage(formData.images?.indexOf(imageUrl) ?? index, 'up')}
-                            className="absolute top-1/2 left-2 -translate-y-1/2 bg-blue-500 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-blue-600 z-10"
-                            title="Pindah ke kiri"
+                            onClick={() => handleRemoveImage(formData.images?.indexOf(imageUrl) ?? index)}
+                            className="absolute top-1.5 right-1.5 bg-red-500 text-white p-1.5 rounded-full opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600 shadow-md z-10"
+                            title="Hapus gambar"
                           >
-                            <ChevronLeft className="w-4 h-4" />
+                            <X className="w-3.5 h-3.5" />
                           </button>
-                        )}
-                        {/* Move right button */}
-                        {index < validImages.length - 1 && (
-                          <button
-                            type="button"
-                            onClick={() => handleMoveImage(formData.images?.indexOf(imageUrl) ?? index, 'down')}
-                            className="absolute top-1/2 right-2 -translate-y-1/2 bg-blue-500 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-blue-600 z-10"
-                            title="Pindah ke kanan"
-                          >
-                            <ChevronRight className="w-4 h-4" />
-                          </button>
-                        )}
-                        {/* Primary badge */}
-                        {index === 0 && (
-                          <div className="absolute bottom-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded font-semibold">
-                            Gambar Utama
+
+                          {/* Move left button */}
+                          {index > 0 && (
+                            <button
+                              type="button"
+                              onClick={() => handleMoveImage(formData.images?.indexOf(imageUrl) ?? index, 'up')}
+                              className="absolute top-1/2 left-1.5 -translate-y-1/2 bg-blue-500 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-blue-600 shadow-md z-10"
+                              title="Pindah ke kiri"
+                            >
+                              <ChevronLeft className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+
+                          {/* Move right button */}
+                          {index < validImages.length - 1 && (
+                            <button
+                              type="button"
+                              onClick={() => handleMoveImage(formData.images?.indexOf(imageUrl) ?? index, 'down')}
+                              className="absolute top-1/2 right-1.5 -translate-y-1/2 bg-blue-500 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-blue-600 shadow-md z-10"
+                              title="Pindah ke kanan"
+                            >
+                              <ChevronRight className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+
+                          {/* Primary badge */}
+                          {index === 0 && (
+                            <div className="absolute bottom-1.5 left-1.5 bg-blue-600 text-white text-xs px-2 py-0.5 rounded font-semibold shadow-md">
+                              Utama
+                            </div>
+                          )}
+
+                          {/* Image number */}
+                          <div className="absolute top-1.5 left-1.5 bg-black/70 text-white text-xs px-1.5 py-0.5 rounded font-medium">
+                            #{index + 1}
                           </div>
-                        )}
-                        {/* Image number */}
-                        <div className="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
-                          #{index + 1}
                         </div>
                       </div>
                     ))}
                   </div>
-                  <p className="text-xs text-gray-500">
-                    💡 <strong>Tip:</strong> Gambar pertama akan digunakan sebagai gambar utama. Gunakan tombol panah untuk mengurutkan gambar.
-                  </p>
+
+                  {/* Info box */}
+                  <div className="flex items-start gap-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <ImageIcon className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-xs text-blue-900">
+                      <strong>Tips:</strong> Gambar pertama akan digunakan sebagai gambar utama produk.
+                      Gunakan tombol panah untuk mengatur urutan gambar. Hover pada gambar untuk menampilkan kontrol.
+                    </p>
+                  </div>
                 </div>
               )}
             </CardContent>

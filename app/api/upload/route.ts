@@ -79,9 +79,9 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData()
     const file = formData.get('file') as File
-  const rawCategory = formData.get('category') as string
-  // Normalize category alias
-  const category = rawCategory === 'certifications' ? 'certificates' : rawCategory
+    const rawCategory = formData.get('category') as string
+    // Normalize category alias
+    const category = rawCategory === 'certifications' ? 'certificates' : rawCategory
     const productId = formData.get('productId') as string // Optional, for product-specific uploads
     const userId = formData.get('userId') as string // Optional, for user-specific uploads
     const title = formData.get('title') as string // Optional
@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate file type
-  const allowedTypes = ALLOWED_TYPES[rawCategory as keyof typeof ALLOWED_TYPES] || ALLOWED_TYPES[category as keyof typeof ALLOWED_TYPES]
+    const allowedTypes = ALLOWED_TYPES[rawCategory as keyof typeof ALLOWED_TYPES] || ALLOWED_TYPES[category as keyof typeof ALLOWED_TYPES]
     if (!allowedTypes?.includes(file.type)) {
       console.log('Invalid file type:', file.type, 'for category:', category)
       const allowedExtensions = allowedTypes?.map(type => {
@@ -148,7 +148,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create upload directory if it doesn't exist
-  const uploadDir = UPLOAD_DIRS[category as keyof typeof UPLOAD_DIRS]
+    const uploadDir = UPLOAD_DIRS[category as keyof typeof UPLOAD_DIRS]
     console.log('Upload directory:', uploadDir)
 
     try {
@@ -207,10 +207,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Generate public URL - Use API routes for dynamic serving
+    // Generate public URL - Use API routes for DYNAMIC serving (works in production without rebuild)
     let publicUrl: string
     if (uploadDir.includes('public/images/')) {
-      // For images, use the images API route
+      // For images, use the dynamic images API route
       const imagePath = uploadDir.replace('public/images/', '')
       publicUrl = `/api/images/${imagePath}/${productId ? `${productId}/` : ''}${fileName}`.replace(/\/+/g, '/')
     } else if (uploadDir.includes('public/certificates')) {
@@ -221,13 +221,13 @@ export async function POST(request: NextRequest) {
       const docPath = uploadDir.replace('public/documents/', '')
       publicUrl = `/api/documents/${docPath}/${fileName}`.replace(/\/+/g, '/')
     } else {
-      // Fallback to direct public path
+      // Fallback to direct public path (less dynamic but works for static files)
       publicUrl = `/${uploadDir.replace('public/', '')}/${productId ? `${productId}/` : ''}${fileName}`.replace(/\/+/g, '/')
     }
     console.log('Upload directory:', uploadDir)
     console.log('Product ID:', productId)
     console.log('File name:', fileName)
-    console.log('Generated public URL:', publicUrl)
+    console.log('Generated public URL (DYNAMIC):', publicUrl)
 
     // Save image metadata to database
     try {
