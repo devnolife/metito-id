@@ -181,8 +181,7 @@ export default function AdminProductsPage() {
   }
 
   return (
-    <div className="bg-gray-50/50">
-      <div className="max-w-7xl mx-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
+    <div className="max-w-7xl mx-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
         {/* Header Section */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
           <div className="p-4 sm:p-6">
@@ -198,21 +197,19 @@ export default function AdminProductsPage() {
                     Tambah Produk
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="max-w-4xl max-h-[85vh] overflow-hidden flex flex-col">
+                <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
                   <DialogHeader className="flex-shrink-0 border-b pb-4">
                     <DialogTitle className="flex items-center gap-2 text-xl">
                       <Package className="w-5 h-5" />
                       Tambah Produk Baru
                     </DialogTitle>
                   </DialogHeader>
-                  <div className="dialog-form-wrapper flex-1 overflow-y-auto">
-                    <div className="dialog-form-container dialog-form p-1">
-                      <ProductCreateForm
-                        categories={categories}
-                        onSuccess={handleCreateSuccess}
-                        onCancel={() => setShowCreateDialog(false)}
-                      />
-                    </div>
+                  <div className="flex-1 overflow-y-auto px-1">
+                    <ProductCreateForm
+                      categories={categories}
+                      onSuccess={handleCreateSuccess}
+                      onCancel={() => setShowCreateDialog(false)}
+                    />
                   </div>
                 </DialogContent>
               </Dialog>
@@ -310,14 +307,13 @@ export default function AdminProductsPage() {
           </Tabs>
         </div>
 
-        {/* Dialogs */}
-        <ProductDialogs
-          deleteDialog={deleteDialog}
-          onDeleteClose={() => setDeleteDialog({ open: false, productId: null, productName: null })}
-          onDeleteConfirm={handleDeleteConfirm}
-          deleteLoading={deleteLoading}
-        />
-      </div>
+      {/* Dialogs */}
+      <ProductDialogs
+        deleteDialog={deleteDialog}
+        onDeleteClose={() => setDeleteDialog({ open: false, productId: null, productName: null })}
+        onDeleteConfirm={handleDeleteConfirm}
+        deleteLoading={deleteLoading}
+      />
     </div>
   )
 }

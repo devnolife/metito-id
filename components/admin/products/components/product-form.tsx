@@ -74,7 +74,7 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
         capacity: product.capacity || '',
         efficiency: product.efficiency || '',
         location: product.location || '',
-        application: product.application,
+        application: product.application || undefined,
         specs: product.specs || {},
         features: product.features || [],
         warranty: product.warranty || '',
@@ -391,23 +391,36 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
 
                 <div className="space-y-2">
                   <Label htmlFor="categoryId">Kategori *</Label>
-                  <Select
-                    value={formData.categoryId || undefined}
-                    onValueChange={(value) => setFormData(prev => ({ ...prev, categoryId: value }))}
-                    disabled={categoriesLoading}
-                  >
-                    <SelectTrigger className={errors.categoryId ? "border-red-500" : ""}>
-                      <SelectValue placeholder={categoriesLoading ? 'Memuat kategori...' : 'Pilih kategori'} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  {categoriesLoading ? (
+                    <div className="flex items-center gap-2 p-3 border rounded-md bg-gray-50">
+                      <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
+                      <span className="text-sm text-gray-600">Memuat kategori...</span>
+                    </div>
+                  ) : (
+                    <Select
+                      key={`category-${formData.categoryId}`}
+                      value={formData.categoryId}
+                      onValueChange={(value) => setFormData(prev => ({ ...prev, categoryId: value }))}
+                      disabled={categoriesLoading}
+                    >
+                      <SelectTrigger className={errors.categoryId ? "border-red-500" : ""}>
+                        <SelectValue placeholder="Pilih kategori" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.map((category) => (
+                          <SelectItem key={category.id} value={category.id}>
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
                   {errors.categoryId && <p className="text-sm text-red-500">{errors.categoryId}</p>}
+                  {isEdit && formData.categoryId && !categoriesLoading && (
+                    <p className="text-xs text-gray-500">
+                      Kategori saat ini: {categories.find(c => c.id === formData.categoryId)?.name || formData.categoryId}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -474,7 +487,8 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                 <div className="space-y-2">
                   <Label htmlFor="application">Aplikasi</Label>
                   <Select
-                    value={formData.application || undefined}
+                    key={`application-${formData.application}`}
+                    value={formData.application}
                     onValueChange={(value) => setFormData(prev => ({
                       ...prev,
                       application: value as 'Industrial' | 'Municipal'
@@ -488,6 +502,11 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                       <SelectItem value="Municipal">Municipal</SelectItem>
                     </SelectContent>
                   </Select>
+                  {isEdit && formData.application && (
+                    <p className="text-xs text-gray-500">
+                      Aplikasi saat ini: {formData.application}
+                    </p>
+                  )}
                 </div>
               </div>
 

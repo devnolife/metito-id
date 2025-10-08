@@ -173,7 +173,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   // Authenticated admin - render with sidebar
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen overflow-hidden bg-gray-50">
       <AdminSidebar
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -184,7 +184,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           user={user}
           onLogout={handleLogout}
         />
-        <main className="flex-1 overflow-auto">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden">
           {children}
         </main>
       </div>

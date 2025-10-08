@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { useToast } from '@/hooks/use-toast'
-import { Plus, Edit, Trash2, Save, X, Phone, Mail, ArrowUp, ArrowDown, MessageCircle } from 'lucide-react'
+import { Plus, Edit, Trash2, Save, X, Phone, Mail, ArrowUp, ArrowDown, MessageCircle, Loader2 } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -37,14 +37,14 @@ interface WhatsAppContact {
 }
 
 const colorOptions = [
-  { value: 'bg-emerald-600', label: 'Green' },
-  { value: 'bg-blue-600', label: 'Blue' },
-  { value: 'bg-sky-600', label: 'Sky Blue' },
+  { value: 'bg-emerald-600', label: 'Hijau' },
+  { value: 'bg-blue-600', label: 'Biru' },
+  { value: 'bg-sky-600', label: 'Biru Langit' },
   { value: 'bg-indigo-600', label: 'Indigo' },
-  { value: 'bg-purple-600', label: 'Purple' },
+  { value: 'bg-purple-600', label: 'Ungu' },
   { value: 'bg-pink-600', label: 'Pink' },
-  { value: 'bg-red-600', label: 'Red' },
-  { value: 'bg-orange-600', label: 'Orange' },
+  { value: 'bg-red-600', label: 'Merah' },
+  { value: 'bg-orange-600', label: 'Oranye' },
   { value: 'bg-teal-600', label: 'Teal' },
 ]
 
@@ -53,12 +53,15 @@ export default function WhatsAppContactsPage() {
   const [loading, setLoading] = useState(true)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingContact, setEditingContact] = useState<WhatsAppContact | null>(null)
+  const [saving, setSaving] = useState(false)
+  const [deleting, setDeleting] = useState<string | null>(null)
+  const [moving, setMoving] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     name: '',
     phoneNumber: '',
     email: '',
     role: '',
-    color: 'bg-green-600',
+    color: 'bg-emerald-600',
     isActive: true,
     sortOrder: 0,
   })
@@ -78,8 +81,8 @@ export default function WhatsAppContactsPage() {
       }
     } catch (error) {
       toast({
-        title: 'Error',
-        description: 'Failed to fetch contacts',
+        title: 'Kesalahan',
+        description: 'Gagal memuat kontak',
         variant: 'destructive',
       })
     } finally {
@@ -106,7 +109,7 @@ export default function WhatsAppContactsPage() {
         phoneNumber: '',
         email: '',
         role: '',
-        color: 'bg-green-600',
+        color: 'bg-emerald-600',
         isActive: true,
         sortOrder: contacts.length,
       })
@@ -117,12 +120,14 @@ export default function WhatsAppContactsPage() {
   const handleCloseDialog = () => {
     setIsDialogOpen(false)
     setEditingContact(null)
+    setSaving(false)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     try {
+      setSaving(true)
       const url = editingContact
         ? `/api/whatsapp-contacts/${editingContact.id}`
         : '/api/whatsapp-contacts'
@@ -139,31 +144,34 @@ export default function WhatsAppContactsPage() {
 
       if (data.success) {
         toast({
-          title: 'Success',
-          description: data.message,
+          title: 'Berhasil',
+          description: data.message || (editingContact ? 'Kontak berhasil diperbarui' : 'Kontak berhasil ditambahkan'),
         })
         fetchContacts()
         handleCloseDialog()
       } else {
         toast({
-          title: 'Error',
-          description: data.message || 'Failed to save contact',
+          title: 'Kesalahan',
+          description: data.message || 'Gagal menyimpan kontak',
           variant: 'destructive',
         })
       }
     } catch (error) {
       toast({
-        title: 'Error',
-        description: 'Failed to save contact',
+        title: 'Kesalahan',
+        description: 'Gagal menyimpan kontak',
         variant: 'destructive',
       })
+    } finally {
+      setSaving(false)
     }
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this contact?')) return
+    if (!confirm('Apakah Anda yakin ingin menghapus kontak ini?')) return
 
     try {
+      setDeleting(id)
       const response = await fetch(`/api/whatsapp-contacts/${id}`, {
         method: 'DELETE',
       })
@@ -172,23 +180,25 @@ export default function WhatsAppContactsPage() {
 
       if (data.success) {
         toast({
-          title: 'Success',
-          description: 'Contact deleted successfully',
+          title: 'Berhasil',
+          description: 'Kontak berhasil dihapus',
         })
         fetchContacts()
       } else {
         toast({
-          title: 'Error',
-          description: data.message || 'Failed to delete contact',
+          title: 'Kesalahan',
+          description: data.message || 'Gagal menghapus kontak',
           variant: 'destructive',
         })
       }
     } catch (error) {
       toast({
-        title: 'Error',
-        description: 'Failed to delete contact',
+        title: 'Kesalahan',
+        description: 'Gagal menghapus kontak',
         variant: 'destructive',
       })
+    } finally {
+      setDeleting(null)
     }
   }
 
@@ -205,6 +215,7 @@ export default function WhatsAppContactsPage() {
     const targetContact = contacts[targetIndex]
 
     try {
+      setMoving(contact.id)
       // Swap sort orders
       await Promise.all([
         fetch(`/api/whatsapp-contacts/${contact.id}`, {
@@ -222,10 +233,12 @@ export default function WhatsAppContactsPage() {
       fetchContacts()
     } catch (error) {
       toast({
-        title: 'Error',
-        description: 'Failed to reorder contacts',
+        title: 'Kesalahan',
+        description: 'Gagal mengubah urutan kontak',
         variant: 'destructive',
       })
+    } finally {
+      setMoving(null)
     }
   }
 
@@ -233,67 +246,75 @@ export default function WhatsAppContactsPage() {
     return (
       <div className="p-6">
         <div className="flex items-center justify-center h-64">
-          <p className="text-gray-500">Loading...</p>
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+            <p className="text-gray-500">Memuat kontak...</p>
+          </div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="max-w-7xl mx-auto p-4 sm:p-6 space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold">WhatsApp Contacts</h1>
-          <p className="text-gray-500 mt-1">Manage sales WhatsApp contacts for product inquiries</p>
+          <h1 className="text-2xl sm:text-3xl font-bold">Kontak WhatsApp</h1>
+          <p className="text-gray-500 mt-1">Kelola kontak WhatsApp untuk pertanyaan produk</p>
         </div>
-        <Button onClick={() => handleOpenDialog()} className="gap-2">
+        <Button onClick={() => handleOpenDialog()} className="gap-2 w-fit">
           <Plus className="w-4 h-4" />
-          Add Contact
+          Tambah Kontak
         </Button>
       </div>
 
       <div className="grid gap-4">
         {contacts.map((contact, index) => (
           <Card key={contact.id}>
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className={`w-16 h-16 ${contact.color} rounded-full flex items-center justify-center text-white font-bold text-2xl flex-shrink-0`}>
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className={`w-12 h-12 sm:w-16 sm:h-16 ${contact.color} rounded-full flex items-center justify-center text-white font-bold text-xl sm:text-2xl flex-shrink-0`}>
                   {contact.name.charAt(0)}
                 </div>
 
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-lg font-semibold">{contact.name}</h3>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className="text-base sm:text-lg font-semibold">{contact.name}</h3>
                     {!contact.isActive && (
-                      <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded">Inactive</span>
+                      <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded">Tidak Aktif</span>
                     )}
                   </div>
                   {contact.role && (
                     <p className="text-sm text-gray-500">{contact.role}</p>
                   )}
-                  <div className="flex gap-4 mt-2 text-sm text-gray-600">
+                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-2 text-sm text-gray-600">
                     <div className="flex items-center gap-1">
-                      <Phone className="w-4 h-4" />
-                      {contact.phoneNumber}
+                      <Phone className="w-4 h-4 flex-shrink-0" />
+                      <span className="break-all">{contact.phoneNumber}</span>
                     </div>
                     {contact.email && (
                       <div className="flex items-center gap-1">
-                        <Mail className="w-4 h-4" />
-                        {contact.email}
+                        <Mail className="w-4 h-4 flex-shrink-0" />
+                        <span className="break-all">{contact.email}</span>
                       </div>
                     )}
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
                   {index > 0 && (
                     <Button
                       variant="outline"
                       size="icon"
                       onClick={() => handleMove(contact, 'up')}
-                      title="Move up"
+                      title="Pindah ke atas"
+                      disabled={moving === contact.id}
                     >
-                      <ArrowUp className="w-4 h-4" />
+                      {moving === contact.id ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <ArrowUp className="w-4 h-4" />
+                      )}
                     </Button>
                   )}
                   {index < contacts.length - 1 && (
@@ -301,15 +322,21 @@ export default function WhatsAppContactsPage() {
                       variant="outline"
                       size="icon"
                       onClick={() => handleMove(contact, 'down')}
-                      title="Move down"
+                      title="Pindah ke bawah"
+                      disabled={moving === contact.id}
                     >
-                      <ArrowDown className="w-4 h-4" />
+                      {moving === contact.id ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <ArrowDown className="w-4 h-4" />
+                      )}
                     </Button>
                   )}
                   <Button
                     variant="outline"
                     size="icon"
                     onClick={() => handleOpenDialog(contact)}
+                    title="Edit"
                   >
                     <Edit className="w-4 h-4" />
                   </Button>
@@ -317,8 +344,14 @@ export default function WhatsAppContactsPage() {
                     variant="outline"
                     size="icon"
                     onClick={() => handleDelete(contact.id)}
+                    title="Hapus"
+                    disabled={deleting === contact.id}
                   >
-                    <Trash2 className="w-4 h-4" />
+                    {deleting === contact.id ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Trash2 className="w-4 h-4" />
+                    )}
                   </Button>
                 </div>
               </div>
@@ -330,11 +363,11 @@ export default function WhatsAppContactsPage() {
           <Card>
             <CardContent className="p-12 text-center">
               <MessageCircle className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">No contacts yet</h3>
-              <p className="text-gray-500 mb-4">Add your first WhatsApp contact to get started</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Belum ada kontak</h3>
+              <p className="text-gray-500 mb-4">Tambahkan kontak WhatsApp pertama Anda untuk memulai</p>
               <Button onClick={() => handleOpenDialog()}>
                 <Plus className="w-4 h-4 mr-2" />
-                Add Contact
+                Tambah Kontak
               </Button>
             </CardContent>
           </Card>
@@ -345,31 +378,33 @@ export default function WhatsAppContactsPage() {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>{editingContact ? 'Edit Contact' : 'Add New Contact'}</DialogTitle>
+            <DialogTitle>{editingContact ? 'Edit Kontak' : 'Tambah Kontak Baru'}</DialogTitle>
             <DialogDescription>
-              {editingContact ? 'Update the contact information below' : 'Add a new WhatsApp sales contact'}
+              {editingContact ? 'Perbarui informasi kontak di bawah ini' : 'Tambahkan kontak penjualan WhatsApp baru'}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4 mt-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Name *</Label>
+              <Label htmlFor="name">Nama *</Label>
               <Input
                 id="name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="John Doe"
                 required
+                disabled={saving}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="phoneNumber">Phone Number *</Label>
+              <Label htmlFor="phoneNumber">Nomor Telepon *</Label>
               <Input
                 id="phoneNumber"
                 value={formData.phoneNumber}
                 onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
                 placeholder="081234567890"
                 required
+                disabled={saving}
               />
             </div>
 
@@ -381,24 +416,27 @@ export default function WhatsAppContactsPage() {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="john@metito.id"
+                disabled={saving}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="role">Role</Label>
+              <Label htmlFor="role">Jabatan</Label>
               <Input
                 id="role"
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                placeholder="Sales Manager"
+                placeholder="Manajer Penjualan"
+                disabled={saving}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="color">Avatar Color</Label>
+              <Label htmlFor="color">Warna Avatar</Label>
               <Select
                 value={formData.color}
                 onValueChange={(value) => setFormData({ ...formData, color: value })}
+                disabled={saving}
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -417,22 +455,38 @@ export default function WhatsAppContactsPage() {
             </div>
 
             <div className="flex items-center justify-between">
-              <Label htmlFor="isActive">Active</Label>
+              <Label htmlFor="isActive">Aktif</Label>
               <Switch
                 id="isActive"
                 checked={formData.isActive}
                 onCheckedChange={(checked) => setFormData({ ...formData, isActive: checked })}
+                disabled={saving}
               />
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button type="button" variant="outline" onClick={handleCloseDialog} className="flex-1">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleCloseDialog}
+                className="flex-1"
+                disabled={saving}
+              >
                 <X className="w-4 h-4 mr-2" />
-                Cancel
+                Batal
               </Button>
-              <Button type="submit" className="flex-1">
-                <Save className="w-4 h-4 mr-2" />
-                {editingContact ? 'Update' : 'Create'}
+              <Button type="submit" className="flex-1" disabled={saving}>
+                {saving ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Menyimpan...
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-4 h-4 mr-2" />
+                    {editingContact ? 'Perbarui' : 'Tambah'}
+                  </>
+                )}
               </Button>
             </div>
           </form>

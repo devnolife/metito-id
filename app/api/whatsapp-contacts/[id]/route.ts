@@ -84,11 +84,10 @@ export async function PUT(
       }
     })
 
-    return successResponse(contact, 'WhatsApp contact updated successfully')
+    return successResponse(contact, 'WhatsApp Kontak berhasil diperbarui')
 
   } catch (error) {
-    console.error('Update WhatsApp contact error:', error)
-    return errorResponse('Failed to update WhatsApp contact', 500)
+    return errorResponse('Gagal memperbarui WhatsApp Kontak', 500)
   }
 }
 
