@@ -10,8 +10,14 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { useToast } from "@/hooks/use-toast"
-import { FileText, Edit, Trash2, Plus, Search, Upload, X } from "lucide-react"
+import {
+  FileText, Edit, Trash2, Plus, Search, Upload, X,
+  Home, Layout, Phone, MapPin, Mail, Globe,
+  Info, Eye, AlertCircle
+} from "lucide-react"
 import Image from "next/image"
+import { Badge } from "@/components/ui/badge"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 interface PageContent {
   id: string
@@ -211,16 +217,53 @@ export default function AdminPageContentPage() {
     return true
   })
 
+  // Group contents by page and section
+  const groupedContents = filteredContents.reduce((acc, content) => {
+    const pageKey = content.page
+    const sectionKey = content.section
+
+    if (!acc[pageKey]) {
+      acc[pageKey] = {}
+    }
+    if (!acc[pageKey][sectionKey]) {
+      acc[pageKey][sectionKey] = []
+    }
+    acc[pageKey][sectionKey].push(content)
+    return acc
+  }, {} as Record<string, Record<string, PageContent[]>>)
+
+  // Section info mapping untuk memberikan context
+  const sectionInfo: Record<string, { label: string; description: string; icon: any; color: string }> = {
+    hero: { label: "Hero Section", description: "Banner utama di halaman depan", icon: Home, color: "bg-blue-50 text-blue-600" },
+    stats: { label: "Statistik", description: "Angka pencapaian perusahaan", icon: Info, color: "bg-green-50 text-green-600" },
+    services: { label: "Layanan", description: "Daftar layanan yang ditawarkan", icon: Layout, color: "bg-purple-50 text-purple-600" },
+    contact_info: { label: "Info Kontak", description: "Informasi kontak perusahaan (footer, contact page)", icon: Phone, color: "bg-orange-50 text-orange-600" },
+    about: { label: "Tentang Kami", description: "Informasi tentang perusahaan", icon: Info, color: "bg-teal-50 text-teal-600" },
+    footer: { label: "Footer", description: "Konten di bagian footer website", icon: Layout, color: "bg-gray-50 text-gray-600" },
+    contact: { label: "Kontak", description: "Form dan info kontak", icon: Mail, color: "bg-pink-50 text-pink-600" },
+  }
+
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
-          <FileText className="w-8 h-8" />
-          Manajemen Konten Halaman
+          <Layout className="w-8 h-8" />
+          Konten Halaman Website
         </h1>
         <p className="text-gray-600 mt-2">
-          Kelola semua konten halaman website dari sini
+          Kelola semua konten halaman website. Perubahan akan langsung terlihat di halaman publik.
         </p>
+        <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+          <div className="text-sm text-blue-900">
+            <p className="font-semibold mb-1">Tips Mengedit Konten:</p>
+            <ul className="list-disc list-inside space-y-1 text-blue-800">
+              <li>Setiap section di bawah mewakili bagian visual di website</li>
+              <li>Preview menunjukkan dimana konten akan muncul</li>
+              <li>Order menentukan urutan tampilan (angka kecil = muncul lebih dulu)</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       {/* Filters */}
@@ -271,91 +314,189 @@ export default function AdminPageContentPage() {
         </CardContent>
       </Card>
 
-      {/* Content List */}
+      {/* Content List - Grouped by Page and Section */}
       {loading ? (
         <div className="text-center py-12">Loading...</div>
       ) : (
-        <div className="grid gap-4">
-          {filteredContents.map((content) => (
-            <Card key={content.id}>
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <CardTitle className="text-lg">
-                      <span className="text-sm text-gray-500">{content.page} / {content.section} / </span>
-                      {content.key}
-                    </CardTitle>
-                    {content.title && (
-                      <p className="text-sm text-gray-600 mt-1">{content.title}</p>
-                    )}
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleEdit(content)}
-                    >
-                      <Edit className="w-4 h-4 mr-1" />
-                      Edit
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleDelete(content.id)}
-                      className="text-red-600 hover:text-red-700"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                  {content.subtitle && (
-                    <div>
-                      <span className="text-gray-500">Subtitle:</span>
-                      <p className="font-medium">{content.subtitle}</p>
+        <Tabs defaultValue={Object.keys(groupedContents)[0]} className="space-y-6">
+          <TabsList>
+            {Object.keys(groupedContents).map(page => (
+              <TabsTrigger key={page} value={page} className="capitalize">
+                {page === 'home' && <Home className="w-4 h-4 mr-2" />}
+                {page === 'footer' && <Layout className="w-4 h-4 mr-2" />}
+                {page === 'contact' && <Phone className="w-4 h-4 mr-2" />}
+                {page}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+
+          {Object.entries(groupedContents).map(([page, sections]) => (
+            <TabsContent key={page} value={page} className="space-y-8">
+              {Object.entries(sections).map(([section, items]) => {
+                const info = sectionInfo[section] || {
+                  label: section,
+                  description: `Konten untuk section ${section}`,
+                  icon: FileText,
+                  color: "bg-gray-50 text-gray-600"
+                }
+                const Icon = info.icon
+
+                return (
+                  <div key={section} className="space-y-4">
+                    {/* Section Header */}
+                    <div className={`p-4 rounded-lg ${info.color} border`}>
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                          <Icon className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-lg">{info.label}</h3>
+                          <p className="text-sm opacity-80">{info.description}</p>
+                        </div>
+                        <Badge variant="outline" className="ml-auto">
+                          {items.length} item{items.length > 1 ? 's' : ''}
+                        </Badge>
+                      </div>
                     </div>
-                  )}
-                  {content.description && (
-                    <div className="col-span-2">
-                      <span className="text-gray-500">Description:</span>
-                      <p className="font-medium line-clamp-2">{content.description}</p>
+
+                    {/* Content Items */}
+                    <div className="grid gap-4">
+                      {items.sort((a, b) => a.order - b.order).map((content) => (
+                        <Card key={content.id} className="overflow-hidden">
+                          <div className="flex">
+                            {/* Preview/Visual indicator */}
+                            <div className="w-48 bg-gradient-to-br from-gray-50 to-gray-100 p-4 flex items-center justify-center border-r">
+                              {content.imageUrl ? (
+                                <div className="relative w-full h-32 rounded-lg overflow-hidden">
+                                  <Image
+                                    src={content.imageUrl}
+                                    alt={content.title || content.key}
+                                    fill
+                                    className="object-cover"
+                                  />
+                                </div>
+                              ) : content.icon ? (
+                                <div className="text-center">
+                                  <div className="w-16 h-16 mx-auto bg-white rounded-lg flex items-center justify-center shadow-sm mb-2">
+                                    <span className="text-2xl">{content.icon}</span>
+                                  </div>
+                                  <p className="text-xs text-gray-500">Icon</p>
+                                </div>
+                              ) : (
+                                <div className="text-center text-gray-400">
+                                  <Eye className="w-12 h-12 mx-auto mb-2" />
+                                  <p className="text-xs">No Preview</p>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Content Details */}
+                            <div className="flex-1 p-4">
+                              <div className="flex items-start justify-between mb-3">
+                                <div>
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <h4 className="font-semibold text-lg">{content.key}</h4>
+                                    <Badge variant={content.isActive ? "default" : "secondary"} className="text-xs">
+                                      {content.isActive ? 'Aktif' : 'Nonaktif'}
+                                    </Badge>
+                                    <Badge variant="outline" className="text-xs">
+                                      Order: {content.order}
+                                    </Badge>
+                                  </div>
+                                  {content.title && (
+                                    <p className="text-sm font-medium text-gray-900 mb-1">{content.title}</p>
+                                  )}
+                                  {content.subtitle && (
+                                    <p className="text-sm text-gray-600 mb-1">{content.subtitle}</p>
+                                  )}
+                                  {content.description && (
+                                    <p className="text-sm text-gray-500 line-clamp-2">{content.description}</p>
+                                  )}
+                                </div>
+                                <div className="flex gap-2 flex-shrink-0 ml-4">
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handleEdit(content)}
+                                  >
+                                    <Edit className="w-4 h-4 mr-1" />
+                                    Edit
+                                  </Button>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handleDelete(content.id)}
+                                    className="text-red-600 hover:text-red-700 hover:border-red-600"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </Button>
+                                </div>
+                              </div>
+
+                              {/* Additional Info */}
+                              <div className="flex flex-wrap gap-4 text-xs text-gray-500 mt-2">
+                                {content.link && (
+                                  <div className="flex items-center gap-1">
+                                    <Globe className="w-3 h-3" />
+                                    <span className="truncate max-w-xs">{content.link}</span>
+                                  </div>
+                                )}
+                                {content.icon && (
+                                  <div className="flex items-center gap-1">
+                                    <span>Icon: {content.icon}</span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </Card>
+                      ))}
                     </div>
-                  )}
-                  {content.icon && (
-                    <div>
-                      <span className="text-gray-500">Icon:</span>
-                      <p className="font-medium">{content.icon}</p>
-                    </div>
-                  )}
-                  <div>
-                    <span className="text-gray-500">Order:</span>
-                    <p className="font-medium">{content.order}</p>
                   </div>
-                  <div>
-                    <span className="text-gray-500">Status:</span>
-                    <p className={`font-medium ${content.isActive ? 'text-green-600' : 'text-red-600'}`}>
-                      {content.isActive ? 'Aktif' : 'Nonaktif'}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                )
+              })}
+            </TabsContent>
           ))}
-        </div>
+        </Tabs>
       )}
 
       {/* Edit Dialog */}
       <Dialog open={editDialog.open} onOpenChange={(open) => setEditDialog({ open, content: null })}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Edit Konten</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <Edit className="w-5 h-5" />
+              Edit Konten Website
+            </DialogTitle>
           </DialogHeader>
           {editDialog.content && (
-            <form onSubmit={handleSave} className="space-y-4">
-              <div className="text-sm text-gray-500 mb-4">
-                {editDialog.content.page} / {editDialog.content.section} / {editDialog.content.key}
+            <form onSubmit={handleSave} className="space-y-6">
+              {/* Location Info */}
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-blue-900 mb-1">Lokasi di Website:</p>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Badge variant="outline" className="bg-white">
+                        {editDialog.content.page}
+                      </Badge>
+                      <span className="text-blue-600">→</span>
+                      <Badge variant="outline" className="bg-white">
+                        {editDialog.content.section}
+                      </Badge>
+                      <span className="text-blue-600">→</span>
+                      <Badge variant="outline" className="bg-white">
+                        {editDialog.content.key}
+                      </Badge>
+                    </div>
+                    {sectionInfo[editDialog.content.section] && (
+                      <p className="text-xs text-blue-700 mt-2">
+                        📍 {sectionInfo[editDialog.content.section].description}
+                      </p>
+                    )}
+                  </div>
+                </div>
               </div>
 
               <div>

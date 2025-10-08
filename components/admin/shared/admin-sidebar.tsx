@@ -18,7 +18,9 @@ import {
   ChevronRight,
   LayoutDashboard,
   Phone,
-  Cog
+  Cog,
+  MessageCircle,
+  Layout
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -41,6 +43,8 @@ export function AdminSidebar({ collapsed, onToggleCollapse }: AdminSidebarProps)
     { id: "certifications", label: "Sertifikasi", icon: Award, href: "/admin/certifications", color: "text-yellow-600" },
     { id: "blog", label: "Blog", icon: FileText, href: "/admin/blog", color: "text-indigo-600" },
     { id: "contact", label: "Kontak", icon: Phone, href: "/admin/contact", color: "text-pink-600" },
+    { id: "whatsapp", label: "WhatsApp", icon: MessageCircle, href: "/admin/whatsapp-contacts", color: "text-emerald-600" },
+    { id: "page-content", label: "Konten Halaman", icon: Layout, href: "/admin/page-content", color: "text-cyan-600" },
     { id: "settings", label: "Pengaturan", icon: Cog, href: "/admin/settings", color: "text-gray-600" },
   ]
 

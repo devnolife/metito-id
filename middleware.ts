@@ -29,8 +29,7 @@ const adminPaths = [
 
 // Paths that require any authentication
 const protectedPaths = [
-  '/api/cart',
-  '/customer'
+  '/api/cart'
 ]
 
 // Admin API routes that need special protection
@@ -43,6 +42,16 @@ const adminApiRoutes = [
   '/api/certifications',
   '/api/gallery',
   '/api/newsletter'
+]
+
+// Public pages that don't require authentication
+const publicPages = [
+  '/blog',
+  '/certification',
+  '/contact',
+  '/products',
+  '/services',
+  '/gallery'
 ]
 
 export async function middleware(request: NextRequest) {
@@ -62,6 +71,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // Skip middleware for public pages
+  if (publicPages.some(page => pathname.startsWith(page))) {
+    return NextResponse.next()
+  }
+
   // Get token from cookie or authorization header
   const token = request.cookies.get('auth-token')?.value ||
     request.headers.get('authorization')?.replace('Bearer ', '')
@@ -70,8 +84,18 @@ export async function middleware(request: NextRequest) {
   const requiresAdmin = adminPaths.some(path => pathname.startsWith(path))
   const requiresAuth = protectedPaths.some(path => pathname.startsWith(path))
 
-  // Special case: Allow GET requests to categories and products without authentication
-  if ((pathname === '/api/categories' || pathname === '/api/products') && request.method === 'GET') {
+  // Special case: Allow GET requests to public API endpoints without authentication
+  const publicApiEndpoints = [
+    '/api/categories',
+    '/api/products',
+    '/api/blog',
+    '/api/services',
+    '/api/certifications',
+    '/api/gallery',
+    '/api/testimonials'
+  ]
+
+  if (request.method === 'GET' && publicApiEndpoints.some(endpoint => pathname === endpoint || pathname.startsWith(endpoint + '/'))) {
     return NextResponse.next()
   }
 

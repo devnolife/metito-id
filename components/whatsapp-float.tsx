@@ -1,8 +1,8 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { MessageCircle, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,50 +11,35 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 type Contact = {
-  id: number
+  id: string
   name: string
   phoneNumber: string
-  email: string
-  message: string
+  email: string | null
+  role: string | null
   color: string
-  badge: string
-  tooltip: string
+  isActive: boolean
+  sortOrder: number
 }
 
 export function WhatsAppFloat() {
-  // Data kontak terbaru sesuai permintaan
-  const contacts: Contact[] = [
-    {
-      id: 1,
-      name: "Khudaivi",
-      email: "Khudaivi@metito.id",
-      phoneNumber: "08979380767",
-      message: "Halo Khudaivi, saya tertarik dengan solusi air dari Metito. Mohon informasinya.",
-      color: "bg-emerald-600 hover:bg-emerald-700",
-      badge: "K",
-      tooltip: "Hubungi Khudaivi"
-    },
-    {
-      id: 2,
-      name: "Musthamu",
-      email: "Musthamu@metito.id",
-      phoneNumber: "082322345616",
-      message: "Halo Musthamu, saya ingin menanyakan detail produk Metito.",
-      color: "bg-sky-600 hover:bg-sky-700",
-      badge: "S2",
-      tooltip: "Hubungi Musthamu"
-    },
-    {
-      id: 3,
-      name: "Sales 1",
-      email: "Sales@metito.id",
-      phoneNumber: "081217603950",
-      message: "Halo Sales 1, saya membutuhkan penawaran terkait sistem pengolahan air.",
-      color: "bg-indigo-600 hover:bg-indigo-700",
-      badge: "S1",
-      tooltip: "Hubungi Sales 1"
+  const [contacts, setContacts] = useState<Contact[]>([])
+
+  useEffect(() => {
+    const fetchContacts = async () => {
+      try {
+        const response = await fetch('/api/whatsapp-contacts')
+        const data = await response.json()
+        if (data.success) {
+          setContacts(data.data)
+        }
+      } catch (error) {
+        console.error('Error fetching WhatsApp contacts:', error)
+      }
     }
-  ]
+    fetchContacts()
+  }, [])
+
+  if (contacts.length === 0) return null
 
   const formatWhatsAppNumber = (num: string) => {
     // Hanya ambil digit
@@ -74,20 +59,23 @@ export function WhatsAppFloat() {
 
   const openWhatsApp = (c: Contact) => {
     const number = formatWhatsAppNumber(c.phoneNumber)
-    const text = encodeURIComponent(c.message.trim())
+    const message = `Halo ${c.name}, saya tertarik dengan solusi air dari Metito. Mohon informasinya.`
+    const text = encodeURIComponent(message)
     const url = `https://wa.me/${number}?text=${text}`
     const win = window.open(url, '_blank')
     // Fallback kalau popup diblokir atau gagal
     if (!win) {
-      navigator.clipboard?.writeText(c.message).then(() => {
+      navigator.clipboard?.writeText(message).then(() => {
         alert('Tidak bisa membuka WhatsApp. Pesan sudah disalin, silakan tempel manual di aplikasi WhatsApp Anda.')
       })
     }
   }
 
   const openEmail = (c: Contact) => {
+    if (!c.email) return
+
     const subjectRaw = 'Inquiry Metito Water Solutions'
-    const bodyRaw = `${c.message}\n\n(Terkirim dari situs web Metito)`
+    const bodyRaw = `Halo ${c.name},\n\nSaya tertarik dengan solusi air dari Metito.\n\n(Terkirim dari situs web Metito)`
     const subject = encodeURIComponent(subjectRaw)
     const body = encodeURIComponent(bodyRaw)
     const mailto = `mailto:${encodeURIComponent(c.email)}?subject=${subject}&body=${body}`
@@ -124,28 +112,29 @@ export function WhatsAppFloat() {
                   aria-label={`Kontak ${contact.name}`}
                 >
                   <MessageCircle className="w-6 h-6" />
-                  <Badge className="absolute -top-1 -right-1 min-w-6 h-6 rounded-full bg-white text-gray-900 text-[10px] font-bold flex items-center justify-center p-0">
-                    {contact.badge}
-                  </Badge>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="left" align="center" className="w-56">
                 <div className="px-2 py-1.5 text-xs text-muted-foreground">
                   {contact.name}
+                  {contact.role && <div className="text-[10px]">{contact.role}</div>}
                 </div>
                 <DropdownMenuItem onSelect={() => openWhatsApp(contact)} className="cursor-pointer" aria-label={`WhatsApp ${contact.name}`}>
                   <MessageCircle className="w-4 h-4 mr-2 text-emerald-600" />
                   WhatsApp
                 </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => openEmail(contact)} className="cursor-pointer" aria-label={`Email ${contact.name}`}>
-                  <Mail className="w-4 h-4 mr-2 text-sky-600" />
-                  Email
-                </DropdownMenuItem>
+                {contact.email && (
+                  <DropdownMenuItem onSelect={() => openEmail(contact)} className="cursor-pointer" aria-label={`Email ${contact.name}`}>
+                    <Mail className="w-4 h-4 mr-2 text-sky-600" />
+                    Email
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
             {/* Tooltip (hover only, optional) */}
             <div className="absolute bottom-0 right-20 bg-gray-900 text-white px-3 py-1.5 rounded-lg text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none shadow-lg">
-              {contact.tooltip}
+              {contact.name}
+              {contact.role && ` - ${contact.role}`}
               <div className="absolute top-1/2 left-full -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-l-4 border-transparent border-l-gray-900" />
             </div>
           </div>

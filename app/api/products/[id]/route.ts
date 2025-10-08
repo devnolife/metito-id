@@ -74,6 +74,8 @@ export async function PUT(
     const result = updateProductSchema.safeParse(body)
     if (!result.success) {
       const errors = result.error.flatten().fieldErrors
+      console.log('Validation errors:', JSON.stringify(errors, null, 2))
+      console.log('Request body:', JSON.stringify(body, null, 2))
       return validationErrorResponse(errors)
     }
 

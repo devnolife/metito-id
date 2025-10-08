@@ -14,7 +14,7 @@ import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useCategories } from "../hooks/use-categories"
 import { useToast } from "@/hooks/use-toast"
-import { Plus, X, Upload, Save, Loader2, ImageIcon } from "lucide-react"
+import { Plus, X, Upload, Save, Loader2, ImageIcon, ChevronLeft, ChevronRight } from "lucide-react"
 import { Product } from "../types/product"
 import Image from "next/image"
 
@@ -230,7 +230,7 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
       for (const file of validFiles) {
         const formData = new FormData()
         formData.append('file', file)
-        formData.append('type', 'products')
+        formData.append('category', 'products')
 
         const response = await fetch('/api/upload', {
           method: 'POST',
@@ -239,16 +239,20 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
 
         if (response.ok) {
           const data = await response.json()
-          uploadedUrls.push(data.data.url)
+          // Only push valid URLs
+          if (data.data?.url && data.data.url.trim() !== '') {
+            uploadedUrls.push(data.data.url)
+          }
         } else {
-          throw new Error(`Failed to upload ${file.name}`)
+          const errorData = await response.json().catch(() => ({ message: 'Upload failed' }))
+          throw new Error(errorData.message || `Failed to upload ${file.name}`)
         }
       }
 
-      // Add new images to existing images
+      // Add new images to existing images (filter out any empty strings)
       setFormData(prev => ({
         ...prev,
-        images: [...(prev.images || []), ...uploadedUrls]
+        images: [...(prev.images || []), ...uploadedUrls].filter(url => url && url.trim() !== '')
       }))
 
       toast({
@@ -273,6 +277,24 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
     setFormData(prev => ({
       ...prev,
       images: prev.images?.filter((_, i) => i !== index)
+    }))
+  }
+
+  // Move image up/down
+  const handleMoveImage = (index: number, direction: 'up' | 'down') => {
+    if (!formData.images) return
+
+    const newImages = [...formData.images]
+    const targetIndex = direction === 'up' ? index - 1 : index + 1
+
+    if (targetIndex < 0 || targetIndex >= newImages.length) return
+
+    // Swap images
+    [newImages[index], newImages[targetIndex]] = [newImages[targetIndex], newImages[index]]
+
+    setFormData(prev => ({
+      ...prev,
+      images: newImages
     }))
   }
 
@@ -407,7 +429,7 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                   value={formData.description || ''}
                   onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                   placeholder="Deskripsi detail produk..."
-                  rows={4}
+                  rows={8}
                 />
               </div>
 
@@ -536,11 +558,11 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
               </div>
 
               {/* Image Preview Grid */}
-              {formData.images && formData.images.length > 0 && (
+              {formData.images && formData.images.filter(url => url && url.trim() !== '').length > 0 && (
                 <div className="space-y-2">
-                  <Label>Gambar Saat Ini ({formData.images.length})</Label>
+                  <Label>Gambar Saat Ini ({formData.images.filter(url => url && url.trim() !== '').length})</Label>
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {formData.images.map((imageUrl, index) => (
+                    {formData.images.filter(url => url && url.trim() !== '').map((imageUrl, index, validImages) => (
                       <div key={index} className="relative group aspect-square border rounded-lg overflow-hidden bg-gray-50">
                         <Image
                           src={imageUrl}
@@ -548,23 +570,52 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                           fill
                           className="object-cover"
                         />
+                        {/* Remove button */}
                         <button
                           type="button"
-                          onClick={() => handleRemoveImage(index)}
-                          className="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                          onClick={() => handleRemoveImage(formData.images?.indexOf(imageUrl) ?? index)}
+                          className="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600 z-10"
+                          title="Hapus gambar"
                         >
                           <X className="w-4 h-4" />
                         </button>
+                        {/* Move left button */}
+                        {index > 0 && (
+                          <button
+                            type="button"
+                            onClick={() => handleMoveImage(formData.images?.indexOf(imageUrl) ?? index, 'up')}
+                            className="absolute top-1/2 left-2 -translate-y-1/2 bg-blue-500 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-blue-600 z-10"
+                            title="Pindah ke kiri"
+                          >
+                            <ChevronLeft className="w-4 h-4" />
+                          </button>
+                        )}
+                        {/* Move right button */}
+                        {index < validImages.length - 1 && (
+                          <button
+                            type="button"
+                            onClick={() => handleMoveImage(formData.images?.indexOf(imageUrl) ?? index, 'down')}
+                            className="absolute top-1/2 right-2 -translate-y-1/2 bg-blue-500 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-blue-600 z-10"
+                            title="Pindah ke kanan"
+                          >
+                            <ChevronRight className="w-4 h-4" />
+                          </button>
+                        )}
+                        {/* Primary badge */}
                         {index === 0 && (
-                          <div className="absolute bottom-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded">
-                            Utama
+                          <div className="absolute bottom-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded font-semibold">
+                            Gambar Utama
                           </div>
                         )}
+                        {/* Image number */}
+                        <div className="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                          #{index + 1}
+                        </div>
                       </div>
                     ))}
                   </div>
                   <p className="text-xs text-gray-500">
-                    Tip: Gambar pertama akan digunakan sebagai gambar utama
+                    💡 <strong>Tip:</strong> Gambar pertama akan digunakan sebagai gambar utama. Gunakan tombol panah untuk mengurutkan gambar.
                   </p>
                 </div>
               )}

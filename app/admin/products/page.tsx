@@ -28,14 +28,6 @@ export default function AdminProductsPage() {
   const [showCreateDialog, setShowCreateDialog] = useState(false)
 
   // Dialog states
-  const [viewDialog, setViewDialog] = useState<{
-    open: boolean
-    product: Product | null
-  }>({
-    open: false,
-    product: null
-  })
-
   const [deleteDialog, setDeleteDialog] = useState<{
     open: boolean
     productId: string | null
@@ -121,10 +113,8 @@ export default function AdminProductsPage() {
 
   // Product handlers
   const handleView = (product: Product) => {
-    setViewDialog({
-      open: true,
-      product
-    })
+    // Redirect ke halaman detail produk
+    window.location.href = `/admin/products/${product.id}`
   }
 
   const handleEdit = (product: Product) => {
@@ -322,8 +312,6 @@ export default function AdminProductsPage() {
 
         {/* Dialogs */}
         <ProductDialogs
-          viewDialog={viewDialog}
-          onViewClose={() => setViewDialog({ open: false, product: null })}
           deleteDialog={deleteDialog}
           onDeleteClose={() => setDeleteDialog({ open: false, productId: null, productName: null })}
           onDeleteConfirm={handleDeleteConfirm}
