@@ -11,6 +11,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Plus, Search, Edit, Trash2, Star, Settings, Droplets, Wrench, Zap, Shield, Target, Users, Globe, Cog, Loader2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { DialogFooter } from "@/components/ui/dialog"
+import { IconPicker } from "@/components/ui/icon-picker"
+import * as LucideIcons from "lucide-react"
 
 interface Service {
   id: string
@@ -306,10 +308,9 @@ export default function AdminServicesPage() {
               </div>
               <div>
                 <label className="text-sm font-medium">Icon</label>
-                <Input
+                <IconPicker
                   value={formData.icon}
-                  onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                  placeholder="Nama icon (opsional)"
+                  onChange={(iconName) => setFormData({ ...formData, icon: iconName })}
                 />
               </div>
               <div className="flex gap-4">
@@ -555,6 +556,13 @@ export default function AdminServicesPage() {
               <Input
                 value={formData.shortDesc}
                 onChange={(e) => setFormData({ ...formData, shortDesc: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium">Icon</label>
+              <IconPicker
+                value={formData.icon}
+                onChange={(iconName) => setFormData({ ...formData, icon: iconName })}
               />
             </div>
             <div className="flex gap-4">

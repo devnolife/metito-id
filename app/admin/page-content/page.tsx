@@ -18,6 +18,8 @@ import {
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { IconPicker } from "@/components/ui/icon-picker"
+import * as LucideIcons from "lucide-react"
 
 interface PageContent {
   id: string
@@ -49,6 +51,7 @@ export default function AdminPageContentPage() {
   })
   const [uploading, setUploading] = useState(false)
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("")
+  const [formIcon, setFormIcon] = useState<string>("")
   const { toast } = useToast()
 
   const fetchContents = async () => {
@@ -81,6 +84,7 @@ export default function AdminPageContentPage() {
   const handleEdit = (content: PageContent) => {
     setEditDialog({ open: true, content })
     setUploadedImageUrl(content.imageUrl || "")
+    setFormIcon(content.icon || "")
   }
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,7 +154,7 @@ export default function AdminPageContentPage() {
       description: formData.get("description") as string || undefined,
       imageUrl: uploadedImageUrl || undefined,
       link: formData.get("link") as string || undefined,
-      icon: formData.get("icon") as string || undefined,
+      icon: formIcon || undefined,
       order: parseInt(formData.get("order") as string) || 0,
       isActive: formData.get("isActive") === "on",
     }
@@ -594,11 +598,9 @@ export default function AdminPageContentPage() {
 
               <div>
                 <Label htmlFor="icon">Icon</Label>
-                <Input
-                  id="icon"
-                  name="icon"
-                  defaultValue={editDialog.content.icon || ""}
-                  placeholder="e.g., MapPin, Phone, Mail"
+                <IconPicker
+                  value={formIcon}
+                  onChange={(iconName) => setFormIcon(iconName)}
                 />
               </div>
 

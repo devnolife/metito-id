@@ -6,7 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/hooks/use-toast"
+import { IconPicker } from "@/components/ui/icon-picker"
 import { Plus, Edit, Trash2, Tag, Palette } from "lucide-react"
+import * as LucideIcons from "lucide-react"
 
 interface Category {
   id: string
@@ -213,7 +215,12 @@ export function CategoryManagement({ categories, onCategoryChange, className }: 
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="Masukkan nama kategori"
                       required
+                      minLength={2}
+                      title="Nama kategori harus minimal 2 karakter"
                     />
+                    {formData.name.length > 0 && formData.name.length < 2 && (
+                      <p className="text-sm text-red-500 mt-1">Nama kategori harus minimal 2 karakter</p>
+                    )}
                   </div>
                   <div>
                     <label className="text-sm font-medium mb-2 block">Deskripsi</label>
@@ -225,11 +232,11 @@ export function CategoryManagement({ categories, onCategoryChange, className }: 
                     />
                   </div>
                   <div>
-                    <label className="text-sm font-medium mb-2 block">Icon (Lucide Icon Name)</label>
-                    <Input
+                    <label className="text-sm font-medium mb-2 block">Icon</label>
+                    <IconPicker
                       value={formData.icon}
-                      onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                      placeholder="Contoh: Package, Droplets, Zap"
+                      onChange={(iconName) => setFormData({ ...formData, icon: iconName })}
+                      color={formData.color}
                     />
                   </div>
                   <div>
@@ -268,46 +275,66 @@ export function CategoryManagement({ categories, onCategoryChange, className }: 
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {categories.map((category) => (
-              <div
-                key={category.id}
-                className="p-4 border rounded-lg hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <div
-                      className="w-4 h-4 rounded-full"
-                      style={{ backgroundColor: category.color }}
-                    />
-                    <h3 className="font-semibold">{category.name}</h3>
+            {categories.map((category) => {
+              // Get icon component if exists
+              const IconComponent = category.icon ? (LucideIcons as any)[category.icon] : null
+
+              return (
+                <div
+                  key={category.id}
+                  className="p-4 border rounded-lg hover:shadow-md transition-shadow"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      {IconComponent ? (
+                        <div
+                          className="w-8 h-8 rounded-lg flex items-center justify-center"
+                          style={{ backgroundColor: category.color }}
+                        >
+                          <IconComponent className="w-4 h-4 text-white" />
+                        </div>
+                      ) : (
+                        <div
+                          className="w-4 h-4 rounded-full"
+                          style={{ backgroundColor: category.color }}
+                        />
+                      )}
+                      <h3 className="font-semibold">{category.name}</h3>
+                    </div>
+                    <Badge variant={category.isActive ? "default" : "secondary"}>
+                      {category.isActive ? "Aktif" : "Tidak Aktif"}
+                    </Badge>
                   </div>
-                  <Badge variant={category.isActive ? "default" : "secondary"}>
-                    {category.isActive ? "Aktif" : "Tidak Aktif"}
-                  </Badge>
+                  {category.description && (
+                    <p className="text-sm text-gray-600 mb-3">{category.description}</p>
+                  )}
+                  {category.icon && (
+                    <p className="text-xs text-gray-500 mb-3 flex items-center gap-1">
+                      <Tag className="w-3 h-3" />
+                      Icon: {category.icon}
+                    </p>
+                  )}
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => openEditDialog(category)}
+                    >
+                      <Edit className="w-3 h-3 mr-1" />
+                      Edit
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => handleDelete(category.id, category.name)}
+                    >
+                      <Trash2 className="w-3 h-3 mr-1" />
+                      Hapus
+                    </Button>
+                  </div>
                 </div>
-                {category.description && (
-                  <p className="text-sm text-gray-600 mb-3">{category.description}</p>
-                )}
-                <div className="flex gap-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => openEditDialog(category)}
-                  >
-                    <Edit className="w-3 h-3 mr-1" />
-                    Edit
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    onClick={() => handleDelete(category.id, category.name)}
-                  >
-                    <Trash2 className="w-3 h-3 mr-1" />
-                    Hapus
-                  </Button>
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </CardContent>
       </Card>
@@ -326,7 +353,12 @@ export function CategoryManagement({ categories, onCategoryChange, className }: 
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="Masukkan nama kategori"
                 required
+                minLength={2}
+                title="Nama kategori harus minimal 2 karakter"
               />
+              {formData.name.length > 0 && formData.name.length < 2 && (
+                <p className="text-sm text-red-500 mt-1">Nama kategori harus minimal 2 karakter</p>
+              )}
             </div>
             <div>
               <label className="text-sm font-medium mb-2 block">Deskripsi</label>
@@ -338,11 +370,11 @@ export function CategoryManagement({ categories, onCategoryChange, className }: 
               />
             </div>
             <div>
-              <label className="text-sm font-medium mb-2 block">Icon (Lucide Icon Name)</label>
-              <Input
+              <label className="text-sm font-medium mb-2 block">Icon</label>
+              <IconPicker
                 value={formData.icon}
-                onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                placeholder="Contoh: Package, Droplets, Zap"
+                onChange={(iconName) => setFormData({ ...formData, icon: iconName })}
+                color={formData.color}
               />
             </div>
             <div>
