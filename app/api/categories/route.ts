@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { db } from '@/lib/db'
 import { isAdminEdge } from '@/lib/auth'
 import { successResponse, errorResponse, validationErrorResponse, unauthorizedResponse } from '@/lib/api-response'
+import { getMockCategoriesResponse, isDbConnectionError } from '@/lib/mock-data'
 import slugify from 'slugify'
 
 const createCategorySchema = z.object({
@@ -45,6 +46,10 @@ export async function GET(request: NextRequest) {
     return successResponse(categories)
 
   } catch (error) {
+    if (isDbConnectionError(error)) {
+      console.warn('[mock] Database offline – serving mock categories')
+      return successResponse(getMockCategoriesResponse())
+    }
     console.error('Get categories error:', error)
     return errorResponse('Failed to fetch categories', 500)
   }

@@ -8,6 +8,13 @@
   --light-orange: #ffa726;
   --success-green: #10b981;
   --water-blue: #0ea5e9;
+
+  /* Luminous Energy System */
+  --lime: #c8f328;
+  --lime-bright: #d4ff37;
+  --lime-dim: #aed500;
+  --navy: #0b1c30;
+  --navy-deep: #131b2e;
 }
 
 body {

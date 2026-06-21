@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { db } from '@/lib/db'
 import { isAdminEdge } from '@/lib/auth'
 import { successResponse, errorResponse, validationErrorResponse, unauthorizedResponse } from '@/lib/api-response'
+import { getMockProductsResponse, isDbConnectionError } from '@/lib/mock-data'
 import slugify from 'slugify'
 
 const createProductSchema = z.object({
@@ -115,6 +116,21 @@ export async function GET(request: NextRequest) {
     })
 
   } catch (error) {
+    if (isDbConnectionError(error)) {
+      console.warn('[mock] Database offline – serving mock products')
+      const { searchParams } = new URL(request.url)
+      return successResponse(
+        getMockProductsResponse({
+          search: searchParams.get('search'),
+          category: searchParams.get('category'),
+          application: searchParams.get('application'),
+          featured: searchParams.get('featured'),
+          inStock: searchParams.get('inStock'),
+          page: parseInt(searchParams.get('page') || '1'),
+          limit: parseInt(searchParams.get('limit') || '12'),
+        })
+      )
+    }
     console.error('Get products error:', error)
     return errorResponse('Failed to fetch products', 500)
   }

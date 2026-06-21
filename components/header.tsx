@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input"
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const pathname = usePathname()
+  const isHome = pathname === "/"
 
   const navigationItems = [
     { name: "Beranda", href: "/", matchPaths: ["/"] },
@@ -37,32 +38,40 @@ export function Header() {
   }
 
   return (
-    <header className="bg-white/95 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-100">
+    <header
+      className={
+        isHome
+          ? "absolute top-0 left-0 right-0 z-50 bg-transparent"
+          : "bg-white/95 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-100"
+      }
+    >
       {/* Top Bar */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center text-sm">
-            <div className="flex items-center space-x-8">
-              <div className="flex items-center space-x-2 group">
-                <Phone className="w-4 h-4 group-hover:text-blue-200 transition-colors" />
-                <span className="font-medium">+62 812-1760-3950</span>
+      {!isHome && (
+        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center text-sm">
+              <div className="flex items-center space-x-8">
+                <div className="flex items-center space-x-2 group">
+                  <Phone className="w-4 h-4 group-hover:text-blue-200 transition-colors" />
+                  <span className="font-medium">+62 812-1760-3950</span>
+                </div>
+                <div className="flex items-center space-x-2 group">
+                  <Mail className="w-4 h-4 group-hover:text-blue-200 transition-colors" />
+                  <span className="font-medium">info@metito.id</span>
+                </div>
+                <div className="hidden lg:flex items-center space-x-2 group">
+                  <MapPin className="w-4 h-4 group-hover:text-blue-200 transition-colors" />
+                  <span className="font-medium">Makassar, Indonesia</span>
+                </div>
               </div>
-              <div className="flex items-center space-x-2 group">
-                <Mail className="w-4 h-4 group-hover:text-blue-200 transition-colors" />
-                <span className="font-medium">info@metito.id</span>
+              <div className="hidden md:flex items-center space-x-2">
+                <Clock className="w-4 h-4" />
+                <span className="font-medium">Sen - Jum: 08:00 - 18:00</span>
               </div>
-              <div className="hidden lg:flex items-center space-x-2 group">
-                <MapPin className="w-4 h-4 group-hover:text-blue-200 transition-colors" />
-                <span className="font-medium">Makassar, Indonesia</span>
-              </div>
-            </div>
-            <div className="hidden md:flex items-center space-x-2">
-              <Clock className="w-4 h-4" />
-              <span className="font-medium">Sen - Jum: 08:00 - 18:00</span>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Main Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,51 +86,57 @@ export function Header() {
               className="group-hover:scale-105 transition-transform duration-300"
             />
             <div className="flex flex-col justify-center">
-              <span className="text-base md:text-lg font-extrabold text-gray-900 group-hover:text-blue-600 leading-tight whitespace-nowrap">
-                MULTI ENVIRO TIRTA TEKNOLOGI
+              <span className={`text-xl md:text-2xl font-extrabold leading-none tracking-wide ${isHome ? "text-white group-hover:text-blue-200" : "text-gray-900 group-hover:text-blue-600"}`}>
+                METITO
               </span>
-              <span className="text-xs text-gray-500 font-medium leading-tight whitespace-nowrap">
-                Innovation for water solutions
+              <span className={`text-[10px] md:text-xs font-medium leading-tight whitespace-nowrap ${isHome ? "text-blue-100/90" : "text-gray-500"}`}>
+                Multi Enviro Tirta Teknologi
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex flex-1 items-center justify-end gap-1">
+          <nav className={`hidden lg:flex flex-1 items-center gap-1 ${isHome ? "justify-center" : "justify-end"}`}>
             {navigationItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
                 className={`relative font-medium transition-all duration-200 px-3 py-2 rounded-lg group ${isActive(item)
-                  ? "text-blue-600 bg-blue-50 shadow-sm border border-blue-100"
-                  : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                  ? isHome
+                    ? "text-white bg-white/15 shadow-sm border border-white/20"
+                    : "text-blue-600 bg-blue-50 shadow-sm border border-blue-100"
+                  : isHome
+                    ? "text-white/90 hover:text-white hover:bg-white/10"
+                    : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
                   }`}
               >
                 {item.name}
                 {isActive(item) && (
-                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-blue-600 rounded-full"></div>
+                  <div className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 rounded-full ${isHome ? "bg-white" : "bg-blue-600"}`}></div>
                 )}
               </Link>
             ))}
           </nav>
 
           {/* Search Bar */}
-          <div className="hidden md:flex items-center space-x-3 flex-1 max-w-sm mx-6">
-            <div className="relative w-full group">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 group-focus-within:text-blue-600 transition-colors" />
-              <Input
-                type="text"
-                placeholder="Cari solusi..."
-                className="pl-10 pr-3 py-2 w-full text-sm border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50/50 hover:bg-white"
-              />
+          {!isHome && (
+            <div className="hidden md:flex items-center space-x-3 flex-1 max-w-sm mx-6">
+              <div className="relative w-full group">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 group-focus-within:text-blue-600 transition-colors" />
+                <Input
+                  type="text"
+                  placeholder="Cari solusi..."
+                  className="pl-10 pr-3 py-2 w-full text-sm border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50/50 hover:bg-white"
+                />
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* Admin Login Button */}
+          {/* Right Actions */}
           <div className="hidden md:flex items-center space-x-3">
             <Link
               href="/admin"
-              className="flex items-center justify-center w-10 h-10 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 group"
+              className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 group ${isHome ? "text-white hover:bg-white/15" : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"}`}
               title="Login Admin"
             >
               <User className="w-5 h-5 group-hover:scale-110 transition-transform" />
@@ -134,7 +149,7 @@ export function Header() {
               variant="ghost"
               size="sm"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
+              className={`p-2 rounded-lg transition-all duration-200 ${isHome ? "text-white hover:bg-white/15" : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"}`}
             >
               {isMenuOpen ? (
                 <X className="w-6 h-6" />

@@ -2,12 +2,13 @@ import { Hero } from "@/components/hero"
 import { ProductShowcase } from "@/components/product-showcase"
 import { Footer } from "@/components/footer"
 import { WhatsAppFloat } from "@/components/whatsapp-float"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Award, Shield, Droplets, Filter, Zap, Settings, Star, CheckCircle, ArrowRight, Target, Lightbulb, Heart } from "lucide-react"
+import { CheckCircle, ArrowRight, Target, Lightbulb, Shield } from "lucide-react"
 import { db } from "@/lib/db"
+import { getMockPageContent, isDbConnectionError } from "@/lib/mock-data"
 import * as LucideIcons from "lucide-react"
+
+const staggerDelays = ["", "animation-delay-100", "animation-delay-200", "animation-delay-300"]
 
 // Helper to get icon component
 function getIconComponent(iconName?: string) {
@@ -28,8 +29,12 @@ async function getPageContent(page: string, section: string) {
     })
     return contents
   } catch (error) {
-    console.error('Error fetching page content:', error)
-    return []
+    if (isDbConnectionError(error)) {
+      console.warn(`[mock] Database offline – using mock page content for ${page}/${section}`)
+    } else {
+      console.error('Error fetching page content:', error)
+    }
+    return getMockPageContent(page, section)
   }
 }
 
@@ -63,35 +68,40 @@ export default async function Home() {
     <div className="min-h-screen bg-white">
       <Hero />
 
-      {/* Stats Section - Dynamic dari Database */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
+      {/* ===== STATS — navy band melanjutkan mood hero ===== */}
+      <section className="relative py-24 px-4 bg-[var(--navy)] overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.07] bg-[url('/images/landing-pages/image2.png')] bg-cover bg-center" />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-[var(--lime)]/10 blur-[130px]" />
+
+        <div className="relative max-w-7xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="inline-block text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] mb-4">
               {statsHeaderBadge?.title || "Solusi Terpercaya"}
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            </span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-[-0.02em] leading-[1.1]">
               {statsHeaderHeading?.title || "Solusi Pengolahan Air Profesional"}
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="mt-5 text-lg text-white/60 leading-relaxed">
               {statsHeaderDescription?.description || "Perusahaan yang berkomitmen memberikan solusi pengolahan air terbaik dengan teknologi modern dan layanan prima."}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {statsContents.map((stat) => {
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+            {statsContents.map((stat, i) => {
               const IconComponent = getIconComponent(stat.icon || '')
-              const color = (stat.content as any)?.color || 'text-blue-600'
 
               return (
-                <div key={stat.id} className="text-center group">
-                  <div className={`inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl mb-6 group-hover:scale-110 transition-transform ${color}`}>
-                    {IconComponent && <IconComponent className="w-8 h-8" />}
+                <div
+                  key={stat.id}
+                  className={`group rounded-[1.25rem] bg-white/[0.06] backdrop-blur-md border border-white/10 p-8 text-center transition-all duration-300 hover:bg-white/[0.1] hover:-translate-y-1 animate-fade-in-up ${staggerDelays[i % 4]}`}
+                >
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[var(--lime)]/15 text-[var(--lime)] mb-5 group-hover:scale-110 transition-transform">
+                    {IconComponent && <IconComponent className="w-7 h-7" />}
                   </div>
-                  <div className={`text-4xl md:text-5xl font-bold mb-2 ${color}`}>
+                  <div className="font-display text-4xl md:text-5xl font-bold text-[var(--lime-bright)] leading-none">
                     {stat.title}
                   </div>
-                  <div className="text-gray-600 font-medium">{stat.subtitle}</div>
+                  <div className="mt-2.5 text-white/60 text-sm font-medium">{stat.subtitle}</div>
                 </div>
               )
             })}
@@ -99,33 +109,36 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Services Overview - Dynamic dari Database */}
-      <section className="py-20 px-4 bg-gray-50">
+      {/* ===== SERVICES — ice white, kartu glass-tonal ===== */}
+      <section className="py-24 px-4 bg-[#f8f9ff]">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
+              Keahlian Kami
+            </span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-[var(--navy)] tracking-[-0.02em] leading-[1.1]">
               {servicesHeaderHeading?.title || "Keahlian Kami"}
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="mt-5 text-lg text-slate-500 leading-relaxed">
               {servicesHeaderDescription?.description || "Solusi pengolahan air komprehensif yang disesuaikan untuk memenuhi kebutuhan spesifik Anda dan standar industri."}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {servicesContents.map((service) => {
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {servicesContents.map((service, i) => {
               const IconComponent = getIconComponent(service.icon || '')
-              const color = (service.content as any)?.color || 'text-blue-600'
 
               return (
-                <Card key={service.id} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:scale-105">
-                  <CardContent className="p-8 text-center">
-                    <div className="mb-6 group-hover:scale-110 transition-transform">
-                      {IconComponent && <IconComponent className={`w-12 h-12 ${color}`} />}
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">{service.title}</h3>
-                    <p className="text-gray-600 leading-relaxed">{service.description}</p>
-                  </CardContent>
-                </Card>
+                <div
+                  key={service.id}
+                  className={`group relative rounded-[1.25rem] bg-white border border-[#dce9ff] p-8 shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)] animate-fade-in-up ${staggerDelays[i % 4]}`}
+                >
+                  <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--navy)] text-[var(--lime)] mb-6 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
+                    {IconComponent && <IconComponent className="w-7 h-7" />}
+                  </div>
+                  <h3 className="font-display text-xl font-bold text-[var(--navy)] mb-3">{service.title}</h3>
+                  <p className="text-slate-500 leading-relaxed text-[15px]">{service.description}</p>
+                </div>
               )
             })}
           </div>
@@ -135,151 +148,133 @@ export default async function Home() {
       {/* Product Showcase with Hover Effects */}
       <ProductShowcase />
 
-      {/* Mission & Vision Section */}
-      <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
-              Visi & Misi Kami
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+      {/* ===== VISI & MISI — gambar + kartu lime overlap ===== */}
+      <section className="py-24 px-4 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+          {/* Visual */}
+          <div className="relative">
+            <div className="absolute -top-5 -left-5 w-28 h-28 rounded-full border-[7px] border-[var(--lime)]/30" />
+            <div className="relative rounded-[1.5rem] overflow-hidden h-[420px] md:h-[500px] bg-[url('/images/landing-pages/image.png')] bg-cover bg-center shadow-[0_40px_90px_-30px_rgba(11,28,48,0.4)]" />
+            <div className="absolute -bottom-6 -right-4 md:-right-6 bg-[var(--lime)] rounded-2xl px-7 py-5 shadow-xl shadow-[var(--lime)]/25">
+              <div className="font-display text-3xl md:text-4xl font-bold text-[var(--navy)] leading-none">25+</div>
+              <div className="mt-1 text-sm font-semibold text-[var(--navy)]/75">Tahun Pengalaman</div>
+            </div>
+          </div>
+
+          {/* Konten */}
+          <div>
+            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
+              Visi &amp; Misi
+            </span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-[var(--navy)] tracking-[-0.02em] leading-[1.1] mb-8">
               Komitmen Terhadap Masa Depan Air Bersih
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Kami berkomitmen untuk menjadi pioneer dalam teknologi pengolahan air yang berkelanjutan.
+
+            <div className="space-y-5">
+              <div className="flex gap-5 rounded-2xl border border-[#e5eeff] bg-[#f8f9ff] p-6">
+                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[var(--navy)] text-[var(--lime)] flex items-center justify-center">
+                  <Target className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-display text-xl font-bold text-[var(--navy)] mb-1.5">Visi Kami</h3>
+                  <p className="text-slate-500 leading-relaxed text-[15px]">
+                    Menjadi perusahaan terdepan dalam solusi pengolahan air yang berkelanjutan dan ramah lingkungan di Indonesia.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-5 rounded-2xl border border-[#e5eeff] bg-[#f8f9ff] p-6">
+                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[var(--lime)] text-[var(--navy)] flex items-center justify-center">
+                  <Lightbulb className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-display text-xl font-bold text-[var(--navy)] mb-1.5">Misi Kami</h3>
+                  <p className="text-slate-500 leading-relaxed text-[15px]">
+                    Menyediakan solusi pengolahan air berkualitas tinggi dengan teknologi terkini dan layanan pelanggan yang prima.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== MENGAPA METITO — foto engineer + fitur lime ===== */}
+      <section className="py-24 px-4 bg-[#f8f9ff] overflow-hidden">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+          {/* Konten */}
+          <div>
+            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
+              Mengapa Metito
+            </span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-[var(--navy)] tracking-[-0.02em] leading-[1.1] mb-6">
+              Keunggulan dalam Solusi Pengolahan Air
+            </h2>
+            <p className="text-lg text-slate-500 leading-relaxed mb-8">
+              Kami berkomitmen memberikan solusi pengolahan air inovatif dengan teknologi terdepan dan dedikasi tinggi untuk memenuhi kebutuhan pelanggan.
             </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Card className="border-0 shadow-lg">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
-                  <Target className="w-8 h-8 text-blue-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Visi Kami</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Menjadi perusahaan terdepan dalam solusi pengolahan air yang berkelanjutan dan ramah lingkungan di Indonesia.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mb-6">
-                  <Lightbulb className="w-8 h-8 text-green-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Misi Kami</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Menyediakan solusi pengolahan air berkualitas tinggi dengan teknologi terkini dan layanan pelanggan yang prima.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose Us */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
-                Mengapa Memilih Metito Water Solutions
-              </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Keunggulan dalam Solusi Pengolahan Air
-              </h2>
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Kami berkomitmen memberikan solusi pengolahan air inovatif dengan teknologi terdepan dan dedikasi tinggi untuk memenuhi kebutuhan pelanggan.
-              </p>
-
-              <div className="space-y-4 mb-8">
-                {features.map((feature, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <CheckCircle className="w-4 h-4 text-green-600" />
-                    </div>
-                    <span className="text-gray-700 font-medium">{feature}</span>
+            <div className="grid sm:grid-cols-2 gap-x-6 gap-y-4 mb-10">
+              {features.map((feature, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[var(--lime)] flex items-center justify-center">
+                    <CheckCircle className="w-4 h-4 text-[var(--navy)]" />
                   </div>
-                ))}
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl">
-                  Pelajari Lebih Lanjut Tentang Kami
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-                <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50 rounded-xl">
-                  Hubungi Kami
-                </Button>
-              </div>
+                  <span className="text-[var(--navy)] font-medium text-[15px]">{feature}</span>
+                </div>
+              ))}
             </div>
 
-            <div className="relative">
-              <div className="grid grid-cols-2 gap-6">
-                <div className="space-y-6">
-                  <Card className="border-0 shadow-lg">
-                    <CardContent className="p-6 text-center">
-                      <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <Star className="w-6 h-6 text-blue-600" />
-                      </div>
-                      <div className="text-2xl font-bold text-gray-900 mb-1">Teknologi Terkini</div>
-                      <div className="text-sm text-gray-600">Inovasi Terdepan</div>
-                    </CardContent>
-                  </Card>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button className="group bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white font-semibold px-7 py-6 rounded-full">
+                Pelajari Lebih Lanjut
+                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+              </Button>
+              <Button variant="outline" className="border-[var(--navy)]/20 text-[var(--navy)] hover:bg-[var(--navy)] hover:text-white font-semibold px-7 py-6 rounded-full">
+                Hubungi Kami
+              </Button>
+            </div>
+          </div>
 
-                  <Card className="border-0 shadow-lg">
-                    <CardContent className="p-6 text-center">
-                      <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <Shield className="w-6 h-6 text-green-600" />
-                      </div>
-                      <div className="text-2xl font-bold text-gray-900 mb-1">Dukungan 24/7</div>
-                      <div className="text-sm text-gray-600">Selalu Tersedia</div>
-                    </CardContent>
-                  </Card>
-                </div>
-
-                <div className="space-y-6 mt-12">
-                  <Card className="border-0 shadow-lg">
-                    <CardContent className="p-6 text-center">
-                      <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <Heart className="w-6 h-6 text-purple-600" />
-                      </div>
-                      <div className="text-2xl font-bold text-gray-900 mb-1">Dedikasi Tinggi</div>
-                      <div className="text-sm text-gray-600">Komitmen Total</div>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="border-0 shadow-lg">
-                    <CardContent className="p-6 text-center">
-                      <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <Award className="w-6 h-6 text-orange-600" />
-                      </div>
-                      <div className="text-2xl font-bold text-gray-900 mb-1">Tim Profesional</div>
-                      <div className="text-sm text-gray-600">Ahli Terpercaya</div>
-                    </CardContent>
-                  </Card>
-                </div>
+          {/* Foto engineer + kartu mengambang */}
+          <div className="relative">
+            <div className="relative rounded-[1.5rem] overflow-hidden h-[460px] md:h-[560px] bg-[url('/images/landing-pages/image5.png')] bg-cover bg-top shadow-[0_40px_90px_-30px_rgba(11,28,48,0.4)]" />
+            <div className="absolute top-6 -left-4 md:-left-6 flex items-center gap-3 rounded-2xl bg-white/80 backdrop-blur-md border border-white/60 px-5 py-4 shadow-xl">
+              <div className="w-11 h-11 rounded-full bg-[var(--navy)] text-[var(--lime)] flex items-center justify-center">
+                <Shield className="w-5 h-5" />
               </div>
+              <div>
+                <div className="font-display text-lg font-bold text-[var(--navy)] leading-none">ISO 9001</div>
+                <div className="text-xs text-slate-500 mt-0.5">Tersertifikasi</div>
+              </div>
+            </div>
+            <div className="absolute -bottom-5 -right-4 md:-right-6 bg-[var(--lime)] rounded-2xl px-7 py-5 shadow-xl">
+              <div className="font-display text-3xl font-bold text-[var(--navy)] leading-none">100%</div>
+              <div className="mt-1 text-sm font-semibold text-[var(--navy)]/75">Kepuasan Klien</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-blue-700">
-        <div className="max-w-4xl mx-auto text-center text-white">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+      {/* ===== CTA — band gambar + overlay navy ===== */}
+      <section className="relative py-28 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/images/landing-pages/image4.png')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy)] via-[var(--navy)]/92 to-[var(--navy)]/70" />
+        <div className="relative max-w-4xl mx-auto text-center">
+          <span className="inline-block text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] mb-5">
+            Mulai Sekarang
+          </span>
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-[-0.02em] leading-[1.1] mb-6">
             Siap Mentransformasi Pengolahan Air Anda?
           </h2>
-          <p className="text-xl mb-8 text-blue-100">
+          <p className="text-lg md:text-xl text-white/75 mb-10 max-w-2xl mx-auto leading-relaxed">
             Dapatkan konsultasi ahli dan solusi kustom untuk kebutuhan pengolahan air Anda. Tim kami siap membantu Anda mencapai hasil yang optimal.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" className="group bg-[var(--lime)] hover:bg-[var(--lime-bright)] text-[var(--navy)] font-bold px-8 py-6 rounded-full shadow-xl shadow-black/25 hover:scale-[1.03] transition-all">
               Konsultasi Gratis
+              <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
             </Button>
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-white hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
               Unduh Katalog
             </Button>
           </div>

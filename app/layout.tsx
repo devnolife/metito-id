@@ -1,11 +1,16 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Inter, Hanken_Grotesk } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "@/components/ui/toaster"
 import { ConditionalHeader } from "@/components/conditional-header"
 
 const inter = Inter({ subsets: ["latin"] })
+const hankenGrotesk = Hanken_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: "Metito Water Solution - Water & Wastewater Engineering Solutions",
@@ -20,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${hankenGrotesk.variable} ${inter.className}`}>
         <ConditionalHeader />
         {children}
         <Toaster />
