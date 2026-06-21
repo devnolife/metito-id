@@ -11,6 +11,9 @@ import {
   Filter,
   MessageCircle,
   Eye,
+  MapPin,
+  ChevronLeft,
+  ChevronRight,
   Droplets,
   Waves,
   Zap,
@@ -67,6 +70,16 @@ export function ProductShowcase() {
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  // Slider produk (satu baris, sisanya digeser)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const pausedRef = useRef(false)
+  const scrollByCards = (dir: 'left' | 'right') => {
+    const el = scrollRef.current
+    if (!el) return
+    const amount = el.clientWidth * 0.85
+    el.scrollBy({ left: dir === 'left' ? -amount : amount, behavior: 'smooth' })
+  }
 
   // Kontak WhatsApp (tiga nomor yang diminta sebelumnya)
   const contacts = useRef([
@@ -142,6 +155,27 @@ export function ProductShowcase() {
     return matchesSearch && matchesCategory && matchesApplication
   })
 
+  // Auto-scroll slider produk (berhenti saat hover/sentuh), loop ke awal di ujung
+  useEffect(() => {
+    if (loading || error || filteredProducts.length === 0) return
+    const el = scrollRef.current
+    if (!el) return
+
+    const interval = setInterval(() => {
+      if (pausedRef.current || el.matches(':hover')) return
+      const card = el.querySelector<HTMLElement>('[data-product-card]')
+      const step = card ? card.offsetWidth + 24 : el.clientWidth * 0.85
+      const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 8
+      if (atEnd) {
+        el.scrollTo({ left: 0, behavior: 'smooth' })
+      } else {
+        el.scrollBy({ left: step, behavior: 'smooth' })
+      }
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [loading, error, filteredProducts.length])
+
   const normalizeNumber = (num: string) => {
     let digits = num.replace(/[^0-9+]/g, '')
     if (digits.startsWith('+')) digits = digits.slice(1)
@@ -197,80 +231,73 @@ export function ProductShowcase() {
 
         {/* Categories */}
         {loading ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-16">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
             {[...Array(6)].map((_, index) => (
-              <Card key={index} className="border-0 shadow-lg animate-pulse">
-                <CardContent className="p-6 text-center">
-                  <div className="w-14 h-14 bg-gradient-to-br from-gray-200 to-gray-300 rounded-2xl mx-auto mb-4"></div>
-                  <div className="h-4 bg-gray-200 rounded-full mx-auto"></div>
-                </CardContent>
-              </Card>
+              <div key={index} className="rounded-2xl border border-[#e5eeff] bg-white p-6 animate-pulse">
+                <div className="w-14 h-14 bg-[#e5eeff] rounded-2xl mx-auto mb-4"></div>
+                <div className="h-3.5 bg-[#e5eeff] rounded-full mx-auto w-3/4 mb-2"></div>
+                <div className="h-3 bg-[#eff4ff] rounded-full mx-auto w-1/2"></div>
+              </div>
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-16">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
             {categories.map((category, index) => {
               const IconComponent = categoryIcons[category.name] || Settings
               const isSelected = selectedCategory === category.id
               return (
-                <Card
+                <button
+                  type="button"
                   key={category.id}
-                  className={`group cursor-pointer transition-all duration-500 hover:scale-105 border-0 overflow-hidden ${isSelected
-                    ? "shadow-2xl shadow-[var(--navy)]/20"
-                    : "shadow-lg hover:shadow-2xl"
-                    }`}
+                  onClick={() => setSelectedCategory(isSelected ? "all" : category.id)}
                   style={{
                     animationDelay: `${index * 50}ms`,
                     animation: 'fade-in-up 0.6s ease-out forwards'
                   }}
-                  onClick={() => setSelectedCategory(isSelected ? "all" : category.id)}
+                  className={`group relative flex flex-col items-center text-center rounded-2xl p-6 border transition-all duration-300 hover:-translate-y-1.5 ${isSelected
+                    ? "bg-[var(--navy)] border-[var(--navy)] shadow-xl shadow-[var(--navy)]/25"
+                    : "bg-white border-[#e5eeff] hover:border-[var(--lime)] shadow-[0_12px_30px_-18px_rgba(11,28,48,0.18)] hover:shadow-[0_22px_44px_-22px_rgba(11,28,48,0.28)]"
+                    }`}
                 >
-                  <div className={`absolute inset-0 transition-opacity duration-300 ${isSelected
-                    ? "bg-[var(--navy)] opacity-100"
-                    : "bg-gradient-to-br from-gray-50 to-white opacity-100 group-hover:opacity-0"
-                    }`}></div>
-                  <div className={`absolute inset-0 bg-[var(--navy)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isSelected ? "opacity-100" : ""
-                    }`}></div>
-
-                  <CardContent className="relative p-6 text-center">
-                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-all duration-300 ${isSelected
-                      ? "bg-white/10 text-[var(--lime)] scale-110 rotate-6"
-                      : "bg-white text-[var(--navy)] group-hover:bg-white/10 group-hover:text-[var(--lime)] group-hover:scale-110 group-hover:rotate-6"
+                  <div className={`flex items-center justify-center w-14 h-14 rounded-2xl mb-4 transition-all duration-300 group-hover:scale-110 ${isSelected
+                    ? "bg-[var(--lime)] text-[var(--navy)]"
+                    : "bg-[#eff4ff] text-[var(--navy)] group-hover:bg-[var(--lime)]/20"
+                    }`}>
+                    <IconComponent className="w-7 h-7" />
+                  </div>
+                  <h3 className={`font-display font-bold text-sm leading-tight mb-2 ${isSelected ? "text-white" : "text-[var(--navy)]"
+                    }`}>
+                    {category.name}
+                  </h3>
+                  {category._count && (
+                    <span className={`text-[11px] font-semibold rounded-full px-2.5 py-0.5 transition-colors duration-300 ${isSelected
+                      ? "bg-white/15 text-[var(--lime)]"
+                      : "bg-[#e5eeff] text-slate-500"
                       }`}>
-                      <IconComponent className="w-7 h-7" />
-                    </div>
-                    <h3 className={`font-bold text-sm transition-colors duration-300 ${isSelected ? "text-white" : "text-gray-900 group-hover:text-white"
-                      }`}>
-                      {category.name}
-                    </h3>
-                    {category._count && (
-                      <p className={`text-xs mt-1 transition-colors duration-300 ${isSelected ? "text-white/80" : "text-gray-500 group-hover:text-white/80"
-                        }`}>
-                        {category._count.products} produk
-                      </p>
-                    )}
-                  </CardContent>
-                </Card>
+                      {category._count.products} produk
+                    </span>
+                  )}
+                </button>
               )
             })}
           </div>
         )}
 
-        {/* Search and Filter */}
-        <div className="flex flex-col md:flex-row gap-6 mb-16">
+        {/* Search and Filter — unified command bar */}
+        <div className="mb-16 flex flex-col md:flex-row md:items-center gap-3 p-3 bg-white rounded-[1.5rem] border border-[#e5eeff] shadow-[0_24px_55px_-30px_rgba(11,28,48,0.3)]">
           <div className="flex-1 relative group">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-[var(--navy)] transition-colors" />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-[var(--navy)] transition-colors" />
             <Input
               type="search"
               placeholder="Cari produk berdasarkan nama, deskripsi..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-12 pr-4 h-14 rounded-2xl border-2 border-gray-200 bg-white shadow-lg focus:border-[var(--navy)] focus:ring-4 focus:ring-[var(--navy)]/10 transition-all duration-300 text-base placeholder:text-gray-400"
+              className="pl-12 pr-4 h-12 rounded-xl border-0 bg-[#f8f9ff] focus-visible:ring-2 focus-visible:ring-[var(--navy)]/15 focus-visible:bg-white transition-all duration-300 text-base placeholder:text-slate-400"
             />
           </div>
           <Select value={selectedApplication} onValueChange={setSelectedApplication}>
-            <SelectTrigger className="w-full md:w-56 h-14 rounded-2xl border-2 border-gray-200 bg-white shadow-lg focus:border-[var(--navy)] focus:ring-4 focus:ring-[var(--navy)]/10 transition-all duration-300 font-medium">
-              <Filter className="w-4 h-4 mr-2 text-gray-600" />
+            <SelectTrigger className="w-full md:w-52 h-12 rounded-xl border-0 bg-[#f8f9ff] hover:bg-[#eff4ff] focus:ring-2 focus:ring-[var(--navy)]/15 transition-all duration-300 font-semibold text-[var(--navy)]">
+              <Filter className="w-4 h-4 mr-2 text-[var(--lime-dim)]" />
               <SelectValue placeholder="Semua Aplikasi" />
             </SelectTrigger>
             <SelectContent className="rounded-xl">
@@ -306,199 +333,246 @@ export function ProductShowcase() {
           </div>
         )}
 
-        {/* Product Grid with Hover Effects */}
-        {!loading && !error && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 pt-8">
-            {filteredProducts.map((product, index) => (
-              <Card
-                key={product.id}
-                className="group relative overflow-visible border-0 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-3xl bg-white"
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                  animation: 'fade-in-up 0.6s ease-out forwards'
-                }}
-              >
-                {/* Glow effect on hover */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl">
-                  <div className="absolute inset-0 bg-[var(--lime)]/5 rounded-3xl"></div>
-                </div>
+        {/* Product Slider — satu baris, sisanya digeser */}
+        {!loading && !error && filteredProducts.length > 0 && (
+          <div>
+            {/* Slider header + nav */}
+            <div className="flex items-center justify-between mb-6">
+              <p className="text-sm font-medium text-slate-500">
+                Menampilkan <span className="font-bold text-[var(--navy)]">{filteredProducts.length}</span> produk — geser untuk lihat lainnya
+              </p>
+              <div className="flex items-center gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => scrollByCards('left')}
+                  aria-label="Sebelumnya"
+                  className="flex items-center justify-center w-11 h-11 rounded-full border border-[#dce9ff] bg-white text-[var(--navy)] hover:bg-[var(--navy)] hover:text-white hover:border-[var(--navy)] transition-all duration-300 shadow-sm"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollByCards('right')}
+                  aria-label="Selanjutnya"
+                  className="flex items-center justify-center w-11 h-11 rounded-full bg-[var(--lime)] text-[var(--navy)] hover:bg-[var(--lime-bright)] transition-all duration-300 shadow-lg shadow-[var(--lime)]/25 hover:scale-105"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
 
-                {/* Floating detail card that appears on hover - larger coverage */}
-                <div className="absolute -top-6 left-0 right-0 bottom-20 z-50 opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-95 group-hover:scale-100 pointer-events-none">
-                  <div className="mx-3 h-full bg-white border-2 border-[var(--navy)]/20 rounded-2xl shadow-2xl shadow-[var(--navy)]/25 overflow-hidden flex flex-col">
-                    {/* Header */}
-                    <div className="bg-[var(--navy)] px-6 py-5 flex-shrink-0">
-                      <div className="flex items-center justify-between mb-3">
-                        <Badge className="bg-white/20 backdrop-blur-sm text-white border-white/30 shadow-lg text-sm px-3 py-1">
-                          {product.application}
-                        </Badge>
-                        {product.efficiency && (
-                          <div className="text-sm font-bold text-white flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full backdrop-blur-sm">
-                            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                            {product.efficiency}
-                          </div>
-                        )}
-                      </div>
-                      <h3 className="font-bold text-white text-2xl line-clamp-1 mb-2">
-                        {product.name}
-                      </h3>
-                      <div className="flex items-center gap-3 text-white/90 text-sm">
-                        <span className="flex items-center gap-1.5">
-                          📍 <span className="font-medium">{product.location || 'Global'}</span>
-                        </span>
-                        {product.inStock && (
-                          <span className="ml-auto flex items-center gap-1.5 bg-white/20 px-3 py-1.5 rounded-full">
-                            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                            <span className="font-medium">Tersedia</span>
+            {/* Baris slider */}
+            <div
+              ref={scrollRef}
+              onPointerEnter={() => { pausedRef.current = true }}
+              onPointerLeave={() => { pausedRef.current = false }}
+              onTouchStart={() => { pausedRef.current = true }}
+              onTouchEnd={() => { pausedRef.current = false }}
+              className="flex gap-6 overflow-x-auto snap-x snap-mandatory pt-8 pb-4 -mx-1 px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {filteredProducts.map((product, index) => (
+                <Card
+                  key={product.id}
+                  data-product-card
+                  className="group relative shrink-0 w-[300px] sm:w-[340px] snap-start overflow-visible border-0 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-3xl bg-white"
+                  style={{
+                    animationDelay: `${index * 100}ms`,
+                    animation: 'fade-in-up 0.6s ease-out forwards'
+                  }}
+                >
+                  {/* Glow effect on hover */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl">
+                    <div className="absolute inset-0 bg-[var(--lime)]/5 rounded-3xl"></div>
+                  </div>
+
+                  {/* Floating detail card that appears on hover - larger coverage */}
+                  <div className="absolute -top-6 left-0 right-0 bottom-20 z-50 opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-95 group-hover:scale-100 pointer-events-none">
+                    <div className="mx-3 h-full bg-white border-2 border-[var(--navy)]/20 rounded-2xl shadow-2xl shadow-[var(--navy)]/25 overflow-hidden flex flex-col">
+                      {/* Header */}
+                      <div className="bg-[var(--navy)] px-6 py-5 flex-shrink-0">
+                        <div className="flex items-center justify-between mb-3">
+                          <Badge className="bg-white/20 backdrop-blur-sm text-white border-white/30 shadow-lg text-sm px-3 py-1">
+                            {product.application}
+                          </Badge>
+                          {product.efficiency && (
+                            <div className="text-sm font-bold text-white flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                              {product.efficiency}
+                            </div>
+                          )}
+                        </div>
+                        <h3 className="font-bold text-white text-2xl line-clamp-1 mb-2">
+                          {product.name}
+                        </h3>
+                        <div className="flex items-center gap-3 text-white/90 text-sm">
+                          <span className="flex items-center gap-1.5">
+                            📍 <span className="font-medium">{product.location || 'Global'}</span>
                           </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Content - full card coverage */}
-                    <div className="flex-1 overflow-hidden p-6 bg-gradient-to-br from-white to-[#eff4ff] flex flex-col justify-between">
-                      {/* Extended Description */}
-                      <div className="mb-5">
-                        <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
-                          <span className="w-1 h-5 bg-[var(--lime)] rounded"></span>
-                          Tentang Produk
-                        </h4>
-                        <div className="bg-white rounded-xl p-4 border-2 border-[#dce9ff] shadow-sm">
-                          <p className="text-gray-700 text-sm leading-relaxed">
-                            {product.description || product.shortDesc || 'Solusi pengolahan air berkualitas tinggi dengan teknologi terkini untuk memenuhi kebutuhan industri dan perkotaan. Produk ini dirancang dengan standar internasional dan telah terbukti efektif dalam berbagai aplikasi.'}
-                          </p>
+                          {product.inStock && (
+                            <span className="ml-auto flex items-center gap-1.5 bg-white/20 px-3 py-1.5 rounded-full">
+                              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                              <span className="font-medium">Tersedia</span>
+                            </span>
+                          )}
                         </div>
                       </div>
 
-                      {/* Features */}
-                      {product.features && product.features.length > 0 && (
-                        <div className="mb-6">
+                      {/* Content - full card coverage */}
+                      <div className="flex-1 overflow-hidden p-6 bg-gradient-to-br from-white to-[#eff4ff] flex flex-col justify-between">
+                        {/* Extended Description */}
+                        <div className="mb-5">
                           <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
                             <span className="w-1 h-5 bg-[var(--lime)] rounded"></span>
-                            Keunggulan Utama
+                            Tentang Produk
                           </h4>
-                          <div className="space-y-2.5">
-                            {product.features.slice(0, 5).map((feature: string, index: number) => (
-                              <div key={index} className="flex items-start gap-3 bg-white rounded-xl p-3 border-2 border-[#dce9ff] shadow-sm hover:shadow-md transition-all duration-300">
-                                <span className="w-7 h-7 bg-[var(--navy)] text-[var(--lime)] rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-md">
-                                  {index + 1}
-                                </span>
-                                <span className="text-sm text-gray-800 font-medium leading-relaxed pt-0.5">{feature}</span>
-                              </div>
-                            ))}
+                          <div className="bg-white rounded-xl p-4 border-2 border-[#dce9ff] shadow-sm">
+                            <p className="text-gray-700 text-sm leading-relaxed">
+                              {product.description || product.shortDesc || 'Solusi pengolahan air berkualitas tinggi dengan teknologi terkini untuk memenuhi kebutuhan industri dan perkotaan. Produk ini dirancang dengan standar internasional dan telah terbukti efektif dalam berbagai aplikasi.'}
+                            </p>
                           </div>
                         </div>
-                      )}
 
-                      {/* Category Badge at bottom */}
-                      <div className="bg-[var(--navy)] rounded-xl p-4 border-2 border-[var(--navy)] shadow-lg">
-                        <div className="flex items-center justify-center gap-2">
-                          <span className="text-white/90 font-bold text-sm">📦 Kategori:</span>
-                          <Badge className="bg-white/20 backdrop-blur-sm text-white border-white/30 font-bold px-3 py-1.5 text-sm">
-                            {product.category.name}
-                          </Badge>
+                        {/* Features */}
+                        {product.features && product.features.length > 0 && (
+                          <div className="mb-6">
+                            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+                              <span className="w-1 h-5 bg-[var(--lime)] rounded"></span>
+                              Keunggulan Utama
+                            </h4>
+                            <div className="space-y-2.5">
+                              {product.features.slice(0, 5).map((feature: string, index: number) => (
+                                <div key={index} className="flex items-start gap-3 bg-white rounded-xl p-3 border-2 border-[#dce9ff] shadow-sm hover:shadow-md transition-all duration-300">
+                                  <span className="w-7 h-7 bg-[var(--navy)] text-[var(--lime)] rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-md">
+                                    {index + 1}
+                                  </span>
+                                  <span className="text-sm text-gray-800 font-medium leading-relaxed pt-0.5">{feature}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Category Badge at bottom */}
+                        <div className="bg-[var(--navy)] rounded-xl p-4 border-2 border-[var(--navy)] shadow-lg">
+                          <div className="flex items-center justify-center gap-2">
+                            <span className="text-white/90 font-bold text-sm">📦 Kategori:</span>
+                            <Badge className="bg-white/20 backdrop-blur-sm text-white border-white/30 font-bold px-3 py-1.5 text-sm">
+                              {product.category.name}
+                            </Badge>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Product Image Container */}
-                <div className="aspect-[4/3] overflow-hidden relative rounded-t-3xl">
-                  <img
-                    src={product.images[0] || '/placeholder.jpg'}
-                    alt={product.name}
-                    className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-105"
-                  />
+                  {/* Product Image */}
+                  <div className="aspect-[4/3] overflow-hidden relative rounded-t-3xl bg-[#eff4ff]">
+                    <img
+                      src={product.images[0] || '/placeholder.jpg'}
+                      alt={product.name}
+                      className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
+                    />
 
-                  {/* Overlay that appears on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    {/* Bottom gradient for depth */}
+                    <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/35 to-transparent" />
 
-                  {/* Stock badge */}
-                  {product.inStock && (
-                    <div className="absolute top-4 left-4 z-10 transition-transform duration-300 group-hover:scale-110">
-                      <Badge className="bg-green-500/90 backdrop-blur-md text-white shadow-lg border border-white/20">
-                        <span className="w-1.5 h-1.5 bg-white rounded-full inline-block mr-1"></span>
-                        Tersedia
-                      </Badge>
+                    {/* Stock badge */}
+                    {product.inStock && (
+                      <div className="absolute top-4 left-4 z-10">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/85 backdrop-blur-md px-3 py-1 text-xs font-semibold text-[var(--navy)] shadow-md">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                          Tersedia
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Featured badge */}
+                    {product.isFeatured && (
+                      <div className="absolute top-4 right-4 z-10">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-[var(--lime)] px-3 py-1 text-xs font-bold text-[var(--navy)] shadow-md">
+                          ★ Unggulan
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Efficiency chip */}
+                    {product.efficiency && product.efficiency !== '—' && (
+                      <div className="absolute bottom-4 left-4 z-10">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 px-3 py-1 text-xs font-bold text-white shadow-md">
+                          <Zap className="w-3.5 h-3.5 text-[var(--lime)]" />
+                          Efisiensi {product.efficiency}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Body */}
+                  <CardContent className="p-6">
+                    {/* Category + Application */}
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#5e7400]">
+                        {product.category.name}
+                      </span>
+                      <span className="rounded-full bg-[#e5eeff] text-[var(--navy)] text-[11px] font-semibold px-2.5 py-0.5">
+                        {product.application || 'Universal'}
+                      </span>
                     </div>
-                  )}
 
-                  {/* Featured badge */}
-                  {product.isFeatured && (
-                    <div className="absolute top-4 right-4 z-10 transition-transform duration-300 group-hover:scale-110">
-                      <Badge className="bg-[var(--lime)] backdrop-blur-md text-[var(--navy)] font-bold shadow-lg border border-white/20">
-                        Unggulan
-                      </Badge>
-                    </div>
-                  )}
-
-                  {/* Efficiency badge on hover */}
-                  {product.efficiency && (
-                    <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 z-10">
-                      <Badge className="bg-gradient-to-r from-green-500 to-emerald-600 backdrop-blur-md text-white shadow-lg border border-white/20">
-                        ⚡ {product.efficiency}
-                      </Badge>
-                    </div>
-                  )}
-
-                  {/* Product title overlay - fixed at top */}
-                  <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-white/95 via-white/90 to-transparent backdrop-blur-sm p-5 z-20">
-                    <h3 className="font-display font-bold text-xl text-[var(--navy)] line-clamp-1 transition-colors duration-300 mb-2">
+                    {/* Title */}
+                    <h3 className="font-display text-lg font-bold text-[var(--navy)] leading-snug line-clamp-2 min-h-[3.5rem] group-hover:text-[#3d4d00] transition-colors">
                       {product.name}
                     </h3>
-                    <div className="flex items-center justify-between">
-                      <p className="text-gray-600 text-sm flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 bg-gray-500 rounded-full"></span>
-                        {product.location || 'Global'}
-                      </p>
-                      <Badge className="bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-semibold border border-[var(--lime)]/40">
-                        {product.application || 'Universal'}
-                      </Badge>
-                    </div>
-                  </div>
-                </div>
 
-                {/* Always visible bottom section - stable fixed height */}
-                <CardContent className="p-6 bg-gradient-to-b from-white to-gray-50 rounded-b-3xl">
-                  {/* Price Box */}
-                  <div className="text-center mb-6 p-4 bg-white rounded-2xl border-2 border-gray-100 shadow-sm min-h-[90px] flex flex-col justify-center transition-all duration-300 group-hover:border-[var(--lime)] group-hover:shadow-md">
-                    {showPrices ? (
-                      <div className="font-display text-3xl font-bold text-[var(--navy)] leading-tight mb-1">
-                        {product.price}
+                    {/* Location */}
+                    <div className="mt-2 flex items-center gap-1.5 text-sm text-slate-500">
+                      <MapPin className="w-4 h-4 text-[var(--lime-dim)]" />
+                      {product.location || 'Indonesia'}
+                    </div>
+
+                    {/* Divider */}
+                    <div className="my-5 h-px bg-[#e5eeff]" />
+
+                    {/* Price + capacity */}
+                    <div className="flex items-end justify-between mb-5">
+                      <div>
+                        <div className="text-[11px] font-medium uppercase tracking-wide text-slate-400 mb-1">Harga</div>
+                        {showPrices ? (
+                          <div className="font-display text-2xl font-bold text-[var(--navy)] leading-none">
+                            {product.price}
+                          </div>
+                        ) : (
+                          <div className="text-base font-semibold text-[var(--navy)]">Hubungi Kami</div>
+                        )}
                       </div>
-                    ) : (
-                      <div className="text-lg font-semibold text-gray-700 mb-1">Hubungi untuk Harga</div>
-                    )}
-                    <div className="text-gray-500 text-sm font-medium flex items-center justify-center gap-1.5">
-                      <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                      {product.capacity || 'Sesuai Kebutuhan'}
+                      <div className="text-right">
+                        <div className="text-[11px] font-medium uppercase tracking-wide text-slate-400 mb-1">Kapasitas</div>
+                        <div className="text-sm font-semibold text-slate-600">{product.capacity || 'Custom'}</div>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Action Buttons */}
-                  <div className="flex gap-3">
-                    <Button
-                      onClick={() => handleWhatsAppClick(product)}
-                      className="flex-1 h-14 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-2xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl group/btn"
-                    >
-                      <MessageCircle className="w-5 h-5 mr-2 transition-transform duration-300 group-hover/btn:rotate-12" />
-                      <span>WhatsApp</span>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="w-14 h-14 p-0 border-2 border-gray-300 hover:border-[var(--navy)] hover:bg-[#eff4ff] rounded-2xl transition-all duration-300 group/btn"
-                      asChild
-                      title="Lihat Detail Produk"
-                    >
-                      <Link href={`/products/${product.id}`} className="flex items-center justify-center">
-                        <Eye className="w-5 h-5 transition-transform duration-300 group-hover/btn:scale-110" />
-                      </Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                    {/* Actions */}
+                    <div className="flex gap-3">
+                      <Button
+                        onClick={() => handleWhatsAppClick(product)}
+                        className="flex-1 h-12 bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white rounded-full font-semibold transition-all duration-300 shadow-lg shadow-[var(--navy)]/20 group/btn"
+                      >
+                        <MessageCircle className="w-4 h-4 mr-2 transition-transform duration-300 group-hover/btn:rotate-12" />
+                        <span>WhatsApp</span>
+                      </Button>
+                      <Button
+                        asChild
+                        className="w-12 h-12 p-0 bg-[var(--lime)] hover:bg-[var(--lime-bright)] text-[var(--navy)] rounded-full shadow-lg shadow-[var(--lime)]/25 transition-all duration-300 hover:scale-105 group/btn"
+                        title="Lihat Detail Produk"
+                      >
+                        <Link href={`/products/${product.id}`} className="flex items-center justify-center">
+                          <Eye className="w-5 h-5 transition-transform duration-300 group-hover/btn:scale-110" />
+                        </Link>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         )}
 

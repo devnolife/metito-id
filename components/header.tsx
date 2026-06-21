@@ -4,7 +4,7 @@ import { useState } from "react"
 import { usePathname } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { Menu, X, Search, Phone, Mail, Clock, MapPin, User } from "lucide-react"
+import { Menu, X, Search, Phone, Mail, Clock, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
@@ -18,9 +18,7 @@ export function Header() {
     { name: "Produk", href: "/products", matchPaths: ["/products"] },
     { name: "Layanan", href: "/services", matchPaths: ["/services"] },
     { name: "Galeri", href: "/gallery", matchPaths: ["/gallery"] },
-    { name: "Pelanggan", href: "/customer", matchPaths: ["/customer"] },
     { name: "Sertifikasi", href: "/certification", matchPaths: ["/certification"] },
-    { name: "Blog", href: "/blog", matchPaths: ["/blog"] },
     { name: "Kontak", href: "/contact", matchPaths: ["/contact"] },
   ]
 
@@ -41,7 +39,7 @@ export function Header() {
     <header
       className={
         isHome
-          ? "absolute top-0 left-0 right-0 z-50 bg-transparent"
+          ? "absolute top-0 left-0 right-0 z-50 bg-transparent pt-4 md:pt-6"
           : "bg-white/95 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-100"
       }
     >
@@ -75,7 +73,7 @@ export function Header() {
 
       {/* Main Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="relative flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group pr-4">
             <Image
@@ -96,24 +94,21 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className={`hidden lg:flex flex-1 items-center gap-1 ${isHome ? "justify-center" : "justify-end"}`}>
+          <nav className={`hidden lg:flex items-center gap-1 ${isHome ? "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" : "flex-1 justify-end"}`}>
             {navigationItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`relative font-medium transition-all duration-200 px-3 py-2 rounded-lg group ${isActive(item)
+                className={`relative font-medium text-sm transition-all duration-200 px-4 py-2 rounded-full ${isActive(item)
                   ? isHome
-                    ? "text-white bg-white/15 shadow-sm border border-white/20"
-                    : "text-blue-600 bg-blue-50 shadow-sm border border-blue-100"
+                    ? "text-[var(--navy)] bg-[var(--lime)] shadow-lg shadow-[var(--lime)]/25"
+                    : "text-[var(--navy)] bg-[var(--lime)] shadow-sm"
                   : isHome
                     ? "text-white/90 hover:text-white hover:bg-white/10"
-                    : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                    : "text-gray-700 hover:text-[var(--navy)] hover:bg-[#eff4ff]"
                   }`}
               >
                 {item.name}
-                {isActive(item) && (
-                  <div className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 rounded-full ${isHome ? "bg-white" : "bg-blue-600"}`}></div>
-                )}
               </Link>
             ))}
           </nav>
@@ -131,17 +126,6 @@ export function Header() {
               </div>
             </div>
           )}
-
-          {/* Right Actions */}
-          <div className="hidden md:flex items-center space-x-3">
-            <Link
-              href="/admin"
-              className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 group ${isHome ? "text-white hover:bg-white/15" : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"}`}
-              title="Login Admin"
-            >
-              <User className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            </Link>
-          </div>
 
           {/* Mobile Menu Toggle */}
           <div className="lg:hidden ml-4">
@@ -196,13 +180,6 @@ export function Header() {
 
               {/* Mobile CTA Section */}
               <div className="pt-3 border-t border-gray-100 space-y-2">
-                <Link
-                  href="/admin"
-                  className="flex items-center justify-center px-3 py-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all duration-200 font-semibold border-2 border-blue-200 text-sm"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Dashboard Admin
-                </Link>
                 <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-2 rounded-lg shadow-lg text-sm">
                   Dapatkan Penawaran Gratis
                 </Button>
