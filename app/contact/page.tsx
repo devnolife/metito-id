@@ -1,10 +1,10 @@
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Footer } from "@/components/footer"
+import { Reveal } from "@/components/reveal"
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle, Users, Headphones } from "lucide-react"
 
 export default function ContactPage() {
@@ -60,142 +60,143 @@ export default function ContactPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white py-20 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center mb-6">
-            <Badge className="bg-blue-500/20 text-blue-100 px-4 py-2 text-sm font-medium">
-              Hubungi Kami
-            </Badge>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Mari Berbicara
-            <span className="block bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">
-              Tentang Proyek Anda
-            </span>
+      <section className="relative bg-[var(--navy)] text-white py-28 px-4 overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.08] bg-[url('/images/landing-pages/image3.png')] bg-cover bg-center" />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-[var(--lime)]/10 blur-[130px]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-white" />
+        <Reveal className="relative max-w-7xl mx-auto text-center">
+          <span className="inline-block rounded-full bg-[var(--lime)]/15 text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] px-4 py-1.5 mb-5">
+            Hubungi Kami
+          </span>
+          <h1 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.02em] leading-[1.05] mb-6">
+            Mari Berbicara{" "}
+            <span className="text-[var(--lime-bright)]">Tentang Proyek Anda</span>
           </h1>
-          <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-white/70 mb-8 max-w-3xl mx-auto leading-relaxed">
             Tim ahli kami siap membantu Anda menemukan solusi pengolahan air yang tepat untuk kebutuhan spesifik Anda.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" className="bg-[var(--lime)] hover:bg-[var(--lime-bright)] text-[var(--navy)] font-bold px-8 py-6 rounded-full shadow-xl shadow-black/25 hover:scale-[1.03] transition-all">
               Konsultasi Gratis
             </Button>
-            <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-white hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
               <Phone className="w-4 h-4 mr-2" />
               Hubungi Langsung
             </Button>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Contact Info Section */}
-      <section className="py-20 px-4 bg-white">
+      <section className="py-24 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
+          <Reveal className="text-center max-w-2xl mx-auto mb-16">
+            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
               Informasi Kontak
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            </span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-[var(--navy)] tracking-[-0.02em] leading-[1.1]">
               Cara Menghubungi Kami
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="mt-5 text-lg text-slate-500 leading-relaxed">
               Berbagai cara untuk terhubung dengan tim ahli kami
             </p>
-          </div>
+          </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {contactInfo.map((info, index) => (
-              <Card key={index} className="text-center hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:scale-105">
-                <CardContent className="p-6">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl mb-6 text-white">
-                    {info.icon}
-                  </div>
-                  <h3 className="font-bold text-lg text-gray-900 mb-3">{info.title}</h3>
-                  <div className="space-y-1 mb-2">
-                    {info.details.map((detail, idx) => (
-                      <p key={idx} className="text-gray-700 font-medium">{detail}</p>
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-500">{info.subtitle}</p>
-                </CardContent>
-              </Card>
+              <Reveal key={index} delay={index % 4}>
+                <Card className="group h-full text-center rounded-[1.25rem] bg-white border border-[#dce9ff] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)]">
+                  <CardContent className="p-8">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-[var(--navy)] text-[var(--lime)] rounded-2xl mb-6 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
+                      {info.icon}
+                    </div>
+                    <h3 className="font-display font-bold text-lg text-[var(--navy)] mb-3">{info.title}</h3>
+                    <div className="space-y-1 mb-2">
+                      {info.details.map((detail, idx) => (
+                        <p key={idx} className="text-slate-700 font-medium">{detail}</p>
+                      ))}
+                    </div>
+                    <p className="text-sm text-slate-400">{info.subtitle}</p>
+                  </CardContent>
+                </Card>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* Contact Form & Teams Section */}
-      <section className="py-20 px-4">
+      <section className="py-24 px-4 bg-[#f8f9ff]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
-            <div>
+            <Reveal direction="left">
               <div className="mb-8">
-                <Badge className="bg-green-100 text-green-800 px-4 py-2 text-sm font-medium mb-4">
+                <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
                   Kirim Pesan
-                </Badge>
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                </span>
+                <h2 className="font-display text-3xl md:text-4xl font-bold text-[var(--navy)] tracking-[-0.02em] mb-4">
                   Formulir Kontak
                 </h2>
-                <p className="text-lg text-gray-600">
+                <p className="text-lg text-slate-500">
                   Isi formulir di bawah ini dan tim kami akan menghubungi Anda dalam 24 jam
                 </p>
               </div>
 
-              <Card className="border-0 shadow-lg">
+              <Card className="rounded-[1.25rem] border border-[#dce9ff] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)]">
                 <CardContent className="p-8">
                   <form className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <label className="block text-sm font-semibold text-[var(--navy)] mb-2">
                           Nama Lengkap *
                         </label>
                         <Input
                           placeholder="Masukkan nama lengkap"
-                          className="border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="border-[#dce9ff] rounded-xl focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <label className="block text-sm font-semibold text-[var(--navy)] mb-2">
                           Email *
                         </label>
                         <Input
                           type="email"
                           placeholder="contoh@email.com"
-                          className="border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="border-[#dce9ff] rounded-xl focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent"
                         />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <label className="block text-sm font-semibold text-[var(--navy)] mb-2">
                           Telepon *
                         </label>
                         <Input
                           placeholder="+62 xxx xxxx xxxx"
-                          className="border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="border-[#dce9ff] rounded-xl focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <label className="block text-sm font-semibold text-[var(--navy)] mb-2">
                           Perusahaan
                         </label>
                         <Input
                           placeholder="Nama perusahaan"
-                          className="border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="border-[#dce9ff] rounded-xl focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-sm font-semibold text-[var(--navy)] mb-2">
                         Topik Konsultasi *
                       </label>
                       <Select>
-                        <SelectTrigger className="border-gray-200 rounded-xl">
+                        <SelectTrigger className="border-[#dce9ff] rounded-xl">
                           <SelectValue placeholder="Pilih topik konsultasi" />
                         </SelectTrigger>
                         <SelectContent>
@@ -210,57 +211,57 @@ export default function ContactPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-sm font-semibold text-[var(--navy)] mb-2">
                         Pesan *
                       </label>
                       <Textarea
                         placeholder="Jelaskan kebutuhan Anda secara detail..."
-                        className="border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[120px]"
+                        className="border-[#dce9ff] rounded-xl focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent min-h-[120px]"
                       />
                     </div>
 
-                    <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl py-3 font-semibold">
+                    <Button className="w-full bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white rounded-full py-6 font-semibold">
                       <Send className="w-4 h-4 mr-2" />
                       Kirim Pesan
                     </Button>
                   </form>
                 </CardContent>
               </Card>
-            </div>
+            </Reveal>
 
             {/* Teams */}
-            <div>
+            <Reveal direction="right">
               <div className="mb-8">
-                <Badge className="bg-purple-100 text-purple-800 px-4 py-2 text-sm font-medium mb-4">
+                <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
                   Tim Ahli
-                </Badge>
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                </span>
+                <h2 className="font-display text-3xl md:text-4xl font-bold text-[var(--navy)] tracking-[-0.02em] mb-4">
                   Hubungi Tim Spesialis
                 </h2>
-                <p className="text-lg text-gray-600">
+                <p className="text-lg text-slate-500">
                   Terhubung langsung dengan tim spesialis sesuai kebutuhan Anda
                 </p>
               </div>
 
               <div className="space-y-6">
                 {teams.map((team, index) => (
-                  <Card key={index} className="hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:scale-105">
+                  <Card key={index} className="group rounded-[1.25rem] bg-white border border-[#dce9ff] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)]">
                     <CardContent className="p-6">
                       <div className="flex items-start gap-4">
-                        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl text-white flex-shrink-0">
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-[var(--navy)] text-[var(--lime)] rounded-2xl flex-shrink-0 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
                           {team.icon}
                         </div>
                         <div className="flex-1">
-                          <h3 className="font-bold text-lg text-gray-900 mb-2">{team.title}</h3>
-                          <p className="text-gray-600 mb-3">{team.description}</p>
+                          <h3 className="font-display font-bold text-lg text-[var(--navy)] mb-2">{team.title}</h3>
+                          <p className="text-slate-500 mb-3">{team.description}</p>
                           <div className="space-y-1 text-sm">
                             <div className="flex items-center gap-2">
-                              <Mail className="w-4 h-4 text-blue-600" />
-                              <span className="text-blue-600 font-medium">{team.contact}</span>
+                              <Mail className="w-4 h-4 text-[var(--navy)]" />
+                              <span className="text-[var(--navy)] font-medium">{team.contact}</span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <Phone className="w-4 h-4 text-blue-600" />
-                              <span className="text-blue-600 font-medium">{team.phone}</span>
+                              <Phone className="w-4 h-4 text-[var(--navy)]" />
+                              <span className="text-[var(--navy)] font-medium">{team.phone}</span>
                             </div>
                           </div>
                         </div>
@@ -269,31 +270,36 @@ export default function ContactPage() {
                   </Card>
                 ))}
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-blue-700">
-        <div className="max-w-4xl mx-auto text-center text-white">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+      <section className="relative py-28 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/images/landing-pages/image4.png')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy)] via-[var(--navy)]/92 to-[var(--navy)]/70" />
+        <Reveal className="relative max-w-4xl mx-auto text-center text-white">
+          <span className="inline-block text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] mb-5">
+            Mulai Sekarang
+          </span>
+          <h2 className="font-display text-4xl md:text-5xl font-bold tracking-[-0.02em] leading-[1.1] mb-6">
             Butuh Konsultasi Segera?
           </h2>
-          <p className="text-xl mb-8 text-blue-100">
+          <p className="text-lg md:text-xl mb-10 text-white/75 max-w-2xl mx-auto leading-relaxed">
             Tim ahli kami siap memberikan konsultasi dan solusi terbaik untuk kebutuhan pengolahan air Anda.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" className="bg-[var(--lime)] hover:bg-[var(--lime-bright)] text-[var(--navy)] font-bold px-8 py-6 rounded-full shadow-xl shadow-black/25 hover:scale-[1.03] transition-all">
               <Phone className="w-5 h-5 mr-2" />
               Hubungi Sekarang
             </Button>
-            <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-white hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
               <MessageCircle className="w-5 h-5 mr-2" />
               Chat WhatsApp
             </Button>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <Footer />

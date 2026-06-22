@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Footer } from "@/components/footer"
+import { Reveal } from "@/components/reveal"
 import { Award, Shield, CheckCircle, Download, Calendar, Building, Globe, Loader2, AlertCircle, FileText, FileX } from "lucide-react"
 import Image from "next/image"
 
@@ -155,93 +156,94 @@ export default function CertificationPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white py-20 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center mb-6">
-            <Badge className="bg-blue-500/20 text-blue-100 px-4 py-2 text-sm font-medium">
-              Sertifikasi & Penghargaan
-            </Badge>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Standar Kualitas
-            <span className="block bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">
-              Internasional
-            </span>
+      <section className="relative bg-[var(--navy)] text-white py-28 px-4 overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.08] bg-[url('/images/landing-pages/image3.png')] bg-cover bg-center" />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-[var(--lime)]/10 blur-[130px]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-white" />
+        <Reveal className="relative max-w-7xl mx-auto text-center">
+          <span className="inline-block rounded-full bg-[var(--lime)]/15 text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] px-4 py-1.5 mb-5">
+            Sertifikasi &amp; Penghargaan
+          </span>
+          <h1 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.02em] leading-[1.05] mb-6">
+            Standar Kualitas{" "}
+            <span className="text-[var(--lime-bright)]">Internasional</span>
           </h1>
-          <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-white/70 mb-8 max-w-3xl mx-auto leading-relaxed">
             Komitmen kami terhadap kualitas dan keunggulan terbukti melalui berbagai sertifikasi internasional dan penghargaan industri.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" className="bg-[var(--lime)] hover:bg-[var(--lime-bright)] text-[var(--navy)] font-bold px-8 py-6 rounded-full shadow-xl shadow-black/25 hover:scale-[1.03] transition-all">
               <Download className="w-4 h-4 mr-2" />
               Download Sertifikat
             </Button>
-            <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-white hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
               Lihat Penghargaan
             </Button>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Categories Section */}
-      <section className="py-20 px-4 bg-white">
+      <section className="py-24 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <Badge className="bg-green-100 text-green-800 px-4 py-2 text-sm font-medium mb-4">
+          <Reveal className="text-center max-w-2xl mx-auto mb-16">
+            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
               Kategori Sertifikasi
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            </span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-[var(--navy)] tracking-[-0.02em] leading-[1.1]">
               Beragam Standar
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="mt-5 text-lg text-slate-500 leading-relaxed">
               Sertifikasi yang mencakup berbagai aspek operasional untuk memastikan kualitas terbaik
             </p>
-          </div>
+          </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {categories.map((category, index) => (
-              <Card key={index} className="text-center hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:scale-105">
-                <CardContent className="p-6">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl mb-6 text-white">
-                    {category.icon}
-                  </div>
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">{category.name}</h3>
-                  <p className="text-gray-600 text-sm">
-                    {category.count} Sertifikat
-                  </p>
-                </CardContent>
-              </Card>
+              <Reveal key={index} delay={index % 3}>
+                <Card className="group h-full text-center rounded-[1.25rem] bg-white border border-[#dce9ff] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)]">
+                  <CardContent className="p-8">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-[var(--navy)] text-[var(--lime)] rounded-2xl mb-6 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
+                      {category.icon}
+                    </div>
+                    <h3 className="font-display font-bold text-lg text-[var(--navy)] mb-2">{category.name}</h3>
+                    <p className="text-slate-500 text-sm">
+                      {category.count} Sertifikat
+                    </p>
+                  </CardContent>
+                </Card>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* Certifications Section */}
-      <section className="py-20 px-4">
+      <section className="py-24 px-4 bg-[#f8f9ff]">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
+          <Reveal className="text-center max-w-2xl mx-auto mb-16">
+            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
               Sertifikasi Kami
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            </span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-[var(--navy)] tracking-[-0.02em] leading-[1.1]">
               Sertifikat Resmi
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            <p className="mt-5 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
               Komitmen kami terhadap kualitas dan standar internasional tercermin dalam berbagai sertifikasi yang telah kami peroleh
             </p>
-          </div>
+          </Reveal>
 
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[...Array(6)].map((_, i) => (
-                <Card key={i} className="animate-pulse">
-                  <div className="aspect-[4/3] bg-gray-200 rounded-t-lg"></div>
+                <Card key={i} className="animate-pulse rounded-[1.25rem] border border-[#dce9ff]">
+                  <div className="aspect-[4/3] bg-[#e5eeff] rounded-t-[1.25rem]"></div>
                   <CardContent className="p-6 space-y-3">
-                    <div className="h-4 bg-gray-200 rounded"></div>
-                    <div className="h-3 bg-gray-200 rounded w-3/4"></div>
-                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                    <div className="h-4 bg-[#e5eeff] rounded-full"></div>
+                    <div className="h-3 bg-[#eff4ff] rounded-full w-3/4"></div>
+                    <div className="h-3 bg-[#eff4ff] rounded-full w-1/2"></div>
                   </CardContent>
                 </Card>
               ))}
@@ -254,67 +256,69 @@ export default function CertificationPage() {
               </div>
               <Button
                 onClick={() => window.location.reload()}
-                className="bg-blue-600 hover:bg-blue-700"
+                className="bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white rounded-full px-7"
               >
                 Coba Lagi
               </Button>
             </div>
           ) : certifications.length === 0 ? (
             <div className="text-center py-12">
-              <FileText className="w-16 h-16 mx-auto mb-4 text-gray-400" />
-              <p className="text-lg font-semibold text-gray-600">Belum ada sertifikasi</p>
-              <p className="text-gray-500">Sertifikasi akan ditampilkan di sini setelah ditambahkan</p>
+              <FileText className="w-16 h-16 mx-auto mb-4 text-slate-400" />
+              <p className="text-lg font-semibold text-slate-600">Belum ada sertifikasi</p>
+              <p className="text-slate-500">Sertifikasi akan ditampilkan di sini setelah ditambahkan</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {certifications.map((cert) => (
-                <Card key={cert.id} className="hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:scale-105 overflow-hidden">
-                  <div className="aspect-[4/3] relative">
-                    <Image
-                      src={cert.certificate || '/certificates/default-cert.jpg'}
-                      alt={cert.name}
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <Badge className="bg-white/95 text-blue-700 font-semibold px-3 py-1.5 rounded-full shadow-sm backdrop-blur-sm">
-                        {cert.category}
-                      </Badge>
-                    </div>
-                    <div className="absolute top-4 right-4">
-                      {getStatusBadge(cert)}
-                    </div>
-                  </div>
-
-                  <CardContent className="p-6">
-                    <h3 className="font-bold text-lg text-gray-900 mb-2">{cert.name}</h3>
-                    <p className="text-gray-600 text-sm mb-4 leading-relaxed">{cert.description}</p>
-
-                    <div className="space-y-2 text-sm text-gray-500 mb-4">
-                      <div className="flex items-center gap-2">
-                        <Building className="w-4 h-4 text-blue-600" />
-                        <span>Penerbit: {cert.issuer}</span>
+              {certifications.map((cert, i) => (
+                <Reveal key={cert.id} delay={i % 3}>
+                  <Card className="group h-full rounded-[1.25rem] bg-white border border-[#dce9ff] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)] overflow-hidden">
+                    <div className="aspect-[4/3] relative overflow-hidden">
+                      <Image
+                        src={cert.certificate || '/certificates/default-cert.jpg'}
+                        alt={cert.name}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute top-4 left-4">
+                        <Badge className="bg-white/95 text-[var(--navy)] font-semibold px-3 py-1.5 rounded-full shadow-sm backdrop-blur-sm">
+                          {cert.category}
+                        </Badge>
                       </div>
-                      {cert.expiresAt && (
-                        <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-blue-600" />
-                          <span>Berlaku hingga: {formatDate(cert.expiresAt)}</span>
-                        </div>
-                      )}
+                      <div className="absolute top-4 right-4">
+                        {getStatusBadge(cert)}
+                      </div>
                     </div>
 
-                    {cert.credentialUrl && (
-                      <Button
-                        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl text-sm"
-                        onClick={() => window.open(cert.credentialUrl, '_blank')}
-                      >
-                        <Download className="w-4 h-4 mr-2" />
-                        Download Sertifikat
-                      </Button>
-                    )}
+                    <CardContent className="p-6">
+                      <h3 className="font-display font-bold text-lg text-[var(--navy)] mb-2">{cert.name}</h3>
+                      <p className="text-slate-500 text-sm mb-4 leading-relaxed">{cert.description}</p>
 
-                  </CardContent>
-                </Card>
+                      <div className="space-y-2 text-sm text-slate-500 mb-4">
+                        <div className="flex items-center gap-2">
+                          <Building className="w-4 h-4 text-[var(--navy)]" />
+                          <span>Penerbit: {cert.issuer}</span>
+                        </div>
+                        {cert.expiresAt && (
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4 text-[var(--navy)]" />
+                            <span>Berlaku hingga: {formatDate(cert.expiresAt)}</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {cert.credentialUrl && (
+                        <Button
+                          className="w-full bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white rounded-full text-sm"
+                          onClick={() => window.open(cert.credentialUrl, '_blank')}
+                        >
+                          <Download className="w-4 h-4 mr-2" />
+                          Download Sertifikat
+                        </Button>
+                      )}
+
+                    </CardContent>
+                  </Card>
+                </Reveal>
               ))}
             </div>
           )}
@@ -322,65 +326,72 @@ export default function CertificationPage() {
       </section>
 
       {/* Awards Section */}
-      <section className="py-20 px-4 bg-white">
+      <section className="py-24 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <Badge className="bg-purple-100 text-purple-800 px-4 py-2 text-sm font-medium mb-4">
+          <Reveal className="text-center max-w-2xl mx-auto mb-16">
+            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
               Penghargaan
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            </span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-[var(--navy)] tracking-[-0.02em] leading-[1.1]">
               Pengakuan Industri
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="mt-5 text-lg text-slate-500 leading-relaxed">
               Berbagai penghargaan yang membuktikan keunggulan dan inovasi kami di industri pengolahan air
             </p>
-          </div>
+          </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {awards.map((award, index) => (
-              <Card key={index} className="hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:scale-105">
-                <CardContent className="p-8">
-                  <div className="flex items-start gap-4">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl text-white flex-shrink-0">
-                      <Award className="w-8 h-8" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h3 className="font-bold text-lg text-gray-900">{award.title}</h3>
-                        <Badge variant="outline" className="text-purple-600 border-purple-200">
-                          {award.year}
-                        </Badge>
+              <Reveal key={index} delay={index % 2}>
+                <Card className="group h-full rounded-[1.25rem] bg-[#f8f9ff] border border-[#e5eeff] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-28px_rgba(11,28,48,0.25)]">
+                  <CardContent className="p-8">
+                    <div className="flex items-start gap-4">
+                      <div className="inline-flex items-center justify-center w-16 h-16 bg-[var(--navy)] text-[var(--lime)] rounded-2xl flex-shrink-0 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
+                        <Award className="w-8 h-8" />
                       </div>
-                      <p className="text-blue-600 font-medium mb-2">{award.organization}</p>
-                      <p className="text-gray-600 text-sm leading-relaxed">{award.description}</p>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <h3 className="font-display font-bold text-lg text-[var(--navy)]">{award.title}</h3>
+                          <Badge variant="outline" className="text-[#3d4d00] border-[var(--lime)]/40 bg-[var(--lime)]/10">
+                            {award.year}
+                          </Badge>
+                        </div>
+                        <p className="text-[var(--navy)] font-medium mb-2">{award.organization}</p>
+                        <p className="text-slate-500 text-sm leading-relaxed">{award.description}</p>
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-blue-700">
-        <div className="max-w-4xl mx-auto text-center text-white">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+      <section className="relative py-28 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/images/landing-pages/image4.png')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy)] via-[var(--navy)]/92 to-[var(--navy)]/70" />
+        <Reveal className="relative max-w-4xl mx-auto text-center text-white">
+          <span className="inline-block text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] mb-5">
+            Mulai Sekarang
+          </span>
+          <h2 className="font-display text-4xl md:text-5xl font-bold tracking-[-0.02em] leading-[1.1] mb-6">
             Percayakan Proyek Anda pada Ahlinya
           </h2>
-          <p className="text-xl mb-8 text-blue-100">
+          <p className="text-lg md:text-xl mb-10 text-white/75 max-w-2xl mx-auto leading-relaxed">
             Dengan berbagai sertifikasi dan penghargaan, kami siap memberikan solusi pengolahan air terbaik untuk Anda.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" className="bg-[var(--lime)] hover:bg-[var(--lime-bright)] text-[var(--navy)] font-bold px-8 py-6 rounded-full shadow-xl shadow-black/25 hover:scale-[1.03] transition-all">
               Konsultasi Gratis
             </Button>
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-white hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
               <Download className="w-5 h-5 mr-2" />
               Download Company Profile
             </Button>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <Footer />

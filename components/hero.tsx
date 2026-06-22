@@ -15,6 +15,9 @@ export function Hero() {
       {/* Wash gradient halus untuk keterbacaan */}
       <div className="absolute inset-0 bg-gradient-to-t from-[var(--navy)]/45 via-transparent to-[var(--navy)]/15" />
 
+      {/* Seam bawah — foto hero melebur ke section putih berikutnya */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-white" />
+
       {/* Konten - di tengah */}
       <div className="relative z-10 w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
         {/* Eyebrow / sub-header atas */}

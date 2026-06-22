@@ -2,13 +2,12 @@ import { Hero } from "@/components/hero"
 import { ProductShowcase } from "@/components/product-showcase"
 import { Footer } from "@/components/footer"
 import { WhatsAppFloat } from "@/components/whatsapp-float"
+import { Reveal } from "@/components/reveal"
 import { Button } from "@/components/ui/button"
 import { CheckCircle, ArrowRight, Target, Lightbulb, Shield } from "lucide-react"
 import { db } from "@/lib/db"
 import { getMockPageContent, isDbConnectionError } from "@/lib/mock-data"
 import * as LucideIcons from "lucide-react"
-
-const staggerDelays = ["", "animation-delay-100", "animation-delay-200", "animation-delay-300"]
 
 // Helper to get icon component
 function getIconComponent(iconName?: string) {
@@ -68,43 +67,66 @@ export default async function Home() {
     <div className="min-h-screen bg-white">
       <Hero />
 
-      {/* ===== STATS — navy band melanjutkan mood hero ===== */}
-      <section className="relative py-24 px-4 bg-[var(--navy)] overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.07] bg-[url('/images/landing-pages/image2.png')] bg-cover bg-center" />
+      {/* ===== STATS — putih: kartu foto penuh + kartu statistik ===== */}
+      <section className="relative py-24 px-4 bg-white overflow-hidden">
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-[var(--lime)]/10 blur-[130px]" />
+        {/* Seam bawah — section putih melebur ke section services ice-white */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#f8f9ff]" />
 
-        <div className="relative max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="inline-block text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] mb-4">
-              {statsHeaderBadge?.title || "Solusi Terpercaya"}
-            </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-[-0.02em] leading-[1.1]">
-              {statsHeaderHeading?.title || "Solusi Pengolahan Air Profesional"}
-            </h2>
-            <p className="mt-5 text-lg text-white/60 leading-relaxed">
-              {statsHeaderDescription?.description || "Perusahaan yang berkomitmen memberikan solusi pengolahan air terbaik dengan teknologi modern dan layanan prima."}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-            {statsContents.map((stat, i) => {
-              const IconComponent = getIconComponent(stat.icon || '')
-
-              return (
-                <div
-                  key={stat.id}
-                  className={`group rounded-[1.25rem] bg-white/[0.06] backdrop-blur-md border border-white/10 p-8 text-center transition-all duration-300 hover:bg-white/[0.1] hover:-translate-y-1 animate-fade-in-up ${staggerDelays[i % 4]}`}
-                >
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[var(--lime)]/15 text-[var(--lime)] mb-5 group-hover:scale-110 transition-transform">
-                    {IconComponent && <IconComponent className="w-7 h-7" />}
-                  </div>
-                  <div className="font-display text-4xl md:text-5xl font-bold text-[var(--lime-bright)] leading-none">
-                    {stat.title}
-                  </div>
-                  <div className="mt-2.5 text-white/60 text-sm font-medium">{stat.subtitle}</div>
+        <div className="relative max-w-7xl mx-auto grid lg:grid-cols-12 gap-8 items-stretch">
+          {/* Kartu foto penuh — kiri */}
+          <Reveal direction="left" className="lg:col-span-5">
+            <div className="group relative h-72 lg:h-full min-h-[440px] rounded-[1.5rem] overflow-hidden border border-[#dce9ff] shadow-[0_40px_90px_-30px_rgba(11,28,48,0.35)]">
+              <div className="absolute inset-0 bg-[url('/images/landing-pages/image2.png')] bg-cover bg-center transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--navy)] via-[var(--navy)]/25 to-transparent" />
+              {/* Ring lime dekoratif */}
+              <div className="absolute top-5 left-5 w-20 h-20 rounded-full border-[6px] border-[var(--lime)]/30" />
+              {/* Chip mengambang */}
+              <div className="absolute bottom-5 left-5 right-5 flex items-center gap-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 px-5 py-4">
+                <div className="flex-shrink-0 w-11 h-11 rounded-full bg-[var(--lime)] text-[var(--navy)] flex items-center justify-center">
+                  <Shield className="w-5 h-5" />
                 </div>
-              )
-            })}
+                <div>
+                  <div className="font-display text-base font-bold text-white leading-none">Tim Ahli Metito</div>
+                  <div className="text-xs text-white/70 mt-1">Berpengalaman &amp; Terpercaya</div>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Header + kartu statistik — kanan */}
+          <div className="lg:col-span-7 flex flex-col justify-center">
+            <Reveal direction="right" className="mb-8">
+              <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
+                {statsHeaderBadge?.title || "Solusi Terpercaya"}
+              </span>
+              <h2 className="font-display text-4xl md:text-5xl font-bold text-[var(--navy)] tracking-[-0.02em] leading-[1.1]">
+                {statsHeaderHeading?.title || "Solusi Pengolahan Air Profesional"}
+              </h2>
+              <p className="mt-5 text-lg text-slate-500 leading-relaxed">
+                {statsHeaderDescription?.description || "Perusahaan yang berkomitmen memberikan solusi pengolahan air terbaik dengan teknologi modern dan layanan prima."}
+              </p>
+            </Reveal>
+
+            <div className="grid grid-cols-2 gap-5">
+              {statsContents.map((stat, i) => {
+                const IconComponent = getIconComponent(stat.icon || '')
+
+                return (
+                  <Reveal key={stat.id} delay={i % 4}>
+                    <div className="group h-full rounded-[1.25rem] bg-[#f8f9ff] border border-[#e5eeff] p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-28px_rgba(11,28,48,0.25)]">
+                      <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--navy)] text-[var(--lime)] mb-4 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
+                        {IconComponent && <IconComponent className="w-7 h-7" />}
+                      </div>
+                      <div className="font-display text-4xl font-bold text-[var(--navy)] leading-none">
+                        {stat.title}
+                      </div>
+                      <div className="mt-2 text-slate-500 text-sm font-medium">{stat.subtitle}</div>
+                    </div>
+                  </Reveal>
+                )
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -112,7 +134,7 @@ export default async function Home() {
       {/* ===== SERVICES — ice white, kartu glass-tonal ===== */}
       <section className="py-24 px-4 bg-[#f8f9ff]">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <Reveal className="text-center max-w-2xl mx-auto mb-16">
             <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
               Keahlian Kami
             </span>
@@ -122,23 +144,22 @@ export default async function Home() {
             <p className="mt-5 text-lg text-slate-500 leading-relaxed">
               {servicesHeaderDescription?.description || "Solusi pengolahan air komprehensif yang disesuaikan untuk memenuhi kebutuhan spesifik Anda dan standar industri."}
             </p>
-          </div>
+          </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {servicesContents.map((service, i) => {
               const IconComponent = getIconComponent(service.icon || '')
 
               return (
-                <div
-                  key={service.id}
-                  className={`group relative rounded-[1.25rem] bg-white border border-[#dce9ff] p-8 shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)] animate-fade-in-up ${staggerDelays[i % 4]}`}
-                >
-                  <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--navy)] text-[var(--lime)] mb-6 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
-                    {IconComponent && <IconComponent className="w-7 h-7" />}
+                <Reveal key={service.id} delay={i % 4}>
+                  <div className="group relative h-full rounded-[1.25rem] bg-white border border-[#dce9ff] p-8 shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)]">
+                    <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--navy)] text-[var(--lime)] mb-6 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
+                      {IconComponent && <IconComponent className="w-7 h-7" />}
+                    </div>
+                    <h3 className="font-display text-xl font-bold text-[var(--navy)] mb-3">{service.title}</h3>
+                    <p className="text-slate-500 leading-relaxed text-[15px]">{service.description}</p>
                   </div>
-                  <h3 className="font-display text-xl font-bold text-[var(--navy)] mb-3">{service.title}</h3>
-                  <p className="text-slate-500 leading-relaxed text-[15px]">{service.description}</p>
-                </div>
+                </Reveal>
               )
             })}
           </div>
@@ -152,17 +173,17 @@ export default async function Home() {
       <section className="py-24 px-4 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           {/* Visual */}
-          <div className="relative">
+          <Reveal direction="left" className="relative">
             <div className="absolute -top-5 -left-5 w-28 h-28 rounded-full border-[7px] border-[var(--lime)]/30" />
             <div className="relative rounded-[1.5rem] overflow-hidden h-[420px] md:h-[500px] bg-[url('/images/landing-pages/image.png')] bg-cover bg-center shadow-[0_40px_90px_-30px_rgba(11,28,48,0.4)]" />
             <div className="absolute -bottom-6 -right-4 md:-right-6 bg-[var(--lime)] rounded-2xl px-7 py-5 shadow-xl shadow-[var(--lime)]/25">
               <div className="font-display text-3xl md:text-4xl font-bold text-[var(--navy)] leading-none">25+</div>
               <div className="mt-1 text-sm font-semibold text-[var(--navy)]/75">Tahun Pengalaman</div>
             </div>
-          </div>
+          </Reveal>
 
           {/* Konten */}
-          <div>
+          <Reveal direction="right">
             <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
               Visi &amp; Misi
             </span>
@@ -194,7 +215,7 @@ export default async function Home() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -202,7 +223,7 @@ export default async function Home() {
       <section className="py-24 px-4 bg-[#f8f9ff] overflow-hidden">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           {/* Konten */}
-          <div>
+          <Reveal direction="left">
             <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
               Mengapa Metito
             </span>
@@ -233,10 +254,10 @@ export default async function Home() {
                 Hubungi Kami
               </Button>
             </div>
-          </div>
+          </Reveal>
 
           {/* Foto engineer + kartu mengambang */}
-          <div className="relative">
+          <Reveal direction="right" className="relative">
             <div className="relative rounded-[1.5rem] overflow-hidden h-[460px] md:h-[560px] bg-[url('/images/landing-pages/image5.png')] bg-cover bg-top shadow-[0_40px_90px_-30px_rgba(11,28,48,0.4)]" />
             <div className="absolute top-6 -left-4 md:-left-6 flex items-center gap-3 rounded-2xl bg-white/80 backdrop-blur-md border border-white/60 px-5 py-4 shadow-xl">
               <div className="w-11 h-11 rounded-full bg-[var(--navy)] text-[var(--lime)] flex items-center justify-center">
@@ -251,7 +272,7 @@ export default async function Home() {
               <div className="font-display text-3xl font-bold text-[var(--navy)] leading-none">100%</div>
               <div className="mt-1 text-sm font-semibold text-[var(--navy)]/75">Kepuasan Klien</div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -259,7 +280,7 @@ export default async function Home() {
       <section className="relative py-28 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/images/landing-pages/image4.png')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy)] via-[var(--navy)]/92 to-[var(--navy)]/70" />
-        <div className="relative max-w-4xl mx-auto text-center">
+        <Reveal className="relative max-w-4xl mx-auto text-center">
           <span className="inline-block text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] mb-5">
             Mulai Sekarang
           </span>
@@ -278,7 +299,7 @@ export default async function Home() {
               Unduh Katalog
             </Button>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <Footer />
