@@ -45,25 +45,25 @@ export function Header() {
     >
       {/* Top Bar */}
       {!isHome && (
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 shadow-sm">
+        <div className="bg-[var(--navy)] text-white py-2 shadow-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center text-sm">
               <div className="flex items-center space-x-8">
                 <div className="flex items-center space-x-2 group">
-                  <Phone className="w-4 h-4 group-hover:text-blue-200 transition-colors" />
+                  <Phone className="w-4 h-4 text-[var(--lime)] group-hover:text-[var(--lime-bright)] transition-colors" />
                   <span className="font-medium">+62 812-1760-3950</span>
                 </div>
                 <div className="flex items-center space-x-2 group">
-                  <Mail className="w-4 h-4 group-hover:text-blue-200 transition-colors" />
+                  <Mail className="w-4 h-4 text-[var(--lime)] group-hover:text-[var(--lime-bright)] transition-colors" />
                   <span className="font-medium">info@metito.id</span>
                 </div>
                 <div className="hidden lg:flex items-center space-x-2 group">
-                  <MapPin className="w-4 h-4 group-hover:text-blue-200 transition-colors" />
+                  <MapPin className="w-4 h-4 text-[var(--lime)] group-hover:text-[var(--lime-bright)] transition-colors" />
                   <span className="font-medium">Makassar, Indonesia</span>
                 </div>
               </div>
               <div className="hidden md:flex items-center space-x-2">
-                <Clock className="w-4 h-4" />
+                <Clock className="w-4 h-4 text-[var(--lime)]" />
                 <span className="font-medium">Sen - Jum: 08:00 - 18:00</span>
               </div>
             </div>
@@ -84,10 +84,10 @@ export function Header() {
               className="group-hover:scale-105 transition-transform duration-300"
             />
             <div className="flex flex-col justify-center">
-              <span className={`text-xl md:text-2xl font-extrabold leading-none tracking-wide ${isHome ? "text-white group-hover:text-blue-200" : "text-gray-900 group-hover:text-blue-600"}`}>
+              <span className={`text-xl md:text-2xl font-extrabold leading-none tracking-wide ${isHome ? "text-white group-hover:text-[var(--lime)]" : "text-[var(--navy)] group-hover:text-[var(--lime-dim)]"}`}>
                 METITO
               </span>
-              <span className={`text-[10px] md:text-xs font-medium leading-tight whitespace-nowrap ${isHome ? "text-blue-100/90" : "text-gray-500"}`}>
+              <span className={`text-[10px] md:text-xs font-medium leading-tight whitespace-nowrap ${isHome ? "text-white/80" : "text-slate-500"}`}>
                 Multi Enviro Tirta Teknologi
               </span>
             </div>
@@ -117,11 +117,11 @@ export function Header() {
           {!isHome && (
             <div className="hidden md:flex items-center space-x-3 flex-1 max-w-sm mx-6">
               <div className="relative w-full group">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 group-focus-within:text-blue-600 transition-colors" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 group-focus-within:text-[var(--navy)] transition-colors" />
                 <Input
                   type="text"
                   placeholder="Cari solusi..."
-                  className="pl-10 pr-3 py-2 w-full text-sm border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50/50 hover:bg-white"
+                  className="pl-10 pr-3 py-2 w-full text-sm border-[#dce9ff] rounded-lg focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent transition-all duration-200 bg-[#f8f9ff] hover:bg-white"
                 />
               </div>
             </div>
@@ -133,7 +133,7 @@ export function Header() {
               variant="ghost"
               size="sm"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`p-2 rounded-lg transition-all duration-200 ${isHome ? "text-white hover:bg-white/15" : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"}`}
+              className={`p-2 rounded-lg transition-all duration-200 ${isHome ? "text-white hover:bg-white/15" : "text-slate-600 hover:text-[var(--navy)] hover:bg-[#eff4ff]"}`}
             >
               {isMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -150,11 +150,11 @@ export function Header() {
             <div className="px-4 pt-4 pb-6 space-y-4">
               {/* Mobile Search */}
               <div className="relative group">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 group-focus-within:text-blue-600 transition-colors" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 group-focus-within:text-[var(--navy)] transition-colors" />
                 <Input
                   type="text"
                   placeholder="Cari solusi..."
-                  className="pl-10 pr-3 py-2 w-full text-sm border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50/50"
+                  className="pl-10 pr-3 py-2 w-full text-sm border-[#dce9ff] rounded-lg focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent bg-[#f8f9ff]"
                 />
               </div>
 
@@ -165,14 +165,14 @@ export function Header() {
                     key={item.name}
                     href={item.href}
                     className={`flex items-center justify-center px-3 py-2 rounded-lg transition-all duration-200 font-medium text-sm ${isActive(item)
-                      ? "text-blue-600 bg-blue-50 shadow-sm border border-blue-100"
-                      : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                      ? "text-[var(--navy)] bg-[var(--lime)] shadow-sm"
+                      : "text-slate-700 hover:text-[var(--navy)] hover:bg-[#eff4ff]"
                       }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {item.name}
                     {isActive(item) && (
-                      <div className="ml-2 w-2 h-2 bg-blue-600 rounded-full"></div>
+                      <div className="ml-2 w-2 h-2 bg-[var(--navy)] rounded-full"></div>
                     )}
                   </Link>
                 ))}
@@ -180,7 +180,7 @@ export function Header() {
 
               {/* Mobile CTA Section */}
               <div className="pt-3 border-t border-gray-100 space-y-2">
-                <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-2 rounded-lg shadow-lg text-sm">
+                <Button className="w-full bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white font-semibold py-2 rounded-full shadow-lg text-sm">
                   Dapatkan Penawaran Gratis
                 </Button>
               </div>
@@ -188,18 +188,18 @@ export function Header() {
               {/* Mobile Contact Info */}
               <div className="pt-3 border-t border-gray-100">
                 <div className="grid grid-cols-1 gap-2">
-                  <div className="flex items-center space-x-3 px-3 py-2 bg-gray-50 rounded-lg">
-                    <Phone className="w-4 h-4 text-blue-600" />
+                  <div className="flex items-center space-x-3 px-3 py-2 bg-[#f8f9ff] rounded-lg">
+                    <Phone className="w-4 h-4 text-[var(--navy)]" />
                     <div>
-                      <p className="text-xs font-medium text-gray-700">Telepon Kami</p>
-                      <p className="text-xs text-gray-500">+62 812-1760-3950</p>
+                      <p className="text-xs font-medium text-slate-700">Telepon Kami</p>
+                      <p className="text-xs text-slate-500">+62 812-1760-3950</p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3 px-3 py-2 bg-gray-50 rounded-lg">
-                    <Mail className="w-4 h-4 text-blue-600" />
+                  <div className="flex items-center space-x-3 px-3 py-2 bg-[#f8f9ff] rounded-lg">
+                    <Mail className="w-4 h-4 text-[var(--navy)]" />
                     <div>
-                      <p className="text-xs font-medium text-gray-700">Email Kami</p>
-                      <p className="text-xs text-gray-500">info@metito.id</p>
+                      <p className="text-xs font-medium text-slate-700">Email Kami</p>
+                      <p className="text-xs text-slate-500">info@metito.id</p>
                     </div>
                   </div>
                 </div>

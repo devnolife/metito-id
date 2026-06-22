@@ -12,8 +12,8 @@ export function Hero() {
       {/* Background Image — tampil langsung tanpa overlay warna */}
       <div className="absolute inset-0 bg-[url('/images/bg-hero.png')] bg-cover bg-center bg-no-repeat" />
 
-      {/* Wash gradient halus untuk keterbacaan */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[var(--navy)]/45 via-transparent to-[var(--navy)]/15" />
+      {/* Wash vertikal halus untuk konsistensi atas-bawah */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[var(--navy)]/35 via-transparent to-[var(--navy)]/25" />
 
       {/* Seam bawah — foto hero melebur ke section putih berikutnya */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-white" />
@@ -30,13 +30,13 @@ export function Hero() {
         </div>
 
         {/* Heading — ringkas & modern */}
-        <h1 className="font-display font-bold tracking-[-0.02em] leading-[1.05] text-white text-5xl md:text-6xl lg:text-7xl [text-shadow:_0_2px_26px_rgb(0_0_0_/_50%)]">
+        <h1 className="font-display font-bold tracking-[-0.02em] leading-[1.05] text-white text-5xl md:text-6xl lg:text-7xl [text-shadow:_0_2px_4px_rgb(11_28_48_/_60%),_0_10px_34px_rgb(11_28_48_/_50%)]">
           Innovation for{" "}
-          <span className="text-white">Water Solutions</span>
+          <span className="text-[var(--lime-bright)] [text-shadow:_0_2px_4px_rgb(11_28_48_/_55%),_0_8px_26px_rgb(11_28_48_/_45%)]">Water Solutions</span>
         </h1>
 
         {/* Sub-header */}
-        <p className="mx-auto mt-5 max-w-xl text-base md:text-lg lg:text-xl text-white leading-relaxed [text-shadow:_0_1px_12px_rgb(0_0_0_/_45%)]">
+        <p className="mx-auto mt-5 max-w-xl text-base md:text-lg lg:text-xl text-white font-medium leading-relaxed [text-shadow:_0_1px_3px_rgb(11_28_48_/_60%),_0_4px_18px_rgb(11_28_48_/_50%)]">
           Inovasi pengolahan air &amp; air limbah untuk industri dan perkotaan di seluruh Indonesia.
         </p>
 

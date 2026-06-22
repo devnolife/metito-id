@@ -24,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={`${hankenGrotesk.variable} ${inter.className}`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${hankenGrotesk.variable} ${inter.className}`} suppressHydrationWarning>
         <ConditionalHeader />
         {children}
         <Toaster />

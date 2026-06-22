@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { db } from '@/lib/db'
 import { isAdmin } from '@/lib/auth'
 import { successResponse, errorResponse, validationErrorResponse, unauthorizedResponse } from '@/lib/api-response'
+import { isDbConnectionError } from '@/lib/mock-data'
 import slugify from 'slugify'
 
 const createBlogPostSchema = z.object({
@@ -93,6 +94,13 @@ export async function GET(request: NextRequest) {
     })
 
   } catch (error) {
+    if (isDbConnectionError(error)) {
+      console.warn('[mock] Database offline – serving empty blog posts')
+      return successResponse({
+        posts: [],
+        pagination: { page: 1, limit: 10, total: 0, totalPages: 0, hasNext: false, hasPrev: false }
+      })
+    }
     console.error('Get blog posts error:', error)
     return errorResponse('Failed to fetch blog posts', 500)
   }

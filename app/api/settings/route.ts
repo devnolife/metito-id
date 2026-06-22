@@ -7,6 +7,7 @@ import {
   notFoundResponse
 } from '@/lib/api-response'
 import { validateAdminAccess } from '@/lib/admin-auth'
+import { isDbConnectionError } from '@/lib/mock-data'
 
 export async function GET(request: NextRequest) {
   try {
@@ -57,6 +58,11 @@ export async function GET(request: NextRequest) {
 
     return successResponse(parsedSettings)
   } catch (error) {
+    if (isDbConnectionError(error)) {
+      const key = new URL(request.url).searchParams.get('key')
+      console.warn('[mock] Database offline – serving default settings')
+      return key ? successResponse({ key, value: null, type: 'string' }) : successResponse([])
+    }
     console.error('Settings GET error:', error)
     return errorResponse('Failed to fetch settings')
   }

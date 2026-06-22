@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { db } from '@/lib/db'
 import { isAdmin } from '@/lib/auth'
 import { successResponse, errorResponse, validationErrorResponse, unauthorizedResponse } from '@/lib/api-response'
+import { isDbConnectionError } from '@/lib/mock-data'
 
 const createCertificationSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -15,7 +16,7 @@ const createCertificationSchema = z.object({
   credentialUrl: z.string().url('Invalid credential URL').optional().or(z.literal('')).optional(),
   category: z.string().optional(),
   level: z.string().optional(),
-  status: z.enum(['active','expired','pending']).optional(),
+  status: z.enum(['active', 'expired', 'pending']).optional(),
 })
 
 // GET /api/certifications - List all certifications
@@ -42,6 +43,10 @@ export async function GET(request: NextRequest) {
     return successResponse(certifications)
 
   } catch (error) {
+    if (isDbConnectionError(error)) {
+      console.warn('[mock] Database offline – serving empty certifications')
+      return successResponse([])
+    }
     console.error('Get certifications error:', error)
     return errorResponse('Failed to fetch certifications', 500)
   }

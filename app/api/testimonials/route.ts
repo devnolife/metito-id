@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { db } from '@/lib/db'
 import { getUserFromRequest, isAdmin } from '@/lib/auth'
 import { successResponse, errorResponse, validationErrorResponse, unauthorizedResponse } from '@/lib/api-response'
+import { isDbConnectionError } from '@/lib/mock-data'
 
 const createTestimonialSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -51,6 +52,10 @@ export async function GET(request: NextRequest) {
     return successResponse(testimonials)
 
   } catch (error) {
+    if (isDbConnectionError(error)) {
+      console.warn('[mock] Database offline – serving empty testimonials')
+      return successResponse([])
+    }
     console.error('Get testimonials error:', error)
     return errorResponse('Failed to fetch testimonials', 500)
   }

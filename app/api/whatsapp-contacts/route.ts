@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { db } from '@/lib/db'
 import { isAdmin } from '@/lib/auth'
 import { successResponse, errorResponse, validationErrorResponse, unauthorizedResponse } from '@/lib/api-response'
+import { isDbConnectionError } from '@/lib/mock-data'
 
 const createContactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -33,6 +34,10 @@ export async function GET(request: NextRequest) {
     return successResponse(contacts)
 
   } catch (error) {
+    if (isDbConnectionError(error)) {
+      console.warn('[mock] Database offline – serving empty WhatsApp contacts')
+      return successResponse([])
+    }
     console.error('Get WhatsApp contacts error:', error)
     return errorResponse('Failed to fetch WhatsApp contacts', 500)
   }

@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { db } from '@/lib/db'
 import { isAdmin } from '@/lib/auth'
 import { successResponse, errorResponse, validationErrorResponse, unauthorizedResponse } from '@/lib/api-response'
+import { isDbConnectionError } from '@/lib/mock-data'
 import slugify from 'slugify'
 
 const createServiceSchema = z.object({
@@ -38,6 +39,10 @@ export async function GET(request: NextRequest) {
     return successResponse(services)
 
   } catch (error) {
+    if (isDbConnectionError(error)) {
+      console.warn('[mock] Database offline – serving empty services')
+      return successResponse([])
+    }
     console.error('Get services error:', error)
     return errorResponse('Failed to fetch services', 500)
   }

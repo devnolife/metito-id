@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { db } from '@/lib/db'
 import { isAdmin } from '@/lib/auth'
 import { successResponse, errorResponse, validationErrorResponse, unauthorizedResponse } from '@/lib/api-response'
+import { isDbConnectionError } from '@/lib/mock-data'
 
 const createGalleryItemSchema = z.object({
   title: z.string().min(2, 'Title must be at least 2 characters'),
@@ -75,6 +76,13 @@ export async function GET(request: NextRequest) {
     })
 
   } catch (error) {
+    if (isDbConnectionError(error)) {
+      console.warn('[mock] Database offline – serving empty gallery')
+      return successResponse({
+        galleryItems: [],
+        pagination: { page: 1, limit: 12, total: 0, totalPages: 0, hasNext: false, hasPrev: false }
+      })
+    }
     console.error('Get gallery items error:', error)
     return errorResponse('Failed to fetch gallery items', 500)
   }
