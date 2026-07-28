@@ -1,6 +1,8 @@
 // Mock data fallback used when the database server is unreachable.
 // This keeps the public site fully browsable while the DB is offline.
 
+import { PRODUCT_GROUPS } from './company-profile'
+
 export interface MockPageContent {
   id: string
   page: string
@@ -42,25 +44,25 @@ function pc(partial: Partial<MockPageContent> & Pick<MockPageContent, 'page' | '
 // All mock page content, grouped so getMockPageContent can filter by page + section.
 const MOCK_PAGE_CONTENT: MockPageContent[] = [
   // Home - stats header
-  pc({ page: 'home', section: 'stats_header', key: 'badge', title: 'Solusi Terpercaya', order: 1 }),
-  pc({ page: 'home', section: 'stats_header', key: 'heading', title: 'Solusi Pengolahan Air Profesional', order: 2 }),
-  pc({ page: 'home', section: 'stats_header', key: 'description', description: 'Perusahaan yang berkomitmen memberikan solusi pengolahan air terbaik dengan teknologi modern dan layanan prima.', order: 3 }),
+  pc({ page: 'home', section: 'stats_header', key: 'badge', title: 'Solusi Terintegrasi', order: 1 }),
+  pc({ page: 'home', section: 'stats_header', key: 'heading', title: 'Mitra Terpercaya untuk Air, Industri, dan Pertambangan', order: 2 }),
+  pc({ page: 'home', section: 'stats_header', key: 'description', description: 'PT. METITO (Multi Enviro Tirta Teknologi) menyediakan solusi terintegrasi untuk sektor Water Treatment, Industrial Supply, Engineering, Equipment, Spare Parts, dan Mining Support Services.', order: 3 }),
 
-  // Home - stats
-  pc({ page: 'home', section: 'stats', key: 'stat_1', title: '100%', subtitle: 'Komitmen Kualitas', icon: 'Target', content: { color: 'text-blue-600' }, order: 1 }),
-  pc({ page: 'home', section: 'stats', key: 'stat_2', title: '24/7', subtitle: 'Layanan Siap', icon: 'Lightbulb', content: { color: 'text-green-600' }, order: 2 }),
-  pc({ page: 'home', section: 'stats', key: 'stat_3', title: '∞', subtitle: 'Dedikasi Tinggi', icon: 'Heart', content: { color: 'text-purple-600' }, order: 3 }),
-  pc({ page: 'home', section: 'stats', key: 'stat_4', title: '100%', subtitle: 'Jaminan Kualitas', icon: 'Shield', content: { color: 'text-orange-600' }, order: 4 }),
+  // Home - stats (komitmen dari company profile: kualitas, ketepatan waktu, kepuasan pelanggan)
+  pc({ page: 'home', section: 'stats', key: 'stat_1', title: 'Kualitas', subtitle: 'Produk dari supplier terpercaya', icon: 'BadgeCheck', content: { color: 'text-blue-600' }, order: 1 }),
+  pc({ page: 'home', section: 'stats', key: 'stat_2', title: 'Tepat Waktu', subtitle: 'Komitmen ketepatan pengiriman', icon: 'Truck', content: { color: 'text-green-600' }, order: 2 }),
+  pc({ page: 'home', section: 'stats', key: 'stat_3', title: 'Purna Jual', subtitle: 'Dukungan teknis profesional', icon: 'Headphones', content: { color: 'text-purple-600' }, order: 3 }),
+  pc({ page: 'home', section: 'stats', key: 'stat_4', title: '6 Sektor', subtitle: 'Industri yang kami layani', icon: 'Factory', content: { color: 'text-orange-600' }, order: 4 }),
 
   // Home - services header
   pc({ page: 'home', section: 'services_header', key: 'heading', title: 'Keahlian Kami', order: 1 }),
-  pc({ page: 'home', section: 'services_header', key: 'description', description: 'Solusi pengolahan air komprehensif yang disesuaikan untuk memenuhi kebutuhan spesifik Anda dan standar industri.', order: 2 }),
+  pc({ page: 'home', section: 'services_header', key: 'description', description: 'Chemical supply, engineering services, equipment supply, dan spare parts supply dalam satu mitra terintegrasi.', order: 2 }),
 
-  // Home - services
-  pc({ page: 'home', section: 'services', key: 'service_1', title: 'Pengolahan Air', description: 'Solusi pengolahan air lengkap untuk aplikasi industri dan perkotaan', icon: 'Droplets', content: { color: 'text-blue-600' }, order: 1 }),
-  pc({ page: 'home', section: 'services', key: 'service_2', title: 'Sistem Filtrasi', description: 'Teknologi filtrasi canggih untuk pasokan air bersih dan aman', icon: 'Filter', content: { color: 'text-green-600' }, order: 2 }),
-  pc({ page: 'home', section: 'services', key: 'service_3', title: 'Disinfeksi', description: 'Sistem disinfeksi UV dan ozon untuk eliminasi patogen', icon: 'Zap', content: { color: 'text-purple-600' }, order: 3 }),
-  pc({ page: 'home', section: 'services', key: 'service_4', title: 'Pemeliharaan', description: 'Layanan pemeliharaan dan dukungan profesional untuk performa optimal', icon: 'Settings', content: { color: 'text-orange-600' }, order: 4 }),
+  // Home - services (mengikuti Business Lines pada company profile)
+  pc({ page: 'home', section: 'services', key: 'service_1', title: 'Chemical Supply', description: 'Penyediaan bahan kimia industri untuk berbagai aplikasi.', icon: 'FlaskConical', content: { color: 'text-red-600' }, order: 1 }),
+  pc({ page: 'home', section: 'services', key: 'service_2', title: 'Engineering Services', description: 'Perancangan, instalasi, hingga pemeliharaan sistem dan proses industri.', icon: 'Wrench', content: { color: 'text-blue-600' }, order: 2 }),
+  pc({ page: 'home', section: 'services', key: 'service_3', title: 'Equipment Supply', description: 'Equipment dan sistem pendukung berstandar industri dari pemasok terpercaya.', icon: 'Settings', content: { color: 'text-amber-600' }, order: 3 }),
+  pc({ page: 'home', section: 'services', key: 'service_4', title: 'Spare Parts Supply', description: 'Suku cadang original dan alternatif berkualitas untuk meminimalkan downtime.', icon: 'Cog', content: { color: 'text-green-600' }, order: 4 }),
 ]
 
 export function getMockPageContent(page: string, section: string): MockPageContent[] {
@@ -113,15 +115,19 @@ export interface MockProduct {
   category: { id: string; name: string; slug: string }
 }
 
-// Category names match the icon map used in components/product-showcase.tsx
-export const MOCK_CATEGORIES: MockCategory[] = [
-  { id: 'cat-membran', name: 'Sistem Membran', slug: 'sistem-membran', description: 'Sistem reverse osmosis & membran untuk pemurnian air', icon: 'Droplets', color: '#0ea5e9', isActive: true, createdAt: now, updatedAt: now },
-  { id: 'cat-filtrasi', name: 'Unit Filtrasi', slug: 'unit-filtrasi', description: 'Unit filtrasi multimedia & karbon aktif', icon: 'Waves', color: '#10b981', isActive: true, createdAt: now, updatedAt: now },
-  { id: 'cat-disinfeksi', name: 'Disinfeksi', slug: 'disinfeksi', description: 'Sistem disinfeksi UV, ozon & klorinasi', icon: 'Zap', color: '#8b5cf6', isActive: true, createdAt: now, updatedAt: now },
-  { id: 'cat-pompa', name: 'Pompa & Motor', slug: 'pompa-motor', description: 'Pompa industri & motor efisiensi tinggi', icon: 'Settings', color: '#f59e0b', isActive: true, createdAt: now, updatedAt: now },
-  { id: 'cat-monitoring', name: 'Monitoring', slug: 'monitoring', description: 'Sistem monitoring & kontrol kualitas air', icon: 'Gauge', color: '#06b6d4', isActive: true, createdAt: now, updatedAt: now },
-  { id: 'cat-dosis', name: 'Dosis Kimia', slug: 'dosis-kimia', description: 'Sistem dosing kimia presisi', icon: 'FlaskConical', color: '#ef4444', isActive: true, createdAt: now, updatedAt: now },
-]
+// Categories mirror the six product groups in the official company profile.
+// Names match the icon map used in components/product-showcase.tsx.
+export const MOCK_CATEGORIES: MockCategory[] = PRODUCT_GROUPS.map((group) => ({
+  id: `cat-${group.slug}`,
+  name: group.title,
+  slug: group.slug,
+  description: group.description,
+  icon: group.icon,
+  color: group.color,
+  isActive: true,
+  createdAt: now,
+  updatedAt: now,
+}))
 
 const catRef = (id: string) => {
   const c = MOCK_CATEGORIES.find((x) => x.id === id)!
@@ -157,67 +163,88 @@ function prod(p: Partial<MockProduct> & Pick<MockProduct, 'id' | 'name' | 'slug'
 
 export const MOCK_PRODUCTS: MockProduct[] = [
   prod({
-    id: 'prod-1', name: 'Reverse Osmosis Industrial RO-5000', slug: 'reverse-osmosis-ro-5000', categoryId: 'cat-membran',
-    shortDesc: 'Sistem RO kapasitas besar untuk industri', description: 'Sistem reverse osmosis untuk kebutuhan air proses industri dengan tingkat penolakan garam tinggi.',
-    price: 'Hubungi Kami', capacity: '5.000 L/jam', efficiency: '99%', location: 'Jakarta', application: 'Industrial',
-    features: ['Membran spiral wound', 'Recovery rate tinggi', 'Hemat energi', 'Kontrol otomatis'],
+    id: 'prod-1', name: 'PAC (Poly Aluminium Chloride)', slug: 'pac-poly-aluminium-chloride', categoryId: 'cat-chemical-supply',
+    shortDesc: 'Koagulan utama untuk WTP & WWTP', description: 'Poly Aluminium Chloride sebagai koagulan untuk proses penjernihan air pada Water Treatment Plant dan Waste Water Treatment Plant.',
+    price: 'Hubungi Kami', application: 'Industrial',
+    features: ['Koagulan efektif', 'Dosis rendah', 'Tersedia bentuk bubuk & cair', 'Untuk WTP dan WWTP'],
     images: ['/images/products/product-1.jpg'], isFeatured: true,
   }),
   prod({
-    id: 'prod-2', name: 'Brackish Water RO BWRO-2000', slug: 'brackish-water-ro-2000', categoryId: 'cat-membran',
-    shortDesc: 'RO air payau untuk municipal', description: 'Sistem RO untuk mengolah air payau menjadi air bersih layak konsumsi.',
-    price: 'Hubungi Kami', capacity: '2.000 L/jam', efficiency: '98%', location: 'Surabaya', application: 'Municipal',
-    features: ['Anti-scalant dosing', 'CIP system', 'SCADA ready'],
+    id: 'prod-2', name: 'Antiscalant RO & Membrane Cleaner', slug: 'antiscalant-ro-membrane-cleaner', categoryId: 'cat-chemical-supply',
+    shortDesc: 'Kimia perawatan membran reverse osmosis', description: 'Antiscalant untuk mencegah pembentukan kerak pada membran RO serta membrane cleaner untuk pembersihan berkala.',
+    price: 'Hubungi Kami', application: 'Industrial',
+    features: ['Mencegah scaling membran', 'Memperpanjang umur membran', 'Menjaga recovery rate', 'Pembersihan CIP'],
     images: ['/images/products/product-2.jpg'], isFeatured: true,
   }),
   prod({
-    id: 'prod-3', name: 'Multimedia Filter MMF-3000', slug: 'multimedia-filter-3000', categoryId: 'cat-filtrasi',
-    shortDesc: 'Filter multimedia kapasitas tinggi', description: 'Unit filtrasi multimedia untuk menghilangkan kekeruhan dan partikel tersuspensi.',
-    price: 'Hubungi Kami', capacity: '3.000 L/jam', efficiency: '95%', location: 'Bandung', application: 'Industrial',
-    features: ['Media pasir silika', 'Backwash otomatis', 'Vessel FRP'],
+    id: 'prod-3', name: 'Ion Exchange Resin Kation & Anion', slug: 'ion-exchange-resin-kation-anion', categoryId: 'cat-water-treatment',
+    shortDesc: 'Resin penukar ion untuk demineralisasi', description: 'Resin kation dan anion untuk sistem demineralisasi, softener, dan mixed bed pada pengolahan air industri.',
+    price: 'Hubungi Kami', application: 'Industrial',
+    features: ['Resin kation & anion', 'Untuk demin plant & softener', 'Kapasitas tukar ion tinggi', 'Regenerasi mudah'],
     images: ['/images/products/product-3.jpeg'],
   }),
   prod({
-    id: 'prod-4', name: 'Activated Carbon Filter ACF-2500', slug: 'activated-carbon-filter-2500', categoryId: 'cat-filtrasi',
-    shortDesc: 'Filter karbon aktif penghilang bau', description: 'Menghilangkan klorin, bau, dan senyawa organik dari air.',
-    price: 'Hubungi Kami', capacity: '2.500 L/jam', efficiency: '93%', location: 'Semarang', application: 'Municipal',
-    features: ['Karbon aktif granular', 'Penghilang klorin', 'Low pressure drop'],
-    images: ['/images/products/product-4.jpg'],
+    id: 'prod-4', name: 'Membrane RO / UF / NF', slug: 'membrane-ro-uf-nf', categoryId: 'cat-water-treatment',
+    shortDesc: 'Membran RO, ultrafiltrasi & nanofiltrasi', description: 'Membran reverse osmosis, ultrafiltration, dan nanofiltration untuk berbagai kebutuhan pemurnian air.',
+    price: 'Hubungi Kami', application: 'Industrial',
+    features: ['Tipe RO, UF, dan NF', 'Rejeksi garam tinggi', 'Beragam ukuran elemen', 'Cocok untuk air payau & air proses'],
+    images: ['/images/products/product-4.jpg'], isFeatured: true,
   }),
   prod({
-    id: 'prod-5', name: 'UV Disinfection System UV-1000', slug: 'uv-disinfection-uv-1000', categoryId: 'cat-disinfeksi',
-    shortDesc: 'Disinfeksi UV tanpa bahan kimia', description: 'Sistem disinfeksi ultraviolet untuk membunuh bakteri dan virus tanpa bahan kimia.',
-    price: 'Hubungi Kami', capacity: '1.000 L/jam', efficiency: '99,9%', location: 'Jakarta', application: 'Municipal',
-    features: ['Lampu UV-C', 'Tanpa bahan kimia', 'Sensor intensitas UV'],
+    id: 'prod-5', name: 'Reverse Osmosis System', slug: 'reverse-osmosis-system', categoryId: 'cat-equipment-supply',
+    shortDesc: 'Paket sistem RO lengkap', description: 'Sistem reverse osmosis lengkap dengan membrane housing, pressure vessel, high pressure pump, dan instrumentasi RO.',
+    price: 'Hubungi Kami', application: 'Industrial',
+    features: ['RO membrane & housing', 'Pressure vessel', 'High pressure pump', 'Instrumentasi RO'],
     images: ['/images/products/product-5.jpg'], isFeatured: true,
   }),
   prod({
-    id: 'prod-6', name: 'Ozone Generator OZ-500', slug: 'ozone-generator-oz-500', categoryId: 'cat-disinfeksi',
-    shortDesc: 'Generator ozon untuk oksidasi', description: 'Generator ozon untuk disinfeksi dan oksidasi lanjutan pada pengolahan air.',
-    price: 'Hubungi Kami', capacity: '500 g/jam', efficiency: '99%', location: 'Medan', application: 'Industrial',
-    features: ['Produksi ozon stabil', 'Pendingin udara', 'Kontrol PLC'],
+    id: 'prod-6', name: 'Chlorine Dioxide Generator', slug: 'chlorine-dioxide-generator', categoryId: 'cat-equipment-supply',
+    shortDesc: 'Generator ClO₂ dengan dosing & monitoring', description: 'Sistem chlorine dioxide lengkap dengan chemical dosing package dan monitoring system untuk disinfeksi air.',
+    price: 'Hubungi Kami', application: 'Industrial',
+    features: ['Chlorine dioxide generator', 'Chemical dosing package', 'Monitoring system', 'Disinfeksi efektif'],
     images: ['/images/products/product-6.jpg'],
   }),
   prod({
-    id: 'prod-7', name: 'Centrifugal Pump CP-75', slug: 'centrifugal-pump-cp-75', categoryId: 'cat-pompa',
-    shortDesc: 'Pompa sentrifugal efisiensi tinggi', description: 'Pompa sentrifugal untuk transfer air bersih dan air proses.',
-    price: 'Hubungi Kami', capacity: '75 m³/jam', efficiency: '90%', location: 'Bekasi', application: 'Industrial',
-    features: ['Material stainless steel', 'Hemat energi', 'Perawatan mudah'],
+    id: 'prod-7', name: 'Multi Media Filter & Carbon Filter', slug: 'multi-media-filter-carbon-filter', categoryId: 'cat-equipment-supply',
+    shortDesc: 'Unit filtrasi multimedia & karbon aktif', description: 'Multi media filter dan activated carbon filter untuk menghilangkan kekeruhan, klorin, bau, dan senyawa organik.',
+    price: 'Hubungi Kami', application: 'Industrial',
+    features: ['Multi media filter', 'Activated carbon filter', 'Iron & manganese removal', 'Softener system'],
     images: ['/images/products/product-7.jpg'],
   }),
   prod({
-    id: 'prod-8', name: 'Online Water Quality Monitor WQM-Pro', slug: 'water-quality-monitor-wqm-pro', categoryId: 'cat-monitoring',
-    shortDesc: 'Monitor kualitas air real-time', description: 'Sistem monitoring kualitas air online untuk pH, TDS, kekeruhan, dan klorin.',
-    price: 'Hubungi Kami', capacity: 'Real-time', efficiency: '—', location: 'Jakarta', application: 'Municipal',
-    features: ['Sensor pH/TDS/turbidity', 'Dashboard online', 'Notifikasi alarm'],
-    images: ['/images/products/product-8.jpg'], isFeatured: true,
+    id: 'prod-8', name: 'Dosing Pump & High Pressure Pump', slug: 'dosing-pump-high-pressure-pump', categoryId: 'cat-equipment-supply',
+    shortDesc: 'Pompa dosing, feed, transfer & submersible', description: 'Rangkaian pompa untuk pengolahan air: high pressure pump, feed pump, dosing pump, transfer pump, dan submersible pump.',
+    price: 'Hubungi Kami', application: 'Industrial',
+    features: ['High pressure pump', 'Feed & transfer pump', 'Dosing pump presisi', 'Submersible pump'],
+    images: ['/images/products/product-8.jpg'],
   }),
   prod({
-    id: 'prod-9', name: 'Chemical Dosing Pump CDP-20', slug: 'chemical-dosing-pump-cdp-20', categoryId: 'cat-dosis',
-    shortDesc: 'Pompa dosing kimia presisi', description: 'Pompa dosing untuk injeksi bahan kimia secara presisi pada proses pengolahan air.',
-    price: 'Hubungi Kami', capacity: '20 L/jam', efficiency: '—', location: 'Tangerang', application: 'Industrial',
-    features: ['Akurasi tinggi', 'Tahan korosi', 'Kontrol laju dosis'],
+    id: 'prod-9', name: 'Cartridge Filter & Bag Filter', slug: 'cartridge-filter-bag-filter', categoryId: 'cat-consumables-spare-parts',
+    shortDesc: 'Elemen filter pengganti berkala', description: 'Cartridge filter dan bag filter sebagai consumable pada sistem WTP, WWTP, dan STP.',
+    price: 'Hubungi Kami', application: 'Industrial',
+    features: ['Berbagai mikron rating', 'Cartridge & bag filter', 'Ketersediaan stok terjaga', 'Meminimalkan downtime'],
     images: ['/images/products/product-9.jpg'],
+  }),
+  prod({
+    id: 'prod-10', name: 'Instrumentation — pH, ORP & Flow Meter', slug: 'instrumentation-ph-orp-flow-meter', categoryId: 'cat-consumables-spare-parts',
+    shortDesc: 'Instrumen pengukuran kualitas air', description: 'pH meter, ORP meter, conductivity meter, flow meter, pressure gauge, dan level sensor untuk monitoring proses.',
+    price: 'Hubungi Kami', application: 'Industrial',
+    features: ['pH & ORP meter', 'Conductivity meter', 'Flow meter & pressure gauge', 'Level sensor'],
+    images: ['/images/products/product-10.jpg'],
+  }),
+  prod({
+    id: 'prod-11', name: 'Carbon Brush & Carbon Seal', slug: 'carbon-brush-carbon-seal', categoryId: 'cat-carbon-graphite',
+    shortDesc: 'Komponen carbon graphite mesin industri', description: 'Carbon brush, carbon vane, carbon seal, dan carbon connector beserta brush holder dan slip ring.',
+    price: 'Hubungi Kami', application: 'Industrial',
+    features: ['Carbon brush & holder', 'Carbon vane', 'Carbon seal & seal rings', 'Copper connector'],
+    images: ['/images/products/product-11.jpg'], isFeatured: true,
+  }),
+  prod({
+    id: 'prod-12', name: 'Conveyor Belt & Crusher Parts', slug: 'conveyor-belt-crusher-parts', categoryId: 'cat-mining-material-handling',
+    shortDesc: 'Komponen conveyor & pemecah batu', description: 'Conveyor belt, idler roller, pulley, belt cleaner, serta crusher parts seperti jaw plate, mantle, concave, dan blow bar.',
+    price: 'Hubungi Kami', application: 'Industrial',
+    features: ['Conveyor belt & roller', 'Pulley & belt cleaner', 'Jaw / cone / impact crusher parts', 'Vibrating screen mesh'],
+    images: ['/images/products/product-12.jpg'], isFeatured: true,
   }),
 ]
 

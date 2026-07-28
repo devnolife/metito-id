@@ -180,7 +180,7 @@ async function main() {
         ],
         categoryId: categories[0].id,
         isFeatured: true,
-        metaTitle: 'Industrial RO System 1000 GPD - Metito Water Solution',
+        metaTitle: 'Industrial RO System 1000 GPD - PT. METITO',
         metaDescription: 'High-performance industrial reverse osmosis system with 1000 GPD capacity, perfect for manufacturing facilities.',
       }
     }),
@@ -221,7 +221,7 @@ async function main() {
         ],
         categoryId: categories[1].id,
         isFeatured: true,
-        metaTitle: 'Municipal Water Treatment Plant - Metito Water Solution',
+        metaTitle: 'Municipal Water Treatment Plant - PT. METITO',
         metaDescription: 'Complete municipal water treatment plant with 10,000 m³/day capacity for city water supply.',
       }
     }),
@@ -260,7 +260,7 @@ async function main() {
         ],
         categoryId: categories[3].id,
         isFeatured: false,
-        metaTitle: 'Ultrafiltration Membrane System - Metito Water Solution',
+        metaTitle: 'Ultrafiltration Membrane System - PT. METITO',
         metaDescription: 'High-performance ultrafiltration system with hollow fiber membranes for industrial water treatment.',
       }
     }),
@@ -299,7 +299,7 @@ async function main() {
         ],
         categoryId: categories[2].id,
         isFeatured: false,
-        metaTitle: 'Chemical Dosing System - Metito Water Solution',
+        metaTitle: 'Chemical Dosing System - PT. METITO',
         metaDescription: 'Precision chemical dosing system for accurate water treatment chemical injection.',
       }
     })
