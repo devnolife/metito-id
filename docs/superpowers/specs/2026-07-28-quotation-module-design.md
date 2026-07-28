@@ -219,11 +219,16 @@ Dua hal berbeda dari rencana awal, keduanya disengaja:
 
 ## Yang belum terverifikasi
 
-Database pada `DATABASE_URL` tidak dapat dijangkau selama implementasi, sehingga hal berikut belum dijalankan sungguhan dan perlu dicoba di lingkungan yang memiliki database:
+Database pada `DATABASE_URL` tidak dapat dijangkau selama implementasi (`P1001` ke `138.2.106.68:5441`), dan mesin pengembangan tidak memiliki Docker maupun PostgreSQL lokal. Karena itu hal berikut belum dijalankan sungguhan dan perlu dicoba di lingkungan yang memiliki database:
 
-- Migrasi `20260728153000_add_quotation_module` (SQL dihasilkan lewat `prisma migrate diff` secara offline, bukan terhadap database).
+- Penerapan migrasi `20260728153000_add_quotation_module` ke database.
 - Seed `npm run db:seed:quotations`.
 - Alur penuh buat penawaran, terbitkan, bagikan tautan, dan buat revisi.
 - Uji integrasi penomoran bersamaan (`RUN_DB_TESTS=1 npm test`).
 
-Yang sudah terverifikasi tanpa database: 53 unit test lulus, `next build` sukses dengan seluruh rute terdaftar, dan halaman publik menampilkan pesan ramah ketika database tidak dapat dijangkau alih-alih galat mentah.
+### Yang tetap dapat diverifikasi tanpa database
+
+- 58 unit test lulus, termasuk pemeriksaan hasil impor: ketiga penawaran memperoleh nomor `001`, `002`, `003` tanpa duplikat, nilainya utuh, dan terbilang sheet bahan kimia sudah sesuai totalnya sendiri.
+- Berkas migrasi dibandingkan ulang terhadap selisih skema dan cocok persis, sehingga migrasi tidak tertinggal maupun tidak lengkap.
+- `next build` sukses dengan seluruh rute terdaftar.
+- Halaman publik menampilkan pesan ramah beserta nomor telepon ketika database tidak dapat dijangkau, bukan galat mentah.

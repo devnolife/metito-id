@@ -6,6 +6,7 @@ import {
   QUOTATION_SETTING_DEFAULTS,
   QUOTATION_SETTING_KEYS,
 } from '../lib/quotation-settings'
+import { SEED_VAT_RATE, orderedSeedQuotations } from '../lib/quotation-seed-data'
 
 const prisma = new PrismaClient()
 
@@ -18,84 +19,6 @@ const prisma = new PrismaClient()
  * Baris contoh pada Log_Penomoran_Surat_Penawaran_METITO.xlsx sengaja tidak
  * ikut diimpor karena berlabel "Contoh - silakan hapus/ganti".
  */
-
-interface SeedItem {
-  materialCode: string
-  brand: string
-  type: string
-  qty: number
-  unit: string
-  unitPrice: number
-}
-
-interface SeedQuotation {
-  /** Nomor asli pada berkas Excel, disimpan untuk penelusuran. */
-  originalNumber: string
-  issuedAt: Date
-  customerName: string
-  attn: string
-  subject: string
-  /** Diisi bila perihal pada berkas asli keliru dan perlu dijelaskan. */
-  subjectNote?: string
-  franco: string
-  deliveryTime: string
-  termsOfPayment: string
-  items: SeedItem[]
-}
-
-const VAT_RATE = '0.11'
-
-const QUOTATIONS: SeedQuotation[] = [
-  {
-    originalNumber: '001/QUO-METITO/VII/2026',
-    issuedAt: new Date(2026, 6, 23),
-    customerName: 'PT. PLN Nusantara Power',
-    attn: 'Hendro',
-    subject: 'Pengadaan Cable Instrument',
-    franco: 'PLTU Punagaya',
-    deliveryTime: '12 Weeks',
-    termsOfPayment: '30 Days After Invoice',
-    items: [
-      { materialCode: 'Kable 4 Core', brand: 'LiCYC', type: 'LiCYC 4x1.5 mmsq', qty: 500, unit: 'm', unitPrice: 100_000 },
-      { materialCode: 'Kable 8 Core', brand: 'LiCYC', type: 'LiCYC 8x1.5 mmsq', qty: 500, unit: 'm', unitPrice: 150_000 },
-      { materialCode: 'Cable 12 Core', brand: 'LiCYC', type: 'LiCYC 12x1.5 mmsq', qty: 500, unit: 'm', unitPrice: 220_000 },
-    ],
-  },
-  {
-    originalNumber: '001/QUO-METITO/VII/2026',
-    issuedAt: new Date(2026, 6, 23),
-    customerName: 'PT. PLN Nusantara Power',
-    attn: 'Hendro',
-    // Berkas asli menuliskan "Pengadaan Cable Instrument" pada sheet berisi
-    // bahan kimia, sisa penyalinan sheet. Diperbaiki di sini.
-    subject: 'Pengadaan Bahan Kimia',
-    subjectNote:
-      'Perihal pada berkas Excel tertulis "Pengadaan Cable Instrument" (sisa salinan sheet kabel); diperbaiki saat impor.',
-    franco: 'PLTU Punagaya',
-    deliveryTime: '12 Weeks',
-    termsOfPayment: '30 Days After Invoice',
-    items: [
-      { materialCode: 'Clorine Liquid', brand: 'M-CHEM', type: 'MC-NAOCL 10', qty: 4, unit: 'Pail', unitPrice: 375_000 },
-      { materialCode: 'TCCA Tablet', brand: 'M-CHEM', type: 'MC-TCCA90', qty: 102, unit: 'Pail', unitPrice: 1_560_000 },
-      { materialCode: 'Coustic Soda', brand: 'M-CHEM', type: 'MC-COUSTIC SODA 35', qty: 4, unit: 'Pail', unitPrice: 220_000 },
-    ],
-  },
-  {
-    originalNumber: '003/SPH-METITO/VII/2026',
-    issuedAt: new Date(2026, 6, 25),
-    customerName: 'PT. PLN Nusantara Power',
-    attn: 'Mr. Hendro',
-    subject: 'Pengadaan Cable Instrument',
-    franco: 'PLTU Punagaya',
-    deliveryTime: '18 Weeks',
-    termsOfPayment: '30 Days After Invoice',
-    items: [
-      { materialCode: 'Kable 4 Core', brand: 'Temsens', type: 'CB86261', qty: 500, unit: 'm', unitPrice: 120_000 },
-      { materialCode: 'Kable 8 Core', brand: 'Temsens', type: 'CB86694', qty: 500, unit: 'm', unitPrice: 250_000 },
-      { materialCode: 'Cable 12 Core', brand: 'Temsens', type: 'CB86695', qty: 500, unit: 'm', unitPrice: 220_000 },
-    ],
-  },
-]
 
 async function seedSettings() {
   const entries: Array<[string, string, string]> = [
@@ -139,7 +62,7 @@ async function seedQuotations() {
   }
 
   // Diurutkan berdasarkan tanggal supaya nomor urut mencerminkan urutan terbit.
-  const ordered = [...QUOTATIONS].sort((a, b) => a.issuedAt.getTime() - b.issuedAt.getTime())
+  const ordered = orderedSeedQuotations()
 
   let seq = 0
 
@@ -148,7 +71,7 @@ async function seedQuotations() {
 
     const totals = computeTotals(
       source.items.map((item) => ({ qty: item.qty, unitPrice: item.unitPrice })),
-      VAT_RATE
+      SEED_VAT_RATE
     )
 
     const numberBase = formatQuotationNumber({ seq, issuedAt: source.issuedAt })
@@ -177,7 +100,7 @@ async function seedQuotations() {
         deliveryTime: source.deliveryTime,
         termsOfPayment: source.termsOfPayment,
         validityDays: QUOTATION_SETTING_DEFAULTS.validityDays,
-        vatRate: new Prisma.Decimal(VAT_RATE),
+        vatRate: new Prisma.Decimal(SEED_VAT_RATE),
         subtotal: totals.subtotal,
         vatAmount: totals.vatAmount,
         total: totals.total,
