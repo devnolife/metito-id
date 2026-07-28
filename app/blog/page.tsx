@@ -159,12 +159,12 @@ export default function BlogPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[var(--navy)]">
       {/* Hero Section */}
       <section className="relative bg-[var(--navy)] text-white py-28 px-4 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.08] bg-[url('/images/landing-pages/image3.png')] bg-cover bg-center" />
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-[var(--lime)]/10 blur-[130px]" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-white" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[var(--navy)]" />
         <Reveal className="relative max-w-7xl mx-auto text-center">
           <span className="inline-block rounded-full bg-[var(--lime)]/15 text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] px-4 py-1.5 mb-5">
             Blog &amp; Insights
@@ -180,7 +180,7 @@ export default function BlogPage() {
             <Button size="lg" className="bg-[var(--lime)] hover:bg-[var(--lime-bright)] text-[var(--navy)] font-bold px-8 py-6 rounded-full shadow-xl shadow-black/25 hover:scale-[1.03] transition-all">
               Baca Artikel Terbaru
             </Button>
-            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-white hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
+            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-[var(--surface)] hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
               <BookOpen className="w-4 h-4 mr-2" />
               Panduan Lengkap
             </Button>
@@ -189,7 +189,7 @@ export default function BlogPage() {
       </section>
 
       {/* Main Content */}
-      <section className="py-24 px-4 bg-[#f8f9ff]">
+      <section className="py-24 px-4 bg-[var(--navy)]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
             {/* Main Content Area */}
@@ -198,18 +198,18 @@ export default function BlogPage() {
               <div className="mb-16">
                 <Reveal className="flex items-center gap-2 mb-8">
                   <TrendingUp className="w-5 h-5 text-[var(--navy)]" />
-                  <h2 className="font-display text-2xl font-bold text-[var(--navy)]">Artikel Unggulan</h2>
+                  <h2 className="font-display text-2xl font-bold text-white">Artikel Unggulan</h2>
                 </Reveal>
 
                 {loading ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {[...Array(2)].map((_, i) => (
-                      <Card key={i} className="animate-pulse overflow-hidden rounded-[1.25rem] border border-[#dce9ff]">
-                        <div className="aspect-[16/9] bg-[#e5eeff]"></div>
+                      <Card key={i} className="animate-pulse overflow-hidden rounded-[1.25rem] border border-[var(--hairline)]">
+                        <div className="aspect-[16/9] bg-[var(--surface-2)]"></div>
                         <CardContent className="p-6 space-y-3">
-                          <div className="h-4 bg-[#e5eeff] rounded-full"></div>
-                          <div className="h-3 bg-[#eff4ff] rounded-full w-3/4"></div>
-                          <div className="h-3 bg-[#eff4ff] rounded-full w-1/2"></div>
+                          <div className="h-4 bg-[var(--surface-2)] rounded-full"></div>
+                          <div className="h-3 bg-[var(--surface-2)] rounded-full w-3/4"></div>
+                          <div className="h-3 bg-[var(--surface-2)] rounded-full w-1/2"></div>
                         </CardContent>
                       </Card>
                     ))}
@@ -217,21 +217,21 @@ export default function BlogPage() {
                 ) : error ? (
                   <div className="text-center py-12">
                     <AlertCircle className="w-16 h-16 mx-auto mb-4 text-red-500" />
-                    <p className="text-lg font-semibold text-slate-600 mb-2">{error}</p>
-                    <Button onClick={() => window.location.reload()} className="bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white rounded-full px-7">
+                    <p className="text-lg font-semibold text-[var(--body-text)] mb-2">{error}</p>
+                    <Button onClick={() => window.location.reload()} className="bg-[var(--gold)] hover:bg-[var(--gold-bright)] text-[var(--navy)] rounded-full px-7">
                       Coba Lagi
                     </Button>
                   </div>
                 ) : featuredPosts.length === 0 ? (
                   <div className="text-center py-12">
-                    <FileText className="w-16 h-16 mx-auto mb-4 text-slate-400" />
-                    <p className="text-lg font-semibold text-slate-600">Belum ada artikel unggulan</p>
+                    <FileText className="w-16 h-16 mx-auto mb-4 text-[var(--body-muted)]" />
+                    <p className="text-lg font-semibold text-[var(--body-text)]">Belum ada artikel unggulan</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {featuredPosts.map((post, i) => (
                       <Reveal key={post.id} delay={i % 2}>
-                        <Card className="group h-full overflow-hidden rounded-[1.25rem] bg-white border border-[#dce9ff] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)]">
+                        <Card className="group h-full overflow-hidden rounded-[1.25rem] bg-[var(--surface)] border border-[var(--hairline)] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)]">
                           <div className="aspect-[16/9] relative overflow-hidden">
                             <Image
                               src={post.coverImage || '/images/blog/default-blog.jpg'}
@@ -246,7 +246,7 @@ export default function BlogPage() {
                             </div>
                           </div>
                           <CardContent className="p-6">
-                            <div className="flex items-center gap-4 mb-3 text-sm text-slate-500">
+                            <div className="flex items-center gap-4 mb-3 text-sm text-[var(--body-muted)]">
                               <div className="flex items-center gap-1">
                                 <Calendar className="w-4 h-4" />
                                 <span>{formatDate(post.createdAt)}</span>
@@ -259,13 +259,13 @@ export default function BlogPage() {
                             <h3 className="font-display font-bold text-lg text-[var(--navy)] mb-3 leading-tight">
                               {post.title}
                             </h3>
-                            <p className="text-slate-500 text-sm mb-4 leading-relaxed">
+                            <p className="text-[var(--body-muted)] text-sm mb-4 leading-relaxed">
                               {post.excerpt || post.content.substring(0, 150) + '...'}
                             </p>
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
-                                <User className="w-4 h-4 text-slate-400" />
-                                <span className="text-sm text-slate-600">{post.authorName}</span>
+                                <User className="w-4 h-4 text-[var(--body-muted)]" />
+                                <span className="text-sm text-[var(--body-text)]">{post.authorName}</span>
                               </div>
                               <Button size="sm" className="bg-[var(--navy)] text-white hover:bg-[var(--navy-deep)] rounded-full">
                                 Baca Selengkapnya
@@ -281,17 +281,17 @@ export default function BlogPage() {
 
               {/* All Posts */}
               <div className="mb-8">
-                <Reveal><h2 className="font-display text-2xl font-bold text-[var(--navy)] mb-8">Semua Artikel</h2></Reveal>
+                <Reveal><h2 className="font-display text-2xl font-bold text-white mb-8">Semua Artikel</h2></Reveal>
                 {loading ? (
                   <div className="space-y-8">
                     {[...Array(3)].map((_, i) => (
-                      <Card key={i} className="animate-pulse overflow-hidden rounded-[1.25rem] border border-[#dce9ff]">
+                      <Card key={i} className="animate-pulse overflow-hidden rounded-[1.25rem] border border-[var(--hairline)]">
                         <div className="flex flex-col md:flex-row">
-                          <div className="md:w-1/3 aspect-[16/9] md:aspect-auto bg-[#e5eeff]"></div>
+                          <div className="md:w-1/3 aspect-[16/9] md:aspect-auto bg-[var(--surface-2)]"></div>
                           <CardContent className="md:w-2/3 p-6 space-y-3">
-                            <div className="h-4 bg-[#e5eeff] rounded-full"></div>
-                            <div className="h-3 bg-[#eff4ff] rounded-full w-3/4"></div>
-                            <div className="h-3 bg-[#eff4ff] rounded-full w-1/2"></div>
+                            <div className="h-4 bg-[var(--surface-2)] rounded-full"></div>
+                            <div className="h-3 bg-[var(--surface-2)] rounded-full w-3/4"></div>
+                            <div className="h-3 bg-[var(--surface-2)] rounded-full w-1/2"></div>
                           </CardContent>
                         </div>
                       </Card>
@@ -299,15 +299,15 @@ export default function BlogPage() {
                   </div>
                 ) : posts.length === 0 ? (
                   <div className="text-center py-12">
-                    <FileText className="w-16 h-16 mx-auto mb-4 text-slate-400" />
-                    <p className="text-lg font-semibold text-slate-600">Belum ada artikel</p>
-                    <p className="text-slate-500">Artikel akan ditampilkan di sini setelah dipublikasikan</p>
+                    <FileText className="w-16 h-16 mx-auto mb-4 text-[var(--body-muted)]" />
+                    <p className="text-lg font-semibold text-[var(--body-text)]">Belum ada artikel</p>
+                    <p className="text-[var(--body-muted)]">Artikel akan ditampilkan di sini setelah dipublikasikan</p>
                   </div>
                 ) : (
                   <div className="space-y-8">
                     {posts.map((post, i) => (
                       <Reveal key={post.id} delay={i % 3}>
-                        <Card className="group overflow-hidden rounded-[1.25rem] bg-white border border-[#dce9ff] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)]">
+                        <Card className="group overflow-hidden rounded-[1.25rem] bg-[var(--surface)] border border-[var(--hairline)] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)]">
                           <div className="flex flex-col md:flex-row">
                             <div className="md:w-1/3 aspect-[16/9] md:aspect-auto relative overflow-hidden">
                               <Image
@@ -318,10 +318,10 @@ export default function BlogPage() {
                               />
                             </div>
                             <CardContent className="md:w-2/3 p-6">
-                              <div className="flex items-center gap-4 mb-3 text-sm text-slate-500 flex-wrap">
+                              <div className="flex items-center gap-4 mb-3 text-sm text-[var(--body-muted)] flex-wrap">
                                 <div className="flex items-center gap-2">
                                   {post.tags.slice(0, 2).map((tag) => (
-                                    <Badge key={tag.id} variant="outline" className="text-[var(--navy)] border-[#dce9ff]">
+                                    <Badge key={tag.id} variant="outline" className="text-[var(--navy)] border-[var(--hairline)]">
                                       {tag.name}
                                     </Badge>
                                   ))}
@@ -338,15 +338,15 @@ export default function BlogPage() {
                               <h3 className="font-display font-bold text-xl text-[var(--navy)] mb-3 leading-tight">
                                 {post.title}
                               </h3>
-                              <p className="text-slate-500 mb-4 leading-relaxed">
+                              <p className="text-[var(--body-muted)] mb-4 leading-relaxed">
                                 {post.excerpt || post.content.substring(0, 200) + '...'}
                               </p>
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
-                                  <User className="w-4 h-4 text-slate-400" />
-                                  <span className="text-sm text-slate-600">{post.authorName}</span>
+                                  <User className="w-4 h-4 text-[var(--body-muted)]" />
+                                  <span className="text-sm text-[var(--body-text)]">{post.authorName}</span>
                                 </div>
-                                <Button size="sm" className="bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white rounded-full">
+                                <Button size="sm" className="bg-[var(--gold)] hover:bg-[var(--gold-bright)] text-[var(--navy)] rounded-full">
                                   Baca Artikel
                                 </Button>
                               </div>
@@ -364,17 +364,17 @@ export default function BlogPage() {
             <div className="lg:col-span-1">
               <div className="sticky top-8 space-y-8">
                 {/* Search */}
-                <Card className="rounded-[1.25rem] border border-[#dce9ff] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)]">
+                <Card className="rounded-[1.25rem] border border-[var(--hairline)] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)]">
                   <CardContent className="p-6">
                     <h3 className="font-display font-bold text-lg text-[var(--navy)] mb-4">
                       Cari Artikel
                     </h3>
                     <form onSubmit={handleSearchSubmit} className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--body-muted)] w-4 h-4" />
                       <Input
                         name="search"
                         placeholder="Cari artikel..."
-                        className="pl-10 border-[#dce9ff] rounded-xl focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent"
+                        className="pl-10 border-[var(--hairline)] rounded-xl focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent"
                         defaultValue={searchQuery}
                       />
                     </form>
@@ -382,7 +382,7 @@ export default function BlogPage() {
                 </Card>
 
                 {/* Categories */}
-                <Card className="rounded-[1.25rem] border border-[#dce9ff] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)]">
+                <Card className="rounded-[1.25rem] border border-[var(--hairline)] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)]">
                   <CardContent className="p-6">
                     <h3 className="font-display font-bold text-lg text-[var(--navy)] mb-4">
                       Kategori
@@ -390,7 +390,7 @@ export default function BlogPage() {
                     {loading ? (
                       <div className="space-y-2">
                         {[...Array(5)].map((_, i) => (
-                          <div key={i} className="h-8 bg-[#eff4ff] rounded animate-pulse"></div>
+                          <div key={i} className="h-8 bg-[var(--surface-2)] rounded animate-pulse"></div>
                         ))}
                       </div>
                     ) : (
@@ -400,14 +400,14 @@ export default function BlogPage() {
                             key={index}
                             className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors ${selectedCategory === category.name
                               ? 'bg-[var(--lime)]/15 text-[var(--navy)]'
-                              : 'hover:bg-[#f8f9ff] hover:text-[var(--navy)]'
+                              : 'hover:bg-[var(--navy)] hover:text-[var(--navy)]'
                               }`}
                             onClick={() => setSelectedCategory(category.name)}
                           >
                             <span className="font-medium">
                               {category.name}
                             </span>
-                            <Badge variant="secondary" className="text-xs bg-[#eff4ff] text-slate-600">
+                            <Badge variant="secondary" className="text-xs bg-[var(--surface-2)] text-[var(--body-text)]">
                               {category.count}
                             </Badge>
                           </div>
@@ -418,7 +418,7 @@ export default function BlogPage() {
                 </Card>
 
                 {/* Popular Tags */}
-                <Card className="rounded-[1.25rem] border border-[#dce9ff] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)]">
+                <Card className="rounded-[1.25rem] border border-[var(--hairline)] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)]">
                   <CardContent className="p-6">
                     <h3 className="font-display font-bold text-lg text-[var(--navy)] mb-4">
                       Tag Populer
@@ -426,7 +426,7 @@ export default function BlogPage() {
                     {loading ? (
                       <div className="flex flex-wrap gap-2">
                         {[...Array(8)].map((_, i) => (
-                          <div key={i} className="h-6 w-16 bg-[#eff4ff] rounded animate-pulse"></div>
+                          <div key={i} className="h-6 w-16 bg-[var(--surface-2)] rounded animate-pulse"></div>
                         ))}
                       </div>
                     ) : (
@@ -435,7 +435,7 @@ export default function BlogPage() {
                           <Badge
                             key={index}
                             variant="outline"
-                            className="cursor-pointer border-[#dce9ff] text-slate-600 hover:bg-[var(--navy)] hover:border-[var(--navy)] hover:text-white transition-colors"
+                            className="cursor-pointer border-[var(--hairline)] text-[var(--body-text)] hover:bg-[var(--navy)] hover:border-[var(--navy)] hover:text-white transition-colors"
                           >
                             {tag}
                           </Badge>
@@ -446,7 +446,7 @@ export default function BlogPage() {
                 </Card>
 
                 {/* Recent Posts */}
-                <Card className="rounded-[1.25rem] border border-[#dce9ff] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)]">
+                <Card className="rounded-[1.25rem] border border-[var(--hairline)] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)]">
                   <CardContent className="p-6">
                     <h3 className="font-display font-bold text-lg text-[var(--navy)] mb-4">
                       Artikel Terbaru
@@ -455,8 +455,8 @@ export default function BlogPage() {
                       <div className="space-y-4">
                         {[...Array(3)].map((_, i) => (
                           <div key={i} className="space-y-2">
-                            <div className="h-4 bg-[#eff4ff] rounded animate-pulse"></div>
-                            <div className="h-3 bg-[#eff4ff] rounded w-1/2 animate-pulse"></div>
+                            <div className="h-4 bg-[var(--surface-2)] rounded animate-pulse"></div>
+                            <div className="h-3 bg-[var(--surface-2)] rounded w-1/2 animate-pulse"></div>
                           </div>
                         ))}
                       </div>
@@ -467,7 +467,7 @@ export default function BlogPage() {
                             <h4 className="font-medium text-[var(--navy)] group-hover:text-[var(--lime-dim)] transition-colors mb-2 leading-snug">
                               {post.title}
                             </h4>
-                            <div className="flex items-center gap-2 text-xs text-slate-500">
+                            <div className="flex items-center gap-2 text-xs text-[var(--body-muted)]">
                               <Calendar className="w-3 h-3" />
                               <span>{formatDate(post.createdAt)}</span>
                             </div>
@@ -501,7 +501,7 @@ export default function BlogPage() {
             <Button size="lg" className="bg-[var(--lime)] hover:bg-[var(--lime-bright)] text-[var(--navy)] font-bold px-8 py-6 rounded-full shadow-xl shadow-black/25 hover:scale-[1.03] transition-all">
               Berlangganan Newsletter
             </Button>
-            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-white hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
+            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-[var(--surface)] hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
               <BookOpen className="w-5 h-5 mr-2" />
               Download E-Book Gratis
             </Button>

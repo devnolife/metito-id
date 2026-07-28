@@ -36,6 +36,7 @@ export function AdminSidebar({ collapsed, onToggleCollapse }: AdminSidebarProps)
 
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, href: "/admin", color: "text-blue-600" },
+    { id: "quotations", label: "Penawaran", icon: FileText, href: "/admin/quotations", color: "text-amber-600" },
     { id: "products", label: "Produk", icon: Package, href: "/admin/products", color: "text-green-600" },
     { id: "services", label: "Layanan", icon: Settings, href: "/admin/services", color: "text-purple-600" },
     { id: "gallery", label: "Galeri", icon: Image, href: "/admin/gallery", color: "text-teal-600" },

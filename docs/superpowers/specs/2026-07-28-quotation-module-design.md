@@ -209,3 +209,21 @@ Pengujian dengan Vitest, fokus pada fungsi murni:
 - Data rekening dan penanda tangan ("Pasya, Sales Engineer") diambil dari berkas Excel dan dipindahkan ke Setting.
 - Modul ini sengaja tidak tersambung ke `Inquiry` maupun `Product` sesuai keputusan; sambungan dapat ditambahkan kemudian tanpa mengubah model.
 - Typo pada template lama ("Qutation Validity", "Coustic Soda", "Clorine Liquid") diperbaiki pada label sistem; nama material tetap mengikuti input pengguna.
+
+## Penyimpangan saat implementasi
+
+Dua hal berbeda dari rencana awal, keduanya disengaja:
+
+1. **Rekap tidak dibuat sebagai halaman terpisah `/admin/quotations/stats`.** Angkanya ditempatkan langsung di atas daftar penawaran. Informasinya sama persis, tetapi pengguna tidak perlu berpindah halaman untuk melihatnya. Endpoint `/api/quotations/stats` tetap ada dan dapat dipakai bila kelak diperlukan halaman tersendiri.
+2. **Uji integrasi penomoran bersifat opt-in.** Berkas `lib/quotation-service.integration.test.ts` hanya berjalan bila `RUN_DB_TESTS=1` dan database dapat dijangkau. Tanpa itu uji dilewati, sehingga `npm test` tetap dapat dijalankan di mesin tanpa database. Uji ini belum pernah dieksekusi karena database pada lingkungan pengembangan tidak dapat dihubungi (P1001).
+
+## Yang belum terverifikasi
+
+Database pada `DATABASE_URL` tidak dapat dijangkau selama implementasi, sehingga hal berikut belum dijalankan sungguhan dan perlu dicoba di lingkungan yang memiliki database:
+
+- Migrasi `20260728153000_add_quotation_module` (SQL dihasilkan lewat `prisma migrate diff` secara offline, bukan terhadap database).
+- Seed `npm run db:seed:quotations`.
+- Alur penuh buat penawaran, terbitkan, bagikan tautan, dan buat revisi.
+- Uji integrasi penomoran bersamaan (`RUN_DB_TESTS=1 npm test`).
+
+Yang sudah terverifikasi tanpa database: 53 unit test lulus, `next build` sukses dengan seluruh rute terdaftar, dan halaman publik menampilkan pesan ramah ketika database tidak dapat dijangkau alih-alih galat mentah.

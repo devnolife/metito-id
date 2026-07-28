@@ -29,7 +29,7 @@ export function DockHeader() {
       <div className="mx-auto flex max-w-page items-center justify-between gap-6 px-6 py-3.5">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">
-          <Image src="/images/logo.png" alt="Metito Water Solutions" width={36} height={36} className="rounded-dock-badge" />
+          <Image src="/images/logo.png" alt="PT. METITO" width={36} height={36} className="rounded-dock-badge" />
           <span className="font-roobert text-[17px] font-semibold tracking-[-0.01em] text-ink-charcoal">Metito</span>
         </Link>
 

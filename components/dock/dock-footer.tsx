@@ -6,7 +6,7 @@ import Image from "next/image"
 const columns = [
   {
     title: "Produk",
-    links: ["Sistem Membran", "Unit Filtrasi", "Disinfeksi", "Monitoring"],
+    links: ["Chemical Supply", "Water Treatment", "Equipment Supply", "Spare Parts"],
     href: "/products",
   },
   {
@@ -34,7 +34,7 @@ export function DockFooter() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2.5">
-              <Image src="/images/logo.png" alt="Metito Water Solutions" width={36} height={36} className="rounded-dock-badge" />
+              <Image src="/images/logo.png" alt="PT. METITO" width={36} height={36} className="rounded-dock-badge" />
               <span className="font-roobert text-[17px] font-semibold tracking-[-0.01em] text-ink-charcoal">Metito</span>
             </Link>
             <p className="mt-4 max-w-[36ch] font-roobert text-dock-body text-slate-gray">
@@ -68,7 +68,7 @@ export function DockFooter() {
       {/* Bottom bar */}
       <div className="border-t border-hairline">
         <div className="mx-auto flex max-w-page flex-col items-center justify-between gap-3 px-6 py-6 md:flex-row">
-          <p className="font-roobert text-[13px] text-steel-gray">© 2025 Metito Water Solutions</p>
+          <p className="font-roobert text-[13px] text-steel-gray">© 2025 PT. Multi Enviro Tirta Teknologi</p>
           <div className="flex gap-6">
             {["Kebijakan Privasi", "Ketentuan Layanan", "Peta Situs"].map((t) => (
               <Link key={t} href="#" className="font-roobert text-[13px] text-steel-gray transition-colors hover:text-ink-charcoal">

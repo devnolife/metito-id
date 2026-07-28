@@ -15,6 +15,7 @@
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "db:seed": "tsx prisma/seed.ts",
+    "db:seed:quotations": "tsx prisma/seed-quotations.ts",
     "db:backup": "node scripts/backup-db.js",
     "db:restore": "node scripts/restore-db.js",
     "create-admin": "npx tsx scripts/create-admin.ts",

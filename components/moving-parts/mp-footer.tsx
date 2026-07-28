@@ -14,12 +14,12 @@ const quickLinks = [
 ]
 
 const categories = [
-  "Sistem Membran",
-  "Unit Filtrasi",
-  "Sistem Disinfeksi",
-  "Pompa & Motor",
-  "Peralatan Monitoring",
-  "Dosis Kimia",
+  "Chemical Supply",
+  "Water Treatment",
+  "Equipment Supply",
+  "Consumables & Spare Parts",
+  "Carbon Graphite",
+  "Mining & Material Handling",
 ]
 
 const socials = [Facebook, Instagram, Twitter, Linkedin]
@@ -36,15 +36,15 @@ export function MPFooter() {
                 M
               </span>
               <span className="leading-tight">
-                <span className="block font-unica77 font-bold text-[18px]">Metito Water Solutions</span>
+                <span className="block font-unica77 font-bold text-[18px]">PT. METITO</span>
                 <span className="block font-whyte uppercase text-caption tracking-[0.04em] text-fog">
-                  Innovation for water
+                  Multi Enviro Tirta Teknologi
                 </span>
               </span>
             </div>
             <p className="max-w-[40ch] font-unica77 text-body-sm text-fog">
-              Penyedia terdepan solusi pengolahan air dan air limbah canggih di seluruh Indonesia —
-              inovatif, berkelanjutan, dan hemat biaya.
+              Solusi terintegrasi untuk sektor Water Treatment, Industrial Supply, Engineering,
+              Equipment, Spare Parts, dan Mining Support Services.
             </p>
             <div className="flex gap-3">
               {socials.map((Icon, i) => (
@@ -100,13 +100,13 @@ export function MPFooter() {
               <div className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-5 w-5 flex-shrink-0 text-electric-ink" />
                 <span>
-                  <span className="block">Jl. Barombong</span>
-                  <span className="block">Kab Gowa, Indonesia</span>
+                  <span className="block">Bontobila, Barombong</span>
+                  <span className="block">Kab. Gowa, Sulawesi Selatan</span>
                 </span>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="h-5 w-5 flex-shrink-0 text-electric-ink" />
-                <span>+62 812-1760-3950</span>
+                <span>0812-1760-3950</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5 flex-shrink-0 text-electric-ink" />
@@ -114,7 +114,7 @@ export function MPFooter() {
               </div>
               <div className="flex items-center gap-3">
                 <Clock className="h-5 w-5 flex-shrink-0 text-electric-ink" />
-                <span>Sen - Jum: 08:00 - 18:00</span>
+                <span>0821-5555-1235</span>
               </div>
             </div>
           </div>
@@ -125,7 +125,7 @@ export function MPFooter() {
       <div className="border-t border-pure/10">
         <div className="mx-auto flex max-w-page flex-col items-center justify-between gap-4 px-6 py-6 md:flex-row">
           <p className="font-whyte text-caption uppercase tracking-[0.04em] text-fog">
-            © 2025 Metito Water Solutions
+            © 2025 PT. Multi Enviro Tirta Teknologi
           </p>
           <div className="flex gap-6">
             {["Kebijakan Privasi", "Ketentuan Layanan", "Peta Situs"].map((t) => (

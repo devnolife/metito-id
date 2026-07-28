@@ -4,6 +4,7 @@ import { Inter, Hanken_Grotesk } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "@/components/ui/toaster"
 import { ConditionalHeader } from "@/components/conditional-header"
+import { COMPANY, CONTACT } from "@/lib/company-profile"
 
 const inter = Inter({ subsets: ["latin"] })
 const hankenGrotesk = Hanken_Grotesk({
@@ -13,9 +14,33 @@ const hankenGrotesk = Hanken_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: "Metito Water Solution - Water & Wastewater Engineering Solutions",
-  description: "Premium water and wastewater treatment solutions for industrial and municipal applications",
-  generator: 'v0.dev'
+  metadataBase: new URL(CONTACT.websiteUrl),
+  title: {
+    default: `${COMPANY.brandName} - ${COMPANY.tagline}`,
+    template: `%s | ${COMPANY.brandName}`,
+  },
+  description: COMPANY.description,
+  keywords: [
+    "water treatment",
+    "chemical supply",
+    "engineering services",
+    "equipment supply",
+    "spare parts",
+    "mining support services",
+    "WTP",
+    "WWTP",
+    "STP",
+    "reverse osmosis",
+    "METITO",
+  ],
+  openGraph: {
+    title: `${COMPANY.brandName} - ${COMPANY.tagline}`,
+    description: COMPANY.description,
+    url: CONTACT.websiteUrl,
+    siteName: COMPANY.brandName,
+    locale: "id_ID",
+    type: "website",
+  },
 }
 
 export default function RootLayout({
@@ -24,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="id" suppressHydrationWarning>
       <body className={`${hankenGrotesk.variable} ${inter.className}`} suppressHydrationWarning>
         <ConditionalHeader />
         {children}

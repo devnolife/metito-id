@@ -94,13 +94,17 @@ const mockCategories: Category[] = [
   { name: "Dosing System", count: 3 }
 ]
 
+// Upper bound of the price filter — must match the Slider `max` below so the
+// default range covers the whole catalog instead of filtering everything out.
+const PRICE_MAX = 100000000
+
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
-  const [priceRange, setPriceRange] = useState([0, 500000])
+  const [priceRange, setPriceRange] = useState([0, PRICE_MAX])
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [showPrices, setShowPrices] = useState(true)
   const [showOnlyInStock, setShowOnlyInStock] = useState(true)
@@ -171,29 +175,29 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[var(--navy)]">
 
       {/* Hero Section */}
       <section className="relative bg-[var(--navy)] text-white py-28 px-4 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.08] bg-[url('/images/landing-pages/image3.png')] bg-cover bg-center" />
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-[var(--lime)]/10 blur-[130px]" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-white" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[var(--navy)]" />
         <Reveal className="relative max-w-7xl mx-auto text-center">
           <span className="inline-block rounded-full bg-[var(--lime)]/15 text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] px-4 py-1.5 mb-5">
-            Solusi Teknik Air
+            Katalog Produk
           </span>
           <h1 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.02em] leading-[1.05] mb-6">
-            Sistem Pengolahan{" "}
-            <span className="text-[var(--lime-bright)]">Air Premium</span>
+            Produk &amp; Suplai{" "}
+            <span className="text-[var(--gold-bright)]">Industri</span>
           </h1>
           <p className="text-lg md:text-xl text-white/70 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Temukan rangkaian komprehensif solusi pengolahan air kelas industri yang dirancang untuk efisiensi dan keandalan.
+            Chemical supply, water treatment, equipment, spare parts, carbon graphite, hingga komponen pertambangan dan material handling.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-[var(--lime)] hover:bg-[var(--lime-bright)] text-[var(--navy)] font-bold px-8 py-6 rounded-full shadow-xl shadow-black/25 hover:scale-[1.03] transition-all">
               Minta Penawaran
             </Button>
-            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-white hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
+            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-[var(--surface)] hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
               Unduh Katalog
             </Button>
           </div>
@@ -201,42 +205,42 @@ export default function ProductsPage() {
       </section>
 
       {/* Products Section */}
-      <section className="py-24 px-4 bg-[#f8f9ff]">
+      <section className="py-24 px-4 bg-[var(--navy)]">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Filters Sidebar */}
             <div className="lg:w-1/4">
-              <Card className="rounded-[1.25rem] border border-[#dce9ff] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] sticky top-24">
+              <Card className="rounded-[1.25rem] border border-[var(--hairline)] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] sticky top-24">
                 <div className="p-6">
                   <div className="flex items-center mb-6">
                     <Filter className="w-5 h-5 mr-2 text-[var(--navy)]" />
-                    <h2 className="font-display text-lg font-bold text-[var(--navy)]">Filter</h2>
+                    <h2 className="font-display text-lg font-bold text-white">Filter</h2>
                   </div>
 
                   {/* Search */}
                   <div className="mb-6">
-                    <label className="block text-sm font-semibold text-[var(--navy)] mb-3">Cari Produk</label>
+                    <label className="block text-sm font-semibold text-white mb-3">Cari Produk</label>
                     <div className="relative">
-                      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+                      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[var(--body-muted)] w-5 h-5" />
                       <Input
                         placeholder="Cari peralatan..."
                         value={searchTerm}
                         onChange={(e) => handleSearch(e.target.value)}
-                        className="pl-12 pr-4 py-3 border-[#dce9ff] rounded-xl focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent"
+                        className="pl-12 pr-4 py-3 border-[var(--hairline)] rounded-xl focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent"
                       />
                     </div>
                   </div>
 
                   {/* Category */}
                   <div className="mb-6">
-                    <label className="block text-sm font-semibold text-[var(--navy)] mb-3">Kategori</label>
+                    <label className="block text-sm font-semibold text-white mb-3">Kategori</label>
                     <div className="space-y-2">
                       <div
                         onClick={() => handleCategoryChange("all")}
-                        className="flex items-center justify-between p-3 hover:bg-[#f8f9ff] rounded-lg cursor-pointer transition-colors"
+                        className="flex items-center justify-between p-3 hover:bg-[var(--navy)] rounded-lg cursor-pointer transition-colors"
                       >
-                        <span className="text-slate-700 hover:text-[var(--navy)] font-medium">Semua Kategori</span>
-                        <Badge variant="secondary" className="text-xs bg-[#eff4ff] text-slate-600">
+                        <span className="text-[var(--body-text)] hover:text-[var(--navy)] font-medium">Semua Kategori</span>
+                        <Badge variant="secondary" className="text-xs bg-[var(--surface-2)] text-[var(--body-text)]">
                           {products.length}
                         </Badge>
                       </div>
@@ -244,10 +248,10 @@ export default function ProductsPage() {
                         <div
                           key={index}
                           onClick={() => handleCategoryChange(category.name)}
-                          className="flex items-center justify-between p-3 hover:bg-[#f8f9ff] rounded-lg cursor-pointer transition-colors"
+                          className="flex items-center justify-between p-3 hover:bg-[var(--navy)] rounded-lg cursor-pointer transition-colors"
                         >
-                          <span className="text-slate-700 hover:text-[var(--navy)] font-medium">{category.name}</span>
-                          <Badge variant="secondary" className="text-xs bg-[#eff4ff] text-slate-600">
+                          <span className="text-[var(--body-text)] hover:text-[var(--navy)] font-medium">{category.name}</span>
+                          <Badge variant="secondary" className="text-xs bg-[var(--surface-2)] text-[var(--body-text)]">
                             {category.count}
                           </Badge>
                         </div>
@@ -258,15 +262,15 @@ export default function ProductsPage() {
                   {/* Price Range */}
                   {showPrices && (
                     <div className="mb-6">
-                      <label className="block text-sm font-semibold text-[var(--navy)] mb-3">Rentang Harga (IDR)</label>
+                      <label className="block text-sm font-semibold text-white mb-3">Rentang Harga (IDR)</label>
                       <Slider
                         value={priceRange}
                         onValueChange={setPriceRange}
-                        max={100000000}
+                        max={PRICE_MAX}
                         step={1000000}
                         className="mb-4"
                       />
-                      <div className="flex justify-between text-sm text-slate-600 bg-[#f8f9ff] p-3 rounded-lg">
+                      <div className="flex justify-between text-sm text-[var(--body-text)] bg-[var(--navy)] p-3 rounded-lg">
                         <span className="font-medium">{new Intl.NumberFormat('id-ID', {
                           style: 'currency',
                           currency: 'IDR',
@@ -283,9 +287,9 @@ export default function ProductsPage() {
 
                   {/* Capacity Range */}
                   <div className="mb-6">
-                    <label className="block text-sm font-semibold text-[var(--navy)] mb-3">Kapasitas</label>
+                    <label className="block text-sm font-semibold text-white mb-3">Kapasitas</label>
                     <Select>
-                      <SelectTrigger className="border-[#dce9ff] rounded-xl">
+                      <SelectTrigger className="border-[var(--hairline)] rounded-xl">
                         <SelectValue placeholder="Pilih rentang kapasitas" />
                       </SelectTrigger>
                       <SelectContent>
@@ -299,25 +303,25 @@ export default function ProductsPage() {
 
                   {/* Stock Status */}
                   <div className="mb-6">
-                    <label className="block text-sm font-semibold text-[var(--navy)] mb-3">Ketersediaan</label>
+                    <label className="block text-sm font-semibold text-white mb-3">Ketersediaan</label>
                     <div className="space-y-2">
                       <label className="flex items-center">
                         <input
                           type="checkbox"
                           checked={showOnlyInStock}
                           onChange={(e) => setShowOnlyInStock(e.target.checked)}
-                          className="rounded border-gray-300 text-[var(--navy)] focus:ring-[var(--navy)]"
+                          className="rounded border-[var(--hairline)] text-[var(--navy)] focus:ring-[var(--navy)]"
                         />
-                        <span className="ml-2 text-sm text-slate-700">Tersedia</span>
+                        <span className="ml-2 text-sm text-[var(--body-text)]">Tersedia</span>
                       </label>
                       <label className="flex items-center">
-                        <input type="checkbox" className="rounded border-gray-300 text-[var(--navy)] focus:ring-[var(--navy)]" />
-                        <span className="ml-2 text-sm text-slate-700">Pesan Terlebih Dahulu</span>
+                        <input type="checkbox" className="rounded border-[var(--hairline)] text-[var(--navy)] focus:ring-[var(--navy)]" />
+                        <span className="ml-2 text-sm text-[var(--body-text)]">Pesan Terlebih Dahulu</span>
                       </label>
                     </div>
                   </div>
 
-                  <Button className="w-full bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white rounded-full py-3">
+                  <Button className="w-full bg-[var(--gold)] hover:bg-[var(--gold-bright)] text-[var(--navy)] rounded-full py-3">
                     Terapkan Filter
                   </Button>
                 </div>
@@ -328,13 +332,13 @@ export default function ProductsPage() {
             <div className="lg:w-3/4">
               {/* Toolbar */}
               <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
-                <div className="text-slate-600 font-medium">
-                  Menampilkan <span className="font-bold text-[var(--navy)]">{filteredProducts.length}</span> dari <span className="font-bold text-[var(--navy)]">{products.length}</span> produk
+                <div className="text-[var(--body-text)] font-medium">
+                  Menampilkan <span className="font-bold text-white">{filteredProducts.length}</span> dari <span className="font-bold text-white">{products.length}</span> produk
                 </div>
 
                 <div className="flex items-center gap-4">
                   <Select defaultValue="featured">
-                    <SelectTrigger className="w-48 border-[#dce9ff] rounded-xl">
+                    <SelectTrigger className="w-48 border-[var(--hairline)] rounded-xl">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -346,12 +350,12 @@ export default function ProductsPage() {
                     </SelectContent>
                   </Select>
 
-                  <div className="flex border border-[#dce9ff] rounded-xl overflow-hidden">
+                  <div className="flex border border-[var(--hairline)] rounded-xl overflow-hidden">
                     <Button
                       variant={viewMode === "grid" ? "default" : "ghost"}
                       size="sm"
                       onClick={() => setViewMode("grid")}
-                      className={`rounded-none ${viewMode === "grid" ? "bg-[var(--navy)] text-white hover:bg-[var(--navy-deep)]" : "hover:bg-[#f8f9ff]"}`}
+                      className={`rounded-none ${viewMode === "grid" ? "bg-[var(--navy)] text-white hover:bg-[var(--navy-deep)]" : "hover:bg-[var(--navy)]"}`}
                     >
                       <Grid className="w-4 h-4" />
                     </Button>
@@ -359,7 +363,7 @@ export default function ProductsPage() {
                       variant={viewMode === "list" ? "default" : "ghost"}
                       size="sm"
                       onClick={() => setViewMode("list")}
-                      className={`rounded-none ${viewMode === "list" ? "bg-[var(--navy)] text-white hover:bg-[var(--navy-deep)]" : "hover:bg-[#f8f9ff]"}`}
+                      className={`rounded-none ${viewMode === "list" ? "bg-[var(--navy)] text-white hover:bg-[var(--navy-deep)]" : "hover:bg-[var(--navy)]"}`}
                     >
                       <List className="w-4 h-4" />
                     </Button>
@@ -371,7 +375,7 @@ export default function ProductsPage() {
               <div className={viewMode === "grid" ? "grid md:grid-cols-2 xl:grid-cols-3 gap-6" : "space-y-6"}>
                 {filteredProducts.map((product, i) => (
                   <Reveal key={product.id} delay={i % 3}>
-                    <Card className="group h-full rounded-[1.25rem] bg-white border border-[#dce9ff] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)] transition-all duration-300 hover:-translate-y-2 overflow-hidden">
+                    <Card className="group h-full rounded-[1.25rem] bg-[var(--surface)] border border-[var(--hairline)] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)] transition-all duration-300 hover:-translate-y-2 overflow-hidden">
                       <div className={`${viewMode === "list" ? "flex" : ""}`}>
                         <div className={`relative overflow-hidden ${viewMode === "list" ? "w-80 flex-shrink-0" : ""}`}>
                           <Image
@@ -388,7 +392,7 @@ export default function ProductsPage() {
                             </Badge>
                           </div>
                           <div className="absolute top-4 right-4 flex gap-2">
-                            <Button size="icon" variant="ghost" className="bg-white/80 backdrop-blur-md hover:bg-white rounded-xl text-[var(--navy)]">
+                            <Button size="icon" variant="ghost" className="bg-white/80 backdrop-blur-md hover:bg-[var(--surface)] rounded-xl text-[var(--navy)]">
                               <Heart className="w-4 h-4" />
                             </Button>
                           </div>
@@ -415,24 +419,24 @@ export default function ProductsPage() {
                                     }`}
                                 />
                               ))}
-                              <span className="text-sm text-slate-600 ml-2 font-medium">({product.reviews})</span>
+                              <span className="text-sm text-[var(--body-text)] ml-2 font-medium">({product.reviews})</span>
                             </div>
-                            <Badge variant="outline" className="text-[var(--navy)] border-[#dce9ff]">
+                            <Badge variant="outline" className="text-[var(--navy)] border-[var(--hairline)]">
                               {product.category}
                             </Badge>
                           </div>
 
-                          <h3 className="font-display text-lg font-bold text-[var(--navy)] mb-2 transition-colors leading-tight">
+                          <h3 className="font-display text-lg font-bold text-white mb-2 transition-colors leading-tight">
                             {product.name}
                           </h3>
 
                           {viewMode === "list" && (
-                            <p className="text-slate-500 mb-4 leading-relaxed">{product.description}</p>
+                            <p className="text-[var(--body-muted)] mb-4 leading-relaxed">{product.description}</p>
                           )}
 
                           <div className="flex flex-wrap gap-2 mb-4">
                             {product.specs.map((spec, index) => (
-                              <Badge key={index} variant="secondary" className="text-xs px-2 py-1 bg-[#eff4ff] text-slate-600">
+                              <Badge key={index} variant="secondary" className="text-xs px-2 py-1 bg-[var(--surface-2)] text-[var(--body-text)]">
                                 {spec}
                               </Badge>
                             ))}
@@ -440,15 +444,15 @@ export default function ProductsPage() {
 
                           {/* Product Details */}
                           <div className="space-y-2 mb-4 text-sm">
-                            <div className="flex items-center gap-2 text-slate-600">
+                            <div className="flex items-center gap-2 text-[var(--body-text)]">
                               <Droplets className="w-4 h-4 text-[var(--navy)]" />
                               <span>Kapasitas: {product.capacity}</span>
                             </div>
-                            <div className="flex items-center gap-2 text-slate-600">
+                            <div className="flex items-center gap-2 text-[var(--body-text)]">
                               <Calendar className="w-4 h-4 text-[var(--navy)]" />
                               <span>Garansi: {product.warranty}</span>
                             </div>
-                            <div className="flex items-center gap-2 text-slate-600">
+                            <div className="flex items-center gap-2 text-[var(--body-text)]">
                               <MapPin className="w-4 h-4 text-[var(--navy)]" />
                               <span>Pengiriman: {product.delivery}</span>
                             </div>
@@ -458,7 +462,7 @@ export default function ProductsPage() {
                             <div>
                               {showPrices ? (
                                 <>
-                                  <span className="font-display text-2xl font-bold text-[var(--navy)]">
+                                  <span className="font-display text-2xl font-bold text-white">
                                     {new Intl.NumberFormat('id-ID', {
                                       style: 'currency',
                                       currency: 'IDR',
@@ -466,7 +470,7 @@ export default function ProductsPage() {
                                     }).format(product.price)}
                                   </span>
                                   {product.originalPrice && (
-                                    <span className="text-sm text-slate-400 line-through ml-2">
+                                    <span className="text-sm text-[var(--body-muted)] line-through ml-2">
                                       {new Intl.NumberFormat('id-ID', {
                                         style: 'currency',
                                         currency: 'IDR',
@@ -476,7 +480,7 @@ export default function ProductsPage() {
                                   )}
                                 </>
                               ) : (
-                                <span className="text-lg font-semibold text-slate-600">
+                                <span className="text-lg font-semibold text-[var(--body-text)]">
                                   Hubungi untuk Harga
                                 </span>
                               )}
@@ -485,14 +489,14 @@ export default function ProductsPage() {
 
                           <div className="flex gap-2">
                             <Button
-                              className="flex-1 bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white rounded-full"
+                              className="flex-1 bg-[var(--gold)] hover:bg-[var(--gold-bright)] text-[var(--navy)] rounded-full"
                               size="sm"
                               disabled={!product.inStock}
                             >
                               <ShoppingCart className="w-4 h-4 mr-2" />
                               {product.inStock ? "Tambah ke Keranjang" : "Pesan Terlebih Dahulu"}
                             </Button>
-                            <Button variant="outline" size="sm" asChild className="rounded-full border-[#dce9ff] text-[var(--navy)] hover:bg-[var(--navy)] hover:text-white">
+                            <Button variant="outline" size="sm" asChild className="rounded-full border-[var(--hairline)] text-[var(--navy)] hover:bg-[var(--navy)] hover:text-white">
                               <Link href={`/products/${product.id}`}>
                                 Lihat Detail
                               </Link>
@@ -540,7 +544,7 @@ export default function ProductsPage() {
             <Button size="lg" className="bg-[var(--lime)] hover:bg-[var(--lime-bright)] text-[var(--navy)] font-bold px-8 py-6 rounded-full shadow-xl shadow-black/25 hover:scale-[1.03] transition-all">
               Minta Penawaran Kustom
             </Button>
-            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-white hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
+            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-[var(--surface)] hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
               Konsultasi dengan Insinyur
             </Button>
           </div>

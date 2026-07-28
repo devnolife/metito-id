@@ -156,12 +156,12 @@ export default function CertificationPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[var(--navy)]">
       {/* Hero Section */}
       <section className="relative bg-[var(--navy)] text-white py-28 px-4 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.08] bg-[url('/images/landing-pages/image3.png')] bg-cover bg-center" />
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-[var(--lime)]/10 blur-[130px]" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-white" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[var(--navy)]" />
         <Reveal className="relative max-w-7xl mx-auto text-center">
           <span className="inline-block rounded-full bg-[var(--lime)]/15 text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] px-4 py-1.5 mb-5">
             Sertifikasi &amp; Penghargaan
@@ -178,7 +178,7 @@ export default function CertificationPage() {
               <Download className="w-4 h-4 mr-2" />
               Download Sertifikat
             </Button>
-            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-white hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
+            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-[var(--surface)] hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
               Lihat Penghargaan
             </Button>
           </div>
@@ -186,16 +186,16 @@ export default function CertificationPage() {
       </section>
 
       {/* Categories Section */}
-      <section className="py-24 px-4 bg-white">
+      <section className="py-24 px-4 bg-[var(--surface)]">
         <div className="max-w-7xl mx-auto">
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
-            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
+            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[var(--gold)] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
               Kategori Sertifikasi
             </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-[var(--navy)] tracking-[-0.02em] leading-[1.1]">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-[-0.02em] leading-[1.1]">
               Beragam Standar
             </h2>
-            <p className="mt-5 text-lg text-slate-500 leading-relaxed">
+            <p className="mt-5 text-lg text-[var(--body-muted)] leading-relaxed">
               Sertifikasi yang mencakup berbagai aspek operasional untuk memastikan kualitas terbaik
             </p>
           </Reveal>
@@ -203,13 +203,13 @@ export default function CertificationPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {categories.map((category, index) => (
               <Reveal key={index} delay={index % 3}>
-                <Card className="group h-full text-center rounded-[1.25rem] bg-white border border-[#dce9ff] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)]">
+                <Card className="group h-full text-center rounded-[1.25rem] bg-[var(--surface)] border border-[var(--hairline)] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)]">
                   <CardContent className="p-8">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-[var(--navy)] text-[var(--lime)] rounded-2xl mb-6 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-[var(--gold)]/15 text-[var(--gold)] border border-[var(--gold)]/30 rounded-2xl mb-6 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
                       {category.icon}
                     </div>
                     <h3 className="font-display font-bold text-lg text-[var(--navy)] mb-2">{category.name}</h3>
-                    <p className="text-slate-500 text-sm">
+                    <p className="text-[var(--body-muted)] text-sm">
                       {category.count} Sertifikat
                     </p>
                   </CardContent>
@@ -221,16 +221,16 @@ export default function CertificationPage() {
       </section>
 
       {/* Certifications Section */}
-      <section className="py-24 px-4 bg-[#f8f9ff]">
+      <section className="py-24 px-4 bg-[var(--navy)]">
         <div className="max-w-7xl mx-auto">
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
-            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
+            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[var(--gold)] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
               Sertifikasi Kami
             </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-[var(--navy)] tracking-[-0.02em] leading-[1.1]">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-[-0.02em] leading-[1.1]">
               Sertifikat Resmi
             </h2>
-            <p className="mt-5 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+            <p className="mt-5 text-lg text-[var(--body-muted)] max-w-2xl mx-auto leading-relaxed">
               Komitmen kami terhadap kualitas dan standar internasional tercermin dalam berbagai sertifikasi yang telah kami peroleh
             </p>
           </Reveal>
@@ -238,12 +238,12 @@ export default function CertificationPage() {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[...Array(6)].map((_, i) => (
-                <Card key={i} className="animate-pulse rounded-[1.25rem] border border-[#dce9ff]">
-                  <div className="aspect-[4/3] bg-[#e5eeff] rounded-t-[1.25rem]"></div>
+                <Card key={i} className="animate-pulse rounded-[1.25rem] border border-[var(--hairline)]">
+                  <div className="aspect-[4/3] bg-[var(--surface-2)] rounded-t-[1.25rem]"></div>
                   <CardContent className="p-6 space-y-3">
-                    <div className="h-4 bg-[#e5eeff] rounded-full"></div>
-                    <div className="h-3 bg-[#eff4ff] rounded-full w-3/4"></div>
-                    <div className="h-3 bg-[#eff4ff] rounded-full w-1/2"></div>
+                    <div className="h-4 bg-[var(--surface-2)] rounded-full"></div>
+                    <div className="h-3 bg-[var(--surface-2)] rounded-full w-3/4"></div>
+                    <div className="h-3 bg-[var(--surface-2)] rounded-full w-1/2"></div>
                   </CardContent>
                 </Card>
               ))}
@@ -256,22 +256,22 @@ export default function CertificationPage() {
               </div>
               <Button
                 onClick={() => window.location.reload()}
-                className="bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white rounded-full px-7"
+                className="bg-[var(--gold)] hover:bg-[var(--gold-bright)] text-[var(--navy)] rounded-full px-7"
               >
                 Coba Lagi
               </Button>
             </div>
           ) : certifications.length === 0 ? (
             <div className="text-center py-12">
-              <FileText className="w-16 h-16 mx-auto mb-4 text-slate-400" />
-              <p className="text-lg font-semibold text-slate-600">Belum ada sertifikasi</p>
-              <p className="text-slate-500">Sertifikasi akan ditampilkan di sini setelah ditambahkan</p>
+              <FileText className="w-16 h-16 mx-auto mb-4 text-[var(--body-muted)]" />
+              <p className="text-lg font-semibold text-[var(--body-text)]">Belum ada sertifikasi</p>
+              <p className="text-[var(--body-muted)]">Sertifikasi akan ditampilkan di sini setelah ditambahkan</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {certifications.map((cert, i) => (
                 <Reveal key={cert.id} delay={i % 3}>
-                  <Card className="group h-full rounded-[1.25rem] bg-white border border-[#dce9ff] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)] overflow-hidden">
+                  <Card className="group h-full rounded-[1.25rem] bg-[var(--surface)] border border-[var(--hairline)] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)] overflow-hidden">
                     <div className="aspect-[4/3] relative overflow-hidden">
                       <Image
                         src={cert.certificate || '/certificates/default-cert.jpg'}
@@ -291,9 +291,9 @@ export default function CertificationPage() {
 
                     <CardContent className="p-6">
                       <h3 className="font-display font-bold text-lg text-[var(--navy)] mb-2">{cert.name}</h3>
-                      <p className="text-slate-500 text-sm mb-4 leading-relaxed">{cert.description}</p>
+                      <p className="text-[var(--body-muted)] text-sm mb-4 leading-relaxed">{cert.description}</p>
 
-                      <div className="space-y-2 text-sm text-slate-500 mb-4">
+                      <div className="space-y-2 text-sm text-[var(--body-muted)] mb-4">
                         <div className="flex items-center gap-2">
                           <Building className="w-4 h-4 text-[var(--navy)]" />
                           <span>Penerbit: {cert.issuer}</span>
@@ -308,7 +308,7 @@ export default function CertificationPage() {
 
                       {cert.credentialUrl && (
                         <Button
-                          className="w-full bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white rounded-full text-sm"
+                          className="w-full bg-[var(--gold)] hover:bg-[var(--gold-bright)] text-[var(--navy)] rounded-full text-sm"
                           onClick={() => window.open(cert.credentialUrl, '_blank')}
                         >
                           <Download className="w-4 h-4 mr-2" />
@@ -326,16 +326,16 @@ export default function CertificationPage() {
       </section>
 
       {/* Awards Section */}
-      <section className="py-24 px-4 bg-white">
+      <section className="py-24 px-4 bg-[var(--surface)]">
         <div className="max-w-7xl mx-auto">
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
-            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
+            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[var(--gold)] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
               Penghargaan
             </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-[var(--navy)] tracking-[-0.02em] leading-[1.1]">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-[-0.02em] leading-[1.1]">
               Pengakuan Industri
             </h2>
-            <p className="mt-5 text-lg text-slate-500 leading-relaxed">
+            <p className="mt-5 text-lg text-[var(--body-muted)] leading-relaxed">
               Berbagai penghargaan yang membuktikan keunggulan dan inovasi kami di industri pengolahan air
             </p>
           </Reveal>
@@ -343,21 +343,21 @@ export default function CertificationPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {awards.map((award, index) => (
               <Reveal key={index} delay={index % 2}>
-                <Card className="group h-full rounded-[1.25rem] bg-[#f8f9ff] border border-[#e5eeff] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-28px_rgba(11,28,48,0.25)]">
+                <Card className="group h-full rounded-[1.25rem] bg-[var(--navy)] border border-[var(--hairline)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-28px_rgba(11,28,48,0.25)]">
                   <CardContent className="p-8">
                     <div className="flex items-start gap-4">
-                      <div className="inline-flex items-center justify-center w-16 h-16 bg-[var(--navy)] text-[var(--lime)] rounded-2xl flex-shrink-0 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
+                      <div className="inline-flex items-center justify-center w-16 h-16 bg-[var(--gold)]/15 text-[var(--gold)] border border-[var(--gold)]/30 rounded-2xl flex-shrink-0 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
                         <Award className="w-8 h-8" />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
                           <h3 className="font-display font-bold text-lg text-[var(--navy)]">{award.title}</h3>
-                          <Badge variant="outline" className="text-[#3d4d00] border-[var(--lime)]/40 bg-[var(--lime)]/10">
+                          <Badge variant="outline" className="text-[var(--gold)] border-[var(--lime)]/40 bg-[var(--lime)]/10">
                             {award.year}
                           </Badge>
                         </div>
                         <p className="text-[var(--navy)] font-medium mb-2">{award.organization}</p>
-                        <p className="text-slate-500 text-sm leading-relaxed">{award.description}</p>
+                        <p className="text-[var(--body-muted)] text-sm leading-relaxed">{award.description}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -386,7 +386,7 @@ export default function CertificationPage() {
             <Button size="lg" className="bg-[var(--lime)] hover:bg-[var(--lime-bright)] text-[var(--navy)] font-bold px-8 py-6 rounded-full shadow-xl shadow-black/25 hover:scale-[1.03] transition-all">
               Konsultasi Gratis
             </Button>
-            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-white hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
+            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-[var(--surface)] hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
               <Download className="w-5 h-5 mr-2" />
               Download Company Profile
             </Button>

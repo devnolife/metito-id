@@ -1,12 +1,25 @@
 import { Hero } from "@/components/hero"
+import Link from "next/link"
 import { ProductShowcase } from "@/components/product-showcase"
 import { Footer } from "@/components/footer"
 import { WhatsAppFloat } from "@/components/whatsapp-float"
 import { Reveal } from "@/components/reveal"
+import { SectionHeading } from "@/components/section-heading"
 import { Button } from "@/components/ui/button"
-import { CheckCircle, ArrowRight, Target, Lightbulb, Shield } from "lucide-react"
+import { ArrowRight, Target, Lightbulb } from "lucide-react"
 import { db } from "@/lib/db"
 import { getMockPageContent, isDbConnectionError } from "@/lib/mock-data"
+import {
+  ADVANTAGES,
+  COMPANY,
+  COMPANY_PROFILE_PDF,
+  CORE_VALUES,
+  INDUSTRIES,
+  INDUSTRY_LABELS,
+  MISSION,
+  PRODUCT_GROUPS,
+  VISION,
+} from "@/lib/company-profile"
 import * as LucideIcons from "lucide-react"
 
 // Helper to get icon component
@@ -53,75 +66,79 @@ export default async function Home() {
   const servicesHeaderHeading = servicesHeaderContents.find(c => c.key === 'heading')
   const servicesHeaderDescription = servicesHeaderContents.find(c => c.key === 'description')
 
-  // Fallback features jika belum ada di database
-  const features = [
-    "Teknologi Terdepan dan Inovatif",
-    "Dukungan Teknis 24/7 Tersedia",
-    "Solusi Kustom untuk Setiap Kebutuhan",
-    "Sistem Monitoring dan Kontrol Canggih",
-    "Desain Hemat Energi",
-    "Jaminan Garansi Komprehensif"
-  ]
-
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[var(--navy)]">
       <Hero />
 
-      {/* ===== STATS — putih: kartu foto penuh + kartu statistik ===== */}
-      <section className="relative py-24 px-4 bg-white overflow-hidden">
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-[var(--lime)]/10 blur-[130px]" />
-        {/* Seam bawah — section putih melebur ke section services ice-white */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#f8f9ff]" />
+      {/* ===== ABOUT US — foto kiri, komitmen kanan (slide 2 company profile) ===== */}
+      <section className="relative py-24 px-4 bg-[var(--navy)] overflow-hidden">
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-[var(--gold)]/5 blur-[130px]" />
 
-        <div className="relative max-w-7xl mx-auto grid lg:grid-cols-12 gap-8 items-stretch">
-          {/* Kartu foto penuh — kiri */}
+        <div className="relative max-w-7xl mx-auto grid lg:grid-cols-12 gap-10 items-stretch">
+          {/* Kartu foto — kiri */}
           <Reveal direction="left" className="lg:col-span-5">
-            <div className="group relative h-72 lg:h-full min-h-[440px] rounded-[1.5rem] overflow-hidden border border-[#dce9ff] shadow-[0_40px_90px_-30px_rgba(11,28,48,0.35)]">
+            <div className="group relative h-72 lg:h-full min-h-[440px] rounded-[1.25rem] overflow-hidden border border-[var(--hairline)]">
               <div className="absolute inset-0 bg-[url('/images/landing-pages/image2.png')] bg-cover bg-center transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--navy)] via-[var(--navy)]/25 to-transparent" />
-              {/* Ring lime dekoratif */}
-              <div className="absolute top-5 left-5 w-20 h-20 rounded-full border-[6px] border-[var(--lime)]/30" />
-              {/* Chip mengambang */}
-              <div className="absolute bottom-5 left-5 right-5 flex items-center gap-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 px-5 py-4">
-                <div className="flex-shrink-0 w-11 h-11 rounded-full bg-[var(--lime)] text-[var(--navy)] flex items-center justify-center">
-                  <Shield className="w-5 h-5" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--navy)] via-[var(--navy)]/30 to-transparent" />
+              <div className="absolute bottom-5 left-5 right-5 flex items-center gap-3 rounded-xl bg-[var(--surface)]/85 backdrop-blur-md border border-[var(--hairline)] px-5 py-4">
+                <div className="flex-shrink-0 w-11 h-11 rounded-full bg-[var(--gold)] text-[var(--navy)] flex items-center justify-center">
+                  <Target className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="font-display text-base font-bold text-white leading-none">Tim Ahli Metito</div>
-                  <div className="text-xs text-white/70 mt-1">Berpengalaman &amp; Terpercaya</div>
+                  <div className="font-display text-base font-bold text-white leading-none">{COMPANY.brandName}</div>
+                  <div className="text-xs text-[var(--body-muted)] mt-1">{COMPANY.abbreviationOf}</div>
                 </div>
               </div>
             </div>
           </Reveal>
 
-          {/* Header + kartu statistik — kanan */}
+          {/* Konten — kanan */}
           <div className="lg:col-span-7 flex flex-col justify-center">
             <Reveal direction="right" className="mb-8">
-              <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
-                {statsHeaderBadge?.title || "Solusi Terpercaya"}
-              </span>
-              <h2 className="font-display text-4xl md:text-5xl font-bold text-[var(--navy)] tracking-[-0.02em] leading-[1.1]">
-                {statsHeaderHeading?.title || "Solusi Pengolahan Air Profesional"}
-              </h2>
-              <p className="mt-5 text-lg text-slate-500 leading-relaxed">
-                {statsHeaderDescription?.description || "Perusahaan yang berkomitmen memberikan solusi pengolahan air terbaik dengan teknologi modern dan layanan prima."}
-              </p>
+              <SectionHeading
+                align="left"
+                eyebrow={statsHeaderBadge?.title || "About Us"}
+                title={statsHeaderHeading?.title || "About Us"}
+                subtitle={statsHeaderDescription?.description || COMPANY.description}
+              />
             </Reveal>
 
-            <div className="grid grid-cols-2 gap-5">
+            {/* Tiga komitmen dari company profile */}
+            <Reveal direction="right" className="mb-8">
+              <div className="space-y-4">
+                {ADVANTAGES.map((advantage) => {
+                  const IconComponent = getIconComponent(advantage.icon)
+
+                  return (
+                    <div key={advantage.title} className="flex gap-4">
+                      <div className="mt-1 flex-shrink-0 w-9 h-9 rounded-lg bg-[var(--gold)]/15 text-[var(--gold)] flex items-center justify-center border border-[var(--gold)]/30">
+                        {IconComponent && <IconComponent className="w-4 h-4" />}
+                      </div>
+                      <div>
+                        <div className="font-display text-base font-bold text-[var(--gold)] leading-tight">
+                          {advantage.title}
+                        </div>
+                        <p className="text-[var(--body-muted)] text-sm mt-1 leading-relaxed">{advantage.description}</p>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </Reveal>
+
+            {/* Kartu statistik dari database */}
+            <div className="grid grid-cols-2 gap-4">
               {statsContents.map((stat, i) => {
                 const IconComponent = getIconComponent(stat.icon || '')
 
                 return (
                   <Reveal key={stat.id} delay={i % 4}>
-                    <div className="group h-full rounded-[1.25rem] bg-[#f8f9ff] border border-[#e5eeff] p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-28px_rgba(11,28,48,0.25)]">
-                      <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--navy)] text-[var(--lime)] mb-4 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
-                        {IconComponent && <IconComponent className="w-7 h-7" />}
+                    <div className="profile-card h-full p-6">
+                      <div className="inline-flex items-center justify-center w-11 h-11 rounded-lg bg-[var(--gold)]/15 text-[var(--gold)] border border-[var(--gold)]/30 mb-4">
+                        {IconComponent && <IconComponent className="w-5 h-5" />}
                       </div>
-                      <div className="font-display text-4xl font-bold text-[var(--navy)] leading-none">
-                        {stat.title}
-                      </div>
-                      <div className="mt-2 text-slate-500 text-sm font-medium">{stat.subtitle}</div>
+                      <div className="font-display text-2xl font-bold text-white leading-none">{stat.title}</div>
+                      <div className="mt-2 text-[var(--body-muted)] text-sm">{stat.subtitle}</div>
                     </div>
                   </Reveal>
                 )
@@ -129,175 +146,229 @@ export default async function Home() {
             </div>
           </div>
         </div>
+
+        {/* Industri yang kami layani */}
+        <Reveal className="relative max-w-7xl mx-auto mt-14">
+          <div className="text-[var(--gold)] font-display font-bold text-lg mb-4">Industri yang Kami Layani:</div>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-3">
+            {INDUSTRY_LABELS.map((industry) => (
+              <span
+                key={industry}
+                className="rounded-full border border-[var(--hairline)] bg-[var(--surface)] px-4 py-2 text-sm font-medium text-[var(--body-text)]"
+              >
+                {industry}
+              </span>
+            ))}
+          </div>
+        </Reveal>
+
+        <div className="profile-rule max-w-7xl mx-auto mt-16" />
       </section>
 
-      {/* ===== SERVICES — ice white, kartu glass-tonal ===== */}
-      <section className="py-24 px-4 bg-[#f8f9ff]">
+      {/* ===== VISION & MISSION + CORE VALUES (slide 3) ===== */}
+      <section className="py-24 px-4 bg-[var(--navy)]">
         <div className="max-w-7xl mx-auto">
-          <Reveal className="text-center max-w-2xl mx-auto mb-16">
-            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
-              Keahlian Kami
-            </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-[var(--navy)] tracking-[-0.02em] leading-[1.1]">
-              {servicesHeaderHeading?.title || "Keahlian Kami"}
-            </h2>
-            <p className="mt-5 text-lg text-slate-500 leading-relaxed">
-              {servicesHeaderDescription?.description || "Solusi pengolahan air komprehensif yang disesuaikan untuk memenuhi kebutuhan spesifik Anda dan standar industri."}
-            </p>
+          <Reveal className="flex justify-center mb-14">
+            <SectionHeading title="Vision & Mission" uppercase={false} />
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid lg:grid-cols-2 gap-6">
+            <Reveal direction="left">
+              <div className="profile-card h-full p-9 text-center">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[var(--gold)]/15 text-[var(--gold)] border border-[var(--gold)]/30 mb-5">
+                  <Target className="w-6 h-6" />
+                </div>
+                <h3 className="font-display text-2xl font-bold text-[var(--gold)] mb-4 tracking-wide">VISI</h3>
+                <p className="text-[var(--body-text)] leading-relaxed">{VISION}</p>
+              </div>
+            </Reveal>
+
+            <Reveal direction="right">
+              <div className="profile-card h-full p-9">
+                <div className="text-center">
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[var(--gold)]/15 text-[var(--gold)] border border-[var(--gold)]/30 mb-5">
+                    <Lightbulb className="w-6 h-6" />
+                  </div>
+                  <h3 className="font-display text-2xl font-bold text-[var(--gold)] mb-5 tracking-wide">MISI</h3>
+                </div>
+                <ul className="space-y-3">
+                  {MISSION.map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <span className="profile-bullet mt-2" />
+                      <span className="text-[var(--body-text)] leading-relaxed">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          </div>
+
+          {/* Core values */}
+          <Reveal className="text-center mt-16 mb-8">
+            <h3 className="font-display text-xl md:text-2xl font-bold text-[var(--gold)] uppercase tracking-[0.15em]">
+              Core Values
+            </h3>
+          </Reveal>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+            {CORE_VALUES.map((value, i) => {
+              const IconComponent = getIconComponent(value.icon)
+
+              return (
+                <Reveal key={value.title} delay={i % 4}>
+                  <div className="profile-card h-full p-7 text-center">
+                    <div className="inline-flex items-center justify-center w-11 h-11 rounded-lg bg-[var(--gold)]/15 text-[var(--gold)] border border-[var(--gold)]/30 mb-4">
+                      {IconComponent && <IconComponent className="w-5 h-5" />}
+                    </div>
+                    <h4 className="font-display text-lg font-bold text-white mb-2">{value.title}</h4>
+                    <p className="text-[var(--body-muted)] text-sm leading-relaxed">{value.description}</p>
+                  </div>
+                </Reveal>
+              )
+            })}
+          </div>
+
+          <div className="profile-rule mt-16" />
+        </div>
+      </section>
+
+      {/* ===== BUSINESS LINES (slide 4) — konten dari database ===== */}
+      <section className="relative bg-[var(--navy)] overflow-hidden">
+        <div className="max-w-7xl mx-auto py-24 px-4">
+          <Reveal className="flex justify-center mb-14">
+            <SectionHeading
+              title={servicesHeaderHeading?.title || "Business Lines"}
+              subtitle={servicesHeaderDescription?.description || undefined}
+            />
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {servicesContents.map((service, i) => {
               const IconComponent = getIconComponent(service.icon || '')
 
               return (
-                <Reveal key={service.id} delay={i % 4}>
-                  <div className="group relative h-full rounded-[1.25rem] bg-white border border-[#dce9ff] p-8 shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)]">
-                    <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--navy)] text-[var(--lime)] mb-6 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
-                      {IconComponent && <IconComponent className="w-7 h-7" />}
+                <Reveal key={service.id} delay={i % 3}>
+                  <div className="profile-card h-full p-8 text-center">
+                    <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-[var(--gold)]/15 text-[var(--gold)] border border-[var(--gold)]/30 mb-5">
+                      {IconComponent && <IconComponent className="w-6 h-6" />}
                     </div>
-                    <h3 className="font-display text-xl font-bold text-[var(--navy)] mb-3">{service.title}</h3>
-                    <p className="text-slate-500 leading-relaxed text-[15px]">{service.description}</p>
+                    <h3 className="font-display text-lg font-bold text-[var(--gold)] mb-3">{service.title}</h3>
+                    <p className="text-[var(--body-text)] leading-relaxed text-sm">{service.description}</p>
                   </div>
                 </Reveal>
               )
             })}
           </div>
         </div>
+
+        {/* Band foto industri — seperti bagian bawah slide company profile */}
+        <div className="relative h-56 md:h-64">
+          <div className="absolute inset-0 bg-[url('/images/landing-pages/image3.png')] bg-cover bg-center" />
+          <div className="absolute inset-0 bg-[var(--navy)]/75" />
+          <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[var(--navy)] to-transparent" />
+        </div>
+        <div className="profile-rule max-w-7xl mx-auto" />
       </section>
 
-      {/* Product Showcase with Hover Effects */}
+      {/* ===== OUR PRODUCTS (slide 5 & 6) ===== */}
+      <section className="py-24 px-4 bg-[var(--navy)]">
+        <div className="max-w-7xl mx-auto">
+          <Reveal className="flex justify-center mb-14">
+            <SectionHeading
+              title="Our Products"
+              subtitle="Enam kelompok produk untuk kebutuhan air, industri, dan pertambangan."
+            />
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {PRODUCT_GROUPS.map((group, i) => {
+              const IconComponent = getIconComponent(group.icon)
+
+              return (
+                <Reveal key={group.slug} delay={i % 3}>
+                  <Link href={`/products?category=${group.slug}`} className="block h-full">
+                    <div className="profile-card h-full p-8 text-center">
+                      <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[var(--gold)]/15 text-[var(--gold)] border border-[var(--gold)]/30 mb-4">
+                        {IconComponent && <IconComponent className="w-5 h-5" />}
+                      </div>
+                      <h3 className="font-display text-lg font-bold text-[var(--gold)] mb-3">{group.title}</h3>
+                      <p className="text-[var(--body-text)] leading-relaxed text-sm">{group.items.join(", ")}</p>
+                    </div>
+                  </Link>
+                </Reveal>
+              )
+            })}
+          </div>
+
+          <div className="profile-rule mt-16" />
+        </div>
+      </section>
+
+      {/* Katalog produk interaktif */}
       <ProductShowcase />
 
-      {/* ===== VISI & MISI — gambar + kartu lime overlap ===== */}
-      <section className="py-24 px-4 bg-white overflow-hidden">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-          {/* Visual */}
-          <Reveal direction="left" className="relative">
-            <div className="absolute -top-5 -left-5 w-28 h-28 rounded-full border-[7px] border-[var(--lime)]/30" />
-            <div className="relative rounded-[1.5rem] overflow-hidden h-[420px] md:h-[500px] bg-[url('/images/landing-pages/image.png')] bg-cover bg-center shadow-[0_40px_90px_-30px_rgba(11,28,48,0.4)]" />
-            <div className="absolute -bottom-6 -right-4 md:-right-6 bg-[var(--lime)] rounded-2xl px-7 py-5 shadow-xl shadow-[var(--lime)]/25">
-              <div className="font-display text-3xl md:text-4xl font-bold text-[var(--navy)] leading-none">25+</div>
-              <div className="mt-1 text-sm font-semibold text-[var(--navy)]/75">Tahun Pengalaman</div>
-            </div>
+      {/* ===== OUR CLIENTS (slide 11) ===== */}
+      <section className="relative bg-[var(--navy)] overflow-hidden">
+        <div className="max-w-7xl mx-auto py-24 px-4">
+          <Reveal className="flex justify-center mb-14">
+            <SectionHeading title="Our Clients" />
           </Reveal>
 
-          {/* Konten */}
-          <Reveal direction="right">
-            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
-              Visi &amp; Misi
-            </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-[var(--navy)] tracking-[-0.02em] leading-[1.1] mb-8">
-              Komitmen Terhadap Masa Depan Air Bersih
-            </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {INDUSTRIES.map((industry, i) => {
+              const IconComponent = getIconComponent(industry.icon)
 
-            <div className="space-y-5">
-              <div className="flex gap-5 rounded-2xl border border-[#e5eeff] bg-[#f8f9ff] p-6">
-                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[var(--navy)] text-[var(--lime)] flex items-center justify-center">
-                  <Target className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-display text-xl font-bold text-[var(--navy)] mb-1.5">Visi Kami</h3>
-                  <p className="text-slate-500 leading-relaxed text-[15px]">
-                    Menjadi perusahaan terdepan dalam solusi pengolahan air yang berkelanjutan dan ramah lingkungan di Indonesia.
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-5 rounded-2xl border border-[#e5eeff] bg-[#f8f9ff] p-6">
-                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[var(--lime)] text-[var(--navy)] flex items-center justify-center">
-                  <Lightbulb className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-display text-xl font-bold text-[var(--navy)] mb-1.5">Misi Kami</h3>
-                  <p className="text-slate-500 leading-relaxed text-[15px]">
-                    Menyediakan solusi pengolahan air berkualitas tinggi dengan teknologi terkini dan layanan pelanggan yang prima.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ===== MENGAPA METITO — foto engineer + fitur lime ===== */}
-      <section className="py-24 px-4 bg-[#f8f9ff] overflow-hidden">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-          {/* Konten */}
-          <Reveal direction="left">
-            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
-              Mengapa Metito
-            </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-[var(--navy)] tracking-[-0.02em] leading-[1.1] mb-6">
-              Keunggulan dalam Solusi Pengolahan Air
-            </h2>
-            <p className="text-lg text-slate-500 leading-relaxed mb-8">
-              Kami berkomitmen memberikan solusi pengolahan air inovatif dengan teknologi terdepan dan dedikasi tinggi untuk memenuhi kebutuhan pelanggan.
-            </p>
-
-            <div className="grid sm:grid-cols-2 gap-x-6 gap-y-4 mb-10">
-              {features.map((feature, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[var(--lime)] flex items-center justify-center">
-                    <CheckCircle className="w-4 h-4 text-[var(--navy)]" />
+              return (
+                <Reveal key={industry.slug} delay={i % 3}>
+                  <div className="profile-card h-full p-8 text-center">
+                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[var(--gold)]/15 text-[var(--gold)] border border-[var(--gold)]/30 mb-4">
+                      {IconComponent && <IconComponent className="w-5 h-5" />}
+                    </div>
+                    <h3 className="font-display text-lg font-bold text-[var(--gold)] mb-2">{industry.title}</h3>
+                    <p className="text-[var(--body-text)] leading-relaxed text-sm">{industry.description}</p>
                   </div>
-                  <span className="text-[var(--navy)] font-medium text-[15px]">{feature}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button className="group bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white font-semibold px-7 py-6 rounded-full">
-                Pelajari Lebih Lanjut
-                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-              </Button>
-              <Button variant="outline" className="border-[var(--navy)]/20 text-[var(--navy)] hover:bg-[var(--navy)] hover:text-white font-semibold px-7 py-6 rounded-full">
-                Hubungi Kami
-              </Button>
-            </div>
-          </Reveal>
-
-          {/* Foto engineer + kartu mengambang */}
-          <Reveal direction="right" className="relative">
-            <div className="relative rounded-[1.5rem] overflow-hidden h-[460px] md:h-[560px] bg-[url('/images/landing-pages/image5.png')] bg-cover bg-top shadow-[0_40px_90px_-30px_rgba(11,28,48,0.4)]" />
-            <div className="absolute top-6 -left-4 md:-left-6 flex items-center gap-3 rounded-2xl bg-white/80 backdrop-blur-md border border-white/60 px-5 py-4 shadow-xl">
-              <div className="w-11 h-11 rounded-full bg-[var(--navy)] text-[var(--lime)] flex items-center justify-center">
-                <Shield className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="font-display text-lg font-bold text-[var(--navy)] leading-none">ISO 9001</div>
-                <div className="text-xs text-slate-500 mt-0.5">Tersertifikasi</div>
-              </div>
-            </div>
-            <div className="absolute -bottom-5 -right-4 md:-right-6 bg-[var(--lime)] rounded-2xl px-7 py-5 shadow-xl">
-              <div className="font-display text-3xl font-bold text-[var(--navy)] leading-none">100%</div>
-              <div className="mt-1 text-sm font-semibold text-[var(--navy)]/75">Kepuasan Klien</div>
-            </div>
-          </Reveal>
+                </Reveal>
+              )
+            })}
+          </div>
         </div>
+
+        <div className="relative h-56 md:h-64">
+          <div className="absolute inset-0 bg-[url('/images/landing-pages/image4.png')] bg-cover bg-center" />
+          <div className="absolute inset-0 bg-[var(--navy)]/75" />
+          <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[var(--navy)] to-transparent" />
+        </div>
+        <div className="profile-rule max-w-7xl mx-auto" />
       </section>
 
-      {/* ===== CTA — band gambar + overlay navy ===== */}
-      <section className="relative py-28 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/images/landing-pages/image4.png')] bg-cover bg-center" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy)] via-[var(--navy)]/92 to-[var(--navy)]/70" />
-        <Reveal className="relative max-w-4xl mx-auto text-center">
-          <span className="inline-block text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] mb-5">
-            Mulai Sekarang
-          </span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-[-0.02em] leading-[1.1] mb-6">
-            Siap Mentransformasi Pengolahan Air Anda?
-          </h2>
-          <p className="text-lg md:text-xl text-white/75 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Dapatkan konsultasi ahli dan solusi kustom untuk kebutuhan pengolahan air Anda. Tim kami siap membantu Anda mencapai hasil yang optimal.
+      {/* ===== CONTACT CTA (slide 12) ===== */}
+      <section className="relative py-28 px-4 overflow-hidden bg-[var(--navy)]">
+        <div className="absolute inset-0 opacity-25 bg-[url('/images/landing-pages/image.png')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--navy)] via-[var(--navy)]/85 to-[var(--navy)]" />
+
+        <Reveal className="relative max-w-3xl mx-auto text-center">
+          <SectionHeading eyebrow="Contact Us" title="Hubungi Kami" uppercase={false} />
+          <p className="mt-6 text-lg text-[var(--body-text)] max-w-2xl mx-auto leading-relaxed">
+            Konsultasikan kebutuhan chemical supply, engineering, equipment, dan spare parts Anda bersama tim kami.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="group bg-[var(--lime)] hover:bg-[var(--lime-bright)] text-[var(--navy)] font-bold px-8 py-6 rounded-full shadow-xl shadow-black/25 hover:scale-[1.03] transition-all">
-              Konsultasi Gratis
-              <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg" className="group bg-[var(--gold)] hover:bg-[var(--gold-bright)] text-[var(--navy)] font-bold px-8 py-6 rounded-full transition-all hover:scale-[1.03]">
+              <Link href="/contact">
+                Konsultasi Gratis
+                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+              </Link>
             </Button>
-            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-white hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
-              Unduh Katalog
+            <Button asChild size="lg" variant="outline" className="border border-[var(--gold)]/40 text-[var(--gold)] bg-transparent hover:bg-[var(--gold)] hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
+              <a href={COMPANY_PROFILE_PDF} target="_blank" rel="noopener noreferrer">
+                Unduh Company Profile
+              </a>
             </Button>
+          </div>
+
+          <div className="mt-14">
+            <div className="font-display text-2xl md:text-3xl font-bold text-[var(--gold)]">{COMPANY.slogan}</div>
+            <div className="mt-2 text-sm text-[var(--body-muted)]">{COMPANY.tagline}</div>
           </div>
         </Reveal>
       </section>

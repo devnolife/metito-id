@@ -163,7 +163,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   // Public pages (like login) - render without sidebar
   if (isPublicPage) {
-    return <>{children}</>
+    return <div className="admin-theme min-h-screen">{children}</div>
   }
 
   // Private pages - require authentication
@@ -173,7 +173,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   // Authenticated admin - render with sidebar
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50">
+    <div className="admin-theme flex h-screen overflow-hidden bg-gray-50">
       <AdminSidebar
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -195,6 +195,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 function getPageTitle(pathname: string): string {
   const titleMap: { [key: string]: string } = {
     '/admin': 'Dashboard Admin',
+    '/admin/quotations': 'Surat Penawaran',
     '/admin/products': 'Manajemen Produk',
     '/admin/services': 'Manajemen Layanan',
     '/admin/customers': 'Manajemen Pelanggan',

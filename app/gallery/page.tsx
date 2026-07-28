@@ -116,12 +116,12 @@ export default function GalleryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[var(--navy)]">
       {/* Hero Section */}
       <section className="relative bg-[var(--navy)] text-white py-28 px-4 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.08] bg-[url('/images/landing-pages/image3.png')] bg-cover bg-center" />
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-[var(--lime)]/10 blur-[130px]" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-white" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[var(--navy)]" />
         <Reveal className="relative max-w-7xl mx-auto text-center">
           <span className="inline-block rounded-full bg-[var(--lime)]/15 text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] px-4 py-1.5 mb-5">
             Portfolio Terbaik
@@ -137,7 +137,7 @@ export default function GalleryPage() {
             <Button size="lg" className="bg-[var(--lime)] hover:bg-[var(--lime-bright)] text-[var(--navy)] font-bold px-8 py-6 rounded-full shadow-xl shadow-black/25 hover:scale-[1.03] transition-all">
               Lihat Semua Proyek
             </Button>
-            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-white hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
+            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-[var(--surface)] hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
               <Download className="w-4 h-4 mr-2" />
               Unduh Brosur
             </Button>
@@ -146,16 +146,16 @@ export default function GalleryPage() {
       </section>
 
       {/* Project Gallery Section */}
-      <section className="py-24 px-4 bg-[#f8f9ff]">
+      <section className="py-24 px-4 bg-[var(--navy)]">
         <div className="max-w-7xl mx-auto">
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
-            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[#3d4d00] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
+            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[var(--gold)] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
               Portfolio Terbaik
             </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-[var(--navy)] tracking-[-0.02em] leading-[1.1]">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-[-0.02em] leading-[1.1]">
               Proyek Unggulan
             </h2>
-            <p className="mt-5 text-lg text-slate-500 leading-relaxed">
+            <p className="mt-5 text-lg text-[var(--body-muted)] leading-relaxed">
               Koleksi lengkap proyek-proyek pengolahan air yang telah kami kerjakan dengan standar internasional
             </p>
           </Reveal>
@@ -165,20 +165,20 @@ export default function GalleryPage() {
               {loading ? (
                 <div className="flex gap-2">
                   {[...Array(4)].map((_, i) => (
-                    <div key={i} className="h-10 w-24 bg-[#e5eeff] rounded-xl animate-pulse"></div>
+                    <div key={i} className="h-10 w-24 bg-[var(--surface-2)] rounded-xl animate-pulse"></div>
                   ))}
                 </div>
               ) : (
-                <TabsList className="inline-flex h-auto p-1 bg-white/90 backdrop-blur-sm shadow-lg border border-[#dce9ff] rounded-2xl">
+                <TabsList className="inline-flex h-auto p-1 bg-white/90 backdrop-blur-sm shadow-lg border border-[var(--hairline)] rounded-2xl">
                   {categories.map((category) => (
                     <TabsTrigger
                       key={category.id}
                       value={category.id}
-                      className="relative px-4 py-2 text-sm font-semibold text-slate-600 data-[state=active]:text-white data-[state=active]:bg-[var(--navy)] rounded-xl transition-all duration-200 hover:text-[var(--navy)]"
+                      className="relative px-4 py-2 text-sm font-semibold text-[var(--body-text)] data-[state=active]:text-white data-[state=active]:bg-[var(--navy)] rounded-xl transition-all duration-200 hover:text-[var(--navy)]"
                     >
                       <div className="flex items-center gap-2">
                         <span>{category.name}</span>
-                        <Badge variant="secondary" className="bg-[#eff4ff] text-slate-600 text-xs px-2 py-0.5">
+                        <Badge variant="secondary" className="bg-[var(--surface-2)] text-[var(--body-text)] text-xs px-2 py-0.5">
                           {category.count}
                         </Badge>
                       </div>
@@ -193,8 +193,8 @@ export default function GalleryPage() {
                 {/* Loading State */}
                 {loading && (
                   <div className="flex justify-center items-center py-20">
-                    <Loader2 className="w-8 h-8 animate-spin text-[var(--navy)]" />
-                    <span className="ml-2 text-slate-500">Memuat galeri...</span>
+                    <Loader2 className="w-8 h-8 animate-spin text-[var(--gold)]" />
+                    <span className="ml-2 text-[var(--body-muted)]">Memuat galeri...</span>
                   </div>
                 )}
 
@@ -204,11 +204,11 @@ export default function GalleryPage() {
                     <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
                       <AlertCircle className="w-12 h-12 text-red-400" />
                     </div>
-                    <h3 className="font-display text-2xl font-bold text-[var(--navy)] mb-2">Terjadi Kesalahan</h3>
-                    <p className="text-slate-500 mb-6">{error}</p>
+                    <h3 className="font-display text-2xl font-bold text-white mb-2">Terjadi Kesalahan</h3>
+                    <p className="text-[var(--body-muted)] mb-6">{error}</p>
                     <Button
                       onClick={() => window.location.reload()}
-                      className="bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white rounded-full px-7"
+                      className="bg-[var(--gold)] hover:bg-[var(--gold-bright)] text-[var(--navy)] rounded-full px-7"
                     >
                       Muat Ulang
                     </Button>
@@ -220,7 +220,7 @@ export default function GalleryPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filterProjects(category.id).map((project: GalleryItem, i: number) => (
                       <Reveal key={project.id} delay={i % 3}>
-                        <Card className="group h-full overflow-hidden rounded-[1.25rem] bg-white border border-[#dce9ff] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)] transition-all duration-300 hover:-translate-y-2">
+                        <Card className="group h-full overflow-hidden rounded-[1.25rem] bg-[var(--surface)] border border-[var(--hairline)] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)] transition-all duration-300 hover:-translate-y-2">
                           <div className="relative aspect-[16/10] overflow-hidden">
                             <div className="relative w-full h-full">
                               <Image
@@ -259,11 +259,11 @@ export default function GalleryPage() {
                             <h3 className="font-display font-bold text-lg text-[var(--navy)] mb-2 transition-colors">
                               {project.title}
                             </h3>
-                            <p className="text-slate-500 text-sm mb-4 leading-relaxed">
+                            <p className="text-[var(--body-muted)] text-sm mb-4 leading-relaxed">
                               {project.description || 'Proyek pengolahan air berkualitas tinggi'}
                             </p>
 
-                            <div className="space-y-2 text-sm text-slate-500">
+                            <div className="space-y-2 text-sm text-[var(--body-muted)]">
                               {project.location && (
                                 <div className="flex items-center gap-2">
                                   <MapPin className="w-4 h-4 text-[var(--navy)]" />
@@ -282,8 +282,8 @@ export default function GalleryPage() {
                               </div>
                             </div>
 
-                            <div className="mt-4 pt-4 border-t border-[#e5eeff]">
-                              <Button className="w-full bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white rounded-full text-sm">
+                            <div className="mt-4 pt-4 border-t border-[var(--hairline)]">
+                              <Button className="w-full bg-[var(--gold)] hover:bg-[var(--gold-bright)] text-[var(--navy)] rounded-full text-sm">
                                 Lihat Detail Proyek
                               </Button>
                             </div>
@@ -295,11 +295,11 @@ export default function GalleryPage() {
                     {/* Empty State */}
                     {filterProjects(category.id).length === 0 && (
                       <div className="col-span-full text-center py-16">
-                        <div className="w-24 h-24 bg-[#eff4ff] rounded-full flex items-center justify-center mx-auto mb-6">
-                          <ImageIcon className="w-12 h-12 text-slate-400" />
+                        <div className="w-24 h-24 bg-[var(--surface-2)] rounded-full flex items-center justify-center mx-auto mb-6">
+                          <ImageIcon className="w-12 h-12 text-[var(--body-muted)]" />
                         </div>
-                        <h3 className="font-display text-2xl font-bold text-[var(--navy)] mb-2">Belum Ada Proyek</h3>
-                        <p className="text-slate-500 mb-6">Proyek untuk kategori ini sedang dalam pengembangan</p>
+                        <h3 className="font-display text-2xl font-bold text-white mb-2">Belum Ada Proyek</h3>
+                        <p className="text-[var(--body-muted)] mb-6">Proyek untuk kategori ini sedang dalam pengembangan</p>
                       </div>
                     )}
                   </div>
@@ -328,7 +328,7 @@ export default function GalleryPage() {
             <Button size="lg" className="bg-[var(--lime)] hover:bg-[var(--lime-bright)] text-[var(--navy)] font-bold px-8 py-6 rounded-full shadow-xl shadow-black/25 hover:scale-[1.03] transition-all">
               Konsultasi Proyek
             </Button>
-            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-white hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
+            <Button size="lg" variant="outline" className="border border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-[var(--surface)] hover:text-[var(--navy)] font-semibold px-8 py-6 rounded-full transition-all">
               <Download className="w-5 h-5 mr-2" />
               Download Portfolio
             </Button>

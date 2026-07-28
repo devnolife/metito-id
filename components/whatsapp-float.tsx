@@ -59,7 +59,7 @@ export function WhatsAppFloat() {
 
   const openWhatsApp = (c: Contact) => {
     const number = formatWhatsAppNumber(c.phoneNumber)
-    const message = `Halo ${c.name}, saya tertarik dengan solusi air dari Metito. Mohon informasinya.`
+    const message = `Halo ${c.name}, saya tertarik dengan solusi dari PT. METITO. Mohon informasinya.`
     const text = encodeURIComponent(message)
     const url = `https://wa.me/${number}?text=${text}`
     const win = window.open(url, '_blank')
@@ -74,8 +74,8 @@ export function WhatsAppFloat() {
   const openEmail = (c: Contact) => {
     if (!c.email) return
 
-    const subjectRaw = 'Inquiry Metito Water Solutions'
-    const bodyRaw = `Halo ${c.name},\n\nSaya tertarik dengan solusi air dari Metito.\n\n(Terkirim dari situs web Metito)`
+    const subjectRaw = 'Inquiry PT. METITO (Multi Enviro Tirta Teknologi)'
+    const bodyRaw = `Halo ${c.name},\n\nSaya tertarik dengan solusi dari PT. METITO.\n\n(Terkirim dari situs web METITO)`
     const subject = encodeURIComponent(subjectRaw)
     const body = encodeURIComponent(bodyRaw)
     const mailto = `mailto:${encodeURIComponent(c.email)}?subject=${subject}&body=${body}`

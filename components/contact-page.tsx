@@ -6,76 +6,40 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { MapPin, Phone, Mail, Clock, Send, MessageSquare, Headphones, Globe } from "lucide-react"
+import { MapPin, Phone, Mail, Globe, Send, MessageSquare, Headphones } from "lucide-react"
+import { COMPANY, CONTACT } from "@/lib/company-profile"
 
 export function ContactPage() {
   const contactInfo = [
     {
       icon: <MapPin className="w-6 h-6 text-blue-600" />,
-      title: "Kantor Pusat",
-      details: [
-        "Jl. Sudirman No. 123",
-        "Jakarta Pusat 10220",
-        "Indonesia"
-      ]
+      title: "Kantor",
+      details: [CONTACT.address.line1, CONTACT.address.line2, "Indonesia"]
     },
     {
       icon: <Phone className="w-6 h-6 text-green-600" />,
       title: "Nomor Telepon",
-      details: [
-        "+62 812-1760-3950",
-        "+62 21 5555 5678",
-        "WhatsApp: +62 812 3456 7890"
-      ]
+      details: [...CONTACT.phones]
     },
     {
       icon: <Mail className="w-6 h-6 text-purple-600" />,
       title: "Alamat Email",
-      details: [
-        "info@metito.id",
-        "sales@metito.id",
-        "support@metito.id"
-      ]
+      details: [CONTACT.email]
     },
     {
-      icon: <Clock className="w-6 h-6 text-orange-600" />,
-      title: "Jam Kerja",
-      details: [
-        "Senin - Jumat: 08:00 - 18:00",
-        "Sabtu: 09:00 - 16:00",
-        "Minggu: Darurat Saja"
-      ]
+      icon: <Globe className="w-6 h-6 text-orange-600" />,
+      title: "Website",
+      details: [CONTACT.website, COMPANY.slogan]
     }
   ]
 
   const offices = [
     {
-      city: "Jakarta",
-      address: "Jl. Sudirman No. 123, Jakarta Pusat 10220",
-      phone: "+62 812-1760-3950",
-      email: "jakarta@metito.id",
-      manager: "Ir. Ahmad Santoso"
-    },
-    {
-      city: "Surabaya",
-      address: "Jl. Pemuda No. 456, Surabaya 60271",
-      phone: "+62 31 5555 1234",
-      email: "surabaya@metito.id",
-      manager: "Ir. Siti Nurhaliza"
-    },
-    {
-      city: "Medan",
-      address: "Jl. Gatot Subroto No. 789, Medan 20112",
-      phone: "+62 61 5555 1234",
-      email: "medan@metito.id",
-      manager: "Ir. Budi Wijaya"
-    },
-    {
-      city: "Bandung",
-      address: "Jl. Asia Afrika No. 321, Bandung 40111",
-      phone: "+62 22 5555 1234",
-      email: "bandung@metito.id",
-      manager: "Ir. Dewi Sartika"
+      city: "Kab. Gowa, Sulawesi Selatan",
+      address: CONTACT.address.full,
+      phone: CONTACT.phones[0],
+      email: CONTACT.email,
+      manager: COMPANY.legalName
     }
   ]
 
@@ -83,23 +47,23 @@ export function ContactPage() {
     {
       icon: <Headphones className="w-8 h-8 text-blue-600" />,
       title: "Dukungan Teknis",
-      description: "Dapatkan bantuan untuk instalasi, pemeliharaan, dan troubleshooting",
-      contact: "support@metito.id",
-      hours: "Tersedia 24/7"
+      description: "Bantuan instalasi, commissioning, pemeliharaan, dan troubleshooting",
+      contact: CONTACT.email,
+      hours: CONTACT.phones[1]
     },
     {
       icon: <MessageSquare className="w-8 h-8 text-green-600" />,
       title: "Pertanyaan Penjualan",
       description: "Minta penawaran, informasi produk, dan konsultasi",
-      contact: "sales@metito.id",
-      hours: "Sen-Jum 08:00-18:00"
+      contact: CONTACT.email,
+      hours: CONTACT.phones[0]
     },
     {
       icon: <Globe className="w-8 h-8 text-purple-600" />,
       title: "Informasi Umum",
       description: "Informasi perusahaan, kemitraan, dan pertanyaan umum",
-      contact: "info@metito.id",
-      hours: "Sen-Jum 08:00-18:00"
+      contact: CONTACT.email,
+      hours: CONTACT.website
     }
   ]
 
@@ -122,14 +86,14 @@ export function ContactPage() {
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Siap mendiskusikan kebutuhan pengolahan air Anda? Tim ahli kami siap membantu Anda menemukan solusi yang sempurna.
+            Siap mendiskusikan kebutuhan air, industri, dan pertambangan Anda? Tim kami siap membantu.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
-              Telepon Sekarang: +62 812-1760-3950
+            <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-xl font-semibold">
+              <a href={`tel:${CONTACT.phones[0].replace(/-/g, "")}`}>Telepon Sekarang: {CONTACT.phones[0]}</a>
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white px-8 py-3 rounded-xl font-semibold">
-              Kirim Email
+            <Button asChild size="lg" variant="outline" className="border-white text-white px-8 py-3 rounded-xl font-semibold">
+              <a href={`mailto:${CONTACT.email}`}>Kirim Email</a>
             </Button>
           </div>
         </div>
@@ -300,7 +264,7 @@ export function ContactPage() {
               Lokasi Kantor Kami
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Kami memiliki kantor di seluruh Indonesia untuk melayani Anda dengan lebih baik. Kunjungi kami atau hubungi lokasi terdekat Anda.
+              Kunjungi kantor kami atau hubungi tim kami melalui telepon dan email.
             </p>
           </div>
 
@@ -318,7 +282,7 @@ export function ContactPage() {
                     <p className="font-medium text-blue-600">{office.email}</p>
                   </div>
                   <div className="border-t pt-4">
-                    <p className="text-xs text-gray-500">Manager</p>
+                    <p className="text-xs text-gray-500">Perusahaan</p>
                     <p className="font-semibold text-gray-900">{office.manager}</p>
                   </div>
                 </CardContent>
@@ -336,7 +300,7 @@ export function ContactPage() {
               Temukan Kami di Sini
             </h2>
             <p className="text-lg text-gray-600">
-              Kantor pusat kami berlokasi di jantung distrik bisnis Jakarta.
+              Kantor kami berlokasi di Bontobila, Barombong, Kab. Gowa, Sulawesi Selatan.
             </p>
           </div>
 
@@ -346,10 +310,16 @@ export function ContactPage() {
                 <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-700 mb-2">Peta Interaktif</h3>
                 <p className="text-gray-600">
-                  Jl. Sudirman No. 123, Jakarta Pusat 10220
+                  {CONTACT.address.full}
                 </p>
-                <Button className="mt-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800">
-                  Lihat di Google Maps
+                <Button asChild className="mt-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800">
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONTACT.address.full)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Lihat di Google Maps
+                  </a>
                 </Button>
               </div>
             </div>

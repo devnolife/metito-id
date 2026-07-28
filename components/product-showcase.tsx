@@ -20,6 +20,9 @@ import {
   Settings,
   Gauge,
   FlaskConical,
+  Cog,
+  Truck,
+  Wrench,
   Loader2,
 } from "lucide-react"
 import Link from "next/link"
@@ -89,14 +92,22 @@ export function ProductShowcase() {
   ])
   // Tidak perlu indeks; gunakan pemilihan acak
 
-  // Map kategori dengan icon
+  // Map kategori dengan icon — mengikuti product group pada company profile
   const categoryIcons: Record<string, any> = {
+    "Chemical Supply": FlaskConical,
+    "Water Treatment": Droplets,
+    "Equipment Supply": Settings,
+    "Consumables & Spare Parts": Cog,
+    "Carbon Graphite": Zap,
+    "Mining & Material Handling": Truck,
+    // Nama kategori lama (kompatibilitas data yang sudah ada)
     "Sistem Membran": Droplets,
     "Unit Filtrasi": Waves,
     "Disinfeksi": Zap,
     "Pompa & Motor": Settings,
     "Monitoring": Gauge,
     "Dosis Kimia": FlaskConical,
+    "Engineering Services": Wrench,
   }
 
   // Load data from APIs
@@ -207,7 +218,7 @@ export function ProductShowcase() {
   return (
     <section id="products" className="relative py-24 overflow-hidden">
       {/* Animated Background */}
-      <div className="absolute inset-0 bg-[#f8f9ff]">
+      <div className="absolute inset-0 bg-[var(--navy)]">
         <div className="absolute top-0 left-0 w-96 h-96 bg-[var(--lime)]/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--navy)]/10 rounded-full blur-3xl animate-pulse delay-700"></div>
       </div>
@@ -216,16 +227,15 @@ export function ProductShowcase() {
         {/* Header */}
         <div className="text-center mb-20 space-y-6">
           <div className="inline-block animate-fade-in-up">
-            <Badge className="rounded-full bg-[var(--lime)]/20 text-[#3d4d00] px-5 py-2 text-xs font-bold uppercase tracking-[0.15em] hover:bg-[var(--lime)]/30 transition-all duration-300">
+            <Badge className="rounded-full bg-[var(--lime)]/20 text-[var(--gold)] px-5 py-2 text-xs font-bold uppercase tracking-[0.15em] hover:bg-[var(--lime)]/30 transition-all duration-300">
               Pameran Produk
             </Badge>
           </div>
-          <h2 className="font-display text-5xl md:text-6xl font-bold tracking-[-0.02em] mb-6 text-[var(--navy)] animate-fade-in-up animation-delay-100">
-            Solusi Teknik Pengolahan Air Kami
+          <h2 className="font-display text-5xl md:text-6xl font-bold tracking-[-0.02em] mb-6 text-white animate-fade-in-up animation-delay-100">
+            Katalog Produk Kami
           </h2>
-          <p className="text-xl md:text-2xl text-slate-500 max-w-4xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200">
-            Temukan rangkaian lengkap solusi pengolahan air dan air limbah yang canggih yang dirancang untuk
-            aplikasi industri dan perkotaan
+          <p className="text-xl md:text-2xl text-[var(--body-muted)] max-w-4xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200">
+            Chemical supply, water treatment, equipment, spare parts, carbon graphite, hingga komponen pertambangan dan material handling.
           </p>
         </div>
 
@@ -233,10 +243,10 @@ export function ProductShowcase() {
         {loading ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
             {[...Array(6)].map((_, index) => (
-              <div key={index} className="rounded-2xl border border-[#e5eeff] bg-white p-6 animate-pulse">
-                <div className="w-14 h-14 bg-[#e5eeff] rounded-2xl mx-auto mb-4"></div>
-                <div className="h-3.5 bg-[#e5eeff] rounded-full mx-auto w-3/4 mb-2"></div>
-                <div className="h-3 bg-[#eff4ff] rounded-full mx-auto w-1/2"></div>
+              <div key={index} className="rounded-2xl border border-[var(--hairline)] bg-[var(--surface)] p-6 animate-pulse">
+                <div className="w-14 h-14 bg-[var(--surface-2)] rounded-2xl mx-auto mb-4"></div>
+                <div className="h-3.5 bg-[var(--surface-2)] rounded-full mx-auto w-3/4 mb-2"></div>
+                <div className="h-3 bg-[var(--surface-2)] rounded-full mx-auto w-1/2"></div>
               </div>
             ))}
           </div>
@@ -256,23 +266,23 @@ export function ProductShowcase() {
                   }}
                   className={`group relative flex flex-col items-center text-center rounded-2xl p-6 border transition-all duration-300 hover:-translate-y-1.5 ${isSelected
                     ? "bg-[var(--navy)] border-[var(--navy)] shadow-xl shadow-[var(--navy)]/25"
-                    : "bg-white border-[#e5eeff] hover:border-[var(--lime)] shadow-[0_12px_30px_-18px_rgba(11,28,48,0.18)] hover:shadow-[0_22px_44px_-22px_rgba(11,28,48,0.28)]"
+                    : "bg-[var(--surface)] border-[var(--hairline)] hover:border-[var(--gold)] shadow-[0_12px_30px_-18px_rgba(11,28,48,0.18)] hover:shadow-[0_22px_44px_-22px_rgba(11,28,48,0.28)]"
                     }`}
                 >
                   <div className={`flex items-center justify-center w-14 h-14 rounded-2xl mb-4 transition-all duration-300 group-hover:scale-110 ${isSelected
                     ? "bg-[var(--lime)] text-[var(--navy)]"
-                    : "bg-[#eff4ff] text-[var(--navy)] group-hover:bg-[var(--lime)]/20"
+                    : "bg-[var(--surface-2)] text-[var(--gold)] group-hover:bg-[var(--gold)]/20"
                     }`}>
                     <IconComponent className="w-7 h-7" />
                   </div>
-                  <h3 className={`font-display font-bold text-sm leading-tight mb-2 ${isSelected ? "text-white" : "text-[var(--navy)]"
+                  <h3 className={`font-display font-bold text-sm leading-tight mb-2 ${isSelected ? "text-white" : "text-[var(--body-text)]"
                     }`}>
                     {category.name}
                   </h3>
                   {category._count && (
                     <span className={`text-[11px] font-semibold rounded-full px-2.5 py-0.5 transition-colors duration-300 ${isSelected
                       ? "bg-white/15 text-[var(--lime)]"
-                      : "bg-[#e5eeff] text-slate-500"
+                      : "bg-[var(--surface-2)] text-[var(--body-muted)]"
                       }`}>
                       {category._count.products} produk
                     </span>
@@ -284,19 +294,19 @@ export function ProductShowcase() {
         )}
 
         {/* Search and Filter — unified command bar */}
-        <div className="mb-16 flex flex-col md:flex-row md:items-center gap-3 p-3 bg-white rounded-[1.5rem] border border-[#e5eeff] shadow-[0_24px_55px_-30px_rgba(11,28,48,0.3)]">
+        <div className="mb-16 flex flex-col md:flex-row md:items-center gap-3 p-3 bg-[var(--surface)] rounded-[1.5rem] border border-[var(--hairline)] shadow-[0_24px_55px_-30px_rgba(11,28,48,0.3)]">
           <div className="flex-1 relative group">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-[var(--navy)] transition-colors" />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[var(--body-muted)] w-5 h-5 group-focus-within:text-[var(--gold)] transition-colors" />
             <Input
               type="search"
               placeholder="Cari produk berdasarkan nama, deskripsi..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-12 pr-4 h-12 rounded-xl border-0 bg-[#f8f9ff] focus-visible:ring-2 focus-visible:ring-[var(--navy)]/15 focus-visible:bg-white transition-all duration-300 text-base placeholder:text-slate-400"
+              className="pl-12 pr-4 h-12 rounded-xl border-0 bg-[var(--navy)] focus-visible:ring-2 focus-visible:ring-[var(--navy)]/15 focus-visible:bg-[var(--surface)] transition-all duration-300 text-base placeholder:text-[var(--body-muted)]"
             />
           </div>
           <Select value={selectedApplication} onValueChange={setSelectedApplication}>
-            <SelectTrigger className="w-full md:w-52 h-12 rounded-xl border-0 bg-[#f8f9ff] hover:bg-[#eff4ff] focus:ring-2 focus:ring-[var(--navy)]/15 transition-all duration-300 font-semibold text-[var(--navy)]">
+            <SelectTrigger className="w-full md:w-52 h-12 rounded-xl border border-[var(--hairline)] bg-[var(--surface)] hover:bg-[var(--surface-2)] focus:ring-2 focus:ring-[var(--gold)]/30 transition-all duration-300 font-semibold text-white">
               <Filter className="w-4 h-4 mr-2 text-[var(--lime-dim)]" />
               <SelectValue placeholder="Semua Aplikasi" />
             </SelectTrigger>
@@ -311,8 +321,8 @@ export function ProductShowcase() {
         {/* Loading State */}
         {loading && (
           <div className="flex justify-center items-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-[var(--navy)]" />
-            <span className="ml-2 text-gray-600">Memuat produk...</span>
+            <Loader2 className="w-8 h-8 animate-spin text-[var(--gold)]" />
+            <span className="ml-2 text-[var(--body-text)]">Memuat produk...</span>
           </div>
         )}
 
@@ -322,8 +332,8 @@ export function ProductShowcase() {
             <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Search className="w-12 h-12 text-red-400" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">Terjadi Kesalahan</h3>
-            <p className="text-gray-600 mb-6">{error}</p>
+            <h3 className="text-2xl font-bold text-white mb-2">Terjadi Kesalahan</h3>
+            <p className="text-[var(--body-text)] mb-6">{error}</p>
             <Button
               onClick={() => window.location.reload()}
               className="bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white rounded-xl"
@@ -338,15 +348,15 @@ export function ProductShowcase() {
           <div>
             {/* Slider header + nav */}
             <div className="flex items-center justify-between mb-6">
-              <p className="text-sm font-medium text-slate-500">
-                Menampilkan <span className="font-bold text-[var(--navy)]">{filteredProducts.length}</span> produk — geser untuk lihat lainnya
+              <p className="text-sm font-medium text-[var(--body-muted)]">
+                Menampilkan <span className="font-bold text-[var(--gold)]">{filteredProducts.length}</span> produk — geser untuk lihat lainnya
               </p>
               <div className="flex items-center gap-2.5">
                 <button
                   type="button"
                   onClick={() => scrollByCards('left')}
                   aria-label="Sebelumnya"
-                  className="flex items-center justify-center w-11 h-11 rounded-full border border-[#dce9ff] bg-white text-[var(--navy)] hover:bg-[var(--navy)] hover:text-white hover:border-[var(--navy)] transition-all duration-300 shadow-sm"
+                  className="flex items-center justify-center w-11 h-11 rounded-full border border-[var(--hairline)] bg-[var(--surface)] text-[var(--body-text)] hover:bg-[var(--gold)] hover:text-[var(--navy)] hover:border-[var(--gold)] transition-all duration-300"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
@@ -374,7 +384,7 @@ export function ProductShowcase() {
                 <Card
                   key={product.id}
                   data-product-card
-                  className="group relative shrink-0 w-[300px] sm:w-[340px] snap-start overflow-visible border-0 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-3xl bg-white"
+                  className="group relative shrink-0 w-[300px] sm:w-[340px] snap-start overflow-visible border-0 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-3xl bg-[var(--surface)]"
                   style={{
                     animationDelay: `${index * 100}ms`,
                     animation: 'fade-in-up 0.6s ease-out forwards'
@@ -387,7 +397,7 @@ export function ProductShowcase() {
 
                   {/* Floating detail card that appears on hover - larger coverage */}
                   <div className="absolute -top-6 left-0 right-0 bottom-20 z-50 opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-95 group-hover:scale-100 pointer-events-none">
-                    <div className="mx-3 h-full bg-white border-2 border-[var(--navy)]/20 rounded-2xl shadow-2xl shadow-[var(--navy)]/25 overflow-hidden flex flex-col">
+                    <div className="mx-3 h-full bg-[var(--surface)] border border-[var(--hairline)] rounded-2xl shadow-2xl shadow-[var(--navy)]/25 overflow-hidden flex flex-col">
                       {/* Header */}
                       <div className="bg-[var(--navy)] px-6 py-5 flex-shrink-0">
                         <div className="flex items-center justify-between mb-3">
@@ -421,12 +431,12 @@ export function ProductShowcase() {
                       <div className="flex-1 overflow-hidden p-6 bg-gradient-to-br from-white to-[#eff4ff] flex flex-col justify-between">
                         {/* Extended Description */}
                         <div className="mb-5">
-                          <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+                          <h4 className="text-xs font-bold text-[var(--body-muted)] uppercase tracking-wider mb-3 flex items-center gap-2">
                             <span className="w-1 h-5 bg-[var(--lime)] rounded"></span>
                             Tentang Produk
                           </h4>
-                          <div className="bg-white rounded-xl p-4 border-2 border-[#dce9ff] shadow-sm">
-                            <p className="text-gray-700 text-sm leading-relaxed">
+                          <div className="bg-[var(--surface)] rounded-xl p-4 border border-[var(--hairline)] shadow-sm">
+                            <p className="text-[var(--body-text)] text-sm leading-relaxed">
                               {product.description || product.shortDesc || 'Solusi pengolahan air berkualitas tinggi dengan teknologi terkini untuk memenuhi kebutuhan industri dan perkotaan. Produk ini dirancang dengan standar internasional dan telah terbukti efektif dalam berbagai aplikasi.'}
                             </p>
                           </div>
@@ -435,17 +445,17 @@ export function ProductShowcase() {
                         {/* Features */}
                         {product.features && product.features.length > 0 && (
                           <div className="mb-6">
-                            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+                            <h4 className="text-xs font-bold text-[var(--body-muted)] uppercase tracking-wider mb-3 flex items-center gap-2">
                               <span className="w-1 h-5 bg-[var(--lime)] rounded"></span>
                               Keunggulan Utama
                             </h4>
                             <div className="space-y-2.5">
                               {product.features.slice(0, 5).map((feature: string, index: number) => (
-                                <div key={index} className="flex items-start gap-3 bg-white rounded-xl p-3 border-2 border-[#dce9ff] shadow-sm hover:shadow-md transition-all duration-300">
+                                <div key={index} className="flex items-start gap-3 bg-[var(--surface)] rounded-xl p-3 border border-[var(--hairline)] shadow-sm hover:shadow-md transition-all duration-300">
                                   <span className="w-7 h-7 bg-[var(--navy)] text-[var(--lime)] rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-md">
                                     {index + 1}
                                   </span>
-                                  <span className="text-sm text-gray-800 font-medium leading-relaxed pt-0.5">{feature}</span>
+                                  <span className="text-sm text-white font-medium leading-relaxed pt-0.5">{feature}</span>
                                 </div>
                               ))}
                             </div>
@@ -466,7 +476,7 @@ export function ProductShowcase() {
                   </div>
 
                   {/* Product Image */}
-                  <div className="aspect-[4/3] overflow-hidden relative rounded-t-3xl bg-[#eff4ff]">
+                  <div className="aspect-[4/3] overflow-hidden relative rounded-t-3xl bg-[var(--surface-2)]">
                     <img
                       src={product.images[0] || '/placeholder.jpg'}
                       alt={product.name}
@@ -513,40 +523,40 @@ export function ProductShowcase() {
                       <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#5e7400]">
                         {product.category.name}
                       </span>
-                      <span className="rounded-full bg-[#e5eeff] text-[var(--navy)] text-[11px] font-semibold px-2.5 py-0.5">
+                      <span className="rounded-full bg-[var(--surface-2)] border border-[var(--hairline)] text-[var(--body-text)] text-[11px] font-semibold px-2.5 py-0.5">
                         {product.application || 'Universal'}
                       </span>
                     </div>
 
                     {/* Title */}
-                    <h3 className="font-display text-lg font-bold text-[var(--navy)] leading-snug line-clamp-2 min-h-[3.5rem] group-hover:text-[#3d4d00] transition-colors">
+                    <h3 className="font-display text-lg font-bold text-white leading-snug line-clamp-2 min-h-[3.5rem] group-hover:text-[var(--gold)] transition-colors">
                       {product.name}
                     </h3>
 
                     {/* Location */}
-                    <div className="mt-2 flex items-center gap-1.5 text-sm text-slate-500">
+                    <div className="mt-2 flex items-center gap-1.5 text-sm text-[var(--body-muted)]">
                       <MapPin className="w-4 h-4 text-[var(--lime-dim)]" />
                       {product.location || 'Indonesia'}
                     </div>
 
                     {/* Divider */}
-                    <div className="my-5 h-px bg-[#e5eeff]" />
+                    <div className="my-5 h-px bg-[var(--surface-2)]" />
 
                     {/* Price + capacity */}
                     <div className="flex items-end justify-between mb-5">
                       <div>
-                        <div className="text-[11px] font-medium uppercase tracking-wide text-slate-400 mb-1">Harga</div>
+                        <div className="text-[11px] font-medium uppercase tracking-wide text-[var(--body-muted)] mb-1">Harga</div>
                         {showPrices ? (
-                          <div className="font-display text-2xl font-bold text-[var(--navy)] leading-none">
+                          <div className="font-display text-2xl font-bold text-white leading-none">
                             {product.price}
                           </div>
                         ) : (
-                          <div className="text-base font-semibold text-[var(--navy)]">Hubungi Kami</div>
+                          <div className="text-base font-semibold text-white">Hubungi Kami</div>
                         )}
                       </div>
                       <div className="text-right">
-                        <div className="text-[11px] font-medium uppercase tracking-wide text-slate-400 mb-1">Kapasitas</div>
-                        <div className="text-sm font-semibold text-slate-600">{product.capacity || 'Custom'}</div>
+                        <div className="text-[11px] font-medium uppercase tracking-wide text-[var(--body-muted)] mb-1">Kapasitas</div>
+                        <div className="text-sm font-semibold text-[var(--body-text)]">{product.capacity || 'Custom'}</div>
                       </div>
                     </div>
 
@@ -582,8 +592,8 @@ export function ProductShowcase() {
             <div className="w-32 h-32 bg-[var(--navy)] rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-xl animate-bounce">
               <Search className="w-16 h-16 text-[var(--lime)]" />
             </div>
-            <h3 className="font-display text-3xl font-bold text-[var(--navy)] mb-3">Produk tidak ditemukan</h3>
-            <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto">Coba sesuaikan kriteria pencarian atau filter Anda untuk menemukan produk yang tepat</p>
+            <h3 className="font-display text-3xl font-bold text-white mb-3">Produk tidak ditemukan</h3>
+            <p className="text-lg text-[var(--body-text)] mb-8 max-w-md mx-auto">Coba sesuaikan kriteria pencarian atau filter Anda untuk menemukan produk yang tepat</p>
             <Button
               onClick={() => {
                 setSearchTerm("")
@@ -599,7 +609,7 @@ export function ProductShowcase() {
 
         {/* Call to Action */}
         <div className="text-center mt-20">
-          <div className="relative overflow-hidden bg-[var(--navy)] rounded-3xl p-12 text-white shadow-2xl">
+          <div className="relative overflow-hidden bg-[var(--surface)] border border-[var(--hairline)] rounded-3xl p-12 text-white">
             {/* Decorative elements */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--lime)]/10 rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-[var(--lime)]/10 rounded-full blur-3xl"></div>
@@ -609,8 +619,8 @@ export function ProductShowcase() {
                 <MessageCircle className="w-12 h-12 text-[var(--lime)]" />
               </div>
               <h3 className="font-display text-4xl font-bold mb-4">Tidak menemukan yang Anda cari?</h3>
-              <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto leading-relaxed">
-                Kami mengkhususkan diri dalam solusi pengolahan air kustom. Hubungi ahli kami untuk rekomendasi yang dipersonalisasi dan dapatkan konsultasi gratis!
+              <p className="text-xl text-[var(--body-text)] mb-8 max-w-2xl mx-auto leading-relaxed">
+                Kami menyediakan solusi terintegrasi sesuai kebutuhan Anda. Hubungi tim kami untuk rekomendasi dan konsultasi gratis!
               </p>
               <div className="flex flex-col sm:flex-row gap-5 justify-center">
                 <Button className="bg-[var(--lime)] text-[var(--navy)] hover:bg-[var(--lime-bright)] rounded-2xl px-10 py-6 text-lg font-bold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
@@ -618,7 +628,7 @@ export function ProductShowcase() {
                 </Button>
                 <Button
                   variant="outline"
-                  className="bg-transparent border-2 border-white/40 text-white hover:bg-white hover:text-[var(--navy)] rounded-2xl px-10 py-6 text-lg font-bold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                  className="bg-transparent border border-[var(--gold)]/40 text-[var(--gold)] hover:bg-[var(--gold)] hover:text-[var(--navy)] rounded-2xl px-10 py-6 text-lg font-bold transition-all duration-300 hover:scale-105"
                   asChild
                 >
                   <Link href="/products">

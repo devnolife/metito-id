@@ -151,11 +151,11 @@ export default function ProductDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-[var(--navy)]">
         <div className="flex items-center justify-center py-20">
           <div className="text-center">
             <Loader2 className="w-12 h-12 animate-spin text-blue-600 mx-auto mb-4" />
-            <p className="text-gray-600">Memuat produk...</p>
+            <p className="text-[var(--body-text)]">Memuat produk...</p>
           </div>
         </div>
         <Footer />
@@ -165,10 +165,10 @@ export default function ProductDetailPage() {
 
   if (error || !product) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-[var(--navy)]">
         <div className="flex items-center justify-center py-20">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">{error || 'Produk tidak ditemukan'}</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">{error || 'Produk tidak ditemukan'}</h2>
             <Link href="/products">
               <Button className="bg-blue-600 hover:bg-blue-700">
                 Kembali ke Produk
@@ -267,15 +267,15 @@ export default function ProductDetailPage() {
     : ['/placeholder.jpg']
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b">
+    <div className="min-h-screen bg-[var(--navy)]">
+      <div className="bg-[var(--surface)] border-b">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center space-x-2 text-sm text-gray-600">
+          <div className="flex items-center space-x-2 text-sm text-[var(--body-text)]">
             <Link href="/" className="hover:text-blue-600">Beranda</Link>
             <span>/</span>
             <Link href="/products" className="hover:text-blue-600">Produk</Link>
             <span>/</span>
-            <span className="text-gray-900 font-medium">{product.name}</span>
+            <span className="text-white font-medium">{product.name}</span>
           </div>
         </div>
       </div>
@@ -291,7 +291,7 @@ export default function ProductDetailPage() {
         <div className="grid lg:grid-cols-2 gap-12">
           <div className="space-y-6">
             {/* Main Image with Zoom */}
-            <div className="relative aspect-square bg-white rounded-2xl overflow-hidden shadow-lg group">
+            <div className="relative aspect-square bg-[var(--surface)] rounded-2xl overflow-hidden shadow-lg group">
               <Image
                 src={displayImages[selectedImage]}
                 alt={product.name}
@@ -302,10 +302,10 @@ export default function ProductDetailPage() {
               />
               <button
                 onClick={() => setIsImageZoomed(true)}
-                className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
+                className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[var(--surface)]"
                 title="Perbesar gambar"
               >
-                <ZoomIn className="w-5 h-5 text-gray-700" />
+                <ZoomIn className="w-5 h-5 text-[var(--body-text)]" />
               </button>
 
               {/* Navigation arrows for main image */}
@@ -314,19 +314,19 @@ export default function ProductDetailPage() {
                   {selectedImage > 0 && (
                     <button
                       onClick={() => setSelectedImage(selectedImage - 1)}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[var(--surface)]"
                       title="Gambar sebelumnya"
                     >
-                      <ChevronLeft className="w-6 h-6 text-gray-700" />
+                      <ChevronLeft className="w-6 h-6 text-[var(--body-text)]" />
                     </button>
                   )}
                   {selectedImage < displayImages.length - 1 && (
                     <button
                       onClick={() => setSelectedImage(selectedImage + 1)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[var(--surface)]"
                       title="Gambar selanjutnya"
                     >
-                      <ChevronRight className="w-6 h-6 text-gray-700" />
+                      <ChevronRight className="w-6 h-6 text-[var(--body-text)]" />
                     </button>
                   )}
                 </>
@@ -347,9 +347,9 @@ export default function ProductDetailPage() {
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`relative aspect-square bg-white rounded-lg overflow-hidden border-2 transition-all hover:scale-105 ${selectedImage === index
+                    className={`relative aspect-square bg-[var(--surface)] rounded-lg overflow-hidden border-2 transition-all hover:scale-105 ${selectedImage === index
                       ? "border-blue-500 shadow-lg ring-2 ring-blue-200"
-                      : "border-gray-200 hover:border-blue-300"
+                      : "border-[var(--hairline)] hover:border-blue-300"
                       }`}
                   >
                     <Image
@@ -383,18 +383,18 @@ export default function ProductDetailPage() {
                 )}
               </div>
 
-              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              <h1 className="text-3xl lg:text-4xl font-bold text-white mb-4">
                 {product.name}
               </h1>
 
               {product.shortDesc && (
-                <p className="text-lg text-gray-600 leading-relaxed mb-6">
+                <p className="text-lg text-[var(--body-text)] leading-relaxed mb-6">
                   {product.shortDesc}
                 </p>
               )}
 
               {product.description && (
-                <p className="text-base text-gray-600 leading-relaxed mb-6">
+                <p className="text-base text-[var(--body-text)] leading-relaxed mb-6">
                   {product.description}
                 </p>
               )}
@@ -408,39 +408,39 @@ export default function ProductDetailPage() {
 
             <div className="grid grid-cols-2 gap-4">
               {product.capacity && (
-                <div className="bg-white p-4 rounded-lg border">
+                <div className="bg-[var(--surface)] p-4 rounded-lg border">
                   <div className="flex items-center gap-2 mb-2">
                     <Droplets className="w-5 h-5 text-blue-600" />
-                    <span className="font-semibold text-gray-900">Kapasitas</span>
+                    <span className="font-semibold text-white">Kapasitas</span>
                   </div>
-                  <span className="text-lg text-gray-600">{product.capacity}</span>
+                  <span className="text-lg text-[var(--body-text)]">{product.capacity}</span>
                 </div>
               )}
               {product.efficiency && (
-                <div className="bg-white p-4 rounded-lg border">
+                <div className="bg-[var(--surface)] p-4 rounded-lg border">
                   <div className="flex items-center gap-2 mb-2">
                     <Settings className="w-5 h-5 text-blue-600" />
-                    <span className="font-semibold text-gray-900">Efisiensi</span>
+                    <span className="font-semibold text-white">Efisiensi</span>
                   </div>
-                  <span className="text-lg text-gray-600">{product.efficiency}</span>
+                  <span className="text-lg text-[var(--body-text)]">{product.efficiency}</span>
                 </div>
               )}
               {product.warranty && (
-                <div className="bg-white p-4 rounded-lg border">
+                <div className="bg-[var(--surface)] p-4 rounded-lg border">
                   <div className="flex items-center gap-2 mb-2">
                     <Calendar className="w-5 h-5 text-blue-600" />
-                    <span className="font-semibold text-gray-900">Garansi</span>
+                    <span className="font-semibold text-white">Garansi</span>
                   </div>
-                  <span className="text-lg text-gray-600">{product.warranty}</span>
+                  <span className="text-lg text-[var(--body-text)]">{product.warranty}</span>
                 </div>
               )}
               {product.delivery && (
-                <div className="bg-white p-4 rounded-lg border">
+                <div className="bg-[var(--surface)] p-4 rounded-lg border">
                   <div className="flex items-center gap-2 mb-2">
                     <Truck className="w-5 h-5 text-blue-600" />
-                    <span className="font-semibold text-gray-900">Pengiriman</span>
+                    <span className="font-semibold text-white">Pengiriman</span>
                   </div>
-                  <span className="text-lg text-gray-600">{product.delivery}</span>
+                  <span className="text-lg text-[var(--body-text)]">{product.delivery}</span>
                 </div>
               )}
             </div>
@@ -474,8 +474,8 @@ export default function ProductDetailPage() {
         <Card className="bg-blue-50 border-blue-200 mt-12">
           <CardContent className="p-8">
             <div className="max-w-3xl mx-auto text-center">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Butuh Konsultasi?</h3>
-              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+              <h3 className="text-2xl font-bold text-white mb-4">Butuh Konsultasi?</h3>
+              <p className="text-lg text-[var(--body-text)] mb-6 leading-relaxed">
                 Tim ahli kami siap membantu Anda memilih solusi yang tepat untuk kebutuhan spesifik Anda.
               </p>
               <div className="flex justify-center gap-4">
@@ -514,12 +514,12 @@ export default function ProductDetailPage() {
                 <TabsContent value="features">
                   <Card>
                     <CardContent className="p-8">
-                      <h3 className="text-2xl font-bold text-gray-900 mb-6">Fitur & Keunggulan</h3>
+                      <h3 className="text-2xl font-bold text-white mb-6">Fitur & Keunggulan</h3>
                       <div className="grid md:grid-cols-2 gap-4">
                         {product.features.map((feature, index) => (
                           <div key={index} className="flex items-start gap-3">
                             <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                            <span className="text-gray-700">{feature}</span>
+                            <span className="text-[var(--body-text)]">{feature}</span>
                           </div>
                         ))}
                       </div>
@@ -532,11 +532,11 @@ export default function ProductDetailPage() {
                 <TabsContent value="documents">
                   <Card>
                     <CardContent className="p-8">
-                      <h3 className="text-2xl font-bold text-gray-900 mb-6">Dokumen Produk</h3>
+                      <h3 className="text-2xl font-bold text-white mb-6">Dokumen Produk</h3>
                       <div className="space-y-4">
                         {product.documents.map((doc, index) => (
-                          <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                            <span className="text-gray-700">{doc}</span>
+                          <div key={index} className="flex items-center justify-between p-4 bg-[var(--navy)] rounded-lg">
+                            <span className="text-[var(--body-text)]">{doc}</span>
                             <Button variant="outline" size="sm">
                               Download
                             </Button>
@@ -553,11 +553,11 @@ export default function ProductDetailPage() {
 
         {relatedProducts.length > 0 && (
           <div className="mt-16">
-            <h3 className="text-2xl font-bold text-gray-900 mb-8">Produk Terkait</h3>
+            <h3 className="text-2xl font-bold text-white mb-8">Produk Terkait</h3>
             <div className="grid md:grid-cols-3 gap-6">
               {relatedProducts.map((relatedProduct) => (
                 <Card key={relatedProduct.id} className="group hover:shadow-lg transition-all duration-300">
-                  <div className="aspect-square bg-gray-100 rounded-t-lg overflow-hidden">
+                  <div className="aspect-square bg-[var(--surface-2)] rounded-t-lg overflow-hidden">
                     <Image
                       src={relatedProduct.images?.[0] || '/placeholder.jpg'}
                       alt={relatedProduct.name}
@@ -568,9 +568,9 @@ export default function ProductDetailPage() {
                   </div>
                   <CardContent className="p-6">
                     <Badge className="mb-2">{relatedProduct.category.name}</Badge>
-                    <h4 className="font-bold text-gray-900 mb-2 line-clamp-2">{relatedProduct.name}</h4>
+                    <h4 className="font-bold text-white mb-2 line-clamp-2">{relatedProduct.name}</h4>
                     {relatedProduct.shortDesc && (
-                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">{relatedProduct.shortDesc}</p>
+                      <p className="text-sm text-[var(--body-text)] mb-3 line-clamp-2">{relatedProduct.shortDesc}</p>
                     )}
                     <div className="text-xl font-bold text-blue-600 mb-4">
                       {formatPrice(relatedProduct.price)}
@@ -695,29 +695,29 @@ export default function ProductDetailPage() {
               <button
                 key={contact.id}
                 onClick={() => handleWhatsAppClick(contact.phoneNumber)}
-                className="w-full p-4 rounded-lg border-2 border-gray-200 hover:border-green-500 hover:bg-green-50 transition-all group text-left"
+                className="w-full p-4 rounded-lg border-2 border-[var(--hairline)] hover:border-green-500 hover:bg-green-50 transition-all group text-left"
               >
                 <div className="flex items-center gap-4">
                   <div className={`w-12 h-12 ${contact.color} rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0`}>
                     {contact.name.charAt(0)}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 group-hover:text-green-700">
+                    <h4 className="font-semibold text-white group-hover:text-green-700">
                       {contact.name}
                     </h4>
-                    <p className="text-sm text-gray-500">{contact.role}</p>
-                    <p className="text-sm text-gray-600 mt-1 flex items-center gap-1">
+                    <p className="text-sm text-[var(--body-muted)]">{contact.role}</p>
+                    <p className="text-sm text-[var(--body-text)] mt-1 flex items-center gap-1">
                       <MessageCircle className="w-3 h-3" />
                       {contact.phoneNumber}
                     </p>
                   </div>
-                  <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-green-600" />
+                  <ChevronRight className="w-5 h-5 text-[var(--body-muted)] group-hover:text-green-600" />
                 </div>
               </button>
             ))}
           </div>
           <div className="mt-4 pt-4 border-t">
-            <p className="text-xs text-gray-500 text-center">
+            <p className="text-xs text-[var(--body-muted)] text-center">
               Klik salah satu kontak untuk membuka WhatsApp
             </p>
           </div>
