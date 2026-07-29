@@ -160,10 +160,10 @@ export default function CertificationPage() {
       {/* Hero Section */}
       <section className="relative bg-[var(--navy)] text-white py-28 px-4 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.08] bg-[url('/images/landing-pages/image3.png')] bg-cover bg-center" />
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-[var(--lime)]/10 blur-[130px]" />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-lime/10 blur-[130px]" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[var(--navy)]" />
         <Reveal className="relative max-w-7xl mx-auto text-center">
-          <span className="inline-block rounded-full bg-[var(--lime)]/15 text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] px-4 py-1.5 mb-5">
+          <span className="inline-block rounded-full bg-lime/15 text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] px-4 py-1.5 mb-5">
             Sertifikasi &amp; Penghargaan
           </span>
           <h1 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.02em] leading-[1.05] mb-6">
@@ -189,7 +189,7 @@ export default function CertificationPage() {
       <section className="py-24 px-4 bg-[var(--surface)]">
         <div className="max-w-7xl mx-auto">
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
-            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[var(--gold)] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
+            <span className="inline-block rounded-full bg-lime/20 text-[var(--gold)] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
               Kategori Sertifikasi
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-[-0.02em] leading-[1.1]">
@@ -205,7 +205,7 @@ export default function CertificationPage() {
               <Reveal key={index} delay={index % 3}>
                 <Card className="group h-full text-center rounded-[1.25rem] bg-[var(--surface)] border border-[var(--hairline)] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)]">
                   <CardContent className="p-8">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-[var(--gold)]/15 text-[var(--gold)] border border-[var(--gold)]/30 rounded-2xl mb-6 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-gold/15 text-[var(--gold)] border border-gold/30 rounded-2xl mb-6 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
                       {category.icon}
                     </div>
                     <h3 className="font-display font-bold text-lg text-[var(--navy)] mb-2">{category.name}</h3>
@@ -224,7 +224,7 @@ export default function CertificationPage() {
       <section className="py-24 px-4 bg-[var(--navy)]">
         <div className="max-w-7xl mx-auto">
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
-            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[var(--gold)] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
+            <span className="inline-block rounded-full bg-lime/20 text-[var(--gold)] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
               Sertifikasi Kami
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-[-0.02em] leading-[1.1]">
@@ -329,7 +329,7 @@ export default function CertificationPage() {
       <section className="py-24 px-4 bg-[var(--surface)]">
         <div className="max-w-7xl mx-auto">
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
-            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[var(--gold)] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
+            <span className="inline-block rounded-full bg-lime/20 text-[var(--gold)] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
               Penghargaan
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-[-0.02em] leading-[1.1]">
@@ -346,13 +346,13 @@ export default function CertificationPage() {
                 <Card className="group h-full rounded-[1.25rem] bg-[var(--navy)] border border-[var(--hairline)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-28px_rgba(11,28,48,0.25)]">
                   <CardContent className="p-8">
                     <div className="flex items-start gap-4">
-                      <div className="inline-flex items-center justify-center w-16 h-16 bg-[var(--gold)]/15 text-[var(--gold)] border border-[var(--gold)]/30 rounded-2xl flex-shrink-0 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
+                      <div className="inline-flex items-center justify-center w-16 h-16 bg-gold/15 text-[var(--gold)] border border-gold/30 rounded-2xl flex-shrink-0 transition-colors duration-300 group-hover:bg-[var(--lime)] group-hover:text-[var(--navy)]">
                         <Award className="w-8 h-8" />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
                           <h3 className="font-display font-bold text-lg text-[var(--navy)]">{award.title}</h3>
-                          <Badge variant="outline" className="text-[var(--gold)] border-[var(--lime)]/40 bg-[var(--lime)]/10">
+                          <Badge variant="outline" className="text-[var(--gold)] border-lime/40 bg-lime/10">
                             {award.year}
                           </Badge>
                         </div>
@@ -371,7 +371,7 @@ export default function CertificationPage() {
       {/* CTA Section */}
       <section className="relative py-28 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/images/landing-pages/image4.png')] bg-cover bg-center" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy)] via-[var(--navy)]/92 to-[var(--navy)]/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy)] via-navy/92 to-navy/70" />
         <Reveal className="relative max-w-4xl mx-auto text-center text-white">
           <span className="inline-block text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] mb-5">
             Mulai Sekarang

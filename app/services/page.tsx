@@ -119,10 +119,10 @@ export default function ServicesPage() {
       {/* Hero Section */}
       <section className="relative bg-[var(--navy)] text-white py-28 px-4 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.08] bg-[url('/images/landing-pages/image3.png')] bg-cover bg-center" />
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-[var(--lime)]/10 blur-[130px]" />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-lime/10 blur-[130px]" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[var(--navy)]" />
         <Reveal className="relative max-w-7xl mx-auto text-center">
-          <span className="inline-block rounded-full bg-[var(--lime)]/15 text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] px-4 py-1.5 mb-5">
+          <span className="inline-block rounded-full bg-lime/15 text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] px-4 py-1.5 mb-5">
             Engineering Services
           </span>
           <h1 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.02em] leading-[1.05] mb-6">
@@ -150,7 +150,7 @@ export default function ServicesPage() {
       <section className="py-24 px-4">
         <div className="max-w-7xl mx-auto">
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
-            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[var(--gold)] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
+            <span className="inline-block rounded-full bg-lime/20 text-[var(--gold)] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
               Layanan Kami
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-[-0.02em] leading-[1.1]">
@@ -196,7 +196,7 @@ export default function ServicesPage() {
                   <Reveal key={service.id} delay={i % 3}>
                     <Card className="group h-full rounded-[1.25rem] bg-[var(--surface)] border border-[var(--hairline)] shadow-[0_24px_60px_-28px_rgba(11,28,48,0.18)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_34px_70px_-24px_rgba(11,28,48,0.28)]">
                       <CardHeader className="text-center pb-6">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 bg-[var(--gold)]/15 text-[var(--gold)] border border-[var(--gold)]/30 transition-colors duration-300 group-hover:bg-[var(--gold)] group-hover:text-[var(--navy)] mx-auto">
+                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 bg-gold/15 text-[var(--gold)] border border-gold/30 transition-colors duration-300 group-hover:bg-[var(--gold)] group-hover:text-[var(--navy)] mx-auto">
                           <IconComponent className="w-8 h-8" />
                         </div>
                         <CardTitle className="font-display text-xl font-bold text-white transition-colors">
@@ -252,7 +252,7 @@ export default function ServicesPage() {
       <section className="py-24 px-4 bg-[var(--navy)]">
         <div className="max-w-7xl mx-auto">
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
-            <span className="inline-block rounded-full bg-[var(--lime)]/20 text-[var(--gold)] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
+            <span className="inline-block rounded-full bg-lime/20 text-[var(--gold)] text-xs font-bold uppercase tracking-[0.15em] px-4 py-1.5 mb-5">
               Proses Kerja
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-[-0.02em] leading-[1.1]">
@@ -266,14 +266,14 @@ export default function ServicesPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
             {process.map((step, index) => (
               <Reveal key={index} delay={index % 5} className="text-center relative">
-                <div className="w-16 h-16 bg-[var(--gold)]/15 text-[var(--gold)] border border-[var(--gold)]/30 rounded-2xl flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform">
+                <div className="w-16 h-16 bg-gold/15 text-[var(--gold)] border border-gold/30 rounded-2xl flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform">
                   <span className="font-display font-bold text-lg">{step.step}</span>
                 </div>
                 <h3 className="font-display font-bold text-white mb-2">{step.title}</h3>
                 <p className="text-sm text-[var(--body-muted)]">{step.description}</p>
 
                 {index < process.length - 1 && (
-                  <div className="hidden lg:block absolute top-8 left-full w-8 h-0.5 bg-[var(--lime)]/40 transform -translate-x-4"></div>
+                  <div className="hidden lg:block absolute top-8 left-full w-8 h-0.5 bg-lime/40 transform -translate-x-4"></div>
                 )}
               </Reveal>
             ))}
@@ -284,7 +284,7 @@ export default function ServicesPage() {
       {/* CTA Section */}
       <section className="relative py-28 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/images/landing-pages/image4.png')] bg-cover bg-center" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy)] via-[var(--navy)]/92 to-[var(--navy)]/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy)] via-navy/92 to-navy/70" />
         <Reveal className="relative max-w-4xl mx-auto text-center text-white">
           <span className="inline-block text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] mb-5">
             Mulai Sekarang

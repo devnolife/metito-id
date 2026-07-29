@@ -163,10 +163,10 @@ export default function BlogPage() {
       {/* Hero Section */}
       <section className="relative bg-[var(--navy)] text-white py-28 px-4 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.08] bg-[url('/images/landing-pages/image3.png')] bg-cover bg-center" />
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-[var(--lime)]/10 blur-[130px]" />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-lime/10 blur-[130px]" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[var(--navy)]" />
         <Reveal className="relative max-w-7xl mx-auto text-center">
-          <span className="inline-block rounded-full bg-[var(--lime)]/15 text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] px-4 py-1.5 mb-5">
+          <span className="inline-block rounded-full bg-lime/15 text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] px-4 py-1.5 mb-5">
             Blog &amp; Insights
           </span>
           <h1 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.02em] leading-[1.05] mb-6">
@@ -399,7 +399,7 @@ export default function BlogPage() {
                           <div
                             key={index}
                             className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors ${selectedCategory === category.name
-                              ? 'bg-[var(--lime)]/15 text-[var(--navy)]'
+                              ? 'bg-lime/15 text-[var(--navy)]'
                               : 'hover:bg-[var(--navy)] hover:text-[var(--navy)]'
                               }`}
                             onClick={() => setSelectedCategory(category.name)}
@@ -486,7 +486,7 @@ export default function BlogPage() {
       {/* CTA Section */}
       <section className="relative py-28 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/images/landing-pages/image4.png')] bg-cover bg-center" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy)] via-[var(--navy)]/92 to-[var(--navy)]/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy)] via-navy/92 to-navy/70" />
         <Reveal className="relative max-w-4xl mx-auto text-center text-white">
           <span className="inline-block text-[var(--lime)] text-xs font-bold uppercase tracking-[0.18em] mb-5">
             Newsletter

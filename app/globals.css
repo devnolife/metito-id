@@ -9,30 +9,209 @@
   --success-green: #10b981;
   --water-blue: #0ea5e9;
 
-  /* ==== METITO Company Profile palette (sampled from informasi.pdf) ==== */
-  --navy: #091628;          /* page background */
-  --navy-deep: #060f1c;     /* deepest navy */
-  --surface: #0e1f3a;       /* card / panel surface */
-  --surface-2: #132845;     /* raised surface (hover) */
-  --hairline: #142e4c;      /* 1px card border */
-  --gold: #e1c378;          /* primary accent */
-  --gold-bright: #f2d9a0;   /* hover / highlight */
-  --gold-dim: #c9a552;      /* pressed / muted accent */
-  --body-text: #c7d5e4;     /* body copy on navy */
-  --body-muted: #8fa3ba;    /* secondary copy on navy */
+  /* ==== METITO palette ====
+     Ground stays navy, but the accent is reclaimed from the slide-deck gold to
+     the aqua of the kingfisher mark — the brand's own colour, and the right one
+     for a water treatment company. Gold is demoted to a rare editorial accent. */
+  --navy: #060e1b;          /* page background */
+  --navy-deep: #030812;     /* deepest navy */
+  --surface: #0c182b;       /* card / panel surface */
+  --surface-2: #14263f;     /* raised surface (hover) */
+  --hairline: #17293f;      /* 1px card border */
 
-  /* Legacy aliases — the accent used to be lime, now mapped to the profile gold
-     so existing var(--lime*) usages inherit the company profile look. */
-  --lime: var(--gold);
-  --lime-bright: var(--gold-bright);
-  --lime-dim: var(--gold-dim);
+  --aqua: #4fd1e8;          /* primary accent — water */
+  --aqua-bright: #8ae6f5;   /* hover / highlight */
+  --aqua-dim: #2a93ab;      /* pressed / muted accent */
+  --aqua-deep: #0d3a49;     /* tinted fill */
+
+  --ember: #ff7a45;         /* rare high-energy highlight (from the logo) */
+  --moss: #62b96a;          /* rare secondary (from the logo) */
+
+  --gold: #e1c378;          /* editorial accent, used sparingly */
+  --gold-bright: #f2d9a0;
+  --gold-dim: #c9a552;
+
+  --body-text: #b9cadb;     /* body copy on navy */
+  --body-muted: #7b8fa6;    /* secondary copy on navy */
+
+  /* Channel triplets for the same palette.
+     Tailwind v3 cannot apply an opacity modifier to a `var()` colour — a class
+     like `bg-[var(--navy)]/80` silently computes to fully transparent. These
+     feed the named colours registered in tailwind.config.ts, so `bg-navy/80`
+     and friends produce a real alpha. */
+  --navy-rgb: 6 14 27;
+  --navy-deep-rgb: 3 8 18;
+  --surface-rgb: 12 24 43;
+  --surface-2-rgb: 20 38 63;
+  --hairline-rgb: 23 41 63;
+  --aqua-rgb: 79 209 232;
+  --aqua-bright-rgb: 138 230 245;
+  --aqua-dim-rgb: 42 147 171;
+  --gold-rgb: 225 195 120;
+  --ember-rgb: 255 122 69;
+  --body-text-rgb: 185 202 219;
+  --body-muted-rgb: 123 143 166;
+
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+
+  /* Legacy aliases so existing var(--lime*) usages keep working. */
+  --lime: var(--aqua);
+  --lime-bright: var(--aqua-bright);
+  --lime-dim: var(--aqua-dim);
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* ==== Company-profile section heading: centered title + gold underline bar ==== */
+/* ==== Technical rail: mono labels, indices, units ==== */
+.rail {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ==== Atmosphere ====
+   A blueprint grid and a fine grain sit behind the content to give the flat
+   navy some depth, instead of the solid slide-background look. */
+.blueprint {
+  background-image:
+    linear-gradient(to right, rgba(79, 209, 232, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(79, 209, 232, 0.055) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+.blueprint-fine {
+  background-image:
+    linear-gradient(to right, rgba(79, 209, 232, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(79, 209, 232, 0.045) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Radial glow used to anchor sections without a hard slide edge. */
+.glow-aqua {
+  background: radial-gradient(circle at center, rgba(79, 209, 232, 0.16) 0%, transparent 68%);
+}
+
+.glow-gold {
+  background: radial-gradient(circle at center, rgba(225, 195, 120, 0.12) 0%, transparent 68%);
+}
+
+/* ==== Panel: the replacement for the old slide-style card ====
+   Squared-off corners, a hairline that lights up in aqua, and a sheen that
+   tracks the cursor via --mx/--my set in JS. */
+.panel {
+  position: relative;
+  background: linear-gradient(160deg, rgba(18, 34, 56, 0.9) 0%, rgba(9, 20, 36, 0.9) 100%);
+  border: 1px solid var(--hairline);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.35s ease;
+}
+
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(79, 209, 232, 0.11),
+    transparent 62%
+  );
+}
+
+.panel:hover {
+  border-color: rgba(79, 209, 232, 0.45);
+  transform: translateY(-3px);
+}
+
+.panel:hover::before {
+  opacity: 1;
+}
+
+/* Corner ticks — instrument-panel detail on key cards. */
+.ticked::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 10px;
+  height: 10px;
+  border-top: 1px solid rgba(79, 209, 232, 0.55);
+  border-right: 1px solid rgba(79, 209, 232, 0.55);
+  pointer-events: none;
+}
+
+/* ==== Index rows: numbered technical list replacing the card grid ==== */
+.index-row {
+  position: relative;
+  border-top: 1px solid var(--hairline);
+  transition: background-color 0.4s ease, padding-left 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.index-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  height: 1px;
+  width: 0;
+  background: var(--aqua);
+  transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.index-row:hover {
+  background: rgba(79, 209, 232, 0.035);
+}
+
+.index-row:hover::before {
+  width: 100%;
+}
+
+/* ==== Marquee for the industry strip ==== */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ==== Flowing water lines in the hero ==== */
+@keyframes flow {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -1000; }
+}
+
+.flow-line {
+  animation: flow 18s linear infinite;
+}
+
+/* ==== Company-profile section heading (legacy, still used elsewhere) ==== */
 .profile-heading {
   position: relative;
   display: inline-block;
@@ -269,33 +448,33 @@ body {
 }
 
 @layer base {
-  /* Dark shadcn tokens matching the METITO company profile. */
+  /* Dark shadcn tokens matching the METITO aqua-on-navy system. */
   :root {
-    --background: 214 63% 10%;
-    --foreground: 210 33% 84%;
-    --card: 217 61% 14%;
-    --card-foreground: 210 33% 84%;
-    --popover: 217 61% 14%;
-    --popover-foreground: 210 33% 84%;
-    --primary: 43 64% 68%;
-    --primary-foreground: 214 63% 10%;
-    --secondary: 216 57% 17%;
+    --background: 215 51% 6%;
+    --foreground: 209 33% 79%;
+    --card: 214 55% 11%;
+    --card-foreground: 209 33% 79%;
+    --popover: 214 55% 11%;
+    --popover-foreground: 209 33% 79%;
+    --primary: 189 76% 61%;
+    --primary-foreground: 215 51% 6%;
+    --secondary: 213 51% 16%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 216 57% 17%;
-    --muted-foreground: 212 24% 64%;
-    --accent: 216 57% 17%;
+    --muted: 213 51% 16%;
+    --muted-foreground: 210 16% 57%;
+    --accent: 213 51% 16%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
-    --border: 212 58% 19%;
-    --input: 212 58% 19%;
-    --ring: 43 64% 68%;
-    --chart-1: 43 64% 68%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 44%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.75rem;
+    --border: 211 46% 17%;
+    --input: 211 46% 17%;
+    --ring: 189 76% 61%;
+    --chart-1: 189 76% 61%;
+    --chart-2: 43 64% 68%;
+    --chart-3: 17 100% 64%;
+    --chart-4: 125 38% 55%;
+    --chart-5: 197 37% 44%;
+    --radius: 0.25rem;
   }
 
   /* The admin panel keeps the original light UI. */

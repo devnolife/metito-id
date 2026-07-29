@@ -1,101 +1,145 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { ArrowDown, ArrowRight } from "lucide-react"
-import { COMPANY, INDUSTRY_LABELS } from "@/lib/company-profile"
+import { ArrowRight } from "lucide-react"
+import { COMPANY, CONTACT, INDUSTRY_LABELS } from "@/lib/company-profile"
+
+/** Capability rail shown down the right edge on large screens. */
+const CAPABILITIES = [
+  { code: "WTP", label: "Water Treatment" },
+  { code: "WWTP", label: "Waste Water" },
+  { code: "STP", label: "Sewage" },
+  { code: "RO", label: "Reverse Osmosis" },
+]
 
 export function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center overflow-hidden bg-[var(--navy)]"
+      className="grain relative flex min-h-screen items-center overflow-hidden bg-[var(--navy)]"
     >
-      {/* Foto — sisi kanan, seperti cover company profile */}
-      <div className="absolute inset-0 lg:left-[38%] bg-[url('/images/bg-hero.png')] bg-cover bg-center" />
+      {/* Photography, pushed right and heavily graded so type stays dominant. */}
+      <div className="absolute inset-y-0 right-0 w-full lg:w-[58%]">
+        <div className="absolute inset-0 bg-[url('/images/bg-hero.png')] bg-cover bg-center" />
+        {/* The source photo is a bright sky, so it needs aggressive grading to
+            sit behind white type without washing the whole panel out. */}
+        <div className="absolute inset-0 bg-navy/75 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-navy-deep/55" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy)] via-navy/85 to-navy/55" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--navy)] via-transparent to-navy/70" />
+      </div>
 
-      {/* Panel navy dengan potongan diagonal menutupi sisi kiri */}
-      <div className="absolute inset-0 bg-[var(--navy)]/95 lg:bg-[var(--navy)] lg:[clip-path:polygon(0_0,58%_0,42%_100%,0_100%)]" />
+      <div className="blueprint absolute inset-0 opacity-70" />
 
-      {/* Wash agar teks tetap terbaca di layar kecil */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy)] via-[var(--navy)]/85 to-[var(--navy)]/40 lg:hidden" />
+      {/* Aqua bloom anchoring the headline. */}
+      <div className="glow-aqua pointer-events-none absolute -left-40 top-1/4 h-[38rem] w-[38rem] rounded-full blur-[40px]" />
 
-      {/* Seam bawah — melebur ke section berikutnya */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-[var(--navy)]" />
+      {/* Flowing contour lines — a water-treatment schematic, not decoration. */}
+      <svg
+        className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.28]"
+        preserveAspectRatio="none"
+        viewBox="0 0 1440 900"
+        aria-hidden="true"
+      >
+        {[220, 340, 460, 580, 700].map((y, i) => (
+          <path
+            key={y}
+            className="flow-line"
+            d={`M-100 ${y} C 260 ${y - 70}, 520 ${y + 70}, 820 ${y} S 1300 ${y - 60}, 1600 ${y}`}
+            fill="none"
+            stroke="var(--aqua)"
+            strokeWidth="1"
+            strokeDasharray="6 10"
+            style={{ animationDelay: `${i * -3.5}s`, animationDuration: `${16 + i * 3}s` }}
+          />
+        ))}
+      </svg>
 
-      {/* Konten */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-28">
-        <div className="max-w-2xl">
-          {/* Eyebrow */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 mb-6 rounded-full border border-[var(--gold)]/35 bg-[var(--gold)]/10 text-[var(--gold)] text-[10px] md:text-[11px] font-bold uppercase tracking-[0.18em]">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-[var(--gold)] opacity-75 animate-ping" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--gold)]" />
-            </span>
-            Company Profile
-          </div>
-
-          {/* Nama perusahaan */}
-          <h1 className="font-display font-bold tracking-[-0.01em] leading-[1.05] text-white text-5xl md:text-6xl lg:text-7xl">
-            {COMPANY.shortName}
-          </h1>
-          <p className="mt-3 font-display text-lg md:text-2xl font-semibold text-white/85">
-            {COMPANY.abbreviationOf}
-          </p>
-
-          {/* Garis emas + tagline, persis seperti cover */}
-          <div className="mt-6 h-[3px] w-24 rounded-full bg-[var(--gold)]" />
-          <p className="mt-5 text-base md:text-xl font-semibold text-[var(--gold)] leading-relaxed">
-            {COMPANY.tagline}
-          </p>
-
-          <p className="mt-4 max-w-xl text-sm md:text-base text-[var(--body-text)] leading-relaxed">
-            Solusi terintegrasi untuk Water Treatment, Industrial Supply, Engineering, Equipment,
-            Spare Parts, dan Mining Support Services.
-          </p>
-
-          <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <Button
-              asChild
-              size="lg"
-              className="group bg-[var(--gold)] hover:bg-[var(--gold-bright)] text-[var(--navy)] font-bold px-7 py-5 text-base rounded-full transition-all duration-300 hover:scale-[1.03]"
-            >
-              <Link href="/products">
-                Jelajahi Produk
-                <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border border-[var(--gold)]/40 text-[var(--gold)] bg-transparent hover:bg-[var(--gold)] hover:text-[var(--navy)] font-semibold px-7 py-5 text-base rounded-full transition-all duration-300"
-            >
-              <Link href="/contact">Hubungi Kami</Link>
-            </Button>
-          </div>
-
-          {/* Industri yang dilayani */}
-          <div className="mt-10 flex flex-wrap items-center gap-x-2.5 gap-y-2">
-            {INDUSTRY_LABELS.map((industry) => (
-              <span
-                key={industry}
-                className="rounded-full border border-[var(--hairline)] bg-[var(--surface)] px-3 py-1.5 text-[11px] md:text-xs font-medium text-[var(--body-text)]"
-              >
-                {industry}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-28 pt-32 lg:px-8">
+        <div className="grid items-center gap-16 lg:grid-cols-12">
+          <div className="lg:col-span-8">
+            {/* Mono rail replaces the old pill badge. */}
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--aqua)] opacity-70" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--aqua)]" />
               </span>
-            ))}
+              <span className="rail text-[var(--aqua)]">Sulawesi Selatan</span>
+              <span className="h-px w-10 bg-aqua/40" />
+              <span className="rail text-[var(--body-muted)]">{CONTACT.website}</span>
+            </div>
+
+            {/* Headline leads with the promise, not the company name. */}
+            <h1 className="font-display mt-7 text-[clamp(2.5rem,5.4vw,4.5rem)] font-black leading-[0.92] tracking-[-0.04em] text-white">
+              Air bersih,
+              <br />
+              <span className="text-[var(--aqua)]">direkayasa</span> untuk
+              <br />
+              industri Indonesia.
+            </h1>
+
+            <p className="mt-7 max-w-xl text-base leading-relaxed text-[var(--body-text)]">
+              {COMPANY.brandName} merancang, memasok, dan merawat sistem pengolahan air untuk
+              pertambangan, energi, dan manufaktur — dari chemical supply sampai commissioning.
+            </p>
+
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <Link
+                href="/products"
+                className="group inline-flex items-center gap-2.5 rounded-sm bg-[var(--aqua)] px-7 py-4 text-sm font-bold tracking-tight text-[var(--navy)] transition-all duration-300 hover:bg-[var(--aqua-bright)] hover:shadow-[0_0_36px_-6px_rgba(79,209,232,0.65)]"
+              >
+                Jelajahi Produk
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2.5 rounded-sm border border-[var(--hairline)] px-7 py-4 text-sm font-semibold text-white transition-all duration-300 hover:border-aqua/55 hover:bg-aqua/10"
+              >
+                Konsultasi Teknis
+              </Link>
+            </div>
+
+            {/* Industries as a dense mono strip rather than rounded pills. */}
+            <div className="mt-12 border-t border-[var(--hairline)] pt-5">
+              <div className="rail mb-3 text-[var(--body-muted)]">Sektor yang dilayani</div>
+              <div className="flex flex-wrap gap-x-5 gap-y-2">
+                {INDUSTRY_LABELS.map((industry) => (
+                  <span
+                    key={industry}
+                    className="font-mono text-xs tracking-tight text-[var(--body-text)]"
+                  >
+                    {industry}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Capability rail — instrument readout down the right edge. It gets
+              its own backdrop so it stays legible over the bright sky in the
+              photo rather than depending on the gradient alone. */}
+          <div className="hidden lg:col-span-4 lg:block">
+            <div className="ml-auto max-w-[16rem] rounded-sm border border-[var(--hairline)] bg-navy-deep/70 p-6 backdrop-blur-md">
+              <div className="rail mb-5 text-[var(--aqua)]">Kapabilitas</div>
+              <ul className="space-y-4">
+                {CAPABILITIES.map(({ code, label }) => (
+                  <li key={code} className="group flex items-baseline gap-3">
+                    <span className="font-display w-14 shrink-0 text-lg font-extrabold tracking-tight text-[var(--aqua)]">
+                      {code}
+                    </span>
+                    <span className="text-sm text-[var(--body-text)] transition-colors group-hover:text-white">
+                      {label}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Garis emas di dasar hero — signature company profile */}
-      <div className="absolute inset-x-0 bottom-0 z-10 h-[3px] bg-[var(--gold)]/70" />
-
-      {/* Indikator scroll */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-        <ArrowDown className="w-5 h-5 text-[var(--gold)]/70 animate-bounce" />
-      </div>
+      {/* Hairline seam instead of the old solid gold slide bar. */}
+      <div className="absolute inset-x-0 bottom-0 z-10 h-px bg-gradient-to-r from-transparent via-aqua/45 to-transparent" />
     </section>
   )
 }

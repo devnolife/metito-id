@@ -219,15 +219,15 @@ export function ProductShowcase() {
     <section id="products" className="relative py-24 overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0 bg-[var(--navy)]">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-[var(--lime)]/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--navy)]/10 rounded-full blur-3xl animate-pulse delay-700"></div>
+        <div className="absolute top-0 left-0 w-96 h-96 bg-lime/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-navy/10 rounded-full blur-3xl animate-pulse delay-700"></div>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-20 space-y-6">
           <div className="inline-block animate-fade-in-up">
-            <Badge className="rounded-full bg-[var(--lime)]/20 text-[var(--gold)] px-5 py-2 text-xs font-bold uppercase tracking-[0.15em] hover:bg-[var(--lime)]/30 transition-all duration-300">
+            <Badge className="rounded-full bg-lime/20 text-[var(--gold)] px-5 py-2 text-xs font-bold uppercase tracking-[0.15em] hover:bg-lime/30 transition-all duration-300">
               Pameran Produk
             </Badge>
           </div>
@@ -265,13 +265,13 @@ export function ProductShowcase() {
                     animation: 'fade-in-up 0.6s ease-out forwards'
                   }}
                   className={`group relative flex flex-col items-center text-center rounded-2xl p-6 border transition-all duration-300 hover:-translate-y-1.5 ${isSelected
-                    ? "bg-[var(--navy)] border-[var(--navy)] shadow-xl shadow-[var(--navy)]/25"
+                    ? "bg-[var(--navy)] border-[var(--navy)] shadow-xl shadow-navy/25"
                     : "bg-[var(--surface)] border-[var(--hairline)] hover:border-[var(--gold)] shadow-[0_12px_30px_-18px_rgba(11,28,48,0.18)] hover:shadow-[0_22px_44px_-22px_rgba(11,28,48,0.28)]"
                     }`}
                 >
                   <div className={`flex items-center justify-center w-14 h-14 rounded-2xl mb-4 transition-all duration-300 group-hover:scale-110 ${isSelected
                     ? "bg-[var(--lime)] text-[var(--navy)]"
-                    : "bg-[var(--surface-2)] text-[var(--gold)] group-hover:bg-[var(--gold)]/20"
+                    : "bg-[var(--surface-2)] text-[var(--gold)] group-hover:bg-gold/20"
                     }`}>
                     <IconComponent className="w-7 h-7" />
                   </div>
@@ -302,11 +302,11 @@ export function ProductShowcase() {
               placeholder="Cari produk berdasarkan nama, deskripsi..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-12 pr-4 h-12 rounded-xl border-0 bg-[var(--navy)] focus-visible:ring-2 focus-visible:ring-[var(--navy)]/15 focus-visible:bg-[var(--surface)] transition-all duration-300 text-base placeholder:text-[var(--body-muted)]"
+              className="pl-12 pr-4 h-12 rounded-xl border-0 bg-[var(--navy)] focus-visible:ring-2 focus-visible:ring-navy/15 focus-visible:bg-[var(--surface)] transition-all duration-300 text-base placeholder:text-[var(--body-muted)]"
             />
           </div>
           <Select value={selectedApplication} onValueChange={setSelectedApplication}>
-            <SelectTrigger className="w-full md:w-52 h-12 rounded-xl border border-[var(--hairline)] bg-[var(--surface)] hover:bg-[var(--surface-2)] focus:ring-2 focus:ring-[var(--gold)]/30 transition-all duration-300 font-semibold text-white">
+            <SelectTrigger className="w-full md:w-52 h-12 rounded-xl border border-[var(--hairline)] bg-[var(--surface)] hover:bg-[var(--surface-2)] focus:ring-2 focus:ring-gold/30 transition-all duration-300 font-semibold text-white">
               <Filter className="w-4 h-4 mr-2 text-[var(--lime-dim)]" />
               <SelectValue placeholder="Semua Aplikasi" />
             </SelectTrigger>
@@ -364,7 +364,7 @@ export function ProductShowcase() {
                   type="button"
                   onClick={() => scrollByCards('right')}
                   aria-label="Selanjutnya"
-                  className="flex items-center justify-center w-11 h-11 rounded-full bg-[var(--lime)] text-[var(--navy)] hover:bg-[var(--lime-bright)] transition-all duration-300 shadow-lg shadow-[var(--lime)]/25 hover:scale-105"
+                  className="flex items-center justify-center w-11 h-11 rounded-full bg-[var(--lime)] text-[var(--navy)] hover:bg-[var(--lime-bright)] transition-all duration-300 shadow-lg shadow-lime/25 hover:scale-105"
                 >
                   <ChevronRight className="w-5 h-5" />
                 </button>
@@ -392,12 +392,12 @@ export function ProductShowcase() {
                 >
                   {/* Glow effect on hover */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl">
-                    <div className="absolute inset-0 bg-[var(--lime)]/5 rounded-3xl"></div>
+                    <div className="absolute inset-0 bg-lime/5 rounded-3xl"></div>
                   </div>
 
                   {/* Floating detail card that appears on hover - larger coverage */}
                   <div className="absolute -top-6 left-0 right-0 bottom-20 z-50 opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-95 group-hover:scale-100 pointer-events-none">
-                    <div className="mx-3 h-full bg-[var(--surface)] border border-[var(--hairline)] rounded-2xl shadow-2xl shadow-[var(--navy)]/25 overflow-hidden flex flex-col">
+                    <div className="mx-3 h-full bg-[var(--surface)] border border-[var(--hairline)] rounded-2xl shadow-2xl shadow-navy/25 overflow-hidden flex flex-col">
                       {/* Header */}
                       <div className="bg-[var(--navy)] px-6 py-5 flex-shrink-0">
                         <div className="flex items-center justify-between mb-3">
@@ -564,14 +564,14 @@ export function ProductShowcase() {
                     <div className="flex gap-3">
                       <Button
                         onClick={() => handleWhatsAppClick(product)}
-                        className="flex-1 h-12 bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white rounded-full font-semibold transition-all duration-300 shadow-lg shadow-[var(--navy)]/20 group/btn"
+                        className="flex-1 h-12 bg-[var(--navy)] hover:bg-[var(--navy-deep)] text-white rounded-full font-semibold transition-all duration-300 shadow-lg shadow-navy/20 group/btn"
                       >
                         <MessageCircle className="w-4 h-4 mr-2 transition-transform duration-300 group-hover/btn:rotate-12" />
                         <span>WhatsApp</span>
                       </Button>
                       <Button
                         asChild
-                        className="w-12 h-12 p-0 bg-[var(--lime)] hover:bg-[var(--lime-bright)] text-[var(--navy)] rounded-full shadow-lg shadow-[var(--lime)]/25 transition-all duration-300 hover:scale-105 group/btn"
+                        className="w-12 h-12 p-0 bg-[var(--lime)] hover:bg-[var(--lime-bright)] text-[var(--navy)] rounded-full shadow-lg shadow-lime/25 transition-all duration-300 hover:scale-105 group/btn"
                         title="Lihat Detail Produk"
                       >
                         <Link href={`/products/${product.id}`} className="flex items-center justify-center">
@@ -611,11 +611,11 @@ export function ProductShowcase() {
         <div className="text-center mt-20">
           <div className="relative overflow-hidden bg-[var(--surface)] border border-[var(--hairline)] rounded-3xl p-12 text-white">
             {/* Decorative elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--lime)]/10 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[var(--lime)]/10 rounded-full blur-3xl"></div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-lime/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-lime/10 rounded-full blur-3xl"></div>
 
             <div className="relative z-10">
-              <div className="inline-block p-3 bg-[var(--lime)]/15 rounded-2xl backdrop-blur-sm mb-6">
+              <div className="inline-block p-3 bg-lime/15 rounded-2xl backdrop-blur-sm mb-6">
                 <MessageCircle className="w-12 h-12 text-[var(--lime)]" />
               </div>
               <h3 className="font-display text-4xl font-bold mb-4">Tidak menemukan yang Anda cari?</h3>
@@ -628,7 +628,7 @@ export function ProductShowcase() {
                 </Button>
                 <Button
                   variant="outline"
-                  className="bg-transparent border border-[var(--gold)]/40 text-[var(--gold)] hover:bg-[var(--gold)] hover:text-[var(--navy)] rounded-2xl px-10 py-6 text-lg font-bold transition-all duration-300 hover:scale-105"
+                  className="bg-transparent border border-gold/40 text-[var(--gold)] hover:bg-[var(--gold)] hover:text-[var(--navy)] rounded-2xl px-10 py-6 text-lg font-bold transition-all duration-300 hover:scale-105"
                   asChild
                 >
                   <Link href="/products">

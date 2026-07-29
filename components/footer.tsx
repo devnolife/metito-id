@@ -17,7 +17,6 @@ export function Footer() {
                 alt={COMPANY.brandName}
                 width={48}
                 height={48}
-                className="bg-white rounded-xl p-1"
               />
               <div>
                 <h3 className="font-display text-xl font-bold text-white">{COMPANY.brandName}</h3>

@@ -11,6 +11,24 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        /* METITO palette. Declared with <alpha-value> so opacity modifiers
+           (bg-navy/80, border-aqua/45, …) resolve correctly — unlike the
+           arbitrary `[var(--navy)]/80` form, which Tailwind cannot compute. */
+        navy: 'rgb(var(--navy-rgb) / <alpha-value>)',
+        'navy-deep': 'rgb(var(--navy-deep-rgb) / <alpha-value>)',
+        surface: 'rgb(var(--surface-rgb) / <alpha-value>)',
+        'surface-2': 'rgb(var(--surface-2-rgb) / <alpha-value>)',
+        hairline: 'rgb(var(--hairline-rgb) / <alpha-value>)',
+        aqua: 'rgb(var(--aqua-rgb) / <alpha-value>)',
+        'aqua-bright': 'rgb(var(--aqua-bright-rgb) / <alpha-value>)',
+        'aqua-dim': 'rgb(var(--aqua-dim-rgb) / <alpha-value>)',
+        gold: 'rgb(var(--gold-rgb) / <alpha-value>)',
+        ember: 'rgb(var(--ember-rgb) / <alpha-value>)',
+        'body-text': 'rgb(var(--body-text-rgb) / <alpha-value>)',
+        'body-muted': 'rgb(var(--body-muted-rgb) / <alpha-value>)',
+        /* Legacy alias: --lime was remapped to the aqua accent. */
+        lime: 'rgb(var(--aqua-rgb) / <alpha-value>)',
+
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -68,7 +86,9 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)'
       },
       fontFamily: {
-        display: ['var(--font-display)', 'sans-serif']
+        display: ['var(--font-display)', 'sans-serif'],
+        body: ['var(--font-body)', 'sans-serif'],
+        mono: ['var(--font-mono)', 'monospace']
       },
       keyframes: {
         'accordion-down': {

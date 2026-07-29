@@ -26,7 +26,8 @@
     "test-db": "npx tsx scripts/test-database.ts",
     "test-fs": "npx tsx scripts/test-file-system.ts",
     "test-all": "npx tsx scripts/test-all.ts",
-    "setup-dirs": "node scripts/setup-upload-dirs.js"
+    "setup-dirs": "node scripts/setup-upload-dirs.js",
+    "brand:assets": "node scripts/generate-brand-assets.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

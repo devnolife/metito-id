@@ -41,31 +41,31 @@ export function Header() {
       className={
         isHome
           ? "absolute top-0 left-0 right-0 z-50 bg-transparent pt-4 md:pt-6"
-          : "bg-[var(--navy)]/95 backdrop-blur-md sticky top-0 z-50 border-b border-[var(--hairline)]"
+          : "bg-navy/95 backdrop-blur-md sticky top-0 z-50 border-b border-[var(--hairline)]"
       }
     >
       {/* Top Bar */}
       {!isHome && (
         <div className="bg-[var(--navy-deep)] text-white py-2 border-b border-[var(--hairline)]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center text-sm">
+            <div className="flex justify-between items-center text-xs">
               <div className="flex items-center space-x-8">
                 <div className="flex items-center space-x-2 group">
-                  <Phone className="w-4 h-4 text-[var(--gold)] group-hover:text-[var(--gold-bright)] transition-colors" />
-                  <span className="font-medium">{CONTACT.phones[0]}</span>
+                  <Phone className="w-3.5 h-3.5 text-[var(--aqua)]" />
+                  <span className="font-mono tracking-tight">{CONTACT.phones[0]}</span>
                 </div>
                 <div className="flex items-center space-x-2 group">
-                  <Mail className="w-4 h-4 text-[var(--gold)] group-hover:text-[var(--gold-bright)] transition-colors" />
-                  <span className="font-medium">{CONTACT.email}</span>
+                  <Mail className="w-3.5 h-3.5 text-[var(--aqua)]" />
+                  <span className="font-mono tracking-tight">{CONTACT.email}</span>
                 </div>
                 <div className="hidden lg:flex items-center space-x-2 group">
-                  <MapPin className="w-4 h-4 text-[var(--gold)] group-hover:text-[var(--gold-bright)] transition-colors" />
-                  <span className="font-medium">{CONTACT.address.full}</span>
+                  <MapPin className="w-3.5 h-3.5 text-[var(--aqua)]" />
+                  <span className="font-mono tracking-tight">{CONTACT.address.full}</span>
                 </div>
               </div>
               <div className="hidden md:flex items-center space-x-2">
-                <Globe className="w-4 h-4 text-[var(--gold)]" />
-                <span className="font-medium">{CONTACT.website}</span>
+                <Globe className="w-3.5 h-3.5 text-[var(--aqua)]" />
+                <span className="font-mono tracking-tight">{CONTACT.website}</span>
               </div>
             </div>
           </div>
@@ -85,10 +85,10 @@ export function Header() {
               className="group-hover:scale-105 transition-transform duration-300"
             />
             <div className="flex flex-col justify-center">
-              <span className={`text-xl md:text-2xl font-extrabold leading-none tracking-wide text-white group-hover:text-[var(--gold)]`}>
+              <span className="font-display text-xl md:text-2xl font-extrabold leading-none tracking-[-0.03em] text-white group-hover:text-[var(--aqua)] transition-colors">
                 METITO
               </span>
-              <span className={`text-[10px] md:text-xs font-medium leading-tight whitespace-nowrap text-[var(--body-muted)]`}>
+              <span className="rail mt-1 text-[9px] md:text-[10px] leading-tight whitespace-nowrap text-[var(--body-muted)]">
                 Multi Enviro Tirta Teknologi
               </span>
             </div>
@@ -100,16 +100,17 @@ export function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`relative font-medium text-sm transition-all duration-200 px-4 py-2 rounded-full ${isActive(item)
-                  ? isHome
-                    ? "text-[var(--navy)] bg-[var(--lime)] shadow-lg shadow-[var(--lime)]/25"
-                    : "text-[var(--navy)] bg-[var(--lime)] shadow-sm"
+                className={`relative font-medium text-sm transition-all duration-200 px-4 py-2 rounded-sm ${isActive(item)
+                  ? "text-[var(--aqua)] bg-aqua/10"
                   : isHome
-                    ? "text-white/90 hover:text-white hover:bg-white/10"
-                    : "text-[var(--body-text)] hover:text-white hover:bg-[var(--surface)]"
+                    ? "text-white/75 hover:text-white hover:bg-white/[0.07]"
+                    : "text-[var(--body-muted)] hover:text-white hover:bg-[var(--surface)]"
                   }`}
               >
                 {item.name}
+                {isActive(item) && (
+                  <span className="absolute inset-x-3 -bottom-px h-px bg-[var(--aqua)]" />
+                )}
               </Link>
             ))}
           </nav>
@@ -147,7 +148,7 @@ export function Header() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden border-t border-[var(--hairline)] bg-[var(--navy)]/98 backdrop-blur-md">
+          <div className="lg:hidden border-t border-[var(--hairline)] bg-navy/98 backdrop-blur-md">
             <div className="px-4 pt-4 pb-6 space-y-4">
               {/* Mobile Search */}
               <div className="relative group">
