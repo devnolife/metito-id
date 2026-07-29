@@ -28,7 +28,7 @@ export function ErrorHandler({
     switch (type) {
       case 'auth':
         return {
-          icon: <Shield className="w-12 h-12 text-red-500" />,
+          icon: <Shield className="w-12 h-12 text-red-300" />,
           title: 'Kesalahan Autentikasi',
           description: 'Sesi Anda telah berakhir atau kredensial tidak valid.',
           suggestions: [
@@ -39,7 +39,7 @@ export function ErrorHandler({
         }
       case 'network':
         return {
-          icon: <Wifi className="w-12 h-12 text-red-500" />,
+          icon: <Wifi className="w-12 h-12 text-red-300" />,
           title: 'Kesalahan Jaringan',
           description: 'Tidak dapat terhubung ke server.',
           suggestions: [
@@ -50,7 +50,7 @@ export function ErrorHandler({
         }
       case 'permission':
         return {
-          icon: <Shield className="w-12 h-12 text-red-500" />,
+          icon: <Shield className="w-12 h-12 text-red-300" />,
           title: 'Akses Ditolak',
           description: 'Anda tidak memiliki izin untuk mengakses halaman ini.',
           suggestions: [
@@ -61,7 +61,7 @@ export function ErrorHandler({
         }
       default:
         return {
-          icon: <AlertTriangle className="w-12 h-12 text-red-500" />,
+          icon: <AlertTriangle className="w-12 h-12 text-red-300" />,
           title: 'Terjadi Kesalahan',
           description: 'Maaf, terjadi kesalahan yang tidak terduga.',
           suggestions: [
@@ -76,42 +76,42 @@ export function ErrorHandler({
   const config = getErrorConfig()
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 via-white to-orange-50 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-navy p-4">
       <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-red-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-        <div className="absolute top-40 right-10 w-72 h-72 bg-orange-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute top-20 left-10 w-72 h-72 bg-red-500/10 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute top-40 right-10 w-72 h-72 bg-gold/10 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
       </div>
 
       <div className="relative z-10 max-w-md w-full">
-        <div className="bg-white rounded-2xl shadow-2xl p-8 border border-red-100">
+        <div className="bg-surface rounded shadow-2xl p-8 border border-red-500/30">
           {/* Icon */}
           <div className="flex justify-center mb-6">
-            <div className="relative w-20 h-20 p-4 bg-red-50 rounded-3xl">
+            <div className="relative w-20 h-20 p-4 bg-red-500/10 rounded-3xl">
               {config.icon}
             </div>
           </div>
 
           {/* Title and Description */}
           <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">{config.title}</h2>
-            <p className="text-gray-600 mb-4">{config.description}</p>
+            <h2 className="text-2xl font-bold text-white mb-2">{config.title}</h2>
+            <p className="text-body-text mb-4">{config.description}</p>
           </div>
 
           {/* Error Message */}
-          <Alert className="mb-6 border-red-200 bg-red-50">
-            <AlertTriangle className="h-4 w-4 text-red-600" />
-            <AlertDescription className="text-red-700 font-medium">
+          <Alert className="mb-6 border-red-500/30 bg-red-500/10">
+            <AlertTriangle className="h-4 w-4 text-red-300" />
+            <AlertDescription className="text-red-300 font-medium">
               {errorMessage}
             </AlertDescription>
           </Alert>
 
           {/* Suggestions */}
           <div className="mb-6">
-            <h3 className="font-semibold text-gray-800 mb-3">Saran untuk mengatasi:</h3>
-            <ul className="text-sm text-gray-600 space-y-2">
+            <h3 className="font-semibold text-white mb-3">Saran untuk mengatasi:</h3>
+            <ul className="text-sm text-body-text space-y-2">
               {config.suggestions.map((suggestion, index) => (
                 <li key={index} className="flex items-start">
-                  <span className="w-2 h-2 bg-primary-blue rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  <span className="w-2 h-2 bg-gold rounded-full mt-2 mr-3 flex-shrink-0"></span>
                   {suggestion}
                 </li>
               ))}
@@ -123,7 +123,7 @@ export function ErrorHandler({
             {showRetry && onRetry && (
               <Button
                 onClick={onRetry}
-                className="flex-1 bg-primary-blue hover:bg-blue-700 text-white"
+                className="flex-1 bg-gold hover:bg-gold-bright text-navy"
               >
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Coba Lagi
@@ -133,7 +133,7 @@ export function ErrorHandler({
               <Button
                 onClick={onGoHome}
                 variant="outline"
-                className="flex-1 border-gray-300 text-gray-700 hover:bg-gray-50"
+                className="flex-1 border-hairline text-body-text hover:bg-surface-2"
               >
                 <Home className="w-4 h-4 mr-2" />
                 Beranda
@@ -142,12 +142,12 @@ export function ErrorHandler({
           </div>
 
           {/* Contact Support */}
-          <div className="mt-6 pt-6 border-t border-gray-200 text-center">
-            <p className="text-sm text-gray-500 mb-2">Masih mengalami masalah?</p>
+          <div className="mt-6 pt-6 border-t border-hairline text-center">
+            <p className="text-sm text-body-muted mb-2">Masih mengalami masalah?</p>
             <Button
               variant="ghost"
               size="sm"
-              className="text-primary-blue hover:bg-blue-50"
+              className="text-gold hover:bg-gold/15"
             >
               <Mail className="w-4 h-4 mr-2" />
               Hubungi Support

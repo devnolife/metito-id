@@ -1,9 +1,19 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Users, Package, FileText, Image, Phone, TrendingUp, Calendar, Bell, Activity } from "lucide-react"
+import Link from "next/link"
+import {
+  Users,
+  Package,
+  FileText,
+  Image as ImageIcon,
+  Phone,
+  TrendingUp,
+  Bell,
+  Activity,
+  ArrowUpRight,
+  type LucideIcon,
+} from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
 interface DashboardStats {
@@ -34,6 +44,22 @@ interface DashboardStats {
     inquiriesReceived: number
   }
 }
+
+interface QuickLink {
+  href: string
+  label: string
+  caption: string
+  icon: LucideIcon
+}
+
+const QUICK_LINKS: QuickLink[] = [
+  { href: "/admin/quotations", label: "Surat Penawaran", caption: "Susun dokumen penawaran baru", icon: FileText },
+  { href: "/admin/products", label: "Katalog Produk", caption: "Chemical, equipment, spare parts", icon: Package },
+  { href: "/admin/customers", label: "Pelanggan", caption: "Basis data mitra industri", icon: Users },
+  { href: "/admin/gallery", label: "Galeri", caption: "Dokumentasi instalasi", icon: ImageIcon },
+  { href: "/admin/blog", label: "Blog", caption: "Artikel dan publikasi teknis", icon: FileText },
+  { href: "/admin/contact", label: "Kontak Masuk", caption: "Permintaan konsultasi", icon: Phone },
+]
 
 export default function AdminPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null)
@@ -110,19 +136,14 @@ export default function AdminPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="p-6">
+        <div className="grid grid-cols-1 gap-px border border-hairline bg-hairline md:grid-cols-2 lg:grid-cols-4">
           {[...Array(4)].map((_, i) => (
-            <Card key={i}>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
-                <div className="h-4 w-4 bg-gray-200 rounded animate-pulse"></div>
-              </CardHeader>
-              <CardContent>
-                <div className="h-8 w-16 bg-gray-200 rounded animate-pulse mb-2"></div>
-                <div className="h-3 w-24 bg-gray-200 rounded animate-pulse"></div>
-              </CardContent>
-            </Card>
+            <div key={i} className="bg-surface p-6">
+              <div className="mb-4 h-3 w-20 animate-pulse bg-surface-2" />
+              <div className="mb-2 h-9 w-24 animate-pulse bg-surface-2" />
+              <div className="h-3 w-28 animate-pulse bg-surface-2" />
+            </div>
           ))}
         </div>
       </div>
@@ -132,199 +153,205 @@ export default function AdminPage() {
   if (!stats) {
     return (
       <div className="p-6">
-        <div className="text-center text-gray-500">
-          Tidak dapat memuat data dashboard
+        <div className="border border-hairline bg-surface p-12 text-center">
+          <p className="rail mb-2 text-gold">Error</p>
+          <p className="text-body-text">Tidak dapat memuat data dashboard</p>
+          <button
+            type="button"
+            onClick={loadDashboardStats}
+            className="mt-6 rounded-sm bg-gold px-4 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-navy transition-colors hover:bg-gold-bright"
+          >
+            Muat Ulang
+          </button>
         </div>
       </div>
     )
   }
 
+  const metrics = [
+    {
+      index: '01',
+      label: 'Total Produk',
+      value: String(stats.totalProducts),
+      caption: `+${stats.monthlyStats.productsAdded} bulan ini`,
+      icon: Package,
+    },
+    {
+      index: '02',
+      label: 'Total Pelanggan',
+      value: String(stats.totalCustomers),
+      caption: `+${stats.monthlyStats.customersAdded} bulan ini`,
+      icon: Users,
+    },
+    {
+      index: '03',
+      label: 'Total Inquiry',
+      value: String(stats.totalOrders),
+      caption: `${stats.monthlyStats.inquiriesReceived} masuk bulan ini`,
+      icon: TrendingUp,
+    },
+    {
+      index: '04',
+      label: 'Total Revenue',
+      value: formatCurrency(stats.totalRevenue),
+      caption: 'Akumulasi nilai transaksi',
+      icon: Activity,
+    },
+  ]
+
   return (
-    <div className="p-6 space-y-6">
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Produk</CardTitle>
-            <Package className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.totalProducts}</div>
-            <p className="text-xs text-muted-foreground">
-              +{stats.monthlyStats.productsAdded} bulan ini
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Pelanggan</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.totalCustomers}</div>
-            <p className="text-xs text-muted-foreground">
-              +{stats.monthlyStats.customersAdded} bulan ini
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Inquiries</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.totalOrders}</div>
-            <p className="text-xs text-muted-foreground">Inquiries bulan ini</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(stats.totalRevenue)}</div>
-            <p className="text-xs text-muted-foreground">Revenue bulan ini</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Package className="h-5 w-5" />
-              Manajemen Produk
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">Kelola katalog produk dan layanan</p>
-            <div className="space-y-2">
-              <a href="/admin/products" className="block p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
-                <div className="font-medium">Produk</div>
-                <div className="text-sm text-gray-600">Manage products</div>
-              </a>
-              <a href="/admin/services" className="block p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
-                <div className="font-medium">Layanan</div>
-                <div className="text-sm text-gray-600">Manage services</div>
-              </a>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Users className="h-5 w-5" />
-              Manajemen Pelanggan
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">Kelola data pelanggan dan kontak</p>
-            <div className="space-y-2">
-              <a href="/admin/customers" className="block p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
-                <div className="font-medium">Pelanggan</div>
-                <div className="text-sm text-gray-600">Manage customers</div>
-              </a>
-              <a href="/admin/contact" className="block p-3 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors">
-                <div className="font-medium">Kontak</div>
-                <div className="text-sm text-gray-600">Manage inquiries</div>
-              </a>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5" />
-              Konten & Media
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">Kelola konten dan media</p>
-            <div className="space-y-2">
-              <a href="/admin/blog" className="block p-3 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">
-                <div className="font-medium">Blog</div>
-                <div className="text-sm text-gray-600">Manage blog posts</div>
-              </a>
-              <a href="/admin/gallery" className="block p-3 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition-colors">
-                <div className="font-medium">Galeri</div>
-                <div className="text-sm text-gray-600">Manage gallery</div>
-              </a>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Inquiries */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Bell className="h-5 w-5" />
-              Inquiries Terbaru
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {stats.recentInquiries.length > 0 ? (
-                stats.recentInquiries.map((inquiry) => (
-                  <div key={inquiry.id} className="flex items-center space-x-4">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">{inquiry.name}</p>
-                      <p className="text-xs text-gray-500">{inquiry.subject}</p>
-                      <p className="text-xs text-gray-400">{formatDate(inquiry.createdAt)}</p>
-                    </div>
-                    <Badge variant={inquiry.status === 'PENDING' ? 'destructive' : 'default'}>
-                      {inquiry.status}
-                    </Badge>
+    <div className="space-y-8 p-6">
+      {/* Metrics — a single hairline grid instead of four floating cards. */}
+      <section>
+        <div className="grid grid-cols-1 gap-px border border-hairline bg-hairline md:grid-cols-2 lg:grid-cols-4">
+          {metrics.map((metric) => {
+            const Icon = metric.icon
+            return (
+              <div key={metric.index} className="admin-stat bg-surface p-6">
+                <div className="mb-4 flex items-start justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="rail text-gold">{metric.index}</span>
+                    <span className="h-px w-5 bg-gold/40" />
                   </div>
-                ))
-              ) : (
-                <p className="text-sm text-gray-500">Belum ada inquiries</p>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+                  <Icon className="h-4 w-4 text-body-muted" />
+                </div>
+                <p className="rail mb-2 text-body-muted">{metric.label}</p>
+                <p className="font-display text-3xl font-bold tracking-[-0.03em] text-white">
+                  {metric.value}
+                </p>
+                <p className="mt-2 text-xs text-body-muted">{metric.caption}</p>
+              </div>
+            )
+          })}
+        </div>
+      </section>
 
-        {/* Recent Products */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Package className="h-5 w-5" />
-              Produk Terbaru
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {stats.recentProducts.length > 0 ? (
-                stats.recentProducts.map((product) => (
-                  <div key={product.id} className="flex items-center space-x-4">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">{product.name}</p>
-                      <p className="text-xs text-gray-500">{product.category.name}</p>
-                      <p className="text-xs text-gray-400">{formatDate(product.createdAt)}</p>
-                    </div>
-                    <div className="text-sm font-medium text-green-600">
-                      {formatCurrency(product.price)}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-sm text-gray-500">Belum ada produk</p>
-              )}
+      {/* Quick access — indexed rows with the gold sweep from the public catalog. */}
+      <section>
+        <SectionMarker index="05" title="Akses Cepat" />
+        <div className="border-b border-hairline">
+          {QUICK_LINKS.map((link, i) => {
+            const Icon = link.icon
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="index-row group flex items-center gap-4 px-4 py-4 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold"
+              >
+                <span className="rail w-6 flex-shrink-0 text-body-muted transition-colors group-hover:text-gold">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <Icon className="h-4 w-4 flex-shrink-0 text-body-muted transition-colors group-hover:text-gold" />
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-medium text-white">{link.label}</span>
+                  <span className="block truncate text-xs text-body-muted">{link.caption}</span>
+                </span>
+                <ArrowUpRight className="h-4 w-4 flex-shrink-0 text-body-muted opacity-0 transition-all group-hover:translate-x-0.5 group-hover:text-gold group-hover:opacity-100" />
+              </Link>
+            )
+          })}
+        </div>
+      </section>
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        {/* Recent inquiries */}
+        <section className="admin-panel p-6">
+          <div className="mb-5 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <Bell className="h-4 w-4 text-gold" />
+              <h2 className="font-display text-base font-bold tracking-[-0.01em] text-white">
+                Inquiry Terbaru
+              </h2>
             </div>
-          </CardContent>
-        </Card>
+            <Link href="/admin/contact" className="rail text-body-muted transition-colors hover:text-gold">
+              Semua
+            </Link>
+          </div>
+
+          {stats.recentInquiries.length > 0 ? (
+            <ul className="border-b border-hairline">
+              {stats.recentInquiries.map((inquiry, i) => (
+                <li key={inquiry.id} className="admin-row flex items-start gap-3 py-3">
+                  <span className="rail w-6 flex-shrink-0 pt-0.5 text-body-muted">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium text-white">{inquiry.name}</p>
+                    <p className="truncate text-xs text-body-text">{inquiry.subject}</p>
+                    <p className="mt-0.5 text-xs text-body-muted">{formatDate(inquiry.createdAt)}</p>
+                  </div>
+                  <StatusPill status={inquiry.status} />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="py-6 text-sm text-body-muted">Belum ada inquiry</p>
+          )}
+        </section>
+
+        {/* Recent products */}
+        <section className="admin-panel p-6">
+          <div className="mb-5 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <Package className="h-4 w-4 text-gold" />
+              <h2 className="font-display text-base font-bold tracking-[-0.01em] text-white">
+                Produk Terbaru
+              </h2>
+            </div>
+            <Link href="/admin/products" className="rail text-body-muted transition-colors hover:text-gold">
+              Semua
+            </Link>
+          </div>
+
+          {stats.recentProducts.length > 0 ? (
+            <ul className="border-b border-hairline">
+              {stats.recentProducts.map((product, i) => (
+                <li key={product.id} className="admin-row flex items-start gap-3 py-3">
+                  <span className="rail w-6 flex-shrink-0 pt-0.5 text-body-muted">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium text-white">{product.name}</p>
+                    <p className="truncate text-xs text-body-text">{product.category?.name}</p>
+                    <p className="mt-0.5 text-xs text-body-muted">{formatDate(product.createdAt)}</p>
+                  </div>
+                  <span className="flex-shrink-0 font-mono text-sm text-gold">
+                    {formatCurrency(product.price)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="py-6 text-sm text-body-muted">Belum ada produk</p>
+          )}
+        </section>
       </div>
     </div>
+  )
+}
+
+function SectionMarker({ index, title }: { index: string; title: string }) {
+  return (
+    <div className="mb-4 flex items-center gap-3">
+      <span className="rail text-gold">{index}</span>
+      <span className="h-px w-8 bg-gold/45" />
+      <h2 className="font-display text-base font-bold tracking-[-0.01em] text-white">{title}</h2>
+    </div>
+  )
+}
+
+function StatusPill({ status }: { status: string }) {
+  const normalized = status?.toUpperCase()
+  const tone =
+    normalized === 'PENDING'
+      ? 'border-gold/40 bg-gold/10 text-gold'
+      : normalized === 'REJECTED' || normalized === 'CLOSED'
+        ? 'border-red-500/35 bg-red-500/10 text-red-300'
+        : 'border-emerald-500/35 bg-emerald-500/10 text-emerald-300'
+
+  return (
+    <span className={`rail flex-shrink-0 whitespace-nowrap border px-2 py-1 ${tone}`}>
+      {status}
+    </span>
   )
 }

@@ -177,14 +177,14 @@ export const CertificationForm: React.FC<CertificationFormProps> = React.memo(({
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="category">Kategori</Label>
-          <select id="category" value={values.category} onChange={e => setField('category', e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+          <select id="category" value={values.category} onChange={e => setField('category', e.target.value)} className="w-full p-2 border border-hairline rounded-md">
             <option value="">Pilih kategori</option>
             {categories.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
         <div>
           <Label htmlFor="level">Level</Label>
-          <select id="level" value={values.level} onChange={e => setField('level', e.target.value)} className="w-full p-2 border border-gray-300 rounded-md">
+          <select id="level" value={values.level} onChange={e => setField('level', e.target.value)} className="w-full p-2 border border-hairline rounded-md">
             <option value="">Pilih level</option>
             {levels.map(l => <option key={l} value={l}>{l}</option>)}
           </select>
@@ -200,12 +200,12 @@ export const CertificationForm: React.FC<CertificationFormProps> = React.memo(({
               alt="Preview" 
             />
             {certPreview && !values.certificateImage && (
-              <span className="absolute bottom-0 left-0 right-0 bg-amber-500 text-[10px] text-white text-center py-0.5">Belum diupload</span>
+              <span className="absolute bottom-0 left-0 right-0 bg-gold text-[10px] text-navy text-center py-0.5">Belum diupload</span>
             )}
           </div>
         )}
         {!certPreview && !values.certificateImage && (
-          <p className="text-xs text-gray-500 mb-2">Belum ada file dipilih.</p>
+          <p className="text-xs text-body-muted mb-2">Belum ada file dipilih.</p>
         )}
         <div className="flex flex-wrap gap-2 mb-2">
           <Button type="button" variant="outline" size="sm" onClick={() => document.getElementById('cert-file-input')?.click()}>Pilih File</Button>
@@ -219,7 +219,7 @@ export const CertificationForm: React.FC<CertificationFormProps> = React.memo(({
         <input id="cert-file-input" type="file" accept="image/*" className="hidden" onChange={e => { const file = e.target.files?.[0]; if (file) handleFileChoose(file) }} />
         <Input id="certificateImage" value={values.certificateImage} onChange={e => setField('certificateImage', e.target.value)} placeholder="Atau tempel URL langsung" className="mt-2" />
         {values.certificateImage && (
-          <p className="text-[11px] text-green-600 mt-1 break-all">Path tersimpan: {values.certificateImage}</p>
+          <p className="text-[11px] text-emerald-300 mt-1 break-all">Path tersimpan: {values.certificateImage}</p>
         )}
       </div>
       <div>
@@ -228,14 +228,14 @@ export const CertificationForm: React.FC<CertificationFormProps> = React.memo(({
       </div>
       <div>
         <Label htmlFor="status">Status</Label>
-        <select id="status" value={values.status} onChange={e => setField('status', e.target.value as any)} className="w-full p-2 border border-gray-300 rounded-md">
+        <select id="status" value={values.status} onChange={e => setField('status', e.target.value as any)} className="w-full p-2 border border-hairline rounded-md">
           <option value="active">Aktif</option>
           <option value="expired">Kadaluarsa</option>
           <option value="pending">Menunggu</option>
         </select>
       </div>
       <div className="flex gap-2 pt-2">
-        <Button onClick={internalSubmit} disabled={submitting} className="flex-1 bg-blue-600 hover:bg-blue-700">{submitting ? 'Menyimpan...' : (submitLabel || (mode === 'create' ? 'Tambah Sertifikasi' : 'Simpan Perubahan'))}</Button>
+        <Button onClick={internalSubmit} disabled={submitting} className="flex-1 bg-gold hover:bg-gold-bright">{submitting ? 'Menyimpan...' : (submitLabel || (mode === 'create' ? 'Tambah Sertifikasi' : 'Simpan Perubahan'))}</Button>
         {onCancel && <Button type="button" variant="outline" onClick={onCancel}>Batal</Button>}
       </div>
     </div>

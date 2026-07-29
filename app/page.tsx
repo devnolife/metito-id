@@ -72,7 +72,7 @@ export default async function Home() {
 
       {/* ===== 01 · PROFIL — asymmetric split, stats as a readout ===== */}
       <section className="grain relative overflow-hidden bg-[var(--navy)] px-6 py-28 lg:px-8">
-        <div className="glow-aqua pointer-events-none absolute -right-40 top-0 h-[34rem] w-[34rem] rounded-full" />
+        <div className="glow-gold pointer-events-none absolute -right-40 top-0 h-[34rem] w-[34rem] rounded-full" />
 
         <div className="relative mx-auto max-w-7xl">
           <div className="grid gap-16 lg:grid-cols-12">
@@ -91,7 +91,7 @@ export default async function Home() {
                 <Reveal delay={1} className="mt-10">
                   <Link
                     href="/about"
-                    className="group inline-flex items-center gap-2 text-sm font-semibold text-[var(--aqua)]"
+                    className="group inline-flex items-center gap-2 text-sm font-semibold text-[var(--gold)]"
                   >
                     Tentang perusahaan
                     <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -108,7 +108,7 @@ export default async function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[var(--navy)] via-navy/35 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between p-6">
                     <div>
-                      <div className="rail text-[var(--aqua)]">{COMPANY.shortName}</div>
+                      <div className="rail text-[var(--gold)]">{COMPANY.shortName}</div>
                       <div className="font-display mt-1.5 text-xl font-bold text-white">
                         {COMPANY.abbreviationOf}
                       </div>
@@ -126,11 +126,11 @@ export default async function Home() {
                 {ADVANTAGES.map((advantage, i) => (
                   <Reveal key={advantage.title} delay={i % 3}>
                     <div className="index-row group flex gap-6 py-6 pr-4 hover:pl-3">
-                      <span className="font-mono pt-1 text-xs text-aqua/70">
+                      <span className="font-mono pt-1 text-xs text-gold/70">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <div>
-                        <h3 className="font-display text-lg font-bold leading-tight text-white transition-colors group-hover:text-[var(--aqua)]">
+                        <h3 className="font-display text-lg font-bold leading-tight text-white transition-colors group-hover:text-[var(--gold)]">
                           {advantage.title}
                         </h3>
                         <p className="mt-1.5 text-sm leading-relaxed text-[var(--body-muted)]">
@@ -151,7 +151,7 @@ export default async function Home() {
                       <div className="h-full bg-[var(--navy)] p-6 transition-colors duration-300 hover:bg-[var(--surface)]">
                         <CountUp
                           value={stat.title}
-                          className="font-display block text-3xl font-extrabold tracking-tight text-[var(--aqua)]"
+                          className="font-display block text-3xl font-extrabold tracking-tight text-[var(--gold)]"
                         />
                         <div className="rail mt-2.5 leading-relaxed text-[var(--body-muted)]">
                           {stat.subtitle}
@@ -194,9 +194,9 @@ export default async function Home() {
                 {MISSION.map((item, i) => (
                   <li
                     key={item}
-                    className="group flex items-baseline gap-6 border-t border-[var(--hairline)] py-5 transition-colors last:border-b hover:bg-[var(--aqua)]/[0.03]"
+                    className="group flex items-baseline gap-6 border-t border-[var(--hairline)] py-5 transition-colors last:border-b hover:bg-[var(--gold)]/[0.03]"
                   >
-                    <span className="font-mono text-xs text-aqua/70">
+                    <span className="font-mono text-xs text-gold/70">
                       M{String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="text-base leading-relaxed text-[var(--body-text)] transition-colors group-hover:text-white">
@@ -218,7 +218,7 @@ export default async function Home() {
                   <Reveal key={value.title} delay={i % 4}>
                     <div className="group h-full bg-[var(--navy-deep)] p-7 transition-colors duration-300 hover:bg-[var(--surface)]">
                       {Icon && (
-                        <Icon className="h-5 w-5 text-[var(--aqua)] transition-transform duration-300 group-hover:scale-110" />
+                        <Icon className="h-5 w-5 text-[var(--gold)] transition-transform duration-300 group-hover:scale-110" />
                       )}
                       <h4 className="font-display mt-5 text-lg font-bold text-white">
                         {value.title}
@@ -253,16 +253,16 @@ export default async function Home() {
               return (
                 <Reveal key={service.id} delay={i % 3}>
                   <div className="index-row group grid grid-cols-12 items-start gap-5 py-8 hover:pl-4 md:gap-8">
-                    <span className="font-mono col-span-2 pt-1.5 text-xs text-aqua/70 md:col-span-1">
+                    <span className="font-mono col-span-2 pt-1.5 text-xs text-gold/70 md:col-span-1">
                       {String(i + 1).padStart(2, "0")}
                     </span>
 
                     <div className="col-span-10 md:col-span-4">
                       <div className="flex items-center gap-3">
                         {Icon && (
-                          <Icon className="h-5 w-5 shrink-0 text-[var(--aqua)] transition-transform duration-300 group-hover:scale-110" />
+                          <Icon className="h-5 w-5 shrink-0 text-[var(--gold)] transition-transform duration-300 group-hover:scale-110" />
                         )}
-                        <h3 className="font-display text-xl font-bold leading-tight tracking-tight text-white transition-colors group-hover:text-[var(--aqua)] md:text-2xl">
+                        <h3 className="font-display text-xl font-bold leading-tight tracking-tight text-white transition-colors group-hover:text-[var(--gold)] md:text-2xl">
                           {service.title}
                         </h3>
                       </div>
@@ -273,7 +273,7 @@ export default async function Home() {
                     </p>
 
                     <div className="col-span-12 md:col-span-1 md:justify-self-end">
-                      <ArrowUpRight className="h-5 w-5 text-[var(--body-muted)] opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[var(--aqua)] group-hover:opacity-100" />
+                      <ArrowUpRight className="h-5 w-5 text-[var(--body-muted)] opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[var(--gold)] group-hover:opacity-100" />
                     </div>
                   </div>
                 </Reveal>
@@ -287,7 +287,7 @@ export default async function Home() {
       {/* ===== 04 · KATALOG — bento grid, uneven by design ===== */}
       <section className="relative overflow-hidden border-t border-[var(--hairline)] bg-[var(--navy-deep)] px-6 py-28 lg:px-8">
         <div className="blueprint-fine absolute inset-0 opacity-40" />
-        <div className="glow-aqua pointer-events-none absolute right-0 top-1/3 h-[32rem] w-[32rem] rounded-full" />
+        <div className="glow-gold pointer-events-none absolute right-0 top-1/3 h-[32rem] w-[32rem] rounded-full" />
 
         <div className="relative mx-auto max-w-7xl">
           <Reveal>
@@ -346,7 +346,7 @@ export default async function Home() {
                             </span>
                           ))}
                           {group.items.length > (isWide ? 8 : 4) && (
-                            <span className="font-mono text-[11px] text-[var(--aqua)]">
+                            <span className="font-mono text-[11px] text-[var(--gold)]">
                               +{group.items.length - (isWide ? 8 : 4)}
                             </span>
                           )}
@@ -387,10 +387,10 @@ export default async function Home() {
               return (
                 <div
                   key={`${industry.slug}-${i}`}
-                  className="group w-[19rem] shrink-0 rounded-sm border border-[var(--hairline)] bg-surface/55 p-6 transition-colors duration-300 hover:border-aqua/45"
+                  className="group w-[19rem] shrink-0 rounded-sm border border-[var(--hairline)] bg-surface/55 p-6 transition-colors duration-300 hover:border-gold/45"
                 >
                   <div className="flex items-center gap-3">
-                    {Icon && <Icon className="h-5 w-5 text-[var(--aqua)]" />}
+                    {Icon && <Icon className="h-5 w-5 text-[var(--gold)]" />}
                     <h3 className="font-display text-lg font-bold text-white">{industry.title}</h3>
                   </div>
                   <p className="mt-3 text-sm leading-relaxed text-[var(--body-muted)]">
@@ -414,8 +414,8 @@ export default async function Home() {
           <div className="absolute inset-0 flex items-center justify-center px-6">
             <p className="font-display max-w-3xl text-balance text-center text-[clamp(1.375rem,3vw,2.5rem)] font-extrabold leading-[1.12] tracking-[-0.035em] text-white">
               Setiap sistem dirancang untuk{" "}
-              <span className="text-[var(--aqua)]">baku mutu</span> dan{" "}
-              <span className="text-[var(--aqua)]">uptime</span> yang harus Anda penuhi.
+              <span className="text-[var(--gold)]">baku mutu</span> dan{" "}
+              <span className="text-[var(--gold)]">uptime</span> yang harus Anda penuhi.
             </p>
           </div>
         </div>
@@ -424,13 +424,13 @@ export default async function Home() {
       {/* ===== 06 · KONTAK — full-bleed close ===== */}
       <section className="grain relative overflow-hidden border-t border-[var(--hairline)] bg-[var(--navy-deep)] px-6 py-32 lg:px-8">
         <div className="blueprint absolute inset-0 opacity-60" />
-        <div className="glow-aqua pointer-events-none absolute left-1/2 top-1/2 h-[42rem] w-[42rem] -translate-x-1/2 -translate-y-1/2 rounded-full" />
+        <div className="glow-gold pointer-events-none absolute left-1/2 top-1/2 h-[42rem] w-[42rem] -translate-x-1/2 -translate-y-1/2 rounded-full" />
 
         <div className="relative mx-auto max-w-5xl">
           <Reveal>
             <div className="flex items-center gap-3">
-              <span className="rail text-[var(--aqua)]">06</span>
-              <span className="h-px w-8 bg-aqua/45" />
+              <span className="rail text-[var(--gold)]">06</span>
+              <span className="h-px w-8 bg-gold/45" />
               <span className="rail text-[var(--body-muted)]">Kontak</span>
             </div>
 
@@ -446,7 +446,7 @@ export default async function Home() {
             <div className="mt-11 flex flex-wrap items-center gap-3">
               <Link
                 href="/contact"
-                className="group inline-flex items-center gap-2.5 rounded-sm bg-[var(--aqua)] px-8 py-4 text-sm font-bold tracking-tight text-[var(--navy)] transition-all duration-300 hover:bg-[var(--aqua-bright)] hover:shadow-[0_0_36px_-6px_rgba(79,209,232,0.65)]"
+                className="group inline-flex items-center gap-2.5 rounded-sm bg-[var(--gold)] px-8 py-4 text-sm font-bold tracking-tight text-[var(--navy)] transition-all duration-300 hover:bg-[var(--gold-bright)] hover:shadow-[0_0_36px_-6px_rgba(225,196,120,0.65)]"
               >
                 Konsultasi Gratis
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -455,7 +455,7 @@ export default async function Home() {
                 href={COMPANY_PROFILE_PDF}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 rounded-sm border border-[var(--hairline)] px-8 py-4 text-sm font-semibold text-white transition-all duration-300 hover:border-aqua/55 hover:bg-aqua/10"
+                className="inline-flex items-center gap-2.5 rounded-sm border border-[var(--hairline)] px-8 py-4 text-sm font-semibold text-white transition-all duration-300 hover:border-gold/55 hover:bg-gold/10"
               >
                 Unduh Company Profile
               </a>

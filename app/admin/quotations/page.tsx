@@ -39,11 +39,11 @@ const STATUS_FILTERS: Array<{ value: string; label: string }> = [
 ]
 
 const STATUS_STYLE: Record<DisplayStatus, string> = {
-  DRAFT: 'bg-slate-500/15 text-slate-300 border-slate-500/30',
-  SENT: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
+  DRAFT: 'bg-surface-2 text-body-text border-hairline',
+  SENT: 'bg-gold/15 text-gold border-gold/35',
   WON: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-  LOST: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
-  EXPIRED: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+  LOST: 'bg-red-500/15 text-red-300 border-red-500/30',
+  EXPIRED: 'bg-body-muted/15 text-body-muted border-body-muted/30',
 }
 
 function formatDate(value: string | null) {
@@ -124,8 +124,8 @@ export default function QuotationListPage() {
     <div className="p-6">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Surat Penawaran</h1>
-          <p className="text-sm text-gray-600">
+          <h1 className="text-2xl font-bold text-white">Surat Penawaran</h1>
+          <p className="text-sm text-body-text">
             Menggantikan Log Penomoran. Nomor diberikan otomatis saat penawaran diterbitkan.
           </p>
         </div>
@@ -156,7 +156,7 @@ export default function QuotationListPage() {
 
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <div className="relative min-w-[240px] flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-body-muted" />
           <Input
             value={search}
             onChange={(event) => setSearch(event.target.value)}
@@ -179,21 +179,21 @@ export default function QuotationListPage() {
       </div>
 
       {!loading && rows.length > 0 && (
-        <p className="mb-3 text-sm text-gray-600">
+        <p className="mb-3 text-sm text-body-text">
           {rows.length} penawaran &middot; nilai terbit {formatRupiah(String(totalValue))}
         </p>
       )}
 
       {loading && (
-        <div className="flex items-center justify-center py-16 text-gray-500">
+        <div className="flex items-center justify-center py-16 text-body-muted">
           <Loader2 className="mr-2 h-5 w-5 animate-spin" />
           Memuat penawaran...
         </div>
       )}
 
       {error && !loading && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-center">
-          <p className="text-red-700">{error}</p>
+        <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-6 text-center">
+          <p className="text-red-300">{error}</p>
           <Button onClick={() => void load()} className="mt-3" size="sm">
             Coba lagi
           </Button>
@@ -201,19 +201,19 @@ export default function QuotationListPage() {
       )}
 
       {!loading && !error && rows.length === 0 && (
-        <div className="rounded-lg border border-dashed border-gray-300 bg-white p-12 text-center">
-          <FileText className="mx-auto mb-3 h-10 w-10 text-gray-300" />
-          <h2 className="text-lg font-semibold text-gray-900">Belum ada penawaran</h2>
-          <p className="mt-1 text-sm text-gray-600">
+        <div className="rounded-lg border border-dashed border-hairline bg-surface p-12 text-center">
+          <FileText className="mx-auto mb-3 h-10 w-10 text-body-muted" />
+          <h2 className="text-lg font-semibold text-white">Belum ada penawaran</h2>
+          <p className="mt-1 text-sm text-body-text">
             Buat penawaran pertama; nomornya akan terbentuk otomatis saat diterbitkan.
           </p>
         </div>
       )}
 
       {!loading && !error && rows.length > 0 && (
-        <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
+        <div className="overflow-x-auto rounded-lg border border-hairline bg-surface">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-left text-gray-600">
+            <thead className="bg-navy-deep text-left text-body-text">
               <tr>
                 <th className="px-4 py-3 font-medium">Nomor</th>
                 <th className="px-4 py-3 font-medium">Tanggal</th>
@@ -224,29 +224,29 @@ export default function QuotationListPage() {
                 <th className="px-4 py-3 font-medium">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-hairline">
               {rows.map((row) => (
-                <tr key={row.id} className="hover:bg-gray-50">
+                <tr key={row.id} className="hover:bg-surface-2">
                   <td className="px-4 py-3">
                     <Link
                       href={`/admin/quotations/${row.id}`}
-                      className="font-medium text-blue-700 hover:underline"
+                      className="font-medium text-gold hover:underline"
                     >
                       {row.numberBase
                         ? `${row.numberBase}${row.revision > 0 ? ` Rev.${row.revision}` : ''}`
                         : 'Draft'}
                     </Link>
-                    <div className="text-xs text-gray-500">{row._count.items} item</div>
+                    <div className="text-xs text-body-muted">{row._count.items} item</div>
                   </td>
-                  <td className="px-4 py-3 text-gray-700">
+                  <td className="px-4 py-3 text-body-text">
                     {formatDate(row.issuedAt ?? row.quoteDate)}
                   </td>
-                  <td className="px-4 py-3 text-gray-900">{row.customerName}</td>
-                  <td className="max-w-[240px] truncate px-4 py-3 text-gray-700">{row.subject}</td>
-                  <td className="px-4 py-3 text-right font-medium text-gray-900">
+                  <td className="px-4 py-3 text-white">{row.customerName}</td>
+                  <td className="max-w-[240px] truncate px-4 py-3 text-body-text">{row.subject}</td>
+                  <td className="px-4 py-3 text-right font-medium text-white">
                     {formatRupiah(row.total)}
                   </td>
-                  <td className="px-4 py-3 text-gray-700">{row.createdBy?.name ?? '-'}</td>
+                  <td className="px-4 py-3 text-body-text">{row.createdBy?.name ?? '-'}</td>
                   <td className="px-4 py-3">
                     <Badge variant="outline" className={STATUS_STYLE[row.displayStatus]}>
                       {STATUS_LABEL[row.displayStatus]}
@@ -264,10 +264,10 @@ export default function QuotationListPage() {
 
 function StatCard({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4">
-      <div className="text-xs font-medium uppercase tracking-wide text-gray-500">{label}</div>
-      <div className="mt-1 text-xl font-bold text-gray-900">{value}</div>
-      {hint && <div className="mt-0.5 text-xs text-gray-500">{hint}</div>}
+    <div className="rounded-lg border border-hairline bg-surface p-4">
+      <div className="text-xs font-medium uppercase tracking-wide text-body-muted">{label}</div>
+      <div className="mt-1 text-xl font-bold text-white">{value}</div>
+      {hint && <div className="mt-0.5 text-xs text-body-muted">{hint}</div>}
     </div>
   )
 }

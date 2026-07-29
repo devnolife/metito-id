@@ -51,7 +51,7 @@ export default function ProductDetailPage() {
         <Card>
           <CardContent className="p-8 space-y-4">
             <h1 className="text-xl font-semibold">Produk tidak ditemukan</h1>
-            <p className="text-gray-600">{error || 'Data produk tidak tersedia.'}</p>
+            <p className="text-body-text">{error || 'Data produk tidak tersedia.'}</p>
             <Button asChild>
               <Link href="/admin/products">Kembali ke daftar</Link>
             </Button>
@@ -93,7 +93,7 @@ export default function ProductDetailPage() {
           </Button>
           <div>
             <h1 className="text-2xl font-bold">{product.name}</h1>
-            <p className="text-sm text-gray-500">ID: {product.id}</p>
+            <p className="text-sm text-body-muted">ID: {product.id}</p>
           </div>
         </div>
         <Button asChild>
@@ -128,7 +128,7 @@ export default function ProductDetailPage() {
                     {product.images.filter(url => url && url.trim() !== '').map((imageUrl, index) => (
                       <div
                         key={index}
-                        className="relative aspect-square border-2 border-gray-200 rounded-lg overflow-hidden bg-gray-50 group cursor-pointer hover:border-blue-500 transition-all duration-200 hover:shadow-lg"
+                        className="relative aspect-square border-2 border-hairline rounded-lg overflow-hidden bg-navy-deep group cursor-pointer hover:border-gold/60 transition-all duration-200 hover:shadow-lg"
                         onClick={() => setSelectedImage({ url: imageUrl, index })}
                       >
                         <Image
@@ -145,7 +145,7 @@ export default function ProductDetailPage() {
 
                         {/* Primary badge */}
                         {index === 0 && (
-                          <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded font-semibold shadow-md">
+                          <div className="absolute top-2 left-2 bg-gold text-navy text-xs px-2 py-1 rounded font-semibold shadow-md">
                             Gambar Utama
                           </div>
                         )}
@@ -162,19 +162,19 @@ export default function ProductDetailPage() {
                   </div>
 
                   {/* Image count info */}
-                  <div className="flex items-center gap-2 text-sm text-gray-600 bg-blue-50 p-3 rounded-lg">
-                    <ImageIcon className="w-4 h-4 text-blue-600" />
+                  <div className="flex items-center gap-2 text-sm text-gold bg-gold/10 p-3 rounded-lg">
+                    <ImageIcon className="w-4 h-4 text-gold" />
                     <span>
-                      <strong className="text-blue-600">{product.images.filter(url => url && url.trim() !== '').length}</strong> gambar tersedia.
+                      <strong className="text-gold">{product.images.filter(url => url && url.trim() !== '').length}</strong> gambar tersedia.
                       Klik pada gambar untuk melihat lebih detail.
                     </span>
                   </div>
                 </div>
               ) : (
-                <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-                  <ImageIcon className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                  <p className="text-gray-600 font-medium">Tidak ada gambar</p>
-                  <p className="text-sm text-gray-500 mt-1">Produk ini belum memiliki gambar</p>
+                <div className="text-center py-12 bg-navy-deep rounded-lg border-2 border-dashed border-hairline">
+                  <ImageIcon className="w-12 h-12 text-body-muted mx-auto mb-3" />
+                  <p className="text-body-text font-medium">Tidak ada gambar</p>
+                  <p className="text-sm text-body-muted mt-1">Produk ini belum memiliki gambar</p>
                 </div>
               )}
             </CardContent>
@@ -189,12 +189,12 @@ export default function ProductDetailPage() {
                     {product.name} - Gambar #{selectedImage ? selectedImage.index + 1 : ''}
                   </span>
                   {selectedImage && selectedImage.index === 0 && (
-                    <Badge className="bg-blue-600">Gambar Utama</Badge>
+                    <Badge className="bg-gold">Gambar Utama</Badge>
                   )}
                 </DialogTitle>
               </DialogHeader>
               {selectedImage && (
-                <div className="relative w-full aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                <div className="relative w-full aspect-video bg-surface-2 rounded-lg overflow-hidden">
                   <Image
                     src={selectedImage.url}
                     alt={`${product.name} - Gambar ${selectedImage.index + 1}`}
@@ -204,7 +204,7 @@ export default function ProductDetailPage() {
                 </div>
               )}
               {selectedImage && product.images && (
-                <div className="flex items-center justify-between text-sm text-gray-600">
+                <div className="flex items-center justify-between text-sm text-body-text">
                   <span>Gambar {selectedImage.index + 1} dari {product.images.filter(url => url && url.trim() !== '').length}</span>
                   <div className="flex gap-2">
                     <Button
@@ -249,14 +249,14 @@ export default function ProductDetailPage() {
             <CardContent className="space-y-4">
               {product.shortDesc && (
                 <div>
-                  <h3 className="font-semibold text-sm text-gray-500 mb-1">Deskripsi Singkat</h3>
-                  <p className="text-gray-900">{product.shortDesc}</p>
+                  <h3 className="font-semibold text-sm text-body-muted mb-1">Deskripsi Singkat</h3>
+                  <p className="text-white">{product.shortDesc}</p>
                 </div>
               )}
               {product.description && (
                 <div>
-                  <h3 className="font-semibold text-sm text-gray-500 mb-1">Deskripsi Lengkap</h3>
-                  <p className="text-gray-700 whitespace-pre-wrap">{product.description}</p>
+                  <h3 className="font-semibold text-sm text-body-muted mb-1">Deskripsi Lengkap</h3>
+                  <p className="text-body-text whitespace-pre-wrap">{product.description}</p>
                 </div>
               )}
             </CardContent>
@@ -272,7 +272,7 @@ export default function ProductDetailPage() {
                 <ul className="space-y-2">
                   {product.features.map((feature, index) => (
                     <li key={index} className="flex items-start gap-2">
-                      <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                      <CheckCircle className="w-5 h-5 text-emerald-300 flex-shrink-0 mt-0.5" />
                       <span>{feature}</span>
                     </li>
                   ))}
@@ -291,8 +291,8 @@ export default function ProductDetailPage() {
                 <div className="space-y-2">
                   {Object.entries(product.specs).map(([key, value], index) => (
                     <div key={index} className="flex justify-between py-2 border-b last:border-b-0">
-                      <span className="font-medium text-gray-700">{key}</span>
-                      <span className="text-gray-900">{String(value)}</span>
+                      <span className="font-medium text-body-text">{key}</span>
+                      <span className="text-white">{String(value)}</span>
                     </div>
                   ))}
                 </div>
@@ -312,7 +312,7 @@ export default function ProductDetailPage() {
               {/* Status Badges */}
               <div className="flex flex-wrap gap-2">
                 {product.inStock ? (
-                  <Badge className="bg-green-500">
+                  <Badge className="bg-emerald-500">
                     <CheckCircle className="w-3 h-3 mr-1" />
                     Tersedia
                   </Badge>
@@ -323,17 +323,17 @@ export default function ProductDetailPage() {
                   </Badge>
                 )}
                 {product.isFeatured && (
-                  <Badge className="bg-amber-500">
+                  <Badge className="bg-gold">
                     <Star className="w-3 h-3 mr-1" />
                     Unggulan
                   </Badge>
                 )}
                 {product.isActive ? (
-                  <Badge variant="outline" className="text-green-600 border-green-600">
+                  <Badge variant="outline" className="text-emerald-300 border-emerald-500/40">
                     Aktif
                   </Badge>
                 ) : (
-                  <Badge variant="outline" className="text-gray-600 border-gray-600">
+                  <Badge variant="outline" className="text-body-text border-hairline">
                     Non-Aktif
                   </Badge>
                 )}
@@ -344,8 +344,8 @@ export default function ProductDetailPage() {
               {/* Price */}
               {product.price && (
                 <div>
-                  <div className="text-sm text-gray-500 mb-1">Harga</div>
-                  <div className="text-2xl font-bold text-blue-600">{formatCurrency(product.price)}</div>
+                  <div className="text-sm text-body-muted mb-1">Harga</div>
+                  <div className="text-2xl font-bold text-gold">{formatCurrency(product.price)}</div>
                 </div>
               )}
 
@@ -354,9 +354,9 @@ export default function ProductDetailPage() {
               {/* Category */}
               {product.category && (
                 <div className="flex items-center gap-2">
-                  <Tag className="w-4 h-4 text-gray-500" />
+                  <Tag className="w-4 h-4 text-body-muted" />
                   <div>
-                    <div className="text-xs text-gray-500">Kategori</div>
+                    <div className="text-xs text-body-muted">Kategori</div>
                     <div className="font-medium">{product.category.name}</div>
                   </div>
                 </div>
@@ -365,9 +365,9 @@ export default function ProductDetailPage() {
               {/* Application */}
               {product.application && (
                 <div className="flex items-center gap-2">
-                  <Package className="w-4 h-4 text-gray-500" />
+                  <Package className="w-4 h-4 text-body-muted" />
                   <div>
-                    <div className="text-xs text-gray-500">Aplikasi</div>
+                    <div className="text-xs text-body-muted">Aplikasi</div>
                     <div className="font-medium">{product.application}</div>
                   </div>
                 </div>
@@ -376,9 +376,9 @@ export default function ProductDetailPage() {
               {/* Location */}
               {product.location && (
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-gray-500" />
+                  <MapPin className="w-4 h-4 text-body-muted" />
                   <div>
-                    <div className="text-xs text-gray-500">Lokasi</div>
+                    <div className="text-xs text-body-muted">Lokasi</div>
                     <div className="font-medium">{product.location}</div>
                   </div>
                 </div>
@@ -395,13 +395,13 @@ export default function ProductDetailPage() {
               <CardContent className="space-y-3">
                 {product.capacity && (
                   <div>
-                    <div className="text-xs text-gray-500 mb-1">Kapasitas</div>
+                    <div className="text-xs text-body-muted mb-1">Kapasitas</div>
                     <div className="font-medium">{product.capacity}</div>
                   </div>
                 )}
                 {product.efficiency && (
                   <div>
-                    <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+                    <div className="text-xs text-body-muted mb-1 flex items-center gap-1">
                       <Zap className="w-3 h-3" />
                       Efisiensi
                     </div>
@@ -410,13 +410,13 @@ export default function ProductDetailPage() {
                 )}
                 {product.warranty && (
                   <div>
-                    <div className="text-xs text-gray-500 mb-1">Garansi</div>
+                    <div className="text-xs text-body-muted mb-1">Garansi</div>
                     <div className="font-medium">{product.warranty}</div>
                   </div>
                 )}
                 {product.delivery && (
                   <div>
-                    <div className="text-xs text-gray-500 mb-1">Waktu Pengiriman</div>
+                    <div className="text-xs text-body-muted mb-1">Waktu Pengiriman</div>
                     <div className="font-medium">{product.delivery}</div>
                   </div>
                 )}
@@ -431,22 +431,22 @@ export default function ProductDetailPage() {
             </CardHeader>
             <CardContent className="space-y-3 text-sm">
               <div>
-                <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+                <div className="text-xs text-body-muted mb-1 flex items-center gap-1">
                   <Calendar className="w-3 h-3" />
                   Dibuat
                 </div>
                 <div className="font-medium">{formatDate(product.createdAt)}</div>
               </div>
               <div>
-                <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+                <div className="text-xs text-body-muted mb-1 flex items-center gap-1">
                   <Calendar className="w-3 h-3" />
                   Terakhir Diubah
                 </div>
                 <div className="font-medium">{formatDate(product.updatedAt)}</div>
               </div>
               <div>
-                <div className="text-xs text-gray-500 mb-1">Slug</div>
-                <code className="text-xs bg-gray-100 px-2 py-1 rounded">{product.slug}</code>
+                <div className="text-xs text-body-muted mb-1">Slug</div>
+                <code className="text-xs bg-surface-2 px-2 py-1 rounded">{product.slug}</code>
               </div>
             </CardContent>
           </Card>
@@ -460,14 +460,14 @@ export default function ProductDetailPage() {
               <CardContent className="space-y-3 text-sm">
                 {product.metaTitle && (
                   <div>
-                    <div className="text-xs text-gray-500 mb-1">Meta Title</div>
+                    <div className="text-xs text-body-muted mb-1">Meta Title</div>
                     <div className="font-medium">{product.metaTitle}</div>
                   </div>
                 )}
                 {product.metaDescription && (
                   <div>
-                    <div className="text-xs text-gray-500 mb-1">Meta Description</div>
-                    <div className="text-gray-700">{product.metaDescription}</div>
+                    <div className="text-xs text-body-muted mb-1">Meta Description</div>
+                    <div className="text-body-text">{product.metaDescription}</div>
                   </div>
                 )}
               </CardContent>

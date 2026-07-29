@@ -40,14 +40,14 @@ interface Pagination {
 
 // Icon configuration with different colors
 const iconConfigs = [
-  { icon: Droplets, color: "bg-blue-100 text-blue-600", name: "droplets" },
-  { icon: Wrench, color: "bg-orange-100 text-orange-600", name: "wrench" },
-  { icon: Zap, color: "bg-yellow-100 text-yellow-600", name: "zap" },
-  { icon: Shield, color: "bg-green-100 text-green-600", name: "shield" },
-  { icon: Target, color: "bg-purple-100 text-purple-600", name: "target" },
-  { icon: Users, color: "bg-pink-100 text-pink-600", name: "users" },
-  { icon: Globe, color: "bg-indigo-100 text-indigo-600", name: "globe" },
-  { icon: Cog, color: "bg-gray-100 text-gray-600", name: "cog" },
+  { icon: Droplets, color: "bg-gold/10 text-gold", name: "droplets" },
+  { icon: Wrench, color: "bg-gold/10 text-gold", name: "wrench" },
+  { icon: Zap, color: "bg-gold/10 text-gold", name: "zap" },
+  { icon: Shield, color: "bg-emerald-500/10 text-emerald-300", name: "shield" },
+  { icon: Target, color: "bg-gold/10 text-gold", name: "target" },
+  { icon: Users, color: "bg-gold/10 text-gold", name: "users" },
+  { icon: Globe, color: "bg-gold/10 text-gold", name: "globe" },
+  { icon: Cog, color: "bg-surface-2 text-body-text", name: "cog" },
 ]
 
 const getRandomIconConfig = () => {
@@ -266,12 +266,12 @@ export default function AdminServicesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Manajemen Layanan</h1>
-          <p className="text-gray-600">Kelola layanan dan solusi teknik air</p>
+          <h1 className="font-display text-2xl font-bold tracking-[-0.02em] text-white">Manajemen Layanan</h1>
+          <p className="text-body-text">Kelola layanan dan solusi teknik air</p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+            <Button className="flex items-center gap-2 bg-gold hover:bg-gold-bright">
               <Plus className="w-4 h-4" />
               Tambah Layanan
             </Button>
@@ -353,22 +353,22 @@ export default function AdminServicesPage() {
       </div>
 
       {/* Filters */}
-      <Card className="border-0 shadow-sm bg-gradient-to-r from-gray-50 to-gray-100">
+      <Card className="border-0 shadow-sm bg-surface-2">
         <CardContent className="p-4">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-body-muted w-4 h-4" />
                 <Input
                   placeholder="Cari layanan..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 bg-white border-gray-200 focus:border-blue-500"
+                  className="pl-10 bg-surface border-hairline focus:border-gold/60"
                 />
               </div>
             </div>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full md:w-40 bg-white border-gray-200">
+              <SelectTrigger className="w-full md:w-40 bg-surface border-hairline">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
@@ -378,7 +378,7 @@ export default function AdminServicesPage() {
               </SelectContent>
             </Select>
             <Select value={featuredFilter} onValueChange={setFeaturedFilter}>
-              <SelectTrigger className="w-full md:w-40 bg-white border-gray-200">
+              <SelectTrigger className="w-full md:w-40 bg-surface border-hairline">
                 <SelectValue placeholder="Featured" />
               </SelectTrigger>
               <SelectContent>
@@ -399,15 +399,15 @@ export default function AdminServicesPage() {
             <Card key={i} className="border-0 shadow-sm hover:shadow-md transition-shadow">
               <CardContent className="p-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gray-200 rounded-lg animate-pulse"></div>
+                  <div className="w-12 h-12 bg-surface-2 rounded-lg animate-pulse"></div>
                   <div className="flex-1 space-y-2">
-                    <div className="h-4 w-48 bg-gray-200 rounded animate-pulse"></div>
-                    <div className="h-3 w-64 bg-gray-200 rounded animate-pulse"></div>
-                    <div className="h-3 w-32 bg-gray-200 rounded animate-pulse"></div>
+                    <div className="h-4 w-48 bg-surface-2 rounded animate-pulse"></div>
+                    <div className="h-3 w-64 bg-surface-2 rounded animate-pulse"></div>
+                    <div className="h-3 w-32 bg-surface-2 rounded animate-pulse"></div>
                   </div>
                   <div className="flex gap-2">
-                    <div className="h-8 w-8 bg-gray-200 rounded animate-pulse"></div>
-                    <div className="h-8 w-8 bg-gray-200 rounded animate-pulse"></div>
+                    <div className="h-8 w-8 bg-surface-2 rounded animate-pulse"></div>
+                    <div className="h-8 w-8 bg-surface-2 rounded animate-pulse"></div>
                   </div>
                 </div>
               </CardContent>
@@ -421,9 +421,9 @@ export default function AdminServicesPage() {
                   {getServiceIcon(service, index)}
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900">{service.name}</h3>
+                      <h3 className="text-lg font-semibold text-white">{service.name}</h3>
                       {service.isFeatured && (
-                        <Badge variant="secondary" className="flex items-center gap-1 bg-gradient-to-r from-yellow-100 to-orange-100 text-yellow-800 border-yellow-200">
+                        <Badge variant="secondary" className="flex items-center gap-1 bg-gold/10 text-gold border-gold/30">
                           <Star className="w-3 h-3" />
                           Featured
                         </Badge>
@@ -431,23 +431,23 @@ export default function AdminServicesPage() {
                       <Badge
                         variant={service.isActive ? "default" : "secondary"}
                         className={service.isActive
-                          ? "bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border-green-200"
-                          : "bg-gradient-to-r from-gray-100 to-slate-100 text-gray-600 border-gray-200"
+                          ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/30"
+                          : "bg-surface-2 text-body-text border-hairline"
                         }
                       >
                         {service.isActive ? "Aktif" : "Tidak Aktif"}
                       </Badge>
                     </div>
-                    <p className="text-gray-600 text-sm mb-2 leading-relaxed">
+                    <p className="text-body-text text-sm mb-2 leading-relaxed">
                       {service.shortDesc || service.description.substring(0, 120)}...
                     </p>
-                    <div className="flex items-center gap-4 text-xs text-gray-500">
+                    <div className="flex items-center gap-4 text-xs text-body-muted">
                       <span className="flex items-center gap-1">
-                        <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+                        <span className="w-2 h-2 bg-gold rounded-full"></span>
                         Dibuat: {formatDate(service.createdAt)}
                       </span>
                       <span className="flex items-center gap-1">
-                        <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
+                        <span className="w-2 h-2 bg-gold rounded-full"></span>
                         Diupdate: {formatDate(service.updatedAt)}
                       </span>
                     </div>
@@ -457,7 +457,7 @@ export default function AdminServicesPage() {
                       variant="outline"
                       size="sm"
                       onClick={() => openEdit(service)}
-                      className="hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-colors"
+                      className="hover:bg-gold/15 hover:border-gold/60 hover:text-gold-bright transition-colors"
                     >
                       <Edit className="w-4 h-4" />
                     </Button>
@@ -465,7 +465,7 @@ export default function AdminServicesPage() {
                       variant="outline"
                       size="sm"
                       onClick={() => openDelete(service)}
-                      className="hover:bg-red-50 hover:border-red-300 hover:text-red-700 transition-colors"
+                      className="hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-200 transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
@@ -475,18 +475,18 @@ export default function AdminServicesPage() {
             </Card>
           ))
         ) : (
-          <Card className="border-0 shadow-sm bg-gradient-to-br from-gray-50 to-gray-100">
+          <Card className="border-0 shadow-sm bg-surface-2">
             <CardContent className="p-12 text-center">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center">
-                <Settings className="w-8 h-8 text-blue-600" />
+              <div className="w-16 h-16 mx-auto mb-4 bg-gold/10 rounded-full flex items-center justify-center">
+                <Settings className="w-8 h-8 text-gold" />
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Belum ada layanan</h3>
-              <p className="text-gray-600 mb-4 max-w-md mx-auto">
+              <h3 className="text-lg font-medium text-white mb-2">Belum ada layanan</h3>
+              <p className="text-body-text mb-4 max-w-md mx-auto">
                 Mulai dengan menambahkan layanan pertama Anda untuk memberikan solusi terbaik kepada pelanggan
               </p>
               <Button
                 onClick={() => setIsCreateDialogOpen(true)}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                className="bg-gold hover:bg-gold-bright"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Tambah Layanan
@@ -498,10 +498,10 @@ export default function AdminServicesPage() {
 
       {/* Pagination */}
       {pagination && pagination.totalPages > 1 && (
-        <Card className="border-0 shadow-sm bg-gradient-to-r from-gray-50 to-gray-100">
+        <Card className="border-0 shadow-sm bg-surface-2">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-body-text">
                 Menampilkan {((pagination.page - 1) * pagination.limit) + 1} - {Math.min(pagination.page * pagination.limit, pagination.totalCount)} dari {pagination.totalCount} layanan
               </div>
               <div className="flex gap-2">
@@ -510,7 +510,7 @@ export default function AdminServicesPage() {
                   size="sm"
                   disabled={!pagination.hasPrev}
                   onClick={() => setCurrentPage(pagination.page - 1)}
-                  className="hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-colors"
+                  className="hover:bg-gold/15 hover:border-gold/60 hover:text-gold-bright transition-colors"
                 >
                   Sebelumnya
                 </Button>
@@ -519,7 +519,7 @@ export default function AdminServicesPage() {
                   size="sm"
                   disabled={!pagination.hasNext}
                   onClick={() => setCurrentPage(pagination.page + 1)}
-                  className="hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-colors"
+                  className="hover:bg-gold/15 hover:border-gold/60 hover:text-gold-bright transition-colors"
                 >
                   Selanjutnya
                 </Button>
@@ -610,7 +610,7 @@ export default function AdminServicesPage() {
           <DialogHeader>
             <DialogTitle>Hapus Layanan</DialogTitle>
           </DialogHeader>
-          <p className="text-sm text-gray-600">Apakah Anda yakin ingin menghapus layanan <strong>{currentService?.name}</strong>? Tindakan ini tidak bisa dibatalkan.</p>
+          <p className="text-sm text-body-text">Apakah Anda yakin ingin menghapus layanan <strong>{currentService?.name}</strong>? Tindakan ini tidak bisa dibatalkan.</p>
           <DialogFooter className="flex gap-2 mt-4">
             <Button
               variant="outline"

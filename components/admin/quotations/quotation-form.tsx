@@ -238,8 +238,8 @@ export function QuotationForm({ defaults }: Props) {
   return (
     <div className="space-y-6">
       {/* Identitas dokumen */}
-      <section className="rounded-lg border border-gray-200 bg-white p-5">
-        <h2 className="mb-4 font-semibold text-gray-900">Identitas Penawaran</h2>
+      <section className="rounded-lg border border-hairline bg-surface p-5">
+        <h2 className="mb-4 font-semibold text-white">Identitas Penawaran</h2>
         <div className="grid gap-4 md:grid-cols-2">
           <Field label="Tanggal">
             <Input type="date" value={quoteDate} onChange={(e) => setQuoteDate(e.target.value)} />
@@ -265,9 +265,9 @@ export function QuotationForm({ defaults }: Props) {
       </section>
 
       {/* Item */}
-      <section className="rounded-lg border border-gray-200 bg-white p-5">
-        <h2 className="mb-1 font-semibold text-gray-900">Item Penawaran</h2>
-        <p className="mb-4 text-sm text-gray-600">
+      <section className="rounded-lg border border-hairline bg-surface p-5">
+        <h2 className="mb-1 font-semibold text-white">Item Penawaran</h2>
+        <p className="mb-4 text-sm text-body-text">
           Ketik kode material untuk melihat brand, type, dan harga terakhir dari penawaran
           sebelumnya. Baris baru muncul sendiri.
         </p>
@@ -276,10 +276,10 @@ export function QuotationForm({ defaults }: Props) {
           {rows.map((row, index) => (
             <div
               key={row.key}
-              className="relative grid grid-cols-1 gap-2 rounded-md border border-gray-200 p-3 md:grid-cols-12"
+              className="relative grid grid-cols-1 gap-2 rounded-md border border-hairline p-3 md:grid-cols-12"
             >
               <div className="md:col-span-1">
-                <span className="text-sm font-medium text-gray-500">{index + 1}</span>
+                <span className="text-sm font-medium text-body-muted">{index + 1}</span>
               </div>
 
               <div className="relative md:col-span-3">
@@ -298,19 +298,19 @@ export function QuotationForm({ defaults }: Props) {
                   onBlur={() => setTimeout(() => setActiveRow(null), 150)}
                 />
                 {activeRow === row.key && suggestions.length > 0 && (
-                  <ul className="absolute z-20 mt-1 max-h-56 w-full overflow-auto rounded-md border border-gray-200 bg-white shadow-lg">
+                  <ul className="absolute z-20 mt-1 max-h-56 w-full overflow-auto rounded-md border border-hairline bg-surface shadow-lg">
                     {suggestions.map((suggestion, i) => (
                       <li key={i}>
                         <button
                           type="button"
-                          className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50"
+                          className="w-full px-3 py-2 text-left text-sm hover:bg-surface-2"
                           onMouseDown={(event) => {
                             event.preventDefault()
                             applySuggestion(row.key, suggestion)
                           }}
                         >
                           <span className="font-medium">{suggestion.materialCode}</span>
-                          <span className="text-gray-500">
+                          <span className="text-body-muted">
                             {suggestion.brand ? ` · ${suggestion.brand}` : ''}
                             {` · ${formatRupiah(Number(suggestion.lastUnitPrice))}/${suggestion.unit}`}
                           </span>
@@ -364,12 +364,12 @@ export function QuotationForm({ defaults }: Props) {
                   onClick={() => removeRow(row.key)}
                   aria-label={`Hapus baris ${index + 1}`}
                 >
-                  <Trash2 className="h-4 w-4 text-gray-400" />
+                  <Trash2 className="h-4 w-4 text-body-muted" />
                 </Button>
               </div>
 
               {!isRowEmpty(row) && (
-                <div className="md:col-span-12 text-right text-sm text-gray-600">
+                <div className="md:col-span-12 text-right text-sm text-body-text">
                   Total baris: {formatRupiah(toNumber(row.qty) * toNumber(row.unitPrice))}
                 </div>
               )}
@@ -390,20 +390,20 @@ export function QuotationForm({ defaults }: Props) {
       </section>
 
       {/* Ringkasan */}
-      <section className="rounded-lg border border-gray-200 bg-white p-5">
-        <h2 className="mb-4 font-semibold text-gray-900">Ringkasan</h2>
+      <section className="rounded-lg border border-hairline bg-surface p-5">
+        <h2 className="mb-4 font-semibold text-white">Ringkasan</h2>
         <div className="space-y-2 text-sm">
           <SummaryRow label="Jumlah" value={formatRupiah(totals.subtotal)} />
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-gray-600">PPN</span>
+              <span className="text-body-text">PPN</span>
               <Input
                 value={vatRate}
                 onChange={(e) => setVatRate(e.target.value)}
                 className="h-8 w-24"
                 inputMode="decimal"
               />
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-body-muted">
                 ({(toNumber(vatRate) * 100).toFixed(0)}%)
               </span>
             </div>
@@ -413,18 +413,18 @@ export function QuotationForm({ defaults }: Props) {
         </div>
 
         {/* Terbilang selalu diturunkan dari total; tidak dapat diketik manual. */}
-        <div className="mt-4 rounded-md bg-gray-50 p-3">
-          <div className="text-xs font-medium uppercase tracking-wide text-gray-500">Terbilang</div>
-          <div className="mt-1 text-sm italic text-gray-800">
+        <div className="mt-4 rounded-md bg-navy-deep p-3">
+          <div className="text-xs font-medium uppercase tracking-wide text-body-muted">Terbilang</div>
+          <div className="mt-1 text-sm italic text-white">
             {terbilangRupiah(Math.round(totals.total))}
           </div>
         </div>
       </section>
 
       {/* Syarat & ketentuan */}
-      <section className="rounded-lg border border-gray-200 bg-white p-5">
-        <h2 className="mb-1 font-semibold text-gray-900">Syarat &amp; Ketentuan</h2>
-        <p className="mb-4 text-sm text-gray-600">Terisi dari penawaran terakhir Anda.</p>
+      <section className="rounded-lg border border-hairline bg-surface p-5">
+        <h2 className="mb-1 font-semibold text-white">Syarat &amp; Ketentuan</h2>
+        <p className="mb-4 text-sm text-body-text">Terisi dari penawaran terakhir Anda.</p>
         <div className="grid gap-4 md:grid-cols-2">
           <Field label="Franco">
             <Input value={franco} onChange={(e) => setFranco(e.target.value)} />
@@ -471,7 +471,7 @@ export function QuotationForm({ defaults }: Props) {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-sm font-medium text-gray-700">{label}</span>
+      <span className="mb-1 block text-sm font-medium text-body-text">{label}</span>
       {children}
     </label>
   )
@@ -488,8 +488,8 @@ function SummaryRow({
 }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-gray-600">{label}</span>
-      <span className={strong ? 'text-base font-bold text-gray-900' : 'font-medium'}>{value}</span>
+      <span className="text-body-text">{label}</span>
+      <span className={strong ? 'text-base font-bold text-white' : 'font-medium'}>{value}</span>
     </div>
   )
 }

@@ -7,9 +7,9 @@ import { Mail, Phone, MessageSquare } from "lucide-react"
 export default function AdminContactPage() {
   return (
     <div className="flex flex-col h-full">
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <h1 className="text-2xl font-bold text-primary-blue">Manajemen Kontak</h1>
-        <p className="text-gray-600">Kelola pesan dan permintaan kontak</p>
+      <div className="bg-surface border-b border-hairline px-6 py-4">
+        <h1 className="font-display text-2xl font-bold tracking-[-0.02em] text-white">Manajemen Kontak</h1>
+        <p className="text-body-text">Kelola pesan dan permintaan kontak</p>
       </div>
       <div className="flex-1 p-6 overflow-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -53,9 +53,9 @@ export default function AdminContactPage() {
           </CardHeader>
           <CardContent>
             <div className="text-center py-12">
-              <MessageSquare className="mx-auto h-12 w-12 text-gray-400" />
+              <MessageSquare className="mx-auto h-12 w-12 text-body-muted" />
               <h3 className="mt-4 text-lg font-semibold">Belum ada pesan</h3>
-              <p className="mt-2 text-gray-600">Pesan dari formulir kontak akan muncul di sini</p>
+              <p className="mt-2 text-body-text">Pesan dari formulir kontak akan muncul di sini</p>
             </div>
           </CardContent>
         </Card>

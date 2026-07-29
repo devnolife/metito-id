@@ -183,16 +183,16 @@ export default function AdminProductsPage() {
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
         {/* Header Section */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-surface rounded shadow-sm border border-hairline">
           <div className="p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Manajemen Produk</h1>
-                <p className="text-gray-600 mt-1">Kelola katalog produk pengolahan air Anda</p>
+                <h1 className="text-xl sm:text-2xl font-bold text-white">Manajemen Produk</h1>
+                <p className="text-body-text mt-1">Kelola katalog produk pengolahan air Anda</p>
               </div>
               <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
                 <DialogTrigger asChild>
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm w-fit">
+                  <Button className="bg-gold hover:bg-gold-bright text-navy shadow-sm w-fit">
                     <Plus className="w-4 h-4 mr-2" />
                     Tambah Produk
                   </Button>
@@ -218,10 +218,10 @@ export default function AdminProductsPage() {
         </div>
 
         {/* Statistics Section */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
+        <div className="bg-surface rounded shadow-sm border border-hairline p-4 sm:p-6">
           <div className="flex items-center gap-2 mb-4">
-            <BarChart3 className="w-5 h-5 text-gray-700" />
-            <h2 className="text-base sm:text-lg font-semibold text-gray-900">Statistik Produk</h2>
+            <BarChart3 className="w-5 h-5 text-body-text" />
+            <h2 className="text-base sm:text-lg font-semibold text-white">Statistik Produk</h2>
           </div>
           <ProductStats
             activeProducts={activeProducts}
@@ -232,15 +232,15 @@ export default function AdminProductsPage() {
         </div>
 
         {/* Main Content */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-surface rounded shadow-sm border border-hairline">
           <Tabs defaultValue="products" className="w-full">
-            <div className="border-b border-gray-200">
-              <TabsList className="grid w-full grid-cols-2 bg-gray-50 m-4 sm:m-6 mb-0">
-                <TabsTrigger value="products" className="flex items-center gap-2 data-[state=active]:bg-white">
+            <div className="border-b border-hairline">
+              <TabsList className="grid w-full grid-cols-2 bg-navy-deep m-4 sm:m-6 mb-0">
+                <TabsTrigger value="products" className="flex items-center gap-2 data-[state=active]:bg-surface">
                   <Package className="w-4 h-4" />
                   Produk
                 </TabsTrigger>
-                <TabsTrigger value="categories" className="flex items-center gap-2 data-[state=active]:bg-white">
+                <TabsTrigger value="categories" className="flex items-center gap-2 data-[state=active]:bg-surface">
                   <Tag className="w-4 h-4" />
                   Kategori
                 </TabsTrigger>
@@ -251,10 +251,10 @@ export default function AdminProductsPage() {
               {/* Filters Section */}
               <div className="space-y-4">
                 <div className="flex items-center gap-2 mb-4">
-                  <Filter className="w-5 h-5 text-gray-700" />
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-900">Filter & Pencarian</h3>
+                  <Filter className="w-5 h-5 text-body-text" />
+                  <h3 className="text-base sm:text-lg font-semibold text-white">Filter & Pencarian</h3>
                 </div>
-                <Card className="border-gray-200">
+                <Card className="border-hairline">
                   <CardContent className="p-4">
                     <ProductFilters
                       searchTerm={searchTerm}
@@ -278,8 +278,8 @@ export default function AdminProductsPage() {
               {/* Product List Section */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-900">Daftar Produk</h3>
-                  <div className="text-sm text-gray-500">
+                  <h3 className="text-base sm:text-lg font-semibold text-white">Daftar Produk</h3>
+                  <div className="text-sm text-body-muted">
                     {pagination.total > 0 && `${pagination.total} produk ditemukan`}
                   </div>
                 </div>
@@ -297,7 +297,7 @@ export default function AdminProductsPage() {
 
             <TabsContent value="categories" className="p-4 sm:p-6 space-y-4 sm:space-y-6">
               <div className="space-y-4">
-                <h3 className="text-base sm:text-lg font-semibold text-gray-900">Manajemen Kategori</h3>
+                <h3 className="text-base sm:text-lg font-semibold text-white">Manajemen Kategori</h3>
                 <CategoryManagement
                   categories={categories}
                   onCategoryChange={fetchCategories}

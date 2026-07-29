@@ -101,11 +101,11 @@ export function CustomersPage() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Manajemen Pelanggan</h1>
-          <p className="text-gray-600">Kelola data pelanggan dan kontak bisnis</p>
+          <h1 className="font-display text-2xl font-bold tracking-[-0.02em] text-white">Manajemen Pelanggan</h1>
+          <p className="text-body-text">Kelola data pelanggan dan kontak bisnis</p>
         </div>
         <Button
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+          className="bg-gold hover:bg-gold-bright text-navy"
           onClick={() => toast({ title: "Coming Soon", description: "Fitur tambah pelanggan akan segera hadir" })}
         >
           <Plus className="w-4 h-4 mr-2" />
@@ -129,7 +129,7 @@ export function CustomersPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Pelanggan Aktif</CardTitle>
-            <Users className="h-4 w-4 text-green-600" />
+            <Users className="h-4 w-4 text-emerald-300" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{customers.filter(c => c.status === 'active').length}</div>
@@ -151,7 +151,7 @@ export function CustomersPage() {
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-body-muted w-4 h-4" />
         <Input
           placeholder="Cari pelanggan..."
           value={searchTerm}
@@ -175,20 +175,20 @@ export function CustomersPage() {
             <CardContent>
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <Mail className="w-4 h-4 text-gray-500" />
+                  <Mail className="w-4 h-4 text-body-muted" />
                   <span className="text-sm">{customer.email}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-gray-500" />
+                  <Phone className="w-4 h-4 text-body-muted" />
                   <span className="text-sm">{customer.phone}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-gray-500" />
+                  <MapPin className="w-4 h-4 text-body-muted" />
                   <span className="text-sm">{customer.address}</span>
                 </div>
                 <div className="pt-2 border-t">
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Total Pesanan:</span>
+                    <span className="text-body-muted">Total Pesanan:</span>
                     <span className="font-semibold">{customer.totalOrders}</span>
                   </div>
                 </div>
@@ -218,9 +218,9 @@ export function CustomersPage() {
 
       {filteredCustomers.length === 0 && (
         <div className="text-center py-12">
-          <Users className="mx-auto h-12 w-12 text-gray-400" />
-          <h3 className="mt-2 text-sm font-semibold text-gray-900">Tidak ada pelanggan</h3>
-          <p className="mt-1 text-sm text-gray-500">
+          <Users className="mx-auto h-12 w-12 text-body-muted" />
+          <h3 className="mt-2 text-sm font-semibold text-white">Tidak ada pelanggan</h3>
+          <p className="mt-1 text-sm text-body-muted">
             {searchTerm
               ? "Tidak ada pelanggan yang sesuai dengan pencarian"
               : "Mulai dengan menambahkan pelanggan pertama Anda"

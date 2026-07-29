@@ -37,15 +37,15 @@ interface WhatsAppContact {
 }
 
 const colorOptions = [
-  { value: 'bg-emerald-600', label: 'Hijau' },
-  { value: 'bg-blue-600', label: 'Biru' },
-  { value: 'bg-sky-600', label: 'Biru Langit' },
-  { value: 'bg-indigo-600', label: 'Indigo' },
-  { value: 'bg-purple-600', label: 'Ungu' },
-  { value: 'bg-pink-600', label: 'Pink' },
-  { value: 'bg-red-600', label: 'Merah' },
-  { value: 'bg-orange-600', label: 'Oranye' },
-  { value: 'bg-teal-600', label: 'Teal' },
+  { value: 'bg-emerald-500', label: 'Hijau' },
+  { value: 'bg-gold', label: 'Biru' },
+  { value: 'bg-gold', label: 'Biru Langit' },
+  { value: 'bg-gold', label: 'Indigo' },
+  { value: 'bg-gold', label: 'Ungu' },
+  { value: 'bg-gold', label: 'Pink' },
+  { value: 'bg-red-500', label: 'Merah' },
+  { value: 'bg-gold', label: 'Oranye' },
+  { value: 'bg-gold', label: 'Teal' },
 ]
 
 export default function WhatsAppContactsPage() {
@@ -61,7 +61,7 @@ export default function WhatsAppContactsPage() {
     phoneNumber: '',
     email: '',
     role: '',
-    color: 'bg-emerald-600',
+    color: 'bg-emerald-500',
     isActive: true,
     sortOrder: 0,
   })
@@ -109,7 +109,7 @@ export default function WhatsAppContactsPage() {
         phoneNumber: '',
         email: '',
         role: '',
-        color: 'bg-emerald-600',
+        color: 'bg-emerald-500',
         isActive: true,
         sortOrder: contacts.length,
       })
@@ -247,8 +247,8 @@ export default function WhatsAppContactsPage() {
       <div className="p-6">
         <div className="flex items-center justify-center h-64">
           <div className="flex flex-col items-center gap-3">
-            <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-            <p className="text-gray-500">Memuat kontak...</p>
+            <Loader2 className="w-8 h-8 animate-spin text-gold" />
+            <p className="text-body-muted">Memuat kontak...</p>
           </div>
         </div>
       </div>
@@ -259,8 +259,8 @@ export default function WhatsAppContactsPage() {
     <div className="max-w-7xl mx-auto p-4 sm:p-6 space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold">Kontak WhatsApp</h1>
-          <p className="text-gray-500 mt-1">Kelola kontak WhatsApp untuk pertanyaan produk</p>
+          <h1 className="font-display text-2xl font-bold tracking-[-0.02em] text-white">Kontak WhatsApp</h1>
+          <p className="text-body-muted mt-1">Kelola kontak WhatsApp untuk pertanyaan produk</p>
         </div>
         <Button onClick={() => handleOpenDialog()} className="gap-2 w-fit">
           <Plus className="w-4 h-4" />
@@ -281,13 +281,13 @@ export default function WhatsAppContactsPage() {
                   <div className="flex items-center gap-2 flex-wrap">
                     <h3 className="text-base sm:text-lg font-semibold">{contact.name}</h3>
                     {!contact.isActive && (
-                      <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded">Tidak Aktif</span>
+                      <span className="text-xs bg-surface-2 text-body-text px-2 py-1 rounded">Tidak Aktif</span>
                     )}
                   </div>
                   {contact.role && (
-                    <p className="text-sm text-gray-500">{contact.role}</p>
+                    <p className="text-sm text-body-muted">{contact.role}</p>
                   )}
-                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-2 text-sm text-gray-600">
+                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-2 text-sm text-body-text">
                     <div className="flex items-center gap-1">
                       <Phone className="w-4 h-4 flex-shrink-0" />
                       <span className="break-all">{contact.phoneNumber}</span>
@@ -362,9 +362,9 @@ export default function WhatsAppContactsPage() {
         {contacts.length === 0 && (
           <Card>
             <CardContent className="p-12 text-center">
-              <MessageCircle className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Belum ada kontak</h3>
-              <p className="text-gray-500 mb-4">Tambahkan kontak WhatsApp pertama Anda untuk memulai</p>
+              <MessageCircle className="w-16 h-16 text-body-muted mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-white mb-2">Belum ada kontak</h3>
+              <p className="text-body-muted mb-4">Tambahkan kontak WhatsApp pertama Anda untuk memulai</p>
               <Button onClick={() => handleOpenDialog()}>
                 <Plus className="w-4 h-4 mr-2" />
                 Tambah Kontak

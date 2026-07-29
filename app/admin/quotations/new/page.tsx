@@ -52,13 +52,13 @@ export default async function NewQuotationPage() {
       <div className="mb-6">
         <Link
           href="/admin/quotations"
-          className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900"
+          className="inline-flex items-center text-sm text-body-text hover:text-white"
         >
           <ArrowLeft className="mr-1 h-4 w-4" />
           Kembali ke daftar
         </Link>
-        <h1 className="mt-2 text-2xl font-bold text-gray-900">Buat Penawaran</h1>
-        <p className="text-sm text-gray-600">
+        <h1 className="mt-2 text-2xl font-bold text-white">Buat Penawaran</h1>
+        <p className="text-sm text-body-text">
           Nomor surat akan dibuat otomatis saat penawaran diterbitkan.
         </p>
       </div>

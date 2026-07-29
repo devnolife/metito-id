@@ -182,18 +182,18 @@ export default function AdminCertificationsPage() {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case "active": return <CheckCircle className="w-4 h-4 text-green-500" />
-      case "expired": return <XCircle className="w-4 h-4 text-red-500" />
-      case "pending": return <Calendar className="w-4 h-4 text-yellow-500" />
-      default: return <CheckCircle className="w-4 h-4 text-gray-500" />
+      case "active": return <CheckCircle className="w-4 h-4 text-emerald-300" />
+      case "expired": return <XCircle className="w-4 h-4 text-red-300" />
+      case "pending": return <Calendar className="w-4 h-4 text-gold" />
+      default: return <CheckCircle className="w-4 h-4 text-body-muted" />
     }
   }
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "active": return "bg-green-100 text-green-800"
-      case "expired": return "bg-red-100 text-red-800"
-      case "pending": return "bg-yellow-100 text-yellow-800"
-      default: return "bg-gray-100 text-gray-800"
+      case "active": return "bg-emerald-500/10 text-emerald-300"
+      case "expired": return "bg-red-500/10 text-red-300"
+      case "pending": return "bg-gold/10 text-gold"
+      default: return "bg-surface-2 text-white"
     }
   }
 
@@ -203,12 +203,12 @@ export default function AdminCertificationsPage() {
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <div>
-              <h2 className="text-3xl font-bold text-blue-600">Certifications Management</h2>
-              <p className="text-gray-600">Kelola sertifikasi perusahaan</p>
+              <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-white">Manajemen Sertifikasi</h2>
+              <p className="text-body-text">Kelola sertifikasi perusahaan</p>
             </div>
             <Dialog open={isAddDialogOpen} onOpenChange={(o) => { setIsAddDialogOpen(o) }}>
               <DialogTrigger asChild>
-                <Button className="bg-blue-600 hover:bg-blue-700">
+                <Button className="bg-gold hover:bg-gold-bright">
                   <Plus className="w-4 h-4 mr-2" />
                   Tambah Sertifikasi
                 </Button>
@@ -224,28 +224,28 @@ export default function AdminCertificationsPage() {
           </div>
 
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-body-muted w-4 h-4" />
             <Input placeholder="Cari sertifikasi, lembaga penerbit, atau nomor sertifikat..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-10" />
           </div>
 
-          {loading && <p className="text-sm text-gray-500">Memuat data...</p>}
-          {loadingError && <p className="text-sm text-red-600">{loadingError}</p>}
-          {!loading && !loadingError && filteredCertifications.length === 0 && <p className="text-sm text-gray-500">Belum ada sertifikasi.</p>}
+          {loading && <p className="text-sm text-body-muted">Memuat data...</p>}
+          {loadingError && <p className="text-sm text-red-300">{loadingError}</p>}
+          {!loading && !loadingError && filteredCertifications.length === 0 && <p className="text-sm text-body-muted">Belum ada sertifikasi.</p>}
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCertifications.map((cert) => (
               <Card key={cert.id} className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-0">
-                  <div className="aspect-[4/3] bg-gray-100 rounded-t-lg overflow-hidden flex items-center justify-center relative">
+                  <div className="aspect-[4/3] bg-surface-2 rounded-t-lg overflow-hidden flex items-center justify-center relative">
                     {cert.certificateImage && !cert.certificateImage.toLowerCase().endsWith('.pdf') ? (
                       <img src={cert.certificateImage.startsWith('/api/') ? cert.certificateImage : `/api/images/${cert.certificateImage.replace(/^\/+/, '')}`} alt={cert.name} className="w-full h-full object-cover" />
                     ) : cert.certificateImage && cert.certificateImage.toLowerCase().endsWith('.pdf') ? (
-                      <div className="flex flex-col items-center text-gray-600 text-xs gap-2">
+                      <div className="flex flex-col items-center text-body-text text-xs gap-2">
                         <FileText className="w-8 h-8" />
-                        <span className="px-2 py-1 bg-white/70 rounded shadow">PDF</span>
+                        <span className="px-2 py-1 bg-navy/80 text-body-text rounded shadow">PDF</span>
                       </div>
                     ) : (
-                      <div className="flex flex-col items-center text-gray-400 text-xs gap-1">
+                      <div className="flex flex-col items-center text-body-muted text-xs gap-1">
                         <span className="text-base">Tidak ada gambar</span>
                         <span className="opacity-70">(Upload di Edit)</span>
                       </div>
@@ -260,18 +260,18 @@ export default function AdminCertificationsPage() {
                       <Badge variant="outline">{cert.level}</Badge>
                     </div>
                     <h3 className="font-semibold text-lg mb-2 line-clamp-2">{cert.name}</h3>
-                    <p className="text-gray-600 text-sm mb-3 line-clamp-2">{cert.description}</p>
+                    <p className="text-body-text text-sm mb-3 line-clamp-2">{cert.description}</p>
                     <div className="flex items-center gap-2 mb-2">
-                      <Building className="w-3 h-3 text-gray-400" />
-                      <span className="text-xs text-gray-500">{cert.issuingBody}</span>
+                      <Building className="w-3 h-3 text-body-muted" />
+                      <span className="text-xs text-body-muted">{cert.issuingBody}</span>
                     </div>
                     <div className="flex items-center gap-2 mb-2">
-                      <Award className="w-3 h-3 text-gray-400" />
-                      <span className="text-xs text-gray-500">{cert.certificateNumber}</span>
+                      <Award className="w-3 h-3 text-body-muted" />
+                      <span className="text-xs text-body-muted">{cert.certificateNumber}</span>
                     </div>
                     <div className="flex items-center gap-2 mb-3">
-                      <Calendar className="w-3 h-3 text-gray-400" />
-                      <span className="text-xs text-gray-500">{cert.issueDate} - {cert.expirationDate}</span>
+                      <Calendar className="w-3 h-3 text-body-muted" />
+                      <span className="text-xs text-body-muted">{cert.issueDate} - {cert.expirationDate}</span>
                     </div>
                     <div className="mb-3">
                       <Badge variant="outline" className="text-xs">{cert.category}</Badge>

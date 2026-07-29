@@ -60,7 +60,7 @@ export default function EditProductPage() {
         <Card>
           <CardContent className="p-8 space-y-4">
             <h1 className="text-xl font-semibold">Produk tidak ditemukan</h1>
-            <p className="text-gray-600">{error || 'Data produk tidak tersedia.'}</p>
+            <p className="text-body-text">{error || 'Data produk tidak tersedia.'}</p>
             <Button asChild>
               <Link href="/admin/products">Kembali ke daftar</Link>
             </Button>
@@ -81,7 +81,7 @@ export default function EditProductPage() {
         </Button>
         <h1 className="text-2xl font-bold">Edit Produk</h1>
       </div>
-      <div className="bg-white rounded-xl shadow-sm border p-4 sm:p-6">
+      <div className="bg-surface rounded shadow-sm border p-4 sm:p-6">
         <ProductForm
           product={product}
           isEdit

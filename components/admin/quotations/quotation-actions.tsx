@@ -118,8 +118,8 @@ export function QuotationActions({
   const isDraft = status === 'DRAFT'
 
   return (
-    <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-5">
-      <h2 className="font-semibold text-gray-900">Aksi</h2>
+    <div className="space-y-4 rounded-lg border border-hairline bg-surface p-5">
+      <h2 className="font-semibold text-white">Aksi</h2>
 
       {isDraft && (
         <Button
@@ -141,7 +141,7 @@ export function QuotationActions({
           <div className="flex gap-2">
             <Input readOnly value={publicUrl ?? ''} className="text-xs" />
             <Button variant="outline" size="icon" onClick={() => void copyLink()}>
-              {copied ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
+              {copied ? <Check className="h-4 w-4 text-emerald-300" /> : <Copy className="h-4 w-4" />}
             </Button>
           </div>
 
@@ -154,7 +154,7 @@ export function QuotationActions({
             />
             <Button
               onClick={sendWhatsApp}
-              className="shrink-0 bg-emerald-600 text-white hover:bg-emerald-700"
+              className="shrink-0 bg-emerald-500 text-white hover:bg-emerald-400"
             >
               Kirim WA
             </Button>
@@ -207,7 +207,7 @@ export function QuotationActions({
       )}
 
       {!isDraft && (
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-body-muted">
           Dokumen yang sudah diterbitkan tidak dapat diubah. Gunakan Buat Revisi bila ada
           perubahan.
         </p>

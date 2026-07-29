@@ -34,8 +34,8 @@ export function SectionMarker({
           align === "center" && "justify-center"
         )}
       >
-        <span className="rail text-[var(--aqua)]">{index}</span>
-        <span className="h-px w-8 bg-aqua/45" />
+        <span className="rail text-[var(--gold)]">{index}</span>
+        <span className="h-px w-8 bg-gold/45" />
         <span className="rail text-[var(--body-muted)]">{label}</span>
       </div>
 

@@ -238,30 +238,30 @@ export default function AdminPageContentPage() {
 
   // Section info mapping untuk memberikan context
   const sectionInfo: Record<string, { label: string; description: string; icon: any; color: string }> = {
-    hero: { label: "Hero Section", description: "Banner utama di halaman depan", icon: Home, color: "bg-blue-50 text-blue-600" },
-    stats: { label: "Statistik", description: "Angka pencapaian perusahaan", icon: Info, color: "bg-green-50 text-green-600" },
-    services: { label: "Layanan", description: "Daftar layanan yang ditawarkan", icon: Layout, color: "bg-purple-50 text-purple-600" },
-    contact_info: { label: "Info Kontak", description: "Informasi kontak perusahaan (footer, contact page)", icon: Phone, color: "bg-orange-50 text-orange-600" },
-    about: { label: "Tentang Kami", description: "Informasi tentang perusahaan", icon: Info, color: "bg-teal-50 text-teal-600" },
-    footer: { label: "Footer", description: "Konten di bagian footer website", icon: Layout, color: "bg-gray-50 text-gray-600" },
-    contact: { label: "Kontak", description: "Form dan info kontak", icon: Mail, color: "bg-pink-50 text-pink-600" },
+    hero: { label: "Hero Section", description: "Banner utama di halaman depan", icon: Home, color: "bg-gold/10 text-gold" },
+    stats: { label: "Statistik", description: "Angka pencapaian perusahaan", icon: Info, color: "bg-emerald-500/10 text-emerald-300" },
+    services: { label: "Layanan", description: "Daftar layanan yang ditawarkan", icon: Layout, color: "bg-gold/10 text-gold" },
+    contact_info: { label: "Info Kontak", description: "Informasi kontak perusahaan (footer, contact page)", icon: Phone, color: "bg-gold/10 text-gold" },
+    about: { label: "Tentang Kami", description: "Informasi tentang perusahaan", icon: Info, color: "bg-gold/10 text-gold" },
+    footer: { label: "Footer", description: "Konten di bagian footer website", icon: Layout, color: "bg-navy-deep text-body-text" },
+    contact: { label: "Kontak", description: "Form dan info kontak", icon: Mail, color: "bg-gold/10 text-gold" },
   }
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
+        <h1 className="font-display text-2xl font-bold tracking-[-0.02em] text-white flex items-center gap-2">
           <Layout className="w-8 h-8" />
           Konten Halaman Website
         </h1>
-        <p className="text-gray-600 mt-2">
+        <p className="text-body-text mt-2">
           Kelola semua konten halaman website. Perubahan akan langsung terlihat di halaman publik.
         </p>
-        <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-          <div className="text-sm text-blue-900">
+        <div className="mt-4 p-4 bg-gold/10 border border-gold/40 rounded-lg flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
+          <div className="text-sm text-gold">
             <p className="font-semibold mb-1">Tips Mengedit Konten:</p>
-            <ul className="list-disc list-inside space-y-1 text-blue-800">
+            <ul className="list-disc list-inside space-y-1 text-gold">
               <li>Setiap section di bawah mewakili bagian visual di website</li>
               <li>Preview menunjukkan dimana konten akan muncul</li>
               <li>Order menentukan urutan tampilan (angka kecil = muncul lebih dulu)</li>
@@ -305,7 +305,7 @@ export default function AdminPageContentPage() {
             <div className="md:col-span-2">
               <Label>Cari Key</Label>
               <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <Search className="absolute left-3 top-3 h-4 w-4 text-body-muted" />
                 <Input
                   value={searchKey}
                   onChange={(e) => setSearchKey(e.target.value)}
@@ -341,7 +341,7 @@ export default function AdminPageContentPage() {
                   label: section,
                   description: `Konten untuk section ${section}`,
                   icon: FileText,
-                  color: "bg-gray-50 text-gray-600"
+                  color: "bg-navy-deep text-body-text"
                 }
                 const Icon = info.icon
 
@@ -350,7 +350,7 @@ export default function AdminPageContentPage() {
                     {/* Section Header */}
                     <div className={`p-4 rounded-lg ${info.color} border`}>
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                        <div className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center">
                           <Icon className="w-5 h-5" />
                         </div>
                         <div>
@@ -369,7 +369,7 @@ export default function AdminPageContentPage() {
                         <Card key={content.id} className="overflow-hidden">
                           <div className="flex">
                             {/* Preview/Visual indicator */}
-                            <div className="w-48 bg-gradient-to-br from-gray-50 to-gray-100 p-4 flex items-center justify-center border-r">
+                            <div className="w-48 bg-surface-2 p-4 flex items-center justify-center border-r">
                               {content.imageUrl ? (
                                 <div className="relative w-full h-32 rounded-lg overflow-hidden">
                                   <Image
@@ -381,13 +381,13 @@ export default function AdminPageContentPage() {
                                 </div>
                               ) : content.icon ? (
                                 <div className="text-center">
-                                  <div className="w-16 h-16 mx-auto bg-white rounded-lg flex items-center justify-center shadow-sm mb-2">
+                                  <div className="w-16 h-16 mx-auto bg-surface rounded-lg flex items-center justify-center shadow-sm mb-2">
                                     <span className="text-2xl">{content.icon}</span>
                                   </div>
-                                  <p className="text-xs text-gray-500">Icon</p>
+                                  <p className="text-xs text-body-muted">Icon</p>
                                 </div>
                               ) : (
-                                <div className="text-center text-gray-400">
+                                <div className="text-center text-body-muted">
                                   <Eye className="w-12 h-12 mx-auto mb-2" />
                                   <p className="text-xs">No Preview</p>
                                 </div>
@@ -408,13 +408,13 @@ export default function AdminPageContentPage() {
                                     </Badge>
                                   </div>
                                   {content.title && (
-                                    <p className="text-sm font-medium text-gray-900 mb-1">{content.title}</p>
+                                    <p className="text-sm font-medium text-white mb-1">{content.title}</p>
                                   )}
                                   {content.subtitle && (
-                                    <p className="text-sm text-gray-600 mb-1">{content.subtitle}</p>
+                                    <p className="text-sm text-body-text mb-1">{content.subtitle}</p>
                                   )}
                                   {content.description && (
-                                    <p className="text-sm text-gray-500 line-clamp-2">{content.description}</p>
+                                    <p className="text-sm text-body-muted line-clamp-2">{content.description}</p>
                                   )}
                                 </div>
                                 <div className="flex gap-2 flex-shrink-0 ml-4">
@@ -430,7 +430,7 @@ export default function AdminPageContentPage() {
                                     variant="outline"
                                     size="sm"
                                     onClick={() => handleDelete(content.id)}
-                                    className="text-red-600 hover:text-red-700 hover:border-red-600"
+                                    className="text-red-300 hover:text-red-200 hover:border-red-500/60"
                                   >
                                     <Trash2 className="w-4 h-4" />
                                   </Button>
@@ -438,7 +438,7 @@ export default function AdminPageContentPage() {
                               </div>
 
                               {/* Additional Info */}
-                              <div className="flex flex-wrap gap-4 text-xs text-gray-500 mt-2">
+                              <div className="flex flex-wrap gap-4 text-xs text-body-muted mt-2">
                                 {content.link && (
                                   <div className="flex items-center gap-1">
                                     <Globe className="w-3 h-3" />
@@ -476,26 +476,26 @@ export default function AdminPageContentPage() {
           {editDialog.content && (
             <form onSubmit={handleSave} className="space-y-6">
               {/* Location Info */}
-              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="p-4 bg-gold/10 border border-gold/40 rounded-lg">
                 <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <MapPin className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-semibold text-blue-900 mb-1">Lokasi di Website:</p>
+                    <p className="font-semibold text-gold mb-1">Lokasi di Website:</p>
                     <div className="flex items-center gap-2 text-sm">
-                      <Badge variant="outline" className="bg-white">
+                      <Badge variant="outline" className="bg-surface">
                         {editDialog.content.page}
                       </Badge>
-                      <span className="text-blue-600">→</span>
-                      <Badge variant="outline" className="bg-white">
+                      <span className="text-gold">→</span>
+                      <Badge variant="outline" className="bg-surface">
                         {editDialog.content.section}
                       </Badge>
-                      <span className="text-blue-600">→</span>
-                      <Badge variant="outline" className="bg-white">
+                      <span className="text-gold">→</span>
+                      <Badge variant="outline" className="bg-surface">
                         {editDialog.content.key}
                       </Badge>
                     </div>
                     {sectionInfo[editDialog.content.section] && (
-                      <p className="text-xs text-blue-700 mt-2">
+                      <p className="text-xs text-gold mt-2">
                         📍 {sectionInfo[editDialog.content.section].description}
                       </p>
                     )}
@@ -536,7 +536,7 @@ export default function AdminPageContentPage() {
 
                 {/* Image Preview */}
                 {uploadedImageUrl && (
-                  <div className="relative w-full h-48 border rounded-lg overflow-hidden bg-gray-50">
+                  <div className="relative w-full h-48 border rounded-lg overflow-hidden bg-navy-deep">
                     <Image
                       src={uploadedImageUrl}
                       alt="Preview"
@@ -546,7 +546,7 @@ export default function AdminPageContentPage() {
                     <button
                       type="button"
                       onClick={() => setUploadedImageUrl("")}
-                      className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                      className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-400"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -566,7 +566,7 @@ export default function AdminPageContentPage() {
                     htmlFor="imageUpload"
                     className="flex-1 cursor-pointer"
                   >
-                    <div className="flex items-center justify-center gap-2 px-4 py-2 border-2 border-dashed rounded-lg hover:bg-gray-50 transition-colors">
+                    <div className="flex items-center justify-center gap-2 px-4 py-2 border-2 border-dashed rounded-lg hover:bg-surface-2 transition-colors">
                       <Upload className="w-4 h-4" />
                       <span className="text-sm">
                         {uploading ? "Uploading..." : uploadedImageUrl ? "Ganti Gambar" : "Upload Gambar"}
@@ -577,7 +577,7 @@ export default function AdminPageContentPage() {
 
                 {/* Manual URL Input */}
                 <div>
-                  <Label htmlFor="imageUrl" className="text-xs text-gray-500">Atau masukkan URL manual:</Label>
+                  <Label htmlFor="imageUrl" className="text-xs text-body-muted">Atau masukkan URL manual:</Label>
                   <Input
                     id="imageUrl"
                     value={uploadedImageUrl}

@@ -1,19 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Lock, User, Eye, EyeOff } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
 import Image from "next/image"
-import { ArrowLeft } from "lucide-react"
+import Link from "next/link"
+import { Lock, User, Eye, EyeOff, ArrowLeft, AlertTriangle, Loader2 } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 
 interface AdminLoginProps {
   onLogin: (success: boolean, userData?: any, errorMessage?: string) => void
 }
+
+const CAPABILITIES = ["WTP", "WWTP", "STP", "RO"]
 
 export function AdminLogin({ onLogin }: AdminLoginProps) {
   const [formData, setFormData] = useState({
@@ -83,120 +80,173 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      {/* Logo at the top */}
-      <div className="mb-6 flex justify-center">
-        <Image
-          src="/images/logo.png"
-          alt="Metito Logo"
-          width={120}
-          height={120}
-          className="object-contain drop-shadow-lg"
-          priority
-        />
-      </div>
-      <Card className="w-full max-w-md bg-white/70 backdrop-blur-md shadow-2xl rounded-2xl border-0">
-        <CardHeader className="text-center space-y-4">
-          <div>
-            <CardTitle className="text-2xl font-bold text-gray-900">Admin Login</CardTitle>
-            <CardDescription className="text-gray-600">
-              Masuk ke panel admin PT. METITO
-            </CardDescription>
+    <div className="relative min-h-screen overflow-hidden bg-navy">
+      {/* Atmosphere: blueprint grid + gold glow, same treatment as the hero. */}
+      <div className="blueprint pointer-events-none absolute inset-0 opacity-70" />
+      <div className="glow-gold pointer-events-none absolute -left-40 top-1/3 h-[32rem] w-[32rem]" />
+      <div className="grain pointer-events-none absolute inset-0" />
+
+      <div className="relative mx-auto grid min-h-screen max-w-7xl grid-cols-1 items-center gap-12 px-6 py-12 lg:grid-cols-2 lg:px-8">
+        {/* Brand rail — hidden on small screens where the form takes over. */}
+        <div className="hidden lg:block">
+          <div className="mb-8 flex items-center gap-3">
+            <span className="rail text-gold">00</span>
+            <span className="h-px w-8 bg-gold/45" />
+            <span className="rail text-body-muted">Restricted Access</span>
           </div>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <Alert className="border-red-200 bg-red-50">
-                <AlertDescription className="text-red-700">
-                  {error}
-                </AlertDescription>
-              </Alert>
-            )}
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium text-gray-700">
-                Email
-              </Label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="admin@metito.com"
-                  className="pl-10"
-                  required
-                  disabled={isLoading}
-                />
+
+          <Image
+            src="/images/logo.png"
+            alt="Logo PT. METITO"
+            width={132}
+            height={132}
+            className="mb-8 object-contain"
+            priority
+          />
+
+          <h1 className="font-display text-[clamp(2.25rem,4vw,3.25rem)] font-black leading-[0.94] tracking-[-0.04em] text-white">
+            Control
+            <br />
+            <span className="text-gold">Console</span>
+          </h1>
+
+          <p className="mt-6 max-w-md text-body-text">
+            Panel internal PT. METITO untuk mengelola katalog, penawaran, dan konten
+            publik. Akses terbatas untuk administrator terdaftar.
+          </p>
+
+          <div className="mt-10 grid max-w-md grid-cols-4 border-t border-hairline">
+            {CAPABILITIES.map((item) => (
+              <div key={item} className="border-r border-hairline py-4 last:border-r-0">
+                <span className="rail block text-gold">{item}</span>
               </div>
+            ))}
+          </div>
+
+          <p className="mt-8 max-w-md text-sm text-body-muted">
+            Integrated Solutions for Water, Industry and Mining
+          </p>
+        </div>
+
+        {/* Form panel */}
+        <div className="mx-auto w-full max-w-md">
+          <div className="relative border border-hairline bg-surface/90 p-8 backdrop-blur-sm">
+            {/* Instrument corner tick */}
+            <span className="pointer-events-none absolute right-3 top-3 h-3 w-3 border-r border-t border-gold/55" />
+
+            <div className="mb-8 lg:hidden">
+              <Image
+                src="/images/logo.png"
+                alt="Logo PT. METITO"
+                width={88}
+                height={88}
+                className="object-contain"
+                priority
+              />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium text-gray-700">
-                Password
-              </Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <Input
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  placeholder="Masukkan password"
-                  className="pl-10 pr-10"
-                  required
-                  disabled={isLoading}
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
-                  onClick={() => setShowPassword(!showPassword)}
-                  disabled={isLoading}
-                >
-                  {showPassword ? (
-                    <EyeOff className="w-4 h-4 text-gray-400" />
-                  ) : (
-                    <Eye className="w-4 h-4 text-gray-400" />
-                  )}
-                </Button>
+
+            <div className="mb-8">
+              <div className="mb-3 flex items-center gap-2">
+                <span className="rail text-gold">Auth</span>
+                <span className="h-px w-6 bg-gold/45" />
               </div>
+              <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-white">
+                Masuk Panel Admin
+              </h2>
+              <p className="mt-1.5 text-sm text-body-muted">
+                Gunakan kredensial administrator PT. METITO.
+              </p>
             </div>
-            <Button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  Memproses...
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {error && (
+                <div className="flex items-start gap-3 border border-red-500/35 bg-red-500/10 p-3">
+                  <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0 text-red-300" />
+                  <p className="text-sm text-red-200">{error}</p>
                 </div>
-              ) : (
-                'Login'
               )}
-            </Button>
-          </form>
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Lupa password? Hubungi administrator sistem.
-            </p>
+
+              <div className="space-y-2">
+                <label htmlFor="email" className="rail block text-body-muted">
+                  Email
+                </label>
+                <div className="relative">
+                  <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-body-muted" />
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="admin@metito.id"
+                    className="w-full rounded-sm border border-hairline bg-navy-deep py-2.5 pl-10 pr-3 text-sm text-white placeholder:text-body-muted/60 focus:border-gold/60 focus:outline-none focus:ring-1 focus:ring-gold/60 disabled:opacity-60"
+                    required
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="password" className="rail block text-body-muted">
+                  Password
+                </label>
+                <div className="relative">
+                  <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-body-muted" />
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    placeholder="Masukkan password"
+                    className="w-full rounded-sm border border-hairline bg-navy-deep py-2.5 pl-10 pr-11 text-sm text-white placeholder:text-body-muted/60 focus:border-gold/60 focus:outline-none focus:ring-1 focus:ring-gold/60 disabled:opacity-60"
+                    required
+                    disabled={isLoading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    disabled={isLoading}
+                    aria-label={showPassword ? "Sembunyikan password" : "Tampilkan password"}
+                    className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center text-body-muted transition-colors hover:text-gold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold"
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="flex w-full items-center justify-center gap-2 rounded-sm bg-gold px-4 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-navy transition-colors hover:bg-gold-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-surface disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Memproses
+                  </>
+                ) : (
+                  "Masuk"
+                )}
+              </button>
+            </form>
+
+            <div className="mt-8 border-t border-hairline pt-5">
+              <p className="text-xs text-body-muted">
+                Lupa password? Hubungi administrator sistem.
+              </p>
+            </div>
           </div>
-        </CardContent>
-      </Card>
-      {/* Back to landing page button */}
-      <div className="mt-8 flex justify-center w-full max-w-md">
-        <a
-          href="/"
-          className="flex items-center gap-2 w-full justify-center border border-blue-600 text-blue-700 hover:bg-blue-50 font-medium py-2 px-4 rounded-lg transition-colors duration-200 shadow-sm bg-white/80 backdrop-blur-md"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Kembali ke Beranda
-        </a>
+
+          <Link
+            href="/"
+            className="mt-4 flex items-center justify-center gap-2 border border-hairline px-4 py-3 text-sm text-body-text transition-colors hover:border-gold/45 hover:text-gold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Kembali ke Beranda
+          </Link>
+        </div>
       </div>
     </div>
   )
-} 
+}

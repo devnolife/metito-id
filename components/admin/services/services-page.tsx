@@ -109,11 +109,11 @@ export function ServicesPage() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Manajemen Layanan</h1>
-          <p className="text-gray-600">Kelola layanan dan jasa pengolahan air</p>
+          <h1 className="font-display text-2xl font-bold tracking-[-0.02em] text-white">Manajemen Layanan</h1>
+          <p className="text-body-text">Kelola layanan dan jasa pengolahan air</p>
         </div>
         <Button
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+          className="bg-gold hover:bg-gold-bright text-navy"
           onClick={() => toast({ title: "Coming Soon", description: "Fitur tambah layanan akan segera hadir" })}
         >
           <Plus className="w-4 h-4 mr-2" />
@@ -137,7 +137,7 @@ export function ServicesPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Proyek Selesai</CardTitle>
-            <CheckCircle className="h-4 w-4 text-green-600" />
+            <CheckCircle className="h-4 w-4 text-emerald-300" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{services.reduce((sum, s) => sum + s.completedProjects, 0)}</div>
@@ -161,7 +161,7 @@ export function ServicesPage() {
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-body-muted w-4 h-4" />
         <Input
           placeholder="Cari layanan..."
           value={searchTerm}
@@ -183,22 +183,22 @@ export function ServicesPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-600 mb-4">{service.description}</p>
+              <p className="text-body-text mb-4">{service.description}</p>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Harga:</span>
+                  <span className="text-sm text-body-muted">Harga:</span>
                   <span className="font-semibold">{formatCurrency(service.price)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Durasi:</span>
+                  <span className="text-sm text-body-muted">Durasi:</span>
                   <span className="font-semibold">{service.duration}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Kategori:</span>
+                  <span className="text-sm text-body-muted">Kategori:</span>
                   <span className="font-semibold capitalize">{service.category}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Proyek Selesai:</span>
+                  <span className="text-sm text-body-muted">Proyek Selesai:</span>
                   <span className="font-semibold">{service.completedProjects}</span>
                 </div>
               </div>
@@ -227,9 +227,9 @@ export function ServicesPage() {
 
       {filteredServices.length === 0 && (
         <div className="text-center py-12">
-          <Settings className="mx-auto h-12 w-12 text-gray-400" />
-          <h3 className="mt-2 text-sm font-semibold text-gray-900">Tidak ada layanan</h3>
-          <p className="mt-1 text-sm text-gray-500">
+          <Settings className="mx-auto h-12 w-12 text-body-muted" />
+          <h3 className="mt-2 text-sm font-semibold text-white">Tidak ada layanan</h3>
+          <p className="mt-1 text-sm text-body-muted">
             {searchTerm
               ? "Tidak ada layanan yang sesuai dengan pencarian"
               : "Mulai dengan menambahkan layanan pertama Anda"

@@ -174,7 +174,7 @@ export function FileUpload({
     <div className={className}>
       {/* Upload Area */}
       <div
-        className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${uploading ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
+        className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${uploading ? 'border-gold/60 bg-gold/10' : 'border-hairline hover:border-gold/45'
           }`}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
@@ -190,17 +190,17 @@ export function FileUpload({
 
         <div className="space-y-4">
           <div className="flex justify-center">
-            <Upload className={`w-12 h-12 ${uploading ? 'text-blue-500' : 'text-gray-400'}`} />
+            <Upload className={`w-12 h-12 ${uploading ? 'text-gold' : 'text-body-muted'}`} />
           </div>
 
           <div>
-            <h3 className="text-lg font-medium text-gray-900">
+            <h3 className="text-lg font-medium text-white">
               {uploading ? 'Mengupload...' : `Upload ${type === 'images' ? 'Gambar' : 'Dokumen'}`}
             </h3>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-body-muted mt-1">
               Drag & drop file atau klik untuk memilih
             </p>
-            <p className="text-xs text-gray-400 mt-2">
+            <p className="text-xs text-body-muted mt-2">
               Maksimal {maxFiles} file. {files.length}/{maxFiles} terpakai
             </p>
           </div>
@@ -219,7 +219,7 @@ export function FileUpload({
       {/* File Preview */}
       {files.length > 0 && (
         <div className="mt-6">
-          <h4 className="text-sm font-medium text-gray-900 mb-3">
+          <h4 className="text-sm font-medium text-white mb-3">
             File yang diupload ({files.length})
           </h4>
 
@@ -229,7 +229,7 @@ export function FileUpload({
                 <CardContent className="p-4">
                   {type === 'images' && isImage(fileUrl) ? (
                     <div className="relative">
-                      <div className="aspect-video relative bg-gray-100 rounded-lg overflow-hidden">
+                      <div className="aspect-video relative bg-surface-2 rounded-lg overflow-hidden">
                         <Image
                           src={fileUrl}
                           alt={`Upload ${index + 1}`}
@@ -259,14 +259,14 @@ export function FileUpload({
                   ) : (
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="p-2 bg-gray-100 rounded-lg">
+                        <div className="p-2 bg-surface-2 rounded-lg">
                           {getFileIcon(fileUrl)}
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-gray-900 truncate">
+                          <p className="text-sm font-medium text-white truncate">
                             {getFileName(fileUrl)}
                           </p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-xs text-body-muted">
                             {type === 'images' ? 'Gambar' : 'Dokumen'}
                           </p>
                         </div>
@@ -300,7 +300,7 @@ export function FileUpload({
 
       {/* Preview Modal */}
       {previewing && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-navy-deep/85 flex items-center justify-center z-50">
           <div className="relative max-w-4xl max-h-[90vh] w-full h-full flex items-center justify-center p-4">
             <Button
               variant="secondary"

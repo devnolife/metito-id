@@ -275,14 +275,14 @@ export function ProductCreateForm({ categories, onSuccess, onCancel }: ProductCr
               <div className="flex items-center justify-between">
                 <Label htmlFor="price">Harga</Label>
                 <div className="flex items-center gap-2 text-xs">
-                  <span className={priceInputType === "number" ? "font-semibold text-blue-600" : "text-gray-500"}>
+                  <span className={priceInputType === "number" ? "font-semibold text-gold" : "text-body-muted"}>
                     Angka
                   </span>
                   <Switch
                     checked={priceInputType === "text"}
                     onCheckedChange={handlePriceTypeToggle}
                   />
-                  <span className={priceInputType === "text" ? "font-semibold text-blue-600" : "text-gray-500"}>
+                  <span className={priceInputType === "text" ? "font-semibold text-gold" : "text-body-muted"}>
                     Teks
                   </span>
                 </div>
@@ -295,7 +295,7 @@ export function ProductCreateForm({ categories, onSuccess, onCancel }: ProductCr
                 placeholder={priceInputType === "number" ? "Contoh: 1000000" : "Contoh: Hubungi Kami"}
               />
               {priceInputType === "text" && (
-                <p className="text-xs text-gray-500">Masukkan teks seperti "Hubungi Kami", "Call for Price", dll</p>
+                <p className="text-xs text-body-muted">Masukkan teks seperti "Hubungi Kami", "Call for Price", dll</p>
               )}
             </div>
             <div>
@@ -390,12 +390,12 @@ export function ProductCreateForm({ categories, onSuccess, onCancel }: ProductCr
           {formData.features.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {formData.features.map((feature, index) => (
-                <div key={index} className="flex items-center gap-1 bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
+                <div key={index} className="flex items-center gap-1 bg-gold/10 text-gold px-2 py-1 rounded-full text-sm">
                   {feature}
                   <button
                     type="button"
                     onClick={() => removeFeature(index)}
-                    className="ml-1 text-blue-600 hover:text-blue-800"
+                    className="ml-1 text-gold hover:text-gold-bright"
                   >
                     ×
                   </button>
@@ -437,7 +437,7 @@ export function ProductCreateForm({ categories, onSuccess, onCancel }: ProductCr
           <div className="flex items-center justify-between">
             <div>
               <Label htmlFor="inStock">Stok Tersedia</Label>
-              <p className="text-sm text-gray-500">Produk tersedia untuk pembelian</p>
+              <p className="text-sm text-body-muted">Produk tersedia untuk pembelian</p>
             </div>
             <Switch
               id="inStock"
@@ -449,7 +449,7 @@ export function ProductCreateForm({ categories, onSuccess, onCancel }: ProductCr
           <div className="flex items-center justify-between">
             <div>
               <Label htmlFor="isFeatured">Produk Unggulan</Label>
-              <p className="text-sm text-gray-500">Tampilkan sebagai produk unggulan</p>
+              <p className="text-sm text-body-muted">Tampilkan sebagai produk unggulan</p>
             </div>
             <Switch
               id="isFeatured"

@@ -31,8 +31,8 @@ export function Hero() {
 
       <div className="blueprint absolute inset-0 opacity-70" />
 
-      {/* Aqua bloom anchoring the headline. */}
-      <div className="glow-aqua pointer-events-none absolute -left-40 top-1/4 h-[38rem] w-[38rem] rounded-full blur-[40px]" />
+      {/* Gold bloom anchoring the headline — the deck's accent. */}
+      <div className="glow-gold pointer-events-none absolute -left-40 top-1/4 h-[38rem] w-[38rem] rounded-full blur-[40px]" />
 
       {/* Flowing contour lines — a water-treatment schematic, not decoration. */}
       <svg
@@ -61,11 +61,11 @@ export function Hero() {
             {/* Mono rail replaces the old pill badge. */}
             <div className="flex flex-wrap items-center gap-3">
               <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--aqua)] opacity-70" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--aqua)]" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--gold)] opacity-70" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--gold)]" />
               </span>
-              <span className="rail text-[var(--aqua)]">Sulawesi Selatan</span>
-              <span className="h-px w-10 bg-aqua/40" />
+              <span className="rail text-[var(--gold)]">Sulawesi Selatan</span>
+              <span className="h-px w-10 bg-gold/40" />
               <span className="rail text-[var(--body-muted)]">{CONTACT.website}</span>
             </div>
 
@@ -73,7 +73,7 @@ export function Hero() {
             <h1 className="font-display mt-7 text-[clamp(2.5rem,5.4vw,4.5rem)] font-black leading-[0.92] tracking-[-0.04em] text-white">
               Air bersih,
               <br />
-              <span className="text-[var(--aqua)]">direkayasa</span> untuk
+              <span className="text-[var(--gold)]">direkayasa</span> untuk
               <br />
               industri Indonesia.
             </h1>
@@ -86,14 +86,14 @@ export function Hero() {
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <Link
                 href="/products"
-                className="group inline-flex items-center gap-2.5 rounded-sm bg-[var(--aqua)] px-7 py-4 text-sm font-bold tracking-tight text-[var(--navy)] transition-all duration-300 hover:bg-[var(--aqua-bright)] hover:shadow-[0_0_36px_-6px_rgba(79,209,232,0.65)]"
+                className="group inline-flex items-center gap-2.5 rounded-sm bg-[var(--gold)] px-7 py-4 text-sm font-bold tracking-tight text-[var(--navy)] transition-all duration-300 hover:bg-[var(--gold-bright)] hover:shadow-[0_0_36px_-6px_rgba(225,196,120,0.65)]"
               >
                 Jelajahi Produk
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2.5 rounded-sm border border-[var(--hairline)] px-7 py-4 text-sm font-semibold text-white transition-all duration-300 hover:border-aqua/55 hover:bg-aqua/10"
+                className="inline-flex items-center gap-2.5 rounded-sm border border-[var(--hairline)] px-7 py-4 text-sm font-semibold text-white transition-all duration-300 hover:border-gold/55 hover:bg-gold/10"
               >
                 Konsultasi Teknis
               </Link>
@@ -120,11 +120,11 @@ export function Hero() {
               photo rather than depending on the gradient alone. */}
           <div className="hidden lg:col-span-4 lg:block">
             <div className="ml-auto max-w-[16rem] rounded-sm border border-[var(--hairline)] bg-navy-deep/70 p-6 backdrop-blur-md">
-              <div className="rail mb-5 text-[var(--aqua)]">Kapabilitas</div>
+              <div className="rail mb-5 text-[var(--gold)]">Kapabilitas</div>
               <ul className="space-y-4">
                 {CAPABILITIES.map(({ code, label }) => (
                   <li key={code} className="group flex items-baseline gap-3">
-                    <span className="font-display w-14 shrink-0 text-lg font-extrabold tracking-tight text-[var(--aqua)]">
+                    <span className="font-display w-14 shrink-0 text-lg font-extrabold tracking-tight text-[var(--gold)]">
                       {code}
                     </span>
                     <span className="text-sm text-[var(--body-text)] transition-colors group-hover:text-white">
@@ -138,8 +138,8 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Hairline seam instead of the old solid gold slide bar. */}
-      <div className="absolute inset-x-0 bottom-0 z-10 h-px bg-gradient-to-r from-transparent via-aqua/45 to-transparent" />
+      {/* Hairline seam echoing the gold rule that closes every deck slide. */}
+      <div className="absolute inset-x-0 bottom-0 z-10 h-px bg-gradient-to-r from-transparent via-gold/45 to-transparent" />
     </section>
   )
 }

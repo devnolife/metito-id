@@ -54,12 +54,12 @@ export function ProductFilters({
     <div className="space-y-4">
       {/* Search Bar */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-body-muted w-4 h-4" />
         <Input
           placeholder="Cari produk berdasarkan nama, deskripsi, atau kode..."
           value={searchTerm}
           onChange={(e) => onSearch(e.target.value)}
-          className="pl-10 h-10 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+          className="pl-10 h-10 border-hairline focus:border-gold/60 focus:ring-gold"
         />
       </div>
 
@@ -67,7 +67,7 @@ export function ProductFilters({
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {/* Category Filter */}
         <div className="space-y-2">
-          <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+          <Label className="text-sm font-medium text-body-text flex items-center gap-2">
             <Tag className="w-4 h-4" />
             Kategori
           </Label>
@@ -76,7 +76,7 @@ export function ProductFilters({
             onValueChange={onCategoryChange}
             disabled={categoriesLoading}
           >
-            <SelectTrigger className="h-10 border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+            <SelectTrigger className="h-10 border-hairline focus:border-gold/60 focus:ring-gold">
               <SelectValue placeholder="Pilih kategori" />
             </SelectTrigger>
             <SelectContent>
@@ -92,7 +92,7 @@ export function ProductFilters({
 
         {/* Application Filter */}
         <div className="space-y-2">
-          <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+          <Label className="text-sm font-medium text-body-text flex items-center gap-2">
             <Package className="w-4 h-4" />
             Aplikasi
           </Label>
@@ -100,7 +100,7 @@ export function ProductFilters({
             value={selectedApplication}
             onValueChange={onApplicationChange}
           >
-            <SelectTrigger className="h-10 border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+            <SelectTrigger className="h-10 border-hairline focus:border-gold/60 focus:ring-gold">
               <SelectValue placeholder="Pilih aplikasi" />
             </SelectTrigger>
             <SelectContent>
@@ -113,7 +113,7 @@ export function ProductFilters({
 
         {/* Stock & Featured Filters */}
         <div className="space-y-2">
-          <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+          <Label className="text-sm font-medium text-body-text flex items-center gap-2">
             <TrendingUp className="w-4 h-4" />
             Status
           </Label>
@@ -126,7 +126,7 @@ export function ProductFilters({
               />
               <Label
                 htmlFor="inStock"
-                className="text-sm font-normal text-gray-700 cursor-pointer"
+                className="text-sm font-normal text-body-text cursor-pointer"
               >
                 Produk Tersedia
               </Label>
@@ -139,7 +139,7 @@ export function ProductFilters({
               />
               <Label
                 htmlFor="featured"
-                className="text-sm font-normal text-gray-700 cursor-pointer"
+                className="text-sm font-normal text-body-text cursor-pointer"
               >
                 Produk Unggulan
               </Label>
@@ -149,14 +149,14 @@ export function ProductFilters({
 
         {/* Reset Button */}
         <div className="space-y-2">
-          <Label className="text-sm font-medium text-gray-700 invisible">
+          <Label className="text-sm font-medium text-body-text invisible">
             Actions
           </Label>
           <Button
             variant="outline"
             onClick={onReset}
             disabled={activeFiltersCount === 0}
-            className="h-10 w-full border-gray-300 hover:bg-gray-50 disabled:opacity-50"
+            className="h-10 w-full border-hairline hover:bg-surface-2 disabled:opacity-50"
           >
             <RotateCcw className="w-4 h-4 mr-2" />
             Reset Filter
@@ -166,9 +166,9 @@ export function ProductFilters({
 
       {/* Active Filters Summary */}
       {activeFiltersCount > 0 && (
-        <div className="flex items-center gap-2 pt-2 border-t border-gray-200">
-          <span className="text-sm text-gray-600">Filter aktif:</span>
-          <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+        <div className="flex items-center gap-2 pt-2 border-t border-hairline">
+          <span className="text-sm text-body-text">Filter aktif:</span>
+          <Badge variant="secondary" className="bg-gold/10 text-gold">
             {activeFiltersCount} filter diterapkan
           </Badge>
           {searchTerm && (

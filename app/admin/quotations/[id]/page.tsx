@@ -57,32 +57,32 @@ export default async function QuotationDetailPage({ params }: PageProps) {
         <div>
           <Link
             href="/admin/quotations"
-            className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900"
+            className="inline-flex items-center text-sm text-body-text hover:text-white"
           >
             <ArrowLeft className="mr-1 h-4 w-4" />
             Kembali ke daftar
           </Link>
-          <h1 className="mt-2 flex items-center gap-3 text-2xl font-bold text-gray-900">
+          <h1 className="mt-2 flex items-center gap-3 text-2xl font-bold text-white">
             {numberDisplay}
             <Badge variant="outline">{STATUS_LABEL[status]}</Badge>
           </h1>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-body-text">
             {quotation.customerName} &middot; dibuat oleh {quotation.createdBy?.name ?? '-'}
           </p>
 
           {quotation.firstViewedAt && (
-            <p className="mt-1 inline-flex items-center gap-1.5 text-sm text-emerald-700">
+            <p className="mt-1 inline-flex items-center gap-1.5 text-sm text-emerald-300">
               <Eye className="h-4 w-4" />
               Dibuka pelanggan {formatDate(quotation.firstViewedAt)} ({quotation.viewCount}x)
             </p>
           )}
 
           {quotation.parent && (
-            <p className="mt-1 text-sm text-gray-600">
+            <p className="mt-1 text-sm text-body-text">
               Revisi dari{' '}
               <Link
                 href={`/admin/quotations/${quotation.parent.id}`}
-                className="text-blue-700 hover:underline"
+                className="text-gold hover:underline"
               >
                 {quotation.parent.numberBase}
               </Link>
@@ -90,7 +90,7 @@ export default async function QuotationDetailPage({ params }: PageProps) {
           )}
 
           {quotation.revisions.length > 0 && (
-            <p className="mt-1 text-sm text-amber-700">
+            <p className="mt-1 text-sm text-gold">
               Sudah digantikan oleh Rev.
               {quotation.revisions[quotation.revisions.length - 1].revision}
             </p>

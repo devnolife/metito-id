@@ -99,7 +99,7 @@ export function ProductDialogs({
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-4">
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                        <h3 className="text-lg font-semibold text-white mb-2">
                           {viewDialog.product.name}
                         </h3>
                         <div className="flex flex-wrap gap-2 mb-3">
@@ -122,9 +122,9 @@ export function ProductDialogs({
                           </Badge>
                         </div>
                         {viewDialog.product.shortDesc && (
-                          <p className="text-gray-600 mb-3">{viewDialog.product.shortDesc}</p>
+                          <p className="text-body-text mb-3">{viewDialog.product.shortDesc}</p>
                         )}
-                        <div className="flex items-center gap-2 text-2xl font-bold text-green-600">
+                        <div className="flex items-center gap-2 text-2xl font-bold text-emerald-300">
                           <DollarSign className="w-6 h-6" />
                           {formatCurrency(viewDialog.product.price)}
                         </div>
@@ -135,48 +135,48 @@ export function ProductDialogs({
                       <div className="grid grid-cols-2 gap-4 text-sm">
                         {viewDialog.product.capacity && (
                           <div>
-                            <span className="font-medium text-gray-500">Kapasitas:</span>
-                            <p className="text-gray-900">{viewDialog.product.capacity}</p>
+                            <span className="font-medium text-body-muted">Kapasitas:</span>
+                            <p className="text-white">{viewDialog.product.capacity}</p>
                           </div>
                         )}
                         {viewDialog.product.efficiency && (
                           <div>
-                            <span className="font-medium text-gray-500">Efisiensi:</span>
-                            <p className="text-gray-900">{viewDialog.product.efficiency}</p>
+                            <span className="font-medium text-body-muted">Efisiensi:</span>
+                            <p className="text-white">{viewDialog.product.efficiency}</p>
                           </div>
                         )}
                         {viewDialog.product.location && (
                           <div className="flex items-start gap-1">
-                            <MapPin className="w-4 h-4 text-gray-400 mt-0.5" />
+                            <MapPin className="w-4 h-4 text-body-muted mt-0.5" />
                             <div>
-                              <span className="font-medium text-gray-500">Lokasi:</span>
-                              <p className="text-gray-900">{viewDialog.product.location}</p>
+                              <span className="font-medium text-body-muted">Lokasi:</span>
+                              <p className="text-white">{viewDialog.product.location}</p>
                             </div>
                           </div>
                         )}
                         {viewDialog.product.warranty && (
                           <div className="flex items-start gap-1">
-                            <Shield className="w-4 h-4 text-gray-400 mt-0.5" />
+                            <Shield className="w-4 h-4 text-body-muted mt-0.5" />
                             <div>
-                              <span className="font-medium text-gray-500">Garansi:</span>
-                              <p className="text-gray-900">{viewDialog.product.warranty}</p>
+                              <span className="font-medium text-body-muted">Garansi:</span>
+                              <p className="text-white">{viewDialog.product.warranty}</p>
                             </div>
                           </div>
                         )}
                         {viewDialog.product.delivery && (
                           <div className="flex items-start gap-1">
-                            <Truck className="w-4 h-4 text-gray-400 mt-0.5" />
+                            <Truck className="w-4 h-4 text-body-muted mt-0.5" />
                             <div>
-                              <span className="font-medium text-gray-500">Pengiriman:</span>
-                              <p className="text-gray-900">{viewDialog.product.delivery}</p>
+                              <span className="font-medium text-body-muted">Pengiriman:</span>
+                              <p className="text-white">{viewDialog.product.delivery}</p>
                             </div>
                           </div>
                         )}
                         <div className="flex items-start gap-1">
-                          <Clock className="w-4 h-4 text-gray-400 mt-0.5" />
+                          <Clock className="w-4 h-4 text-body-muted mt-0.5" />
                           <div>
-                            <span className="font-medium text-gray-500">Dibuat:</span>
-                            <p className="text-gray-900">{formatDate(viewDialog.product.createdAt)}</p>
+                            <span className="font-medium text-body-muted">Dibuat:</span>
+                            <p className="text-white">{formatDate(viewDialog.product.createdAt)}</p>
                           </div>
                         </div>
                       </div>
@@ -188,20 +188,20 @@ export function ProductDialogs({
                   {/* Description */}
                   {viewDialog.product.description && (
                     <div>
-                      <h4 className="text-md font-semibold text-gray-900 mb-2">Deskripsi</h4>
-                      <p className="text-gray-600 leading-relaxed">{viewDialog.product.description}</p>
+                      <h4 className="text-md font-semibold text-white mb-2">Deskripsi</h4>
+                      <p className="text-body-text leading-relaxed">{viewDialog.product.description}</p>
                     </div>
                   )}
 
                   {/* Features */}
                   {viewDialog.product.features.length > 0 && (
                     <div>
-                      <h4 className="text-md font-semibold text-gray-900 mb-3">Fitur Produk</h4>
+                      <h4 className="text-md font-semibold text-white mb-3">Fitur Produk</h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         {viewDialog.product.features.map((feature, index) => (
                           <div key={index} className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                            <span className="text-gray-700">{feature}</span>
+                            <div className="w-2 h-2 bg-gold rounded-full"></div>
+                            <span className="text-body-text">{feature}</span>
                           </div>
                         ))}
                       </div>
@@ -211,12 +211,12 @@ export function ProductDialogs({
                   {/* Specifications */}
                   {viewDialog.product.specs && Object.keys(viewDialog.product.specs).length > 0 && (
                     <div>
-                      <h4 className="text-md font-semibold text-gray-900 mb-3">Spesifikasi Teknis</h4>
+                      <h4 className="text-md font-semibold text-white mb-3">Spesifikasi Teknis</h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {Object.entries(viewDialog.product.specs).map(([key, value]) => (
-                          <div key={key} className="flex justify-between py-2 border-b border-gray-100">
-                            <span className="font-medium text-gray-600">{key}:</span>
-                            <span className="text-gray-900">{String(value)}</span>
+                          <div key={key} className="flex justify-between py-2 border-b border-hairline">
+                            <span className="font-medium text-body-text">{key}:</span>
+                            <span className="text-white">{String(value)}</span>
                           </div>
                         ))}
                       </div>
@@ -225,18 +225,18 @@ export function ProductDialogs({
 
                   {(viewDialog.product.metaTitle || viewDialog.product.metaDescription) && (
                     <div>
-                      <h4 className="text-md font-semibold text-gray-900 mb-3">SEO Information</h4>
+                      <h4 className="text-md font-semibold text-white mb-3">SEO Information</h4>
                       <div className="space-y-2">
                         {viewDialog.product.metaTitle && (
                           <div>
-                            <span className="font-medium text-gray-500">Meta Title:</span>
-                            <p className="text-gray-900">{viewDialog.product.metaTitle}</p>
+                            <span className="font-medium text-body-muted">Meta Title:</span>
+                            <p className="text-white">{viewDialog.product.metaTitle}</p>
                           </div>
                         )}
                         {viewDialog.product.metaDescription && (
                           <div>
-                            <span className="font-medium text-gray-500">Meta Description:</span>
-                            <p className="text-gray-900">{viewDialog.product.metaDescription}</p>
+                            <span className="font-medium text-body-muted">Meta Description:</span>
+                            <p className="text-white">{viewDialog.product.metaDescription}</p>
                           </div>
                         )}
                       </div>
@@ -248,7 +248,7 @@ export function ProductDialogs({
                   {viewDialog.product && viewDialog.product.images.length > 0 ? (
                     <div className="space-y-4">
                       {/* Main Image Display */}
-                      <div className="relative bg-gray-50 rounded-lg overflow-hidden">
+                      <div className="relative bg-navy-deep rounded-lg overflow-hidden">
                         <div className="aspect-video relative">
                           <Image
                             src={viewDialog.product.images[selectedImageIndex].startsWith('/api/') ? viewDialog.product.images[selectedImageIndex] : `/api/images/${viewDialog.product.images[selectedImageIndex].replace(/^\/+/, '')}`}
@@ -266,15 +266,15 @@ export function ProductDialogs({
 
                       {viewDialog.product.images.length > 1 && (
                         <div className="space-y-2">
-                          <h4 className="text-sm font-medium text-gray-700">Pilih Gambar:</h4>
+                          <h4 className="text-sm font-medium text-body-text">Pilih Gambar:</h4>
                           <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
                             {viewDialog.product.images.map((image, index) => (
                               <button
                                 key={index}
                                 onClick={() => setSelectedImageIndex(index)}
                                 className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${selectedImageIndex === index
-                                  ? 'border-blue-500 ring-2 ring-blue-200'
-                                  : 'border-gray-200 hover:border-gray-300'
+                                  ? 'border-gold/60 ring-2 ring-gold/40'
+                                  : 'border-hairline hover:border-gold/45'
                                   }`}
                               >
                                 <Image
@@ -291,9 +291,9 @@ export function ProductDialogs({
                       )}
 
                       {/* Image Info */}
-                      <div className="bg-gray-50 p-4 rounded-lg">
-                        <h4 className="text-sm font-medium text-gray-700 mb-2">Informasi Gambar</h4>
-                        <div className="text-sm text-gray-600">
+                      <div className="bg-navy-deep p-4 rounded-lg">
+                        <h4 className="text-sm font-medium text-body-text mb-2">Informasi Gambar</h4>
+                        <div className="text-sm text-body-text">
                           <p>Gambar {selectedImageIndex + 1} dari {viewDialog.product.images.length}</p>
                           <p className="mt-1">Klik thumbnail untuk melihat gambar lainnya</p>
                         </div>
@@ -301,9 +301,9 @@ export function ProductDialogs({
                     </div>
                   ) : (
                     <div className="text-center py-12">
-                      <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                      <h3 className="text-lg font-medium text-gray-900 mb-2">Tidak Ada Gambar</h3>
-                      <p className="text-gray-600">Produk ini belum memiliki gambar yang diupload.</p>
+                      <Package className="w-16 h-16 text-body-muted mx-auto mb-4" />
+                      <h3 className="text-lg font-medium text-white mb-2">Tidak Ada Gambar</h3>
+                      <p className="text-body-text">Produk ini belum memiliki gambar yang diupload.</p>
                     </div>
                   )}
                 </TabsContent>
@@ -324,14 +324,14 @@ export function ProductDialogs({
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-2">
-              <Trash2 className="w-5 h-5 text-red-500" />
+              <Trash2 className="w-5 h-5 text-red-300" />
               Hapus Produk
             </AlertDialogTitle>
             <AlertDialogDescription>
               Apakah Anda yakin ingin menghapus produk{" "}
               <span className="font-semibold">{deleteDialog.productName}</span>?
               <br />
-              <span className="text-red-600">
+              <span className="text-red-300">
                 Tindakan ini tidak dapat dibatalkan dan akan menghapus semua data terkait.
               </span>
             </AlertDialogDescription>
@@ -343,7 +343,7 @@ export function ProductDialogs({
             <AlertDialogAction
               onClick={handleDeleteConfirm}
               disabled={deleteLoading}
-              className="bg-red-600 hover:bg-red-700"
+              className="bg-red-500 hover:bg-red-400"
             >
               {deleteLoading ? (
                 <>

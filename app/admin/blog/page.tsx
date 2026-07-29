@@ -56,7 +56,7 @@ const BlogForm = memo(function BlogForm({ form, categories, onChange, onSubmit, 
       <div>
         <Label htmlFor="title">Judul Artikel</Label>
         <Input id="title" value={form.title} onChange={(e) => onChange({ title: e.target.value })} placeholder="Masukkan judul artikel" />
-        {errors?.title && <p className="mt-1 text-xs text-red-500">{errors.title[0]}</p>}
+        {errors?.title && <p className="mt-1 text-xs text-red-300">{errors.title[0]}</p>}
       </div>
       <div>
         <Label htmlFor="excerpt">Ringkasan</Label>
@@ -65,12 +65,12 @@ const BlogForm = memo(function BlogForm({ form, categories, onChange, onSubmit, 
       <div>
         <Label htmlFor="content">Konten Artikel</Label>
         <Textarea id="content" value={form.content} onChange={(e) => onChange({ content: e.target.value })} rows={8} placeholder="Tulis konten artikel lengkap" />
-        {errors?.content && <p className="mt-1 text-xs text-red-500">{errors.content[0]}</p>}
+        {errors?.content && <p className="mt-1 text-xs text-red-300">{errors.content[0]}</p>}
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="category">Kategori</Label>
-          <select id="category" value={form.category} onChange={(e) => onChange({ category: e.target.value })} className="w-full p-2 border border-gray-300 rounded-md">
+          <select id="category" value={form.category} onChange={(e) => onChange({ category: e.target.value })} className="w-full p-2 border border-hairline rounded-md">
             <option value="">Pilih kategori</option>
             {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
           </select>
@@ -78,7 +78,7 @@ const BlogForm = memo(function BlogForm({ form, categories, onChange, onSubmit, 
         <div>
           <Label htmlFor="author">Penulis</Label>
           <Input id="author" value={form.author} onChange={(e) => onChange({ author: e.target.value })} placeholder="Nama penulis" />
-          {errors?.author && <p className="mt-1 text-xs text-red-500">{errors.author[0]}</p>}
+          {errors?.author && <p className="mt-1 text-xs text-red-300">{errors.author[0]}</p>}
         </div>
       </div>
       <div>
@@ -88,7 +88,7 @@ const BlogForm = memo(function BlogForm({ form, categories, onChange, onSubmit, 
       <div className="space-y-2">
         <Label htmlFor="featuredImage">Gambar Utama</Label>
         {form.featuredImage && (
-          <div className="w-full aspect-video rounded border overflow-hidden flex items-center justify-center bg-gray-50">
+          <div className="w-full aspect-video rounded border overflow-hidden flex items-center justify-center bg-navy-deep">
             <img src={form.featuredImage} alt="Featured" className="object-cover w-full h-full" />
           </div>
         )}
@@ -104,9 +104,9 @@ const BlogForm = memo(function BlogForm({ form, categories, onChange, onSubmit, 
               ;(onChange as any)({ __localFile: file })
             }
           }}
-          className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+          className="block w-full text-sm text-body-text file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-gold/10 file:text-gold hover:file:bg-gold/20"
         />
-        <p className="text-xs text-gray-500">Pilih gambar dari komputer Anda. Maks 10MB.</p>
+        <p className="text-xs text-body-muted">Pilih gambar dari komputer Anda. Maks 10MB.</p>
       </div>
       <div>
         <Label htmlFor="readTime">Waktu Baca (menit)</Label>
@@ -122,12 +122,12 @@ const BlogForm = memo(function BlogForm({ form, categories, onChange, onSubmit, 
       </div>
       <div>
         <Label htmlFor="status">Status</Label>
-        <select id="status" value={form.status} onChange={(e) => onChange({ status: e.target.value as any })} className="w-full p-2 border border-gray-300 rounded-md">
+        <select id="status" value={form.status} onChange={(e) => onChange({ status: e.target.value as any })} className="w-full p-2 border border-hairline rounded-md">
           <option value="published">Diterbitkan</option>
           <option value="draft">Draf</option>
         </select>
       </div>
-      <Button onClick={onSubmit} className="w-full bg-blue-600 hover:bg-blue-700">{submitLabel}</Button>
+      <Button onClick={onSubmit} className="w-full bg-gold hover:bg-gold-bright">{submitLabel}</Button>
     </div>
   )
 })
@@ -363,7 +363,7 @@ export default function AdminBlogPage() {
 
   function renderFieldError(name: string) {
     if (!formErrors[name]) return null
-    return <p className="mt-1 text-xs text-red-500">{formErrors[name][0]}</p>
+    return <p className="mt-1 text-xs text-red-300">{formErrors[name][0]}</p>
   }
 
   return (
@@ -374,13 +374,13 @@ export default function AdminBlogPage() {
           {/* Header Section */}
           <div className="flex justify-between items-center">
             <div>
-              <h2 className="text-3xl font-bold text-blue-600">Blog Management</h2>
-              <p className="text-gray-600">Kelola artikel dan konten blog perusahaan</p>
+              <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-white">Manajemen Blog</h2>
+              <p className="text-body-text">Kelola artikel dan konten blog perusahaan</p>
             </div>
 
             <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => resetForm()}>
+                <Button className="bg-gold hover:bg-gold-bright" onClick={() => resetForm()}>
                   <Plus className="w-4 h-4 mr-2" />
                   Tambah Artikel
                 </Button>
@@ -399,7 +399,7 @@ export default function AdminBlogPage() {
 
           {/* Search Section */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-body-muted w-4 h-4" />
             <Input
               placeholder="Cari artikel, kategori, atau tags..."
               value={searchTerm}
@@ -410,11 +410,11 @@ export default function AdminBlogPage() {
 
           {/* Posts Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {loadingPosts && <div className="col-span-full text-center text-sm text-gray-500">Memuat artikel...</div>}
+            {loadingPosts && <div className="col-span-full text-center text-sm text-body-muted">Memuat artikel...</div>}
             {!loadingPosts && filteredPosts.map((post) => (
               <Card key={post.id as any} className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-0">
-                  <div className="aspect-video bg-gray-100 rounded-t-lg overflow-hidden">
+                  <div className="aspect-video bg-surface-2 rounded-t-lg overflow-hidden">
                     <img
                       src={post.featuredImage ? (post.featuredImage.startsWith('/api/') ? post.featuredImage : `/api/images/${post.featuredImage.replace(/^\/+/, '')}`) : '/placeholder.jpg'}
                       alt={post.title}
@@ -426,17 +426,17 @@ export default function AdminBlogPage() {
                       <Badge variant={post.status === "published" ? "default" : "secondary"}>
                         {post.status === "published" ? "Diterbitkan" : "Draf"}
                       </Badge>
-                      <span className="text-sm text-gray-500">{post.readTime} min</span>
+                      <span className="text-sm text-body-muted">{post.readTime} min</span>
                     </div>
 
                     <h3 className="font-semibold text-lg mb-2 line-clamp-2">{post.title}</h3>
-                    <p className="text-gray-600 text-sm mb-3 line-clamp-2">{post.excerpt}</p>
+                    <p className="text-body-text text-sm mb-3 line-clamp-2">{post.excerpt}</p>
 
                     <div className="flex items-center gap-2 mb-3">
-                      <Tag className="w-3 h-3 text-gray-400" />
-                      <span className="text-xs text-gray-500">{post.category}</span>
-                      <User className="w-3 h-3 text-gray-400 ml-2" />
-                      <span className="text-xs text-gray-500">{post.author}</span>
+                      <Tag className="w-3 h-3 text-body-muted" />
+                      <span className="text-xs text-body-muted">{post.category}</span>
+                      <User className="w-3 h-3 text-body-muted ml-2" />
+                      <span className="text-xs text-body-muted">{post.author}</span>
                     </div>
 
                     <div className="flex flex-wrap gap-1 mb-3">
@@ -454,8 +454,8 @@ export default function AdminBlogPage() {
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3 text-gray-400" />
-                        <span className="text-xs text-gray-500">{post.publishedDate}</span>
+                        <Calendar className="w-3 h-3 text-body-muted" />
+                        <span className="text-xs text-body-muted">{post.publishedDate}</span>
                       </div>
                       <div className="flex gap-1">
                         <Button

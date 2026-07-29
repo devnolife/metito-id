@@ -13,16 +13,16 @@ export function AdminLayoutWrapper({ children, title, description }: AdminLayout
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="admin-theme admin-shell flex h-screen">
       <AdminSidebar
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
-      <main className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
+      <main className={`flex-1 min-w-0 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
         <div className="flex flex-col h-full">
-          <div className="bg-white border-b border-gray-200 px-6 py-4">
-            <h1 className="text-2xl font-bold text-blue-600">{title}</h1>
-            <p className="text-gray-600">{description}</p>
+          <div className="border-b border-hairline bg-navy/85 backdrop-blur-md px-6 py-4">
+            <h1 className="font-display text-2xl font-bold tracking-[-0.02em] text-white">{title}</h1>
+            <p className="text-sm text-body-muted">{description}</p>
           </div>
           <div className="flex-1 p-6 overflow-auto">
             {children}

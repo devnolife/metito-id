@@ -28,36 +28,36 @@ export function ProductStats({
       value: activeProducts,
       description: "Produk aktif dalam sistem",
       icon: Package,
-      color: "bg-blue-500",
-      bgColor: "bg-blue-50",
-      textColor: "text-blue-700"
+      color: "bg-gold",
+      bgColor: "bg-gold/10",
+      textColor: "text-gold"
     },
     {
       title: "Kategori Produk",
       value: categoriesCount,
       description: "Kategori tersedia",
       icon: Tag,
-      color: "bg-green-500",
-      bgColor: "bg-green-50",
-      textColor: "text-green-700"
+      color: "bg-gold",
+      bgColor: "bg-gold/10",
+      textColor: "text-gold"
     },
     {
       title: "Produk Tersedia",
       value: inStockProducts,
       description: "Unit siap dipasarkan",
       icon: CheckCircle,
-      color: "bg-orange-500",
-      bgColor: "bg-orange-50",
-      textColor: "text-orange-700"
+      color: "bg-gold",
+      bgColor: "bg-gold/10",
+      textColor: "text-gold"
     },
     {
       title: "Nilai Total",
       value: formatCurrency(totalValue),
       description: "Total nilai inventori",
       icon: DollarSign,
-      color: "bg-purple-500",
-      bgColor: "bg-purple-50",
-      textColor: "text-purple-700",
+      color: "bg-gold",
+      bgColor: "bg-gold/10",
+      textColor: "text-gold",
       isAmount: true
     }
   ]
@@ -76,14 +76,14 @@ export function ProductStats({
                       <Icon className={`h-5 w-5 ${stat.textColor}`} />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-600">{stat.title}</p>
+                      <p className="text-sm font-medium text-body-text">{stat.title}</p>
                     </div>
                   </div>
                   <div className="space-y-1">
-                    <p className={`text-2xl font-bold ${stat.isAmount ? 'text-lg' : ''} text-gray-900`}>
+                    <p className={`text-2xl font-bold ${stat.isAmount ? 'text-lg' : ''} text-white`}>
                       {stat.value}
                     </p>
-                    <p className="text-xs text-gray-500">{stat.description}</p>
+                    <p className="text-xs text-body-muted">{stat.description}</p>
                   </div>
                 </div>
               </div>

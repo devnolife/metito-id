@@ -198,7 +198,7 @@ export function CategoryManagement({ categories, onCategoryChange, className }: 
             </CardTitle>
             <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
               <DialogTrigger asChild>
-                <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+                <Button size="sm" className="bg-gold hover:bg-gold-bright">
                   <Plus className="w-4 h-4 mr-2" />
                   Tambah Kategori
                 </Button>
@@ -219,7 +219,7 @@ export function CategoryManagement({ categories, onCategoryChange, className }: 
                       title="Nama kategori harus minimal 2 karakter"
                     />
                     {formData.name.length > 0 && formData.name.length < 2 && (
-                      <p className="text-sm text-red-500 mt-1">Nama kategori harus minimal 2 karakter</p>
+                      <p className="text-sm text-red-300 mt-1">Nama kategori harus minimal 2 karakter</p>
                     )}
                   </div>
                   <div>
@@ -246,7 +246,7 @@ export function CategoryManagement({ categories, onCategoryChange, className }: 
                         <button
                           key={color}
                           type="button"
-                          className={`w-8 h-8 rounded-full border-2 ${formData.color === color ? 'border-gray-900' : 'border-gray-300'
+                          className={`w-8 h-8 rounded-full border-2 ${formData.color === color ? 'border-gold' : 'border-hairline'
                             }`}
                           style={{ backgroundColor: color }}
                           onClick={() => setFormData({ ...formData, color })}
@@ -306,10 +306,10 @@ export function CategoryManagement({ categories, onCategoryChange, className }: 
                     </Badge>
                   </div>
                   {category.description && (
-                    <p className="text-sm text-gray-600 mb-3">{category.description}</p>
+                    <p className="text-sm text-body-text mb-3">{category.description}</p>
                   )}
                   {category.icon && (
-                    <p className="text-xs text-gray-500 mb-3 flex items-center gap-1">
+                    <p className="text-xs text-body-muted mb-3 flex items-center gap-1">
                       <Tag className="w-3 h-3" />
                       Icon: {category.icon}
                     </p>
@@ -357,7 +357,7 @@ export function CategoryManagement({ categories, onCategoryChange, className }: 
                 title="Nama kategori harus minimal 2 karakter"
               />
               {formData.name.length > 0 && formData.name.length < 2 && (
-                <p className="text-sm text-red-500 mt-1">Nama kategori harus minimal 2 karakter</p>
+                <p className="text-sm text-red-300 mt-1">Nama kategori harus minimal 2 karakter</p>
               )}
             </div>
             <div>
@@ -384,7 +384,7 @@ export function CategoryManagement({ categories, onCategoryChange, className }: 
                   <button
                     key={color}
                     type="button"
-                    className={`w-8 h-8 rounded-full border-2 ${formData.color === color ? 'border-gray-900' : 'border-gray-300'
+                    className={`w-8 h-8 rounded-full border-2 ${formData.color === color ? 'border-gold' : 'border-hairline'
                       }`}
                     style={{ backgroundColor: color }}
                     onClick={() => setFormData({ ...formData, color })}

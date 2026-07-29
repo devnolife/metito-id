@@ -98,7 +98,7 @@ export default function AdminSettingsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-gold" />
       </div>
     )
   }
@@ -167,7 +167,7 @@ export default function AdminSettingsPage() {
                     <Label htmlFor="show-prices" className="text-base">
                       Tampilkan Harga Produk
                     </Label>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-body-muted">
                       Harga akan ditampilkan di semua halaman
                     </p>
                   </div>
@@ -184,7 +184,7 @@ export default function AdminSettingsPage() {
                   <Label htmlFor="show-stock" className="text-base">
                     Tampilkan Stok
                   </Label>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-body-muted">
                     Status stok akan ditampilkan di semua halaman
                   </p>
                 </div>
@@ -208,8 +208,8 @@ export default function AdminSettingsPage() {
               <div className="space-y-2">
                 <Label>Status Database</Label>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-green-600">Terhubung</span>
+                  <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
+                  <span className="text-sm text-emerald-300">Terhubung</span>
                 </div>
               </div>
               <Button variant="outline" className="w-full">

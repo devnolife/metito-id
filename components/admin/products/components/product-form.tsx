@@ -329,7 +329,7 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">
+        <h2 className="text-2xl font-bold text-white">
           {isEdit ? 'Edit Produk' : 'Tambah Produk Baru'}
         </h2>
         <div className="flex gap-2">
@@ -344,7 +344,7 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
           <Button
             type="submit"
             disabled={isLoading}
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-gold hover:bg-gold-bright"
           >
             {isLoading ? (
               <>
@@ -384,17 +384,17 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                     value={formData.name || ''}
                     onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                     placeholder="Contoh: Water Filtration System"
-                    className={errors.name ? "border-red-500" : ""}
+                    className={errors.name ? "border-red-500/45" : ""}
                   />
-                  {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
+                  {errors.name && <p className="text-sm text-red-300">{errors.name}</p>}
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="categoryId">Kategori *</Label>
                   {categoriesLoading ? (
-                    <div className="flex items-center gap-2 p-3 border rounded-md bg-gray-50">
-                      <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
-                      <span className="text-sm text-gray-600">Memuat kategori...</span>
+                    <div className="flex items-center gap-2 p-3 border rounded-md bg-navy-deep">
+                      <Loader2 className="w-4 h-4 animate-spin text-gold" />
+                      <span className="text-sm text-body-text">Memuat kategori...</span>
                     </div>
                   ) : (
                     <Select
@@ -403,7 +403,7 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                       onValueChange={(value) => setFormData(prev => ({ ...prev, categoryId: value }))}
                       disabled={categoriesLoading}
                     >
-                      <SelectTrigger className={errors.categoryId ? "border-red-500" : ""}>
+                      <SelectTrigger className={errors.categoryId ? "border-red-500/45" : ""}>
                         <SelectValue placeholder="Pilih kategori" />
                       </SelectTrigger>
                       <SelectContent>
@@ -415,9 +415,9 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                       </SelectContent>
                     </Select>
                   )}
-                  {errors.categoryId && <p className="text-sm text-red-500">{errors.categoryId}</p>}
+                  {errors.categoryId && <p className="text-sm text-red-300">{errors.categoryId}</p>}
                   {isEdit && formData.categoryId && !categoriesLoading && (
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-body-muted">
                       Kategori saat ini: {categories.find(c => c.id === formData.categoryId)?.name || formData.categoryId}
                     </p>
                   )}
@@ -431,9 +431,9 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                   value={formData.shortDesc || ''}
                   onChange={(e) => setFormData(prev => ({ ...prev, shortDesc: e.target.value }))}
                   placeholder="Deskripsi singkat untuk preview"
-                  className={errors.shortDesc ? "border-red-500" : ""}
+                  className={errors.shortDesc ? "border-red-500/45" : ""}
                 />
-                {errors.shortDesc && <p className="text-sm text-red-500">{errors.shortDesc}</p>}
+                {errors.shortDesc && <p className="text-sm text-red-300">{errors.shortDesc}</p>}
               </div>
 
               <div className="space-y-2">
@@ -452,14 +452,14 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                   <div className="flex items-center justify-between">
                     <Label htmlFor="price">Harga (IDR)</Label>
                     <div className="flex items-center gap-2 text-xs">
-                      <span className={priceInputType === "number" ? "font-semibold text-blue-600" : "text-gray-500"}>
+                      <span className={priceInputType === "number" ? "font-semibold text-gold" : "text-body-muted"}>
                         Angka
                       </span>
                       <Switch
                         checked={priceInputType === "text"}
                         onCheckedChange={handlePriceTypeToggle}
                       />
-                      <span className={priceInputType === "text" ? "font-semibold text-blue-600" : "text-gray-500"}>
+                      <span className={priceInputType === "text" ? "font-semibold text-gold" : "text-body-muted"}>
                         Teks
                       </span>
                     </div>
@@ -473,15 +473,15 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                       setFormData(prev => ({ ...prev, price: val }))
                     }}
                     placeholder={priceInputType === "number" ? "Contoh: 1000000" : "Contoh: Hubungi Kami"}
-                    className={errors.price ? "border-red-500" : ""}
+                    className={errors.price ? "border-red-500/45" : ""}
                   />
                   {formData.price && priceInputType === "number" && (
-                    <p className="text-sm text-gray-500">{formatCurrency(formData.price)}</p>
+                    <p className="text-sm text-body-muted">{formatCurrency(formData.price)}</p>
                   )}
                   {priceInputType === "text" && (
-                    <p className="text-xs text-gray-500">Masukkan teks seperti "Hubungi Kami", "Call for Price", dll</p>
+                    <p className="text-xs text-body-muted">Masukkan teks seperti "Hubungi Kami", "Call for Price", dll</p>
                   )}
-                  {errors.price && <p className="text-sm text-red-500">{errors.price}</p>}
+                  {errors.price && <p className="text-sm text-red-300">{errors.price}</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -503,7 +503,7 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                     </SelectContent>
                   </Select>
                   {isEdit && formData.application && (
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-body-muted">
                       Aplikasi saat ini: {formData.application}
                     </p>
                   )}
@@ -551,8 +551,8 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                 <div className={`
                   border-2 border-dashed rounded-lg p-6 text-center transition-all duration-200
                   ${uploading
-                    ? 'border-blue-400 bg-blue-50'
-                    : 'border-gray-300 hover:border-blue-400 hover:bg-gray-50'
+                    ? 'border-gold/40 bg-gold/10'
+                    : 'border-hairline hover:border-gold/60 hover:bg-surface-2'
                   }
                 `}>
                   <Input
@@ -567,28 +567,28 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                   <label htmlFor="productImages" className={uploading ? 'cursor-wait' : 'cursor-pointer'}>
                     <div className="flex flex-col items-center gap-3">
                       {uploading ? (
-                        <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
+                        <Loader2 className="w-12 h-12 text-gold animate-spin" />
                       ) : (
-                        <div className="p-3 bg-blue-100 rounded-full">
-                          <Upload className="w-8 h-8 text-blue-600" />
+                        <div className="p-3 bg-gold/10 rounded-full">
+                          <Upload className="w-8 h-8 text-gold" />
                         </div>
                       )}
 
                       <div className="space-y-1">
                         <div className="text-sm font-medium">
                           {uploading ? (
-                            <span className="text-blue-600">Mengupload gambar...</span>
+                            <span className="text-gold">Mengupload gambar...</span>
                           ) : (
                             <>
-                              <span className="text-blue-600">Klik untuk upload</span>
-                              {" "}<span className="text-gray-600">atau drag & drop</span>
+                              <span className="text-gold">Klik untuk upload</span>
+                              {" "}<span className="text-body-text">atau drag & drop</span>
                             </>
                           )}
                         </div>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-body-muted">
                           PNG, JPG hingga 5MB per file
                         </p>
-                        <p className="text-xs text-blue-600 font-medium">
+                        <p className="text-xs text-gold font-medium">
                           ✨ Bisa pilih multiple files sekaligus
                         </p>
                       </div>
@@ -597,7 +597,7 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                 </div>
 
                 {uploading && (
-                  <div className="flex items-center justify-center gap-2 text-sm text-blue-600 bg-blue-50 py-2 px-3 rounded-lg border border-blue-200">
+                  <div className="flex items-center justify-center gap-2 text-sm text-gold bg-gold/10 py-2 px-3 rounded-lg border border-gold/40">
                     <Loader2 className="w-4 h-4 animate-spin" />
                     <span className="font-medium">Sedang mengupload gambar...</span>
                   </div>
@@ -625,7 +625,7 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                     {formData.images.filter(url => url && url.trim() !== '').map((imageUrl, index, validImages) => (
                       <div key={index} className="relative group">
                         {/* Image Container */}
-                        <div className="relative aspect-square border-2 border-gray-200 rounded-lg overflow-hidden bg-gray-50 hover:border-blue-400 transition-all duration-200">
+                        <div className="relative aspect-square border-2 border-hairline rounded-lg overflow-hidden bg-navy-deep hover:border-gold/60 transition-all duration-200">
                           <Image
                             src={imageUrl}
                             alt={`Product ${index + 1}`}
@@ -641,7 +641,7 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                           <button
                             type="button"
                             onClick={() => handleRemoveImage(formData.images?.indexOf(imageUrl) ?? index)}
-                            className="absolute top-1.5 right-1.5 bg-red-500 text-white p-1.5 rounded-full opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600 shadow-md z-10"
+                            className="absolute top-1.5 right-1.5 bg-red-500 text-white p-1.5 rounded-full opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-400 shadow-md z-10"
                             title="Hapus gambar"
                           >
                             <X className="w-3.5 h-3.5" />
@@ -652,7 +652,7 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                             <button
                               type="button"
                               onClick={() => handleMoveImage(formData.images?.indexOf(imageUrl) ?? index, 'up')}
-                              className="absolute top-1/2 left-1.5 -translate-y-1/2 bg-blue-500 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-blue-600 shadow-md z-10"
+                              className="absolute top-1/2 left-1.5 -translate-y-1/2 bg-gold text-navy p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gold-bright shadow-md z-10"
                               title="Pindah ke kiri"
                             >
                               <ChevronLeft className="w-3.5 h-3.5" />
@@ -664,7 +664,7 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                             <button
                               type="button"
                               onClick={() => handleMoveImage(formData.images?.indexOf(imageUrl) ?? index, 'down')}
-                              className="absolute top-1/2 right-1.5 -translate-y-1/2 bg-blue-500 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-blue-600 shadow-md z-10"
+                              className="absolute top-1/2 right-1.5 -translate-y-1/2 bg-gold text-navy p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gold-bright shadow-md z-10"
                               title="Pindah ke kanan"
                             >
                               <ChevronRight className="w-3.5 h-3.5" />
@@ -673,7 +673,7 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
 
                           {/* Primary badge */}
                           {index === 0 && (
-                            <div className="absolute bottom-1.5 left-1.5 bg-blue-600 text-white text-xs px-2 py-0.5 rounded font-semibold shadow-md">
+                            <div className="absolute bottom-1.5 left-1.5 bg-gold text-navy text-xs px-2 py-0.5 rounded font-semibold shadow-md">
                               Utama
                             </div>
                           )}
@@ -688,9 +688,9 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                   </div>
 
                   {/* Info box */}
-                  <div className="flex items-start gap-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                    <ImageIcon className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-xs text-blue-900">
+                  <div className="flex items-start gap-2 p-3 bg-gold/10 border border-gold/40 rounded-lg">
+                    <ImageIcon className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
+                    <p className="text-xs text-gold">
                       <strong>Tips:</strong> Gambar pertama akan digunakan sebagai gambar utama produk.
                       Gunakan tombol panah untuk mengatur urutan gambar. Hover pada gambar untuk menampilkan kontrol.
                     </p>
@@ -789,7 +789,7 @@ export function ProductForm({ product, isEdit = false, onSubmit, onCancel, isLoa
                   <Badge key={index} variant="secondary" className="flex items-center gap-1">
                     {feature}
                     <X
-                      className="w-3 h-3 cursor-pointer hover:text-red-500"
+                      className="w-3 h-3 cursor-pointer hover:text-red-200"
                       onClick={() => removeFeature(index)}
                     />
                   </Badge>

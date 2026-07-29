@@ -77,8 +77,8 @@ export function ProductList({
           <div className="space-y-4">
             <div className="flex items-center justify-center py-8">
               <div className="text-center">
-                <Package className="mx-auto h-12 w-12 text-gray-400 animate-pulse" />
-                <p className="mt-2 text-sm text-gray-500">Memuat produk...</p>
+                <Package className="mx-auto h-12 w-12 text-body-muted animate-pulse" />
+                <p className="mt-2 text-sm text-body-muted">Memuat produk...</p>
               </div>
             </div>
             {/* Loading skeleton */}
@@ -104,9 +104,9 @@ export function ProductList({
       <Card className="border-0 shadow-sm">
         <CardContent className="p-6">
           <div className="text-center py-12">
-            <Package className="mx-auto h-16 w-16 text-gray-400" />
-            <h3 className="mt-4 text-lg font-semibold text-gray-900">Tidak ada produk ditemukan</h3>
-            <p className="mt-2 text-sm text-gray-500">
+            <Package className="mx-auto h-16 w-16 text-body-muted" />
+            <h3 className="mt-4 text-lg font-semibold text-white">Tidak ada produk ditemukan</h3>
+            <p className="mt-2 text-sm text-body-muted">
               Coba ubah filter pencarian atau tambahkan produk baru
             </p>
           </div>
@@ -121,36 +121,36 @@ export function ProductList({
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <Table>
-              <TableHeader className="bg-gray-50">
-                <TableRow className="hover:bg-gray-50">
-                  <TableHead className="font-semibold text-gray-900 py-4">Produk</TableHead>
-                  <TableHead className="font-semibold text-gray-900 py-4">Kategori</TableHead>
-                  <TableHead className="font-semibold text-gray-900 py-4">Harga</TableHead>
-                  <TableHead className="font-semibold text-gray-900 py-4">Status</TableHead>
-                  <TableHead className="font-semibold text-gray-900 py-4">Dibuat</TableHead>
-                  <TableHead className="font-semibold text-gray-900 py-4 text-right">Aksi</TableHead>
+              <TableHeader className="bg-navy-deep">
+                <TableRow className="hover:bg-surface-2">
+                  <TableHead className="font-semibold text-white py-4">Produk</TableHead>
+                  <TableHead className="font-semibold text-white py-4">Kategori</TableHead>
+                  <TableHead className="font-semibold text-white py-4">Harga</TableHead>
+                  <TableHead className="font-semibold text-white py-4">Status</TableHead>
+                  <TableHead className="font-semibold text-white py-4">Dibuat</TableHead>
+                  <TableHead className="font-semibold text-white py-4 text-right">Aksi</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {products.map((product) => (
-                  <TableRow key={product.id} className="hover:bg-gray-50/50 transition-colors">
+                  <TableRow key={product.id} className="hover:bg-surface-2/60 transition-colors">
                     <TableCell className="py-4">
                       <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg flex items-center justify-center">
-                          <Package className="w-6 h-6 text-blue-600" />
+                        <div className="flex-shrink-0 w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center">
+                          <Package className="w-6 h-6 text-gold" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="font-semibold text-gray-900 truncate">{product.name}</span>
+                            <span className="font-semibold text-white truncate">{product.name}</span>
                             {product.isFeatured && (
-                              <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 border-yellow-200">
+                              <Badge variant="secondary" className="bg-gold/10 text-gold border-gold/30">
                                 <Star className="w-3 h-3 mr-1" />
                                 Unggulan
                               </Badge>
                             )}
                           </div>
                           {product.shortDesc && (
-                            <p className="text-sm text-gray-600 line-clamp-2">
+                            <p className="text-sm text-body-text line-clamp-2">
                               {product.shortDesc.length > 60
                                 ? `${product.shortDesc.substring(0, 60)}...`
                                 : product.shortDesc
@@ -161,12 +161,12 @@ export function ProductList({
                       </div>
                     </TableCell>
                     <TableCell className="py-4">
-                      <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">
+                      <Badge variant="outline" className="bg-navy-deep text-body-text border-hairline">
                         {product.category.name}
                       </Badge>
                     </TableCell>
                     <TableCell className="py-4">
-                      <span className="font-semibold text-gray-900">
+                      <span className="font-semibold text-white">
                         {formatCurrency(product.price)}
                       </span>
                     </TableCell>
@@ -175,8 +175,8 @@ export function ProductList({
                         <Badge
                           variant={product.inStock ? "default" : "secondary"}
                           className={`w-fit ${product.inStock
-                              ? "bg-green-100 text-green-800 border-green-200"
-                              : "bg-red-100 text-red-800 border-red-200"
+                              ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/30"
+                              : "bg-red-500/10 text-red-300 border-red-500/30"
                             }`}
                         >
                           {product.inStock ? (
@@ -189,8 +189,8 @@ export function ProductList({
                         <Badge
                           variant={product.isActive ? "default" : "destructive"}
                           className={`w-fit ${product.isActive
-                              ? "bg-blue-100 text-blue-800 border-blue-200"
-                              : "bg-gray-100 text-gray-800 border-gray-200"
+                              ? "bg-gold/10 text-gold border-gold/40"
+                              : "bg-surface-2 text-white border-hairline"
                             }`}
                         >
                           {product.isActive ? "Aktif" : "Nonaktif"}
@@ -198,7 +198,7 @@ export function ProductList({
                       </div>
                     </TableCell>
                     <TableCell className="py-4">
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-body-text">
                         {formatDate(product.createdAt)}
                       </span>
                     </TableCell>
@@ -208,7 +208,7 @@ export function ProductList({
                           variant="ghost"
                           size="sm"
                           onClick={() => onView(product)}
-                          className="h-8 w-8 p-0 hover:bg-blue-50 hover:text-blue-600"
+                          className="h-8 w-8 p-0 hover:bg-gold/15 hover:text-gold-bright"
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
@@ -216,7 +216,7 @@ export function ProductList({
                           variant="ghost"
                           size="sm"
                           onClick={() => onEdit(product)}
-                          className="h-8 w-8 p-0 hover:bg-orange-50 hover:text-orange-600"
+                          className="h-8 w-8 p-0 hover:bg-gold/15 hover:text-gold-bright"
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -224,7 +224,7 @@ export function ProductList({
                           variant="ghost"
                           size="sm"
                           onClick={() => onDelete(product.id)}
-                          className="h-8 w-8 p-0 hover:bg-red-50 hover:text-red-600"
+                          className="h-8 w-8 p-0 hover:bg-red-500/10 hover:text-red-200"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -240,8 +240,8 @@ export function ProductList({
 
       {/* Pagination */}
       {pagination.totalPages > 1 && (
-        <div className="flex items-center justify-between bg-white rounded-lg border-0 shadow-sm p-4">
-          <div className="text-sm text-gray-600">
+        <div className="flex items-center justify-between bg-surface rounded-lg border-0 shadow-sm p-4">
+          <div className="text-sm text-body-text">
             Menampilkan <span className="font-semibold">{((pagination.page - 1) * pagination.limit) + 1}</span> - <span className="font-semibold">{Math.min(pagination.page * pagination.limit, pagination.total)}</span> dari <span className="font-semibold">{pagination.total}</span> produk
           </div>
 
@@ -251,7 +251,7 @@ export function ProductList({
                 <PaginationItem>
                   <PaginationPrevious
                     onClick={() => onPageChange(pagination.page - 1)}
-                    className="cursor-pointer hover:bg-gray-50"
+                    className="cursor-pointer hover:bg-surface-2"
                   />
                 </PaginationItem>
               )}
@@ -266,7 +266,7 @@ export function ProductList({
                     <PaginationLink
                       onClick={() => onPageChange(pageNum)}
                       isActive={pageNum === pagination.page}
-                      className="cursor-pointer hover:bg-gray-50"
+                      className="cursor-pointer hover:bg-surface-2"
                     >
                       {pageNum}
                     </PaginationLink>
@@ -278,7 +278,7 @@ export function ProductList({
                 <PaginationItem>
                   <PaginationNext
                     onClick={() => onPageChange(pagination.page + 1)}
-                    className="cursor-pointer hover:bg-gray-50"
+                    className="cursor-pointer hover:bg-surface-2"
                   />
                 </PaginationItem>
               )}

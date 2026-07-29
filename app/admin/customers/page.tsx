@@ -125,7 +125,7 @@ const CustomerForm = memo(function CustomerForm({ initialData, industries, uploa
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="industry">Industri</Label>
-          <select id="industry" value={localData.industry} onChange={(e) => setLocalData({ ...localData, industry: e.target.value })} className="w-full p-2 border border-gray-300 rounded-md" aria-label="Pilih industri">
+          <select id="industry" value={localData.industry} onChange={(e) => setLocalData({ ...localData, industry: e.target.value })} className="w-full p-2 border border-hairline rounded-md" aria-label="Pilih industri">
             <option value="">Pilih industri</option>
             {industries.map(ind => <option key={ind} value={ind}>{ind}</option>)}
           </select>
@@ -157,7 +157,7 @@ const CustomerForm = memo(function CustomerForm({ initialData, industries, uploa
               <div className="w-24 h-24 rounded-full overflow-hidden border relative">
                 <img src={avatarPreview || localData.avatar} alt="Avatar" className="w-full h-full object-cover" />
                 {avatarPreview && !localData.avatar && (
-                  <span className="absolute bottom-0 inset-x-0 bg-amber-500 text-white text-[10px] text-center py-0.5">Belum diupload</span>
+                  <span className="absolute bottom-0 inset-x-0 bg-gold text-navy text-[10px] text-center py-0.5">Belum diupload</span>
                 )}
               </div>
               <div className="flex flex-wrap items-center gap-2">
@@ -172,7 +172,7 @@ const CustomerForm = memo(function CustomerForm({ initialData, industries, uploa
             </div>
           ) : (
             <div className="flex flex-col items-start gap-2 border border-dashed rounded-md p-4">
-              <p className="text-xs text-gray-600">Pilih foto (JPG/PNG/WEBP/GIF, max 5MB)</p>
+              <p className="text-xs text-body-text">Pilih foto (JPG/PNG/WEBP/GIF, max 5MB)</p>
               <div className="flex gap-2">
                 <Button type="button" variant="outline" size="sm" onClick={triggerFile}>Pilih File</Button>
                 <Button type="button" size="sm" onClick={onAvatarUpload} disabled={!avatarFile || uploadingAvatar}>{uploadingAvatar ? 'Mengupload...' : 'Upload'}</Button>
@@ -194,7 +194,7 @@ const CustomerForm = memo(function CustomerForm({ initialData, industries, uploa
         </div>
         <div>
           <Label htmlFor="status">Status</Label>
-          <select id="status" value={localData.status} onChange={(e) => setLocalData({ ...localData, status: e.target.value as any })} className="w-full p-2 border border-gray-300 rounded-md" aria-label="Pilih status pelanggan">
+          <select id="status" value={localData.status} onChange={(e) => setLocalData({ ...localData, status: e.target.value as any })} className="w-full p-2 border border-hairline rounded-md" aria-label="Pilih status pelanggan">
             <option value="potential">Prospek</option>
             <option value="active">Aktif</option>
             <option value="completed">Selesai</option>
@@ -211,7 +211,7 @@ const CustomerForm = memo(function CustomerForm({ initialData, industries, uploa
           <Label htmlFor="featured">Pelanggan unggulan</Label>
         </div>
       </div>
-      <Button onClick={handleSubmit} className="w-full bg-blue-600 hover:bg-blue-700" disabled={uploadingAvatar}>{submitLabel}</Button>
+      <Button onClick={handleSubmit} className="w-full bg-gold hover:bg-gold-bright" disabled={uploadingAvatar}>{submitLabel}</Button>
     </div>
   )
 })
@@ -329,7 +329,7 @@ export default function AdminCustomersPage() {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`w-4 h-4 ${i < rating ? "text-yellow-400 fill-current" : "text-gray-300"}`}
+        className={`w-4 h-4 ${i < rating ? "text-gold fill-current" : "text-body-muted"}`}
       />
     ))
   }
@@ -526,12 +526,12 @@ export default function AdminCustomersPage() {
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <div>
-              <h2 className="text-3xl font-bold text-blue-600">Customer Management</h2>
-              <p className="text-gray-600">Kelola data pelanggan dan testimoni</p>
+              <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-white">Manajemen Pelanggan</h2>
+              <p className="text-body-text">Kelola data pelanggan dan testimoni</p>
             </div>
             <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-blue-600 hover:bg-blue-700" onClick={resetForm}>
+                <Button className="bg-gold hover:bg-gold-bright" onClick={resetForm}>
                   <Plus className="w-4 h-4 mr-2" /> Tambah Pelanggan
                 </Button>
               </DialogTrigger>
@@ -557,7 +557,7 @@ export default function AdminCustomersPage() {
           </div>
           <div className="flex flex-wrap gap-4 items-center">
             <div className="relative flex-1 min-w-[240px]">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-body-muted w-4 h-4" />
               <Input className="pl-9" placeholder="Cari nama, perusahaan, email, proyek..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
             </div>
             <select className="p-2 border rounded-md" value={selectedStatus} onChange={e => setSelectedStatus(e.target.value)}>
@@ -573,10 +573,10 @@ export default function AdminCustomersPage() {
           </div>
           <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {isLoading && (
-              <div className="col-span-full flex justify-center py-12 text-sm text-gray-500">Memuat data pelanggan...</div>
+              <div className="col-span-full flex justify-center py-12 text-sm text-body-muted">Memuat data pelanggan...</div>
             )}
             {!isLoading && !filteredCustomers.length && (
-              <div className="col-span-full flex flex-col items-center justify-center py-12 text-center text-sm text-gray-500">
+              <div className="col-span-full flex flex-col items-center justify-center py-12 text-center text-sm text-body-muted">
                 {loadError ? (
                   <>
                     <p className="mb-2">{loadError}</p>
@@ -605,22 +605,22 @@ export default function AdminCustomersPage() {
               <Card key={c.id} className="relative">
                 <CardContent className="p-4 space-y-3">
                   <div className="flex items-start gap-4">
-                    <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
-                      {c.avatar ? <img src={c.avatar.startsWith('/api/') ? c.avatar : `/api/images/${c.avatar.replace(/^\/+/, '')}`} alt={c.name} className="w-full h-full object-cover" /> : <User className="w-8 h-8 text-gray-400" />}
+                    <div className="w-16 h-16 rounded-full overflow-hidden bg-surface-2 flex items-center justify-center">
+                      {c.avatar ? <img src={c.avatar.startsWith('/api/') ? c.avatar : `/api/images/${c.avatar.replace(/^\/+/, '')}`} alt={c.name} className="w-full h-full object-cover" /> : <User className="w-8 h-8 text-body-muted" />}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <h3 className="font-semibold text-lg">{c.name}</h3>
-                        {c.featured && <Badge className="bg-yellow-400 text-black">Featured</Badge>}
+                        {c.featured && <Badge className="bg-gold text-navy">Featured</Badge>}
                       </div>
-                      <p className="text-sm text-gray-600 flex items-center gap-1"><Building className="w-3 h-3" /> {c.company}</p>
-                      <p className="text-sm text-gray-600 flex items-center gap-1"><Mail className="w-3 h-3" /> {c.email}</p>
+                      <p className="text-sm text-body-text flex items-center gap-1"><Building className="w-3 h-3" /> {c.company}</p>
+                      <p className="text-sm text-body-text flex items-center gap-1"><Mail className="w-3 h-3" /> {c.email}</p>
                       {c.website && (
                         <a
                           href={c.website.startsWith('http') ? c.website : `https://${c.website}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="mt-1 inline-flex items-center px-2 py-1 text-xs rounded-md bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"
+                          className="mt-1 inline-flex items-center px-2 py-1 text-xs rounded-md bg-gold/10 text-gold hover:bg-gold/20 transition-colors"
                         >
                           <Globe className="w-3 h-3 mr-1" /> Website
                         </a>
@@ -631,13 +631,13 @@ export default function AdminCustomersPage() {
                       <Button size="sm" variant="destructive" onClick={() => { setCustomerToDelete(c); setDeleteDialogOpen(true) }}><Trash2 className="w-4 h-4" /></Button>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <div className="flex items-center gap-2 text-sm text-body-muted">
                     <Calendar className="w-4 h-4" /> {c.contactDate || '—'}
                     <MapPin className="w-4 h-4" /> {c.address.split(',')[0]}
                   </div>
                   <div className="text-sm">
                     <p className="font-medium">{c.projectType}</p>
-                    {c.testimonial && c.isPublicTestimonial && <p className="mt-1 text-gray-600 italic line-clamp-3">“{c.testimonial}”</p>}
+                    {c.testimonial && c.isPublicTestimonial && <p className="mt-1 text-body-text italic line-clamp-3">“{c.testimonial}”</p>}
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="flex">{renderStars(c.rating)}</div>

@@ -163,7 +163,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   // Public pages (like login) - render without sidebar
   if (isPublicPage) {
-    return <div className="admin-theme min-h-screen">{children}</div>
+    return <div className="admin-theme admin-shell min-h-screen">{children}</div>
   }
 
   // Private pages - require authentication
@@ -171,16 +171,20 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     return null // Will redirect to login
   }
 
+  const page = getPageMeta(pathname)
+
   // Authenticated admin - render with sidebar
   return (
-    <div className="admin-theme flex h-screen overflow-hidden bg-gray-50">
+    <div className="admin-theme admin-shell flex h-screen overflow-hidden">
       <AdminSidebar
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
-      <div className={`flex-1 flex flex-col transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
+      <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
         <AdminHeader
-          title={getPageTitle(pathname)}
+          title={page.title}
+          subtitle={page.subtitle}
+          index={page.index}
           user={user}
           onLogout={handleLogout}
         />
@@ -192,19 +196,36 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   )
 }
 
-function getPageTitle(pathname: string): string {
-  const titleMap: { [key: string]: string } = {
-    '/admin': 'Dashboard Admin',
-    '/admin/quotations': 'Surat Penawaran',
-    '/admin/products': 'Manajemen Produk',
-    '/admin/services': 'Manajemen Layanan',
-    '/admin/customers': 'Manajemen Pelanggan',
-    '/admin/gallery': 'Manajemen Galeri',
-    '/admin/blog': 'Manajemen Blog',
-    '/admin/certifications': 'Manajemen Sertifikasi',
-    '/admin/contact': 'Manajemen Kontak',
-    '/admin/settings': 'Pengaturan',
-  }
+interface PageMeta {
+  index: string
+  title: string
+  subtitle: string
+}
 
-  return titleMap[pathname] || 'Dashboard Admin'
+/* Each route carries its own mono index and caption so the header reads like
+   the numbered section markers on the public site. */
+const PAGE_META: Record<string, PageMeta> = {
+  '/admin': { index: '01', title: 'Dashboard', subtitle: 'Ringkasan operasional PT. METITO' },
+  '/admin/quotations': { index: '02', title: 'Surat Penawaran', subtitle: 'Susun dan kelola dokumen penawaran' },
+  '/admin/customers': { index: '03', title: 'Pelanggan', subtitle: 'Basis data mitra dan klien industri' },
+  '/admin/contact': { index: '04', title: 'Kontak Masuk', subtitle: 'Permintaan konsultasi dari situs' },
+  '/admin/whatsapp-contacts': { index: '05', title: 'Kontak WhatsApp', subtitle: 'Nomor layanan yang tampil di situs' },
+  '/admin/products': { index: '06', title: 'Katalog Produk', subtitle: 'Chemical, equipment, spare parts' },
+  '/admin/services': { index: '07', title: 'Layanan', subtitle: 'Engineering dan dukungan teknis' },
+  '/admin/certifications': { index: '08', title: 'Sertifikasi', subtitle: 'Legalitas dan standar mutu' },
+  '/admin/gallery': { index: '09', title: 'Galeri', subtitle: 'Dokumentasi instalasi dan proyek' },
+  '/admin/blog': { index: '10', title: 'Blog', subtitle: 'Artikel dan publikasi teknis' },
+  '/admin/page-content': { index: '11', title: 'Konten Halaman', subtitle: 'Teks dan media halaman publik' },
+  '/admin/settings': { index: '12', title: 'Pengaturan', subtitle: 'Konfigurasi sistem dan identitas' },
+}
+
+function getPageMeta(pathname: string): PageMeta {
+  if (PAGE_META[pathname]) return PAGE_META[pathname]
+
+  // Detail routes (/admin/products/[id]) inherit their section's marker.
+  const match = Object.keys(PAGE_META)
+    .filter((href) => href !== '/admin' && pathname.startsWith(href))
+    .sort((a, b) => b.length - a.length)[0]
+
+  return match ? PAGE_META[match] : { index: '00', title: 'Dashboard Admin', subtitle: 'Kelola katalog solusi teknik air Anda' }
 }

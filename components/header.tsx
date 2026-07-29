@@ -51,20 +51,20 @@ export function Header() {
             <div className="flex justify-between items-center text-xs">
               <div className="flex items-center space-x-8">
                 <div className="flex items-center space-x-2 group">
-                  <Phone className="w-3.5 h-3.5 text-[var(--aqua)]" />
+                  <Phone className="w-3.5 h-3.5 text-[var(--gold)]" />
                   <span className="font-mono tracking-tight">{CONTACT.phones[0]}</span>
                 </div>
                 <div className="flex items-center space-x-2 group">
-                  <Mail className="w-3.5 h-3.5 text-[var(--aqua)]" />
+                  <Mail className="w-3.5 h-3.5 text-[var(--gold)]" />
                   <span className="font-mono tracking-tight">{CONTACT.email}</span>
                 </div>
                 <div className="hidden lg:flex items-center space-x-2 group">
-                  <MapPin className="w-3.5 h-3.5 text-[var(--aqua)]" />
+                  <MapPin className="w-3.5 h-3.5 text-[var(--gold)]" />
                   <span className="font-mono tracking-tight">{CONTACT.address.full}</span>
                 </div>
               </div>
               <div className="hidden md:flex items-center space-x-2">
-                <Globe className="w-3.5 h-3.5 text-[var(--aqua)]" />
+                <Globe className="w-3.5 h-3.5 text-[var(--gold)]" />
                 <span className="font-mono tracking-tight">{CONTACT.website}</span>
               </div>
             </div>
@@ -85,7 +85,7 @@ export function Header() {
               className="group-hover:scale-105 transition-transform duration-300"
             />
             <div className="flex flex-col justify-center">
-              <span className="font-display text-xl md:text-2xl font-extrabold leading-none tracking-[-0.03em] text-white group-hover:text-[var(--aqua)] transition-colors">
+              <span className="font-display text-xl md:text-2xl font-extrabold leading-none tracking-[-0.03em] text-white group-hover:text-[var(--gold)] transition-colors">
                 METITO
               </span>
               <span className="rail mt-1 text-[9px] md:text-[10px] leading-tight whitespace-nowrap text-[var(--body-muted)]">
@@ -101,7 +101,7 @@ export function Header() {
                 key={item.name}
                 href={item.href}
                 className={`relative font-medium text-sm transition-all duration-200 px-4 py-2 rounded-sm ${isActive(item)
-                  ? "text-[var(--aqua)] bg-aqua/10"
+                  ? "text-[var(--gold)] bg-gold/10"
                   : isHome
                     ? "text-white/75 hover:text-white hover:bg-white/[0.07]"
                     : "text-[var(--body-muted)] hover:text-white hover:bg-[var(--surface)]"
@@ -109,7 +109,7 @@ export function Header() {
               >
                 {item.name}
                 {isActive(item) && (
-                  <span className="absolute inset-x-3 -bottom-px h-px bg-[var(--aqua)]" />
+                  <span className="absolute inset-x-3 -bottom-px h-px bg-[var(--gold)]" />
                 )}
               </Link>
             ))}

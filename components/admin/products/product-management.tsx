@@ -188,11 +188,11 @@ export function ProductManagement() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Manajemen Produk</h1>
-          <p className="text-gray-600">Kelola katalog produk pengolahan air Anda</p>
+          <h1 className="font-display text-2xl font-bold tracking-[-0.02em] text-white">Manajemen Produk</h1>
+          <p className="text-body-text">Kelola katalog produk pengolahan air Anda</p>
         </div>
         <Button
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+          className="bg-gold hover:bg-gold-bright text-navy"
           onClick={() => toast({ title: "Coming Soon", description: "Fitur tambah produk akan segera hadir" })}
         >
           <Plus className="w-4 h-4 mr-2" />
@@ -252,7 +252,7 @@ export function ProductManagement() {
       {/* Filters */}
       <div className="flex flex-col lg:flex-row gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-body-muted w-4 h-4" />
           <Input
             placeholder="Cari produk..."
             value={searchTerm}
@@ -265,7 +265,7 @@ export function ProductManagement() {
           <select
             value={selectedCategory}
             onChange={(e) => handleCategoryChange(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-3 py-2 border border-hairline rounded-md focus:outline-none focus:ring-2 focus:ring-gold"
             disabled={categoriesLoading}
           >
             <option value="all">Semua Kategori</option>
@@ -279,7 +279,7 @@ export function ProductManagement() {
           <select
             value={selectedApplication}
             onChange={(e) => handleApplicationChange(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-3 py-2 border border-hairline rounded-md focus:outline-none focus:ring-2 focus:ring-gold"
           >
             <option value="all">Semua Aplikasi</option>
             <option value="Industrial">Industrial</option>

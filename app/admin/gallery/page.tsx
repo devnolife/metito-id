@@ -96,10 +96,10 @@ const GalleryForm = memo(function GalleryForm({ formData, setFormData, categorie
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center gap-4 border-2 border-dashed rounded-md p-6 text-center">
-            <Upload className="w-8 h-8 text-gray-400" />
+            <Upload className="w-8 h-8 text-body-muted" />
             <div className="space-y-1">
               <p className="text-sm font-medium">Pilih atau tarik gambar</p>
-              <p className="text-xs text-gray-500">Format: JPG, PNG, WEBP, GIF. Max 5MB.</p>
+              <p className="text-xs text-body-muted">Format: JPG, PNG, WEBP, GIF. Max 5MB.</p>
             </div>
             <div className="flex gap-2">
               <Button type="button" variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>Pilih File</Button>
@@ -130,7 +130,7 @@ const GalleryForm = memo(function GalleryForm({ formData, setFormData, categorie
             id="category"
             value={formData.category}
             onChange={(e) => setFormData((prev: any) => ({ ...prev, category: e.target.value }))}
-            className="w-full p-2 border border-gray-300 rounded-md"
+            className="w-full p-2 border border-hairline rounded-md"
             aria-label="Pilih kategori foto"
           >
             <option value="">Pilih kategori</option>
@@ -145,7 +145,7 @@ const GalleryForm = memo(function GalleryForm({ formData, setFormData, categorie
             id="projectType"
             value={formData.projectType}
             onChange={(e) => setFormData((prev: any) => ({ ...prev, projectType: e.target.value }))}
-            className="w-full p-2 border border-gray-300 rounded-md"
+            className="w-full p-2 border border-hairline rounded-md"
             aria-label="Pilih tipe proyek"
           >
             {projectTypes.map(pt => <option key={pt} value={pt}>{pt}</option>)}
@@ -181,7 +181,7 @@ const GalleryForm = memo(function GalleryForm({ formData, setFormData, categorie
             onSubmit(formData.imageUrl)
           }
         }}
-        className="w-full bg-blue-600 hover:bg-blue-700"
+        className="w-full bg-gold hover:bg-gold-bright"
         disabled={!formData.title || (!formData.imageUrl && !selectedFile)}
       >
         {submitLabel}
@@ -203,15 +203,15 @@ interface GalleryGridProps {
 const GalleryGrid = memo(function GalleryGrid({ items, loadingList, openViewDialog, openEditDialog, handleDeleteItem, toggleFeatured }: GalleryGridProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {loadingList && <div className="col-span-full text-center text-sm text-gray-500">Memuat...</div>}
+      {loadingList && <div className="col-span-full text-center text-sm text-body-muted">Memuat...</div>}
       {!loadingList && items.map((item) => (
         <Card key={item.id} className="hover:shadow-lg transition-shadow">
           <CardContent className="p-0">
-            <div className="relative aspect-square bg-gray-100 rounded-t-lg overflow-hidden">
+            <div className="relative aspect-square bg-surface-2 rounded-t-lg overflow-hidden">
               <img src={item.image.startsWith('/api/') ? item.image : `/api/images/${item.image.replace(/^\/+/, '')}`} alt={item.title} className="w-full h-full object-cover" />
               <div className="absolute top-2 right-2 flex gap-1">
                 {item.isFeatured && (
-                  <Badge className="bg-yellow-500 text-white">Unggulan</Badge>
+                  <Badge className="bg-gold text-navy">Unggulan</Badge>
                 )}
               </div>
               <div className="absolute bottom-2 left-2 right-2 bg-black/50 text-white p-2 rounded">
@@ -222,9 +222,9 @@ const GalleryGrid = memo(function GalleryGrid({ items, loadingList, openViewDial
             <div className="p-4">
               <div className="flex items-center justify-between mb-2">
                 <Badge variant="outline">{item.category || '-'}</Badge>
-                <span className="text-xs text-gray-500">{new Date(item.createdAt).toLocaleDateString('id-ID')}</span>
+                <span className="text-xs text-body-muted">{new Date(item.createdAt).toLocaleDateString('id-ID')}</span>
               </div>
-              <div className="flex items-center gap-2 mb-2 text-xs text-gray-500">{item.projectType}</div>
+              <div className="flex items-center gap-2 mb-2 text-xs text-body-muted">{item.projectType}</div>
               <div className="flex items-center justify-between">
                 <div className="flex gap-1">
                   <Button variant="ghost" size="sm" onClick={() => openViewDialog(item)}>
@@ -242,7 +242,7 @@ const GalleryGrid = memo(function GalleryGrid({ items, loadingList, openViewDial
                     variant="outline"
                     size="sm"
                     onClick={() => toggleFeatured(item.id)}
-                    className={item.isFeatured ? "bg-yellow-50 border-yellow-200" : ""}
+                    className={item.isFeatured ? "bg-gold/10 border-gold/30" : ""}
                   >
                     {item.isFeatured ? "★" : "☆"}
                   </Button>
@@ -499,13 +499,13 @@ export default function AdminGalleryPage() {
           {/* Header Section */}
           <div className="flex justify-between items-center">
             <div>
-              <h2 className="text-3xl font-bold text-blue-600">Gallery Management</h2>
-              <p className="text-gray-600">Kelola galeri foto dan dokumentasi proyek</p>
+              <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-white">Manajemen Galeri</h2>
+              <p className="text-body-text">Kelola galeri foto dan dokumentasi proyek</p>
             </div>
 
             <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => resetForm()}>
+                <Button className="bg-gold hover:bg-gold-bright" onClick={() => resetForm()}>
                   <Plus className="w-4 h-4 mr-2" />
                   Tambah Foto
                 </Button>
@@ -538,7 +538,7 @@ export default function AdminGalleryPage() {
           {/* Search and Filter Section */}
           <div className="flex gap-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-body-muted w-4 h-4" />
               <Input
                 placeholder="Cari foto berdasarkan judul, deskripsi, atau tags..."
                 value={searchTerm}
@@ -549,7 +549,7 @@ export default function AdminGalleryPage() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md min-w-[150px]"
+              className="px-3 py-2 border border-hairline rounded-md min-w-[150px]"
               aria-label="Filter berdasarkan kategori"
             >
               <option value="">Semua Kategori</option>
@@ -577,38 +577,38 @@ export default function AdminGalleryPage() {
               </DialogHeader>
               {viewingItem && (
                 <div className="space-y-4">
-                  <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                  <div className="aspect-video bg-surface-2 rounded-lg overflow-hidden">
                     <img src={viewingItem.image.startsWith('/api/') ? viewingItem.image : `/api/images/${viewingItem.image.replace(/^\/+/, '')}`} alt={viewingItem.title} className="w-full h-full object-contain" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label>Judul</Label>
-                      <p className="text-sm text-gray-600">{viewingItem.title}</p>
+                      <p className="text-sm text-body-text">{viewingItem.title}</p>
                     </div>
                     <div>
                       <Label>Kategori</Label>
-                      <p className="text-sm text-gray-600">{viewingItem.category || '-'}</p>
+                      <p className="text-sm text-body-text">{viewingItem.category || '-'}</p>
                     </div>
                     <div>
                       <Label>Photographer</Label>
-                      <p className="text-sm text-gray-600">-</p>
+                      <p className="text-sm text-body-text">-</p>
                     </div>
                     <div>
                       <Label>Lokasi</Label>
-                      <p className="text-sm text-gray-600">{viewingItem.location || '-'}</p>
+                      <p className="text-sm text-body-text">{viewingItem.location || '-'}</p>
                     </div>
                     <div>
                       <Label>Dimensi</Label>
-                      <p className="text-sm text-gray-600">-</p>
+                      <p className="text-sm text-body-text">-</p>
                     </div>
                     <div>
                       <Label>Ukuran File</Label>
-                      <p className="text-sm text-gray-600">-</p>
+                      <p className="text-sm text-body-text">-</p>
                     </div>
                   </div>
                   <div>
                     <Label>Deskripsi</Label>
-                    <p className="text-sm text-gray-600">{viewingItem.description}</p>
+                    <p className="text-sm text-body-text">{viewingItem.description}</p>
                   </div>
                 </div>
               )}

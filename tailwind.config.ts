@@ -23,11 +23,15 @@ const config: Config = {
         'aqua-bright': 'rgb(var(--aqua-bright-rgb) / <alpha-value>)',
         'aqua-dim': 'rgb(var(--aqua-dim-rgb) / <alpha-value>)',
         gold: 'rgb(var(--gold-rgb) / <alpha-value>)',
+        'gold-bright': 'rgb(var(--gold-bright-rgb) / <alpha-value>)',
+        'gold-dim': 'rgb(var(--gold-dim-rgb) / <alpha-value>)',
         ember: 'rgb(var(--ember-rgb) / <alpha-value>)',
         'body-text': 'rgb(var(--body-text-rgb) / <alpha-value>)',
         'body-muted': 'rgb(var(--body-muted-rgb) / <alpha-value>)',
-        /* Legacy alias: --lime was remapped to the aqua accent. */
-        lime: 'rgb(var(--aqua-rgb) / <alpha-value>)',
+        /* Legacy alias: --lime is the deck's gold accent. */
+        lime: 'rgb(var(--gold-rgb) / <alpha-value>)',
+        'lime-bright': 'rgb(var(--gold-bright-rgb) / <alpha-value>)',
+        'lime-dim': 'rgb(var(--gold-dim-rgb) / <alpha-value>)',
 
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

@@ -10,54 +10,60 @@
   --water-blue: #0ea5e9;
 
   /* ==== METITO palette ====
-     Ground stays navy, but the accent is reclaimed from the slide-deck gold to
-     the aqua of the kingfisher mark — the brand's own colour, and the right one
-     for a water treatment company. Gold is demoted to a rare editorial accent. */
-  --navy: #060e1b;          /* page background */
-  --navy-deep: #030812;     /* deepest navy */
-  --surface: #0c182b;       /* card / panel surface */
-  --surface-2: #14263f;     /* raised surface (hover) */
-  --hairline: #17293f;      /* 1px card border */
+     Sampled directly from the company profile deck (informasi.pdf): a midnight
+     navy ground, two navy surfaces, a steel-blue hairline, and champagne gold
+     as the single load-bearing accent. Water blue is the secondary, taken from
+     the cover bar, and stays rare so gold keeps the page. */
+  --navy: #0a1628;          /* page background — deck slide ground */
+  --navy-deep: #060e1b;     /* deepest navy — behind the ground */
+  --surface: #0f1f3a;       /* card / panel surface — deck card fill */
+  --surface-2: #16304f;     /* raised surface (hover) */
+  --hairline: #1a3a5c;      /* 1px card border — deck card stroke */
 
-  --aqua: #4fd1e8;          /* primary accent — water */
-  --aqua-bright: #8ae6f5;   /* hover / highlight */
-  --aqua-dim: #2a93ab;      /* pressed / muted accent */
-  --aqua-deep: #0d3a49;     /* tinted fill */
+  --gold: #e1c478;          /* PRIMARY accent — deck headings, rules, bullets */
+  --gold-bright: #f0dba4;   /* hover / highlight */
+  --gold-dim: #c0a254;      /* pressed / muted accent */
+  --gold-deep: #3a2f14;     /* tinted fill */
+
+  --aqua: #0081da;          /* secondary — water blue from the cover bar */
+  --aqua-bright: #3aa5ee;   /* hover / highlight */
+  --aqua-dim: #00639f;      /* pressed / muted */
+  --aqua-deep: #06294a;     /* tinted fill */
 
   --ember: #ff7a45;         /* rare high-energy highlight (from the logo) */
   --moss: #62b96a;          /* rare secondary (from the logo) */
 
-  --gold: #e1c378;          /* editorial accent, used sparingly */
-  --gold-bright: #f2d9a0;
-  --gold-dim: #c9a552;
-
-  --body-text: #b9cadb;     /* body copy on navy */
-  --body-muted: #7b8fa6;    /* secondary copy on navy */
+  --body-text: #c8d6e5;     /* body copy on navy — deck body colour */
+  --body-muted: #6b7b8d;    /* secondary copy on navy — deck caption colour */
 
   /* Channel triplets for the same palette.
      Tailwind v3 cannot apply an opacity modifier to a `var()` colour — a class
      like `bg-[var(--navy)]/80` silently computes to fully transparent. These
      feed the named colours registered in tailwind.config.ts, so `bg-navy/80`
      and friends produce a real alpha. */
-  --navy-rgb: 6 14 27;
-  --navy-deep-rgb: 3 8 18;
-  --surface-rgb: 12 24 43;
-  --surface-2-rgb: 20 38 63;
-  --hairline-rgb: 23 41 63;
-  --aqua-rgb: 79 209 232;
-  --aqua-bright-rgb: 138 230 245;
-  --aqua-dim-rgb: 42 147 171;
-  --gold-rgb: 225 195 120;
+  --navy-rgb: 10 22 40;
+  --navy-deep-rgb: 6 14 27;
+  --surface-rgb: 15 31 58;
+  --surface-2-rgb: 22 48 79;
+  --hairline-rgb: 26 58 92;
+  --aqua-rgb: 0 129 218;
+  --aqua-bright-rgb: 58 165 238;
+  --aqua-dim-rgb: 0 99 159;
+  --gold-rgb: 225 196 120;
+  --gold-bright-rgb: 240 219 164;
+  --gold-dim-rgb: 192 162 84;
   --ember-rgb: 255 122 69;
-  --body-text-rgb: 185 202 219;
-  --body-muted-rgb: 123 143 166;
+  --body-text-rgb: 200 214 229;
+  --body-muted-rgb: 107 123 141;
 
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
 
-  /* Legacy aliases so existing var(--lime*) usages keep working. */
-  --lime: var(--aqua);
-  --lime-bright: var(--aqua-bright);
-  --lime-dim: var(--aqua-dim);
+  /* Legacy aliases: `--lime` was the original primary-accent name and is still
+     referenced across the public pages. It now resolves to the deck's gold, so
+     every one of those call sites lands on the company-profile accent. */
+  --lime: var(--gold);
+  --lime-bright: var(--gold-bright);
+  --lime-dim: var(--gold-dim);
 }
 
 body {
@@ -80,15 +86,15 @@ body {
    navy some depth, instead of the solid slide-background look. */
 .blueprint {
   background-image:
-    linear-gradient(to right, rgba(79, 209, 232, 0.055) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(79, 209, 232, 0.055) 1px, transparent 1px);
+    linear-gradient(to right, rgba(225, 196, 120, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(225, 196, 120, 0.05) 1px, transparent 1px);
   background-size: 72px 72px;
 }
 
 .blueprint-fine {
   background-image:
-    linear-gradient(to right, rgba(79, 209, 232, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(79, 209, 232, 0.045) 1px, transparent 1px);
+    linear-gradient(to right, rgba(225, 196, 120, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(225, 196, 120, 0.04) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
@@ -103,19 +109,19 @@ body {
 
 /* Radial glow used to anchor sections without a hard slide edge. */
 .glow-aqua {
-  background: radial-gradient(circle at center, rgba(79, 209, 232, 0.16) 0%, transparent 68%);
+  background: radial-gradient(circle at center, rgba(0, 129, 218, 0.18) 0%, transparent 68%);
 }
 
 .glow-gold {
-  background: radial-gradient(circle at center, rgba(225, 195, 120, 0.12) 0%, transparent 68%);
+  background: radial-gradient(circle at center, rgba(225, 196, 120, 0.14) 0%, transparent 68%);
 }
 
 /* ==== Panel: the replacement for the old slide-style card ====
-   Squared-off corners, a hairline that lights up in aqua, and a sheen that
+   Squared-off corners, a hairline that lights up in gold, and a sheen that
    tracks the cursor via --mx/--my set in JS. */
 .panel {
   position: relative;
-  background: linear-gradient(160deg, rgba(18, 34, 56, 0.9) 0%, rgba(9, 20, 36, 0.9) 100%);
+  background: linear-gradient(160deg, rgba(22, 48, 79, 0.92) 0%, rgba(15, 31, 58, 0.92) 100%);
   border: 1px solid var(--hairline);
   border-radius: 4px;
   overflow: hidden;
@@ -132,13 +138,13 @@ body {
   transition: opacity 0.35s ease;
   background: radial-gradient(
     420px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(79, 209, 232, 0.11),
+    rgba(225, 196, 120, 0.12),
     transparent 62%
   );
 }
 
 .panel:hover {
-  border-color: rgba(79, 209, 232, 0.45);
+  border-color: rgba(225, 196, 120, 0.45);
   transform: translateY(-3px);
 }
 
@@ -154,8 +160,8 @@ body {
   right: 8px;
   width: 10px;
   height: 10px;
-  border-top: 1px solid rgba(79, 209, 232, 0.55);
-  border-right: 1px solid rgba(79, 209, 232, 0.55);
+  border-top: 1px solid rgba(225, 196, 120, 0.55);
+  border-right: 1px solid rgba(225, 196, 120, 0.55);
   pointer-events: none;
 }
 
@@ -173,12 +179,12 @@ body {
   top: -1px;
   height: 1px;
   width: 0;
-  background: var(--aqua);
+  background: var(--gold);
   transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .index-row:hover {
-  background: rgba(79, 209, 232, 0.035);
+  background: rgba(225, 196, 120, 0.04);
 }
 
 .index-row:hover::before {
@@ -258,7 +264,7 @@ body {
 
 .profile-card:hover {
   background: var(--surface-2);
-  border-color: rgba(225, 195, 120, 0.45);
+  border-color: rgba(225, 196, 120, 0.45);
   transform: translateY(-4px);
 }
 
@@ -448,58 +454,222 @@ body {
 }
 
 @layer base {
-  /* Dark shadcn tokens matching the METITO aqua-on-navy system. */
+  /* Dark shadcn tokens matching the METITO gold-on-navy system from the deck. */
   :root {
-    --background: 215 51% 6%;
-    --foreground: 209 33% 79%;
-    --card: 214 55% 11%;
-    --card-foreground: 209 33% 79%;
-    --popover: 214 55% 11%;
-    --popover-foreground: 209 33% 79%;
-    --primary: 189 76% 61%;
-    --primary-foreground: 215 51% 6%;
-    --secondary: 213 51% 16%;
+    --background: 216 60% 10%;
+    --foreground: 211 36% 84%;
+    --card: 218 59% 14%;
+    --card-foreground: 211 36% 84%;
+    --popover: 218 59% 14%;
+    --popover-foreground: 211 36% 84%;
+    --primary: 43 64% 68%;
+    --primary-foreground: 216 60% 10%;
+    --secondary: 213 56% 20%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 213 51% 16%;
-    --muted-foreground: 210 16% 57%;
-    --accent: 213 51% 16%;
+    --muted: 213 56% 20%;
+    --muted-foreground: 212 14% 49%;
+    --accent: 213 56% 20%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
-    --border: 211 46% 17%;
-    --input: 211 46% 17%;
-    --ring: 189 76% 61%;
-    --chart-1: 189 76% 61%;
-    --chart-2: 43 64% 68%;
+    --border: 211 56% 23%;
+    --input: 211 56% 23%;
+    --ring: 43 64% 68%;
+    --chart-1: 43 64% 68%;
+    --chart-2: 205 100% 43%;
     --chart-3: 17 100% 64%;
     --chart-4: 125 38% 55%;
     --chart-5: 197 37% 44%;
     --radius: 0.25rem;
   }
 
-  /* The admin panel keeps the original light UI. */
+  /* ==== Admin panel ====
+     The console runs on the same instrument identity as the public site:
+     midnight navy ground, champagne gold as the single load-bearing accent,
+     hairline borders and a 4px radius. Overriding the shadcn tokens here is
+     what re-skins every Card / Input / Dialog / Table in the admin at once. */
   .admin-theme {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
+    --background: 216 60% 10%;      /* --navy */
+    --foreground: 211 36% 84%;      /* --body-text */
+    --card: 218 59% 14%;            /* --surface */
+    --card-foreground: 211 36% 84%;
+    --popover: 216 64% 8%;
+    --popover-foreground: 211 36% 84%;
+    --primary: 43 64% 68%;          /* --gold */
+    --primary-foreground: 216 60% 10%;
+    --secondary: 213 56% 20%;       /* --surface-2 */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 213 56% 20%;
+    --muted-foreground: 212 14% 55%;
+    --accent: 213 56% 20%;
+    --accent-foreground: 43 64% 68%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
+    --border: 211 56% 23%;          /* --hairline */
+    --input: 211 56% 23%;
+    --ring: 43 64% 68%;
+    --radius: 0.25rem;
     color: hsl(var(--foreground));
     background-color: hsl(var(--background));
+  }
+}
+
+/* ==== Admin console chrome ====
+   Utilities scoped to the admin so the console reads as an instrument panel
+   rather than a dashboard template: squared corners, hairline rules, mono
+   rails, and gold reserved for state that matters. */
+@layer components {
+  /* Page ground: navy with the same blueprint atmosphere as the public site. */
+  .admin-shell {
+    background-color: var(--navy);
+    background-image:
+      linear-gradient(to right, rgba(225, 196, 120, 0.028) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(225, 196, 120, 0.028) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  /* The workhorse surface. Calmer than the public `.panel` — no hover lift,
+     because admin cards sit under dense tables and forms. */
+  .admin-panel {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+
+  .admin-panel:hover {
+    border-color: rgba(225, 196, 120, 0.32);
+  }
+
+  /* Stat tile: gold hairline sweeps in along the top edge on hover. */
+  .admin-stat {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .admin-stat::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 2px;
+    width: 0;
+    background: var(--gold);
+    transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .admin-stat:hover::before {
+    width: 100%;
+  }
+
+  /* Sidebar nav item: gold bar on the left edge marks the active route. */
+  .admin-nav-item {
+    position: relative;
+    border-radius: 4px;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  .admin-nav-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 0;
+    width: 2px;
+    background: var(--gold);
+    transform: translateY(-50%);
+    transition: height 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .admin-nav-item[data-active="true"]::before {
+    height: 60%;
+  }
+
+  /* Dense table rows: hairline separators, gold wash on hover. */
+  .admin-row {
+    border-top: 1px solid var(--hairline);
+    transition: background-color 0.25s ease;
+  }
+
+  .admin-row:hover {
+    background: rgba(225, 196, 120, 0.045);
+  }
+
+  /* Native controls the design system can't reach through class names.
+     Bare <select> and checkboxes would otherwise render in the browser's
+     light default and punch white holes in the console. These are global
+     rather than `.admin-theme`-scoped because Radix portals (dialogs,
+     dropdowns) mount outside the themed wrapper — and the public site runs
+     on the same navy ground anyway. */
+  select {
+    background-color: var(--navy-deep);
+    border-color: var(--hairline);
+    color: #ffffff;
+  }
+
+  select:focus-visible {
+    outline: none;
+    border-color: rgba(225, 196, 120, 0.6);
+    box-shadow: 0 0 0 1px rgba(225, 196, 120, 0.6);
+  }
+
+  select option,
+  select optgroup {
+    background-color: var(--navy-deep);
+    color: #ffffff;
+  }
+
+  input[type="checkbox"],
+  input[type="radio"],
+  input[type="range"],
+  progress {
+    accent-color: var(--gold);
+  }
+
+  input[type="file"] {
+    color: var(--body-text);
+  }
+
+  /* Date pickers ship a dark glyph that vanishes on navy. */
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator,
+  input[type="month"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.55;
+    cursor: pointer;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator:hover,
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
+
+  /* Scrollbars follow the palette everywhere, portals included. */
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--navy-deep);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: var(--hairline);
+    border-radius: 4px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--gold-dim);
+  }
+
+  /* The printed quotation stays white paper. */
+  .quotation-paper select,
+  .quotation-paper option {
+    background-color: #ffffff;
+    color: #000000;
   }
 }
 
@@ -568,7 +738,7 @@ body {
   /* Dialog Form Styles */
   .dialog-form-container {
     scrollbar-width: thin;
-    scrollbar-color: #cbd5e1 #f1f5f9;
+    scrollbar-color: var(--hairline) var(--navy-deep);
   }
 
   .dialog-form-container::-webkit-scrollbar {
@@ -576,17 +746,17 @@ body {
   }
 
   .dialog-form-container::-webkit-scrollbar-track {
-    background: #f1f5f9;
+    background: var(--navy-deep);
     border-radius: 3px;
   }
 
   .dialog-form-container::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+    background: var(--hairline);
     border-radius: 3px;
   }
 
   .dialog-form-container::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
+    background: var(--gold-dim);
   }
 
   /* Smooth scroll behavior */

@@ -130,26 +130,26 @@ export function DashboardOverview() {
   const getActivityIcon = (type: string) => {
     switch (type) {
       case 'contact':
-        return <MessageSquare className="w-4 h-4 text-blue-600" />
+        return <MessageSquare className="w-4 h-4 text-gold" />
       case 'order':
-        return <ShoppingCart className="w-4 h-4 text-green-600" />
+        return <ShoppingCart className="w-4 h-4 text-emerald-300" />
       case 'product':
-        return <Package className="w-4 h-4 text-purple-600" />
+        return <Package className="w-4 h-4 text-gold" />
       case 'blog':
-        return <FileText className="w-4 h-4 text-orange-600" />
+        return <FileText className="w-4 h-4 text-gold" />
       default:
-        return <Activity className="w-4 h-4 text-gray-600" />
+        return <Activity className="w-4 h-4 text-body-text" />
     }
   }
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'pending':
-        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">Pending</Badge>
+        return <Badge variant="secondary" className="bg-gold/10 text-gold">Pending</Badge>
       case 'completed':
-        return <Badge variant="secondary" className="bg-green-100 text-green-800">Selesai</Badge>
+        return <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-300">Selesai</Badge>
       case 'active':
-        return <Badge variant="secondary" className="bg-blue-100 text-blue-800">Aktif</Badge>
+        return <Badge variant="secondary" className="bg-gold/10 text-gold">Aktif</Badge>
       default:
         return <Badge variant="secondary">Unknown</Badge>
     }
@@ -162,8 +162,8 @@ export function DashboardOverview() {
           {[...Array(8)].map((_, i) => (
             <Card key={i} className="animate-pulse">
               <CardContent className="p-6">
-                <div className="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
-                <div className="h-8 bg-gray-200 rounded w-1/2"></div>
+                <div className="h-4 bg-surface-2 rounded w-3/4 mb-3"></div>
+                <div className="h-8 bg-surface-2 rounded w-1/2"></div>
               </CardContent>
             </Card>
           ))}
@@ -180,25 +180,11 @@ export function DashboardOverview() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Produk</p>
-                <p className="text-3xl font-bold text-gray-900">{stats?.totalProducts}</p>
+                <p className="text-sm font-medium text-body-text">Total Produk</p>
+                <p className="text-3xl font-bold text-white">{stats?.totalProducts}</p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <Package className="w-6 h-6 text-blue-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg transition-shadow">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Pelanggan</p>
-                <p className="text-3xl font-bold text-gray-900">{stats?.totalCustomers}</p>
-              </div>
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <Users className="w-6 h-6 text-green-600" />
+              <div className="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center">
+                <Package className="w-6 h-6 text-gold" />
               </div>
             </div>
           </CardContent>
@@ -208,25 +194,11 @@ export function DashboardOverview() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Pesanan Bulan Ini</p>
-                <p className="text-3xl font-bold text-gray-900">{stats?.totalOrders}</p>
+                <p className="text-sm font-medium text-body-text">Total Pelanggan</p>
+                <p className="text-3xl font-bold text-white">{stats?.totalCustomers}</p>
               </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                <ShoppingCart className="w-6 h-6 text-purple-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg transition-shadow">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Pendapatan Bulan Ini</p>
-                <p className="text-2xl font-bold text-gray-900">{formatCurrency(stats?.totalRevenue || 0)}</p>
-              </div>
-              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                <DollarSign className="w-6 h-6 text-orange-600" />
+              <div className="w-12 h-12 bg-emerald-500/10 rounded-full flex items-center justify-center">
+                <Users className="w-6 h-6 text-emerald-300" />
               </div>
             </div>
           </CardContent>
@@ -236,25 +208,11 @@ export function DashboardOverview() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Kontak Pending</p>
-                <p className="text-3xl font-bold text-gray-900">{stats?.pendingContacts}</p>
+                <p className="text-sm font-medium text-body-text">Pesanan Bulan Ini</p>
+                <p className="text-3xl font-bold text-white">{stats?.totalOrders}</p>
               </div>
-              <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
-                <MessageSquare className="w-6 h-6 text-yellow-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg transition-shadow">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Artikel Blog</p>
-                <p className="text-3xl font-bold text-gray-900">{stats?.totalBlogPosts}</p>
-              </div>
-              <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
-                <FileText className="w-6 h-6 text-indigo-600" />
+              <div className="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center">
+                <ShoppingCart className="w-6 h-6 text-gold" />
               </div>
             </div>
           </CardContent>
@@ -264,11 +222,11 @@ export function DashboardOverview() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Foto Gallery</p>
-                <p className="text-3xl font-bold text-gray-900">{stats?.galleryImages}</p>
+                <p className="text-sm font-medium text-body-text">Pendapatan Bulan Ini</p>
+                <p className="text-2xl font-bold text-white">{formatCurrency(stats?.totalRevenue || 0)}</p>
               </div>
-              <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
-                <Image className="w-6 h-6 text-teal-600" />
+              <div className="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center">
+                <DollarSign className="w-6 h-6 text-gold" />
               </div>
             </div>
           </CardContent>
@@ -278,11 +236,53 @@ export function DashboardOverview() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Pengunjung Website</p>
-                <p className="text-3xl font-bold text-gray-900">{stats?.websiteVisitors?.toLocaleString()}</p>
+                <p className="text-sm font-medium text-body-text">Kontak Pending</p>
+                <p className="text-3xl font-bold text-white">{stats?.pendingContacts}</p>
               </div>
-              <div className="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center">
-                <Eye className="w-6 h-6 text-pink-600" />
+              <div className="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center">
+                <MessageSquare className="w-6 h-6 text-gold" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-body-text">Artikel Blog</p>
+                <p className="text-3xl font-bold text-white">{stats?.totalBlogPosts}</p>
+              </div>
+              <div className="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center">
+                <FileText className="w-6 h-6 text-gold" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-body-text">Foto Gallery</p>
+                <p className="text-3xl font-bold text-white">{stats?.galleryImages}</p>
+              </div>
+              <div className="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center">
+                <Image className="w-6 h-6 text-gold" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-body-text">Pengunjung Website</p>
+                <p className="text-3xl font-bold text-white">{stats?.websiteVisitors?.toLocaleString()}</p>
+              </div>
+              <div className="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center">
+                <Eye className="w-6 h-6 text-gold" />
               </div>
             </div>
           </CardContent>
@@ -301,13 +301,13 @@ export function DashboardOverview() {
           <CardContent>
             <div className="space-y-4">
               {recentActivity.map((activity) => (
-                <div key={activity.id} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                <div key={activity.id} className="flex items-start gap-3 p-3 bg-navy-deep rounded-lg">
                   <div className="mt-1">
                     {getActivityIcon(activity.type)}
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900">{activity.message}</p>
-                    <p className="text-xs text-gray-500">{activity.timestamp}</p>
+                    <p className="text-sm font-medium text-white">{activity.message}</p>
+                    <p className="text-xs text-body-muted">{activity.timestamp}</p>
                   </div>
                   <div>
                     {getStatusBadge(activity.status)}
@@ -327,36 +327,36 @@ export function DashboardOverview() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+              <div className="flex items-center justify-between p-3 bg-emerald-500/10 rounded-lg">
                 <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <CheckCircle className="w-5 h-5 text-emerald-300" />
                   <span className="text-sm font-medium">Sistem Berjalan Normal</span>
                 </div>
-                <Badge variant="secondary" className="bg-green-100 text-green-800">Online</Badge>
+                <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-300">Online</Badge>
               </div>
 
-              <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+              <div className="flex items-center justify-between p-3 bg-gold/10 rounded-lg">
                 <div className="flex items-center gap-3">
-                  <Globe className="w-5 h-5 text-blue-600" />
+                  <Globe className="w-5 h-5 text-gold" />
                   <span className="text-sm font-medium">Website Traffic</span>
                 </div>
-                <Badge variant="secondary" className="bg-blue-100 text-blue-800">+12%</Badge>
+                <Badge variant="secondary" className="bg-gold/10 text-gold">+12%</Badge>
               </div>
 
-              <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
+              <div className="flex items-center justify-between p-3 bg-gold/10 rounded-lg">
                 <div className="flex items-center gap-3">
-                  <Award className="w-5 h-5 text-purple-600" />
+                  <Award className="w-5 h-5 text-gold" />
                   <span className="text-sm font-medium">Tingkat Kepuasan</span>
                 </div>
-                <Badge variant="secondary" className="bg-purple-100 text-purple-800">98%</Badge>
+                <Badge variant="secondary" className="bg-gold/10 text-gold">98%</Badge>
               </div>
 
-              <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+              <div className="flex items-center justify-between p-3 bg-gold/10 rounded-lg">
                 <div className="flex items-center gap-3">
-                  <Clock className="w-5 h-5 text-yellow-600" />
+                  <Clock className="w-5 h-5 text-gold" />
                   <span className="text-sm font-medium">Waktu Respons</span>
                 </div>
-                <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">&lt; 2 jam</Badge>
+                <Badge variant="secondary" className="bg-gold/10 text-gold">&lt; 2 jam</Badge>
               </div>
             </div>
           </CardContent>
