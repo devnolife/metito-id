@@ -1,0 +1,360 @@
+/* ==========================================================================
+   LEGACY — gaya konsol admin & dokumen penawaran (dibawa dari desain lama).
+
+   Palet "instrument panel" METITO: midnight navy + champagne gold, diambil
+   dari company profile deck (informasi.pdf). Seluruh rule di file ini
+   di-scope ke .admin-theme / .quotation-paper / kelas legacy tertentu agar
+   tidak menyentuh situs publik baru (tema terang di globals.css).
+   ========================================================================== */
+
+:root {
+  /* ---- palet mentah konsol admin ---- */
+  --navy: #0a1628;          /* ground halaman admin */
+  --navy-deep: #060e1b;     /* navy terdalam — belakang ground */
+  --surface: #0f1f3a;       /* permukaan kartu/panel */
+  --surface-2: #16304f;     /* permukaan terangkat (hover) */
+  --hairline: #1a3a5c;      /* border kartu 1px */
+
+  --gold: #e1c478;          /* aksen utama */
+  --gold-bright: #f0dba4;   /* hover / highlight */
+  --gold-dim: #c0a254;      /* pressed / muted */
+  --gold-deep: #3a2f14;     /* isian bertint */
+
+  --aqua: #0081da;          /* sekunder — biru air */
+  --body-text: #c8d6e5;     /* teks isi di atas navy */
+  --body-muted: #6b7b8d;    /* teks sekunder di atas navy */
+}
+
+@layer base {
+  /* ==== Tema admin: menimpa token semantik shadcn untuk subtree-nya ====
+     Kelas ini juga dipasang pada konten portal Radix (dialog, select, toast)
+     karena mereka mount di luar wrapper via portal. */
+  .admin-theme {
+    --background: hsl(216 60% 10%);      /* --navy */
+    --foreground: hsl(211 36% 84%);      /* --body-text */
+    --card: hsl(218 59% 14%);            /* --surface */
+    --card-foreground: hsl(211 36% 84%);
+    --popover: hsl(216 64% 8%);
+    --popover-foreground: hsl(211 36% 84%);
+    --primary: hsl(43 64% 68%);          /* --gold */
+    --primary-foreground: hsl(216 60% 10%);
+    --secondary: hsl(213 56% 20%);       /* --surface-2 */
+    --secondary-foreground: hsl(0 0% 100%);
+    --muted: hsl(213 56% 20%);
+    --muted-foreground: hsl(212 14% 55%);
+    --accent: hsl(213 56% 20%);
+    --accent-foreground: hsl(43 64% 68%);
+    --destructive: hsl(0 72% 51%);
+    --destructive-foreground: hsl(0 0% 98%);
+    --border: hsl(211 56% 23%);          /* --hairline */
+    --input: hsl(211 56% 23%);
+    --ring: hsl(43 64% 68%);
+
+    /* Utilitas bg-navy/text-navy di admin memakai navy deck lama,
+       bukan navy logo situs publik (#012966). */
+    --ac-navy: #0a1628;
+
+    /* Radius lama: konsol bersudut tegas (0.25rem), bukan skala publik. */
+    --ac-radius-sm: 0px;
+    --ac-radius-md: 0.125rem;
+    --ac-radius-lg: 0.25rem;
+
+    /* font-mono di admin tetap JetBrains Mono. */
+    --ac-font-mono: var(--font-jetbrains-mono), "JetBrains Mono", monospace;
+
+    color: var(--foreground);
+    background-color: var(--background);
+  }
+
+  /* Default border-color mengikuti token (pola shadcn v3), tanpa menaikkan
+     spesifisitas agar utilitas border-* tetap menang. */
+  :where(.admin-theme, .admin-theme *) {
+    border-color: var(--border);
+  }
+
+  /* Base layer publik mewarnai h1–h6 dengan navy; di konsol gelap heading
+     mengikuti warna teks di sekitarnya seperti perilaku lama. */
+  .admin-theme :where(h1, h2, h3, h4, h5, h6) {
+    color: inherit;
+  }
+}
+
+@layer components {
+  /* ==== Technical rail: label mono, indeks, satuan ==== */
+  .rail {
+    font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* ==== Atmosfer: grid blueprint + grain halus ==== */
+  .blueprint {
+    background-image:
+      linear-gradient(to right, rgba(225, 196, 120, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(225, 196, 120, 0.05) 1px, transparent 1px);
+    background-size: 72px 72px;
+  }
+
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .glow-gold {
+    background: radial-gradient(circle at center, rgba(225, 196, 120, 0.14) 0%, transparent 68%);
+  }
+
+  /* ==== Index rows: daftar teknis bernomor ==== */
+  .index-row {
+    position: relative;
+    border-top: 1px solid var(--hairline);
+    transition: background-color 0.4s ease, padding-left 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .index-row::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -1px;
+    height: 1px;
+    width: 0;
+    background: var(--gold);
+    transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .index-row:hover {
+    background: rgba(225, 196, 120, 0.04);
+  }
+
+  .index-row:hover::before {
+    width: 100%;
+  }
+
+  /* ==== Animasi blob (halaman error admin) ==== */
+  @keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
+
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  /* ==== Chrome konsol admin ==== */
+  .admin-shell {
+    background-color: var(--navy);
+    background-image:
+      linear-gradient(to right, rgba(225, 196, 120, 0.028) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(225, 196, 120, 0.028) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .admin-panel {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+
+  .admin-panel:hover {
+    border-color: rgba(225, 196, 120, 0.32);
+  }
+
+  .admin-stat {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .admin-stat::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 2px;
+    width: 0;
+    background: var(--gold);
+    transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .admin-stat:hover::before {
+    width: 100%;
+  }
+
+  .admin-nav-item {
+    position: relative;
+    border-radius: 4px;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  .admin-nav-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 0;
+    width: 2px;
+    background: var(--gold);
+    transform: translateY(-50%);
+    transition: height 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .admin-nav-item[data-active="true"]::before {
+    height: 60%;
+  }
+
+  .admin-row {
+    border-top: 1px solid var(--hairline);
+    transition: background-color 0.25s ease;
+  }
+
+  .admin-row:hover {
+    background: rgba(225, 196, 120, 0.045);
+  }
+
+  /* ==== Kontrol native di dalam konsol ====
+     <select> dan checkbox bawaan browser akan tampil terang dan melubangi
+     konsol gelap; di-scope ke .admin-theme agar situs publik tak tersentuh. */
+  .admin-theme select {
+    background-color: var(--navy-deep);
+    border-color: var(--hairline);
+    color: #ffffff;
+  }
+
+  .admin-theme select:focus-visible {
+    outline: none;
+    border-color: rgba(225, 196, 120, 0.6);
+    box-shadow: 0 0 0 1px rgba(225, 196, 120, 0.6);
+  }
+
+  .admin-theme select option,
+  .admin-theme select optgroup {
+    background-color: var(--navy-deep);
+    color: #ffffff;
+  }
+
+  .admin-theme input[type="checkbox"],
+  .admin-theme input[type="radio"],
+  .admin-theme input[type="range"],
+  .admin-theme progress {
+    accent-color: var(--gold);
+  }
+
+  .admin-theme input[type="file"] {
+    color: var(--body-text);
+  }
+
+  /* Ikon date-picker bawaan berwarna gelap — hilang di atas navy. */
+  .admin-theme input[type="date"]::-webkit-calendar-picker-indicator,
+  .admin-theme input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+  .admin-theme input[type="time"]::-webkit-calendar-picker-indicator,
+  .admin-theme input[type="month"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.55;
+    cursor: pointer;
+  }
+
+  .admin-theme input[type="date"]::-webkit-calendar-picker-indicator:hover,
+  .admin-theme input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
+
+  /* Scrollbar mengikuti palet konsol (termasuk konten portal ber-.admin-theme). */
+  .admin-theme ::-webkit-scrollbar,
+  .admin-theme::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .admin-theme ::-webkit-scrollbar-track,
+  .admin-theme::-webkit-scrollbar-track {
+    background: var(--navy-deep);
+  }
+
+  .admin-theme ::-webkit-scrollbar-thumb,
+  .admin-theme::-webkit-scrollbar-thumb {
+    background: var(--hairline);
+    border-radius: 4px;
+  }
+
+  .admin-theme ::-webkit-scrollbar-thumb:hover,
+  .admin-theme::-webkit-scrollbar-thumb:hover {
+    background: var(--gold-dim);
+  }
+
+  /* Dokumen penawaran yang dicetak tetap kertas putih. */
+  .quotation-paper select,
+  .quotation-paper option {
+    background-color: #ffffff;
+    color: #000000;
+  }
+}
+
+/* ==========================================================================
+   Cetak dokumen penawaran — halaman publik /q/[token] dicetak lewat print
+   browser (tanpa dependency PDF). Elemen di luar dokumen memakai .no-print.
+   ========================================================================== */
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .quotation-paper {
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  /* Jangan memotong baris tabel di tengah halaman. */
+  .quotation-paper table {
+    page-break-inside: auto;
+  }
+
+  .quotation-paper tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  .quotation-paper thead {
+    display: table-header-group;
+  }
+
+  /* Warna latar tabel harus ikut tercetak. */
+  .quotation-paper * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

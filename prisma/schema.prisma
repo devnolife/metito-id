@@ -50,6 +50,63 @@ enum ImageType {
   DOCUMENT
 }
 
+// ---------------------------------------------------------------------------
+// CRM & Penomoran Surat
+// Menggantikan CRM_Nomor_Surat_METITO_3.xlsx (sheet Data Pelanggan, Pipeline
+// Penjualan, Log Aktivitas, Generator Nomor Surat, dan Log Nomor Surat).
+// ---------------------------------------------------------------------------
+
+// Lima divisi METITO. Kodenya dipakai apa adanya pada nomor surat.
+enum CrmDivision {
+  CSC // Chemical Supply
+  ES // Engineering Services
+  EQS // Equipment Supply
+  CSP // Consumable & Spare Parts
+  MMH // Mining & Material Handling Supply
+}
+
+enum CrmAccountStatus {
+  PROSPEK
+  AKTIF
+  TIDAK_AKTIF
+}
+
+enum CrmDealStage {
+  PROSPEK
+  PENAWARAN
+  NEGOSIASI
+  DEAL
+  KALAH
+}
+
+enum CrmActivityType {
+  TELEPON
+  EMAIL
+  MEETING
+  KUNJUNGAN
+  WHATSAPP
+  LAINNYA
+}
+
+enum LetterType {
+  SPH // Surat Penawaran Harga
+  SPK // Surat Perintah Kerja
+  SJ // Surat Jalan
+  BA // Berita Acara
+  MOU // Memorandum of Understanding / Perjanjian Kerja Sama
+  SK // Surat Keterangan
+  MEMO // Memo Internal
+  SI // Surat Izin / Permohonan
+  SL // Surat Lainnya
+}
+
+enum LetterStatus {
+  DRAFT
+  TERKIRIM
+  DISETUJUI
+  DIBATALKAN
+}
+
 // User model for authentication and user management
 model User {
   id        String   @id @default(cuid())
@@ -65,11 +122,13 @@ model User {
   updatedAt DateTime @updatedAt
 
   // Relations
-  cartItems    CartItem[]
-  testimonials Testimonial[]
-  inquiries    Inquiry[]
-  images       Image[]
-  quotations   Quotation[]
+  cartItems     CartItem[]
+  testimonials  Testimonial[]
+  inquiries     Inquiry[]
+  images        Image[]
+  quotations    Quotation[]
+  letters       Letter[]
+  crmActivities CrmActivity[]
 
   @@map("users")
 }
@@ -476,6 +535,8 @@ model Quotation {
   parent    Quotation?      @relation("QuotationRevisions", fields: [parentId], references: [id])
   revisions Quotation[]     @relation("QuotationRevisions")
   items     QuotationItem[]
+  letter    Letter?
+  deal      CrmDeal?
 
   @@unique([numberBase, revision])
   @@index([status])
@@ -503,4 +564,159 @@ model QuotationItem {
   @@index([quotationId])
   @@index([materialCode])
   @@map("quotation_items")
+}
+
+// ---------------------------------------------------------------------------
+// CRM: pelanggan, pipeline, aktivitas
+// ---------------------------------------------------------------------------
+
+// Sheet "Data Pelanggan". Sengaja terpisah dari model Customer yang sudah ada:
+// Customer adalah data marketing/testimoni untuk situs publik, sedangkan ini
+// adalah master pelanggan untuk penjualan.
+//
+// Nama perusahaan TIDAK unik: satu perusahaan dapat muncul beberapa kali untuk
+// lokasi/divisi berbeda (mis. PLN Nusantara Power untuk PLTU Punagaya dan untuk
+// PLTMG Tobelo), persis seperti pada berkas Excel asal.
+model CrmAccount {
+  id         String           @id @default(cuid())
+  name       String
+  industry   String?
+  division   CrmDivision?
+  address    String?
+  picName    String?
+  picTitle   String?
+  phone      String?
+  email      String?
+  leadSource String?
+  status     CrmAccountStatus @default(PROSPEK)
+  addedAt    DateTime         @default(now())
+  notes      String?
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  deals      CrmDeal[]
+  activities CrmActivity[]
+  letters    Letter[]
+
+  @@index([status])
+  @@index([division])
+  @@index([name])
+  @@map("crm_accounts")
+}
+
+// Sheet "Pipeline Penjualan". Peluang penjualan per pelanggan.
+//
+// probability disimpan sebagai bilangan bulat persen 0..100. Berkas Excel
+// mencampur dua satuan pada kolom yang sama (0,8 dan 50) sehingga bobot
+// pipeline tidak dapat dijumlahkan; di sini satuannya dipaksa seragam.
+model CrmDeal {
+  id              String       @id @default(cuid())
+  accountId       String
+  title           String
+  division        CrmDivision?
+  estimatedValue  Decimal      @default(0) @db.Decimal(18, 2)
+  stage           CrmDealStage @default(PROSPEK)
+  probability     Int          @default(0)
+  startDate       DateTime?
+  targetCloseDate DateTime?
+  ownerName       String?
+  notes           String?
+  quotationId     String?      @unique
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  account    CrmAccount    @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  quotation  Quotation?    @relation(fields: [quotationId], references: [id], onDelete: SetNull)
+  activities CrmActivity[]
+
+  @@index([accountId])
+  @@index([stage])
+  @@index([division])
+  @@index([targetCloseDate])
+  @@map("crm_deals")
+}
+
+// Sheet "Log Aktivitas". Riwayat interaksi dengan pelanggan.
+model CrmActivity {
+  id             String          @id @default(cuid())
+  accountId      String?
+  dealId         String?
+  occurredAt     DateTime        @default(now())
+  contactName    String?
+  type           CrmActivityType @default(TELEPON)
+  description    String
+  nextAction     String?
+  nextActionDate DateTime?
+  ownerName      String?
+  createdById    String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  account   CrmAccount? @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  deal      CrmDeal?    @relation(fields: [dealId], references: [id], onDelete: SetNull)
+  createdBy User?       @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([accountId])
+  @@index([dealId])
+  @@index([occurredAt])
+  @@index([nextActionDate])
+  @@map("crm_activities")
+}
+
+// ---------------------------------------------------------------------------
+// Penomoran surat umum (sheet "Generator Nomor Surat" + "Log Nomor Surat")
+// ---------------------------------------------------------------------------
+
+// Satu baris per (tahun, jenis, divisi). Nomor diambil dengan menaikkan lastSeq
+// di dalam transaksi, sehingga dua penerbitan bersamaan tidak mungkin memperoleh
+// nomor yang sama. Rumus Excel lama menghitung nomor dengan COUNTIFS atas baris
+// log, sehingga menghapus satu baris membuat nomor berikutnya menimpa nomor yang
+// sudah terbit.
+//
+// division memakai sentinel "-" untuk jenis surat yang penomorannya umum (SPH),
+// karena kolom kunci gabungan tidak boleh bernilai null.
+model LetterCounter {
+  year      Int
+  type      LetterType
+  division  String     @default("-")
+  lastSeq   Int        @default(0)
+  updatedAt DateTime   @updatedAt
+
+  @@id([year, type, division])
+  @@map("letter_counters")
+}
+
+// Sheet "Log Nomor Surat". Register permanen seluruh nomor surat terbit.
+//
+// Baris pratinjau kuning pada Excel (status "Live (belum disimpan)") tidak
+// ikut dimodelkan: di sini nomor baru dibuat ketika benar-benar diterbitkan,
+// jadi tidak ada baris setengah jadi yang bisa terlewat disalin.
+model Letter {
+  id          String       @id @default(cuid())
+  number      String       @unique
+  seq         Int
+  year        Int
+  type        LetterType
+  division    CrmDivision?
+  letterDate  DateTime
+  subject     String
+  recipient   String
+  issuerName  String
+  status      LetterStatus @default(DRAFT)
+  notes       String?
+  accountId   String?
+  quotationId String?      @unique
+  createdById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  account   CrmAccount? @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  quotation Quotation?  @relation(fields: [quotationId], references: [id], onDelete: SetNull)
+  createdBy User?       @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([type, year])
+  @@index([letterDate])
+  @@index([status])
+  @@index([accountId])
+  @@map("letters")
 }

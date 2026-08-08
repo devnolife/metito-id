@@ -1,6 +1,0 @@
-export * from "./dock-button"
-export * from "./dock-heading"
-export * from "./dock-card"
-export * from "./dock-cta-banner"
-export * from "./dock-header"
-export * from "./dock-footer"

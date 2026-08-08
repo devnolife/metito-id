@@ -1,0 +1,480 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "./legacy.css";
+
+/* Kembalikan perilaku dark-mode berbasis class (bukan prefers-color-scheme)
+   agar varian `dark:` pada komponen legacy admin tidak aktif tanpa sengaja. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ==========================================================================
+   METITO design tokens — PT Multi Enviro Tirta Teknologi.
+   Palette sampled from the official logo lockup (core/):
+     navy   #012966  wordmark "METITO" / headings
+     orange #FB8501 → #FE4D00  gradient "E" stripes / CTA accent
+     blue   #096AAE  water-drop divider
+     green  #1E7226  "ENGINEERING" divider
+   Breakpoint ladder (mobile-first):
+     base   <480px
+     >=768  md
+     >=992  lg
+     >=1440 2xl
+   ========================================================================== */
+
+:root {
+  /* ---- brand + surface colours (do not vary by breakpoint) ---- */
+  --ac-bg: #fdfdfd;
+  --ac-bg-shade: #f2f6fa;
+  --ac-bg-alt: #e9eff7;
+  --ac-brand: #f04e00;
+  --ac-brand-logo: #fe4d00;
+  --ac-orange: #fb8501;
+  --ac-blue: #096aae;
+  --ac-navy: #012966;
+  --ac-green: #1e7226;
+  --ac-cream: #eaf3fb;
+  --ac-gray: #5a6b81;
+  --ac-gray-dark: #dfe7f0;
+  --ac-line: #d9e2ee;
+  --ac-tag: #096aae;
+  --ac-body: rgba(9, 30, 63, 0.78);
+
+  /* ---- typography families ---- */
+  --ac-font-sans: var(--font-archivo), Archivo, sans-serif;
+  --ac-font-mono: var(--font-space-mono), "Space Mono", monospace;
+
+  /* ---- font weights ---- */
+  --ac-fw-light: 300;
+  --ac-fw-regular: 400;
+  --ac-fw-medium: 500;
+  --ac-fw-semibold: 600;
+  --ac-fw-bold: 700;
+
+  /* ---- letter spacing ---- */
+  --ac-ls-h1: -0.07rem;
+  --ac-ls-h2: -0.05rem;
+  --ac-ls-h3: -0.03rem;
+
+  /* ---- line heights ---- */
+  --ac-lh-1-1: 1.1;
+  --ac-lh-1-2: 1.2;
+  --ac-lh-1-3: 1.3;
+  --ac-lh-1-4: 1.4;
+  --ac-lh-1-5: 1.5;
+
+  /* ---- radii (constant across breakpoints) ---- */
+  --ac-radius-sm: 0.5rem;
+  --ac-radius-md: 1.25rem;
+  --ac-radius-lg: 2.5rem;
+
+  /* ---- containers ---- */
+  --ac-container-sm: 48rem;
+  --ac-container-md: 64rem;
+  --ac-container-lg: 80rem;
+
+  /* ---- max widths ---- */
+  --ac-mw-xxsmall: 20rem;
+  --ac-mw-xsmall: 25rem;
+  --ac-mw-small: 30rem;
+  --ac-mw-medium: 35rem;
+  --ac-mw-large: 48rem;
+  --ac-mw-xlarge: 64rem;
+  --ac-mw-xxlarge: 80rem;
+
+  /* ================= responsive scale — base (<768px) ================= */
+  --ac-sp-tiny: 0.25rem;
+  --ac-sp-xxsmall: 0.5rem;
+  --ac-sp-xsmall: 0.75rem;
+  --ac-sp-small: 1.25rem;
+  --ac-sp-medium: 1.5rem;
+  --ac-sp-large: 2rem;
+  --ac-sp-xlarge: 2.5rem;
+  --ac-sp-xxlarge: 3rem;
+  --ac-sp-huge: 3.5rem;
+  --ac-sp-xhuge: 4rem;
+  --ac-sp-xxhuge: 5rem;
+  --ac-sp-custom-1: 1rem;
+  --ac-sp-custom-2: 2.5rem;
+  --ac-sp-custom-3: 1rem;
+
+  --ac-pad-global: 5%;
+  --ac-pad-section-sm: 2rem;
+  --ac-pad-section-md: 3rem;
+  --ac-pad-section-lg: 4rem;
+
+  --ac-fs-h1: 2.5rem;
+  --ac-fs-h2: 2rem;
+  --ac-fs-h3: 1.5rem;
+  --ac-fs-h4: 2rem;
+  --ac-fs-h5: 1.25rem;
+  --ac-fs-h6: 1.125rem;
+  --ac-fs-tiny: 0.75rem;
+  --ac-fs-small: 0.875rem;
+  --ac-fs-regular: 1rem;
+  --ac-fs-medium: 1rem;
+  --ac-fs-large: 1.125rem;
+  --ac-fs-xlarge: 1.5rem;
+
+  /* ---- shadcn/ui semantic tokens (nilai default = tema terang METITO).
+     Didefinisikan sebagai variabel indirection agar subtree admin lama
+     (.admin-theme di legacy.css) dapat menimpanya per-scope. ---- */
+  --background: var(--ac-bg);
+  --foreground: var(--ac-navy);
+  --card: #ffffff;
+  --card-foreground: var(--ac-body);
+  --popover: #ffffff;
+  --popover-foreground: var(--ac-body);
+  --primary: var(--ac-brand);
+  --primary-foreground: #ffffff;
+  --secondary: var(--ac-bg-alt);
+  --secondary-foreground: var(--ac-navy);
+  --muted: var(--ac-bg-shade);
+  --muted-foreground: var(--ac-gray);
+  --accent: rgba(1, 41, 102, 0.06);
+  --accent-foreground: var(--ac-navy);
+  --destructive: #d92d20;
+  --destructive-foreground: #ffffff;
+  --border: var(--ac-line);
+  --input: var(--ac-line);
+  --ring: rgba(9, 106, 174, 0.4);
+}
+
+/* ================= tablet — Webflow max-991 ================= */
+@media (min-width: 768px) {
+  :root {
+    --ac-sp-xsmall: 1rem;
+    --ac-sp-small: 1.5rem;
+    --ac-sp-medium: 2rem;
+    --ac-sp-large: 2.5rem;
+    --ac-sp-xlarge: 3.5rem;
+    --ac-sp-xxlarge: 4.5rem;
+    --ac-sp-huge: 5rem;
+    --ac-sp-xhuge: 6rem;
+    --ac-sp-xxhuge: 7.5rem;
+
+    --ac-pad-section-sm: 3rem;
+    --ac-pad-section-md: 4rem;
+    --ac-pad-section-lg: 6rem;
+
+    --ac-fs-h1: 3.25rem;
+    --ac-fs-h2: 2.75rem;
+    --ac-fs-h5: 1.5rem;
+    --ac-fs-h6: 1.25rem;
+    --ac-fs-medium: 1.125rem;
+    --ac-fs-large: 1.25rem;
+  }
+}
+
+/* ================= desktop — Webflow default ================= */
+@media (min-width: 992px) {
+  :root {
+    --ac-sp-large: 3rem;
+    --ac-sp-xlarge: 4rem;
+    --ac-sp-xxlarge: 5rem;
+    --ac-sp-huge: 6rem;
+    --ac-sp-xhuge: 7rem;
+    --ac-sp-xxhuge: 10rem;
+
+    --ac-pad-section-md: 5rem;
+    --ac-pad-section-lg: 7rem;
+
+    --ac-fs-h1: 3.5rem;
+    --ac-fs-h2: 2.5rem;
+  }
+}
+
+/* ================= wide — Webflow min-1440 ================= */
+@media (min-width: 1440px) {
+  :root {
+    --ac-container-lg: 100rem;
+  }
+}
+
+/* ==========================================================================
+   Tailwind theme mapping
+   ========================================================================== */
+@theme inline {
+  --breakpoint-*: initial;
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1440px;
+
+  --font-sans: var(--ac-font-sans);
+  --font-mono: var(--ac-font-mono);
+  /* Utilitas font milik konsol admin lama. */
+  --font-display: var(--ac-font-sans);
+
+  --color-bg: var(--ac-bg);
+  --color-bg-shade: var(--ac-bg-shade);
+  --color-bg-alt: var(--ac-bg-alt);
+  --color-brand: var(--ac-brand);
+  --color-brand-logo: var(--ac-brand-logo);
+  --color-orange: var(--ac-orange);
+  --color-blue: var(--ac-blue);
+  --color-navy: var(--ac-navy);
+  --color-green: var(--ac-green);
+  --color-cream: var(--ac-cream);
+  --color-gray: var(--ac-gray);
+  --color-gray-dark: var(--ac-gray-dark);
+  --color-line: var(--ac-line);
+  --color-tag: var(--ac-tag);
+  --color-body: var(--ac-body);
+
+  --text-h1: var(--ac-fs-h1);
+  --text-h2: var(--ac-fs-h2);
+  --text-h3: var(--ac-fs-h3);
+  --text-h4: var(--ac-fs-h4);
+  --text-h5: var(--ac-fs-h5);
+  --text-h6: var(--ac-fs-h6);
+  --text-tiny: var(--ac-fs-tiny);
+  --text-small: var(--ac-fs-small);
+  --text-regular: var(--ac-fs-regular);
+  --text-medium: var(--ac-fs-medium);
+  --text-large: var(--ac-fs-large);
+  --text-xlarge: var(--ac-fs-xlarge);
+
+  --spacing-tiny: var(--ac-sp-tiny);
+  --spacing-xxsmall: var(--ac-sp-xxsmall);
+  --spacing-xsmall: var(--ac-sp-xsmall);
+  --spacing-small: var(--ac-sp-small);
+  --spacing-medium: var(--ac-sp-medium);
+  --spacing-large: var(--ac-sp-large);
+  --spacing-xlarge: var(--ac-sp-xlarge);
+  --spacing-xxlarge: var(--ac-sp-xxlarge);
+  --spacing-huge: var(--ac-sp-huge);
+  --spacing-xhuge: var(--ac-sp-xhuge);
+  --spacing-xxhuge: var(--ac-sp-xxhuge);
+  --spacing-section-sm: var(--ac-pad-section-sm);
+  --spacing-section-md: var(--ac-pad-section-md);
+  --spacing-section-lg: var(--ac-pad-section-lg);
+
+  --radius-sm: var(--ac-radius-sm);
+  --radius-md: var(--ac-radius-md);
+  --radius-lg: var(--ac-radius-lg);
+
+  --container-sm: var(--ac-container-sm);
+  --container-md: var(--ac-container-md);
+  --container-lg: var(--ac-container-lg);
+  --container-xxsmall: var(--ac-mw-xxsmall);
+  --container-xsmall: var(--ac-mw-xsmall);
+  --container-small: var(--ac-mw-small);
+  --container-medium: var(--ac-mw-medium);
+  --container-large: var(--ac-mw-large);
+  --container-xlarge: var(--ac-mw-xlarge);
+  --container-xxlarge: var(--ac-mw-xxlarge);
+
+  --leading-1-1: var(--ac-lh-1-1);
+  --leading-1-2: var(--ac-lh-1-2);
+  --leading-1-3: var(--ac-lh-1-3);
+  --leading-1-4: var(--ac-lh-1-4);
+  --leading-1-5: var(--ac-lh-1-5);
+
+  --tracking-h1: var(--ac-ls-h1);
+  --tracking-h2: var(--ac-ls-h2);
+  --tracking-h3: var(--ac-ls-h3);
+
+  /* ---- shadcn/ui semantic tokens, mapped onto the METITO palette ----
+     The portal's shadcn components (src/components/ui/*) consume these.
+     Nilai dasarnya ada di :root; subtree .admin-theme menimpanya (legacy.css). */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* ---- palet konsol admin lama (METITO deck: navy + champagne gold).
+     Variabel mentahnya (--navy, --gold, dst.) ada di legacy.css. ---- */
+  --color-navy-deep: var(--navy-deep);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-hairline: var(--hairline);
+  --color-gold: var(--gold);
+  --color-gold-bright: var(--gold-bright);
+  --color-gold-dim: var(--gold-dim);
+  --color-aqua: var(--aqua);
+  --color-body-text: var(--body-text);
+  --color-body-muted: var(--body-muted);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+@layer base {
+  html {
+    height: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100%;
+    background-color: var(--ac-bg);
+    color: var(--ac-body);
+    font-family: var(--ac-font-sans);
+    font-size: var(--ac-fs-regular);
+    line-height: var(--ac-lh-1-5);
+    font-weight: var(--ac-fw-regular);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+    font-family: var(--ac-font-sans);
+    font-weight: var(--ac-fw-medium);
+    color: var(--ac-navy);
+  }
+
+  h1 {
+    font-size: var(--ac-fs-h1);
+    line-height: var(--ac-lh-1-1);
+    letter-spacing: var(--ac-ls-h1);
+  }
+  h2 {
+    font-size: var(--ac-fs-h2);
+    line-height: var(--ac-lh-1-2);
+    letter-spacing: var(--ac-ls-h2);
+  }
+  h3 {
+    font-size: var(--ac-fs-h3);
+    line-height: var(--ac-lh-1-2);
+    letter-spacing: var(--ac-ls-h3);
+  }
+  h4 {
+    font-size: var(--ac-fs-h4);
+    line-height: var(--ac-lh-1-3);
+  }
+  h5 {
+    font-size: var(--ac-fs-h5);
+    line-height: var(--ac-lh-1-4);
+  }
+  h6 {
+    font-size: var(--ac-fs-h6);
+    line-height: var(--ac-lh-1-4);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  ::selection {
+    background-color: var(--ac-navy);
+    color: #fff;
+  }
+}
+
+/* ==========================================================================
+   Component utilities that Tailwind cannot express directly
+   ========================================================================== */
+@layer components {
+  /* Global horizontal page padding (Webflow `.padding-global`) */
+  .padding-global {
+    padding-left: var(--ac-pad-global);
+    padding-right: var(--ac-pad-global);
+  }
+
+  /* Uppercase Space Mono eyebrow label */
+  .tagline {
+    font-family: var(--ac-font-mono);
+    font-size: var(--ac-fs-tiny);
+    line-height: 1.5;
+    font-weight: var(--ac-fw-regular);
+    text-transform: uppercase;
+    color: var(--ac-tag);
+  }
+
+  /* --- GSAP scroll text reveal (SplitText line masks) --- */
+  .text-reveal-line {
+    position: relative;
+    overflow: hidden;
+    background-image: linear-gradient(90deg, var(--ac-navy) 18%, var(--ac-brand));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-reveal-mask {
+    position: absolute;
+    inset: 0 auto auto 0;
+    z-index: 25;
+    width: 100%;
+    height: 100%;
+    background-color: var(--ac-bg);
+    mix-blend-mode: saturation;
+    opacity: 1;
+    will-change: transform;
+  }
+
+  /* --- METITO logo-style rule: blue line · water drop · green line --- */
+  .brand-rule {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+  }
+  .brand-rule::before,
+  .brand-rule::after {
+    content: "";
+    height: 2px;
+    flex: 1 1 0%;
+  }
+  .brand-rule::before {
+    background-image: linear-gradient(90deg, transparent, var(--ac-blue));
+  }
+  .brand-rule::after {
+    background-image: linear-gradient(90deg, var(--ac-green), transparent);
+  }
+
+  /* --- Light decorative divider pattern (replaces the dark SVG art) --- */
+  .divider-pattern {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 10px,
+      var(--ac-line) 10px,
+      var(--ac-line) 11px
+    );
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar but keep scrolling */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}

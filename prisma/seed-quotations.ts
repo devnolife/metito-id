@@ -1,12 +1,12 @@
 import { Prisma, PrismaClient, QuotationStatus } from '@prisma/client'
-import { computeTotals } from '../lib/quotation-math'
-import { terbilangRupiah } from '../lib/terbilang'
-import { formatQuotationNumber } from '../lib/quotation-number'
+import { computeTotals } from '../src/lib/quotation-math'
+import { terbilangRupiah } from '../src/lib/terbilang'
+import { formatQuotationNumber } from '../src/lib/quotation-number'
 import {
   QUOTATION_SETTING_DEFAULTS,
   QUOTATION_SETTING_KEYS,
-} from '../lib/quotation-settings'
-import { SEED_VAT_RATE, orderedSeedQuotations } from '../lib/quotation-seed-data'
+} from '../src/lib/quotation-settings'
+import { SEED_VAT_RATE, orderedSeedQuotations } from '../src/lib/quotation-seed-data'
 
 const prisma = new PrismaClient()
 

@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { BUSINESS_LINES, COMPANY, CONTACT } from '../lib/company-profile'
+import { BUSINESS_LINES, COMPANY, CONTACT } from '../src/lib/company-profile'
 
 const prisma = new PrismaClient()
 
