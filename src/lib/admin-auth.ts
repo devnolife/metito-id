@@ -37,6 +37,36 @@ export async function verifyAdminAuth(request: NextRequest) {
 }
 
 /**
+ * Verifikasi pengguna internal: ADMIN atau SALES.
+ *
+ * Dipakai modul penawaran — tim sales menyusun dan menerbitkan penawarannya
+ * sendiri, sementara data master (CRM, pengaturan, register surat) tetap
+ * memakai verifyAdminAuth.
+ */
+export async function verifyInternalAuth(request: NextRequest) {
+  if (isAdminAuthBypassEnabled()) {
+    return { success: true, user: devAdminUser() }
+  }
+
+  try {
+    const user = await getUserFromRequest(request)
+
+    if (!user) {
+      return { success: false, message: 'Authentication required' }
+    }
+
+    if (!user.isActive || (user.role !== 'ADMIN' && user.role !== 'SALES')) {
+      return { success: false, message: 'Internal access required' }
+    }
+
+    return { success: true, user }
+  } catch (error) {
+    console.error('Internal auth error:', error)
+    return { success: false, message: 'Authentication failed' }
+  }
+}
+
+/**
  * Higher-order function to protect admin API routes
  * Usage: export const POST = withAdminAuth(async (request, user) => { ... })
  */

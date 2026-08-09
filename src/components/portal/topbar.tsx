@@ -60,7 +60,10 @@ export function Topbar({
   const [mobileNav, setMobileNav] = useState(false);
   const mobileNavItems = user.isAdmin
     ? MOBILE_NAV
-    : MOBILE_NAV.filter((item) => !item.href.startsWith("/dashboard"));
+    : MOBILE_NAV.filter(
+        (item) =>
+          !item.href.startsWith("/dashboard") || item.href.startsWith("/dashboard/quotations")
+      );
 
   /* Logout sungguhan: hapus cookie JWT `auth-token` di server + token lokal,
      lalu kembali ke halaman masuk. */

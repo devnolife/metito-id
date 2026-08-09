@@ -82,9 +82,12 @@ export async function proxy(request: NextRequest) {
   }
 
   /* ==== 1. Area internal (/sales, /dashboard) & halaman masuk ==== */
-  //   /sales/*     — baca & pantau; terbuka untuk ADMIN dan SALES.
-  //   /dashboard/* — kelola (CRUD); khusus ADMIN.
+  //   /sales/*                — baca & pantau; ADMIN + SALES.
+  //   /dashboard/quotations/* — tim sales menyusun penawarannya sendiri,
+  //                             jadi ikut terbuka untuk SALES.
+  //   /dashboard/* lainnya    — data master (CRM, surat, pengaturan): ADMIN.
   const isKelolaPage = pathname.startsWith("/dashboard");
+  const isPenawaranPage = pathname.startsWith("/dashboard/quotations");
   const isInternalPage = isKelolaPage || pathname.startsWith("/sales");
 
   if (isInternalPage || pathname === "/login") {
@@ -104,9 +107,10 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    // Pengguna SALES sudah masuk tetapi tak berhak mengelola: kembalikan ke
-    // area kerjanya, bukan ke /login, agar tidak tampak seperti sesi kedaluwarsa.
-    if (isKelolaPage && !isAdmin) {
+    // Pengguna SALES sudah masuk tetapi tak berhak mengelola data master:
+    // kembalikan ke area kerjanya, bukan ke /login, agar tidak tampak seperti
+    // sesi kedaluwarsa.
+    if (isKelolaPage && !isPenawaranPage && !isAdmin) {
       const url = request.nextUrl.clone();
       url.pathname = "/sales";
       url.search = "";

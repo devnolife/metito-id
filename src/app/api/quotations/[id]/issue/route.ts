@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { verifyAdminAuth } from '@/lib/admin-auth'
+import { verifyInternalAuth } from '@/lib/admin-auth'
 import {
   errorResponse,
   successResponse,
@@ -18,7 +18,7 @@ type RouteContext = { params: Promise<{ id: string }> }
  * nomor diambil sehingga dokumen yang gagal terbit tidak membakar nomor urut.
  */
 export async function POST(request: NextRequest, { params }: RouteContext) {
-  const auth = await verifyAdminAuth(request)
+  const auth = await verifyInternalAuth(request)
   if (!auth.success) return unauthorizedResponse(auth.message)
 
   const { id } = await params

@@ -30,6 +30,9 @@ const NAV_ADMIN = [
   { href: "/dashboard/settings", label: "Pengaturan", icon: SettingsIcon, exact: false },
 ] as const;
 
+/** Menu kelola yang boleh dibuka SALES — hanya penawarannya sendiri. */
+const SALES_KELOLA_HREFS: readonly string[] = ["/dashboard/quotations"];
+
 type NavEntry = {
   href: string;
   label: string;
@@ -68,6 +71,9 @@ function NavItem({ item, active }: { item: NavEntry; active: boolean }) {
 
 export function Sidebar({ className, isAdmin = true }: { className?: string; isAdmin?: boolean }) {
   const pathname = usePathname();
+  const kelolaItems = isAdmin
+    ? NAV_ADMIN
+    : NAV_ADMIN.filter((item) => SALES_KELOLA_HREFS.includes(item.href));
   return (
     <aside
       className={cn(
@@ -102,12 +108,12 @@ export function Sidebar({ className, isAdmin = true }: { className?: string; isA
           <NavItem key={item.href} item={item} active={isActive(pathname, item)} />
         ))}
 
-        {isAdmin ? (
+        {kelolaItems.length > 0 ? (
           <>
             <p className="px-3 pb-2 pt-5 font-mono text-tiny uppercase tracking-wide text-[#8fb4dd]">
-              Admin
+              {isAdmin ? "Admin" : "Kelola"}
             </p>
-            {NAV_ADMIN.map((item) => (
+            {kelolaItems.map((item) => (
               <NavItem key={item.href} item={item} active={isActive(pathname, item)} />
             ))}
           </>

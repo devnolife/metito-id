@@ -4,6 +4,7 @@ import { db } from '@/lib/db'
 import { computeTotals } from '@/lib/quotation-math'
 import { terbilangRupiah } from '@/lib/terbilang'
 import { registerQuotationLetter } from '@/lib/letter-service'
+import { syncQuotationDeal } from '@/lib/quotation-deal'
 import {
   DEFAULT_COMPANY_CODE,
   DEFAULT_DOC_CODE,
@@ -160,11 +161,19 @@ export async function issueQuotation(quotationId: string, options: IssueOptions 
       throw new QuotationError('Penawaran induk belum memiliki nomor resmi.', 409)
     }
 
-    return db.quotation.update({
+    const revised = await db.quotation.update({
       where: { id: quotationId },
       data: buildData(parent.seq, parent.numberBase),
       include: { items: { orderBy: { lineNo: 'asc' } } },
     })
+
+    try {
+      await syncQuotationDeal(revised.id)
+    } catch (error) {
+      console.error('Gagal membuat project dari penawaran:', error)
+    }
+
+    return revised
   }
 
   for (let attempt = 1; attempt <= MAX_ALLOCATION_ATTEMPTS; attempt += 1) {
@@ -198,6 +207,14 @@ export async function issueQuotation(quotationId: string, options: IssueOptions 
         } catch (error) {
           console.error('Gagal mencatat penawaran ke register surat:', error)
         }
+      }
+
+      // Penawaran yang terbit langsung menjadi project di pipeline. Sama
+      // seperti register surat, kegagalannya tidak membatalkan penerbitan.
+      try {
+        await syncQuotationDeal(issued.id)
+      } catch (error) {
+        console.error('Gagal membuat project dari penawaran:', error)
       }
 
       return issued

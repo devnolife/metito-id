@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { Prisma, QuotationStatus } from '@prisma/client'
 import { db } from '@/lib/db'
-import { verifyAdminAuth } from '@/lib/admin-auth'
+import { verifyInternalAuth } from '@/lib/admin-auth'
 import {
   errorResponse,
   notFoundResponse,
@@ -18,7 +18,7 @@ import { displayStatus, isEditable } from '@/lib/quotation-status'
 type RouteContext = { params: Promise<{ id: string }> }
 
 export async function GET(request: NextRequest, { params }: RouteContext) {
-  const auth = await verifyAdminAuth(request)
+  const auth = await verifyInternalAuth(request)
   if (!auth.success) return unauthorizedResponse(auth.message)
 
   const { id } = await params
@@ -58,7 +58,7 @@ export async function GET(request: NextRequest, { params }: RouteContext) {
  * mengubahnya adalah membuat revisi.
  */
 export async function PATCH(request: NextRequest, { params }: RouteContext) {
-  const auth = await verifyAdminAuth(request)
+  const auth = await verifyInternalAuth(request)
   if (!auth.success) return unauthorizedResponse(auth.message)
 
   const { id } = await params
@@ -149,7 +149,7 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
 
 /** DELETE — hanya draft. Dokumen terbit disimpan sebagai arsip. */
 export async function DELETE(request: NextRequest, { params }: RouteContext) {
-  const auth = await verifyAdminAuth(request)
+  const auth = await verifyInternalAuth(request)
   if (!auth.success) return unauthorizedResponse(auth.message)
 
   const { id } = await params

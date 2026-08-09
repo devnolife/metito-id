@@ -245,18 +245,12 @@ export default async function OverviewPage() {
                   recentQuotations.map((q) => (
                     <TableRow key={q.id}>
                       <TableCell className="px-5">
-                        {isAdmin ? (
-                          <Link
-                            href={`/dashboard/quotations/${q.id}`}
-                            className="font-medium text-navy hover:text-blue"
-                          >
-                            {q.numberBase ? withRevision(q.numberBase, q.revision) : "(draft)"}
-                          </Link>
-                        ) : (
-                          <span className="font-medium text-navy">
-                            {q.numberBase ? withRevision(q.numberBase, q.revision) : "(draft)"}
-                          </span>
-                        )}
+                        <Link
+                          href={`/dashboard/quotations/${q.id}`}
+                          className="font-medium text-navy hover:text-blue"
+                        >
+                          {q.numberBase ? withRevision(q.numberBase, q.revision) : "(draft)"}
+                        </Link>
                         <p className="mt-0.5 max-w-[20rem] truncate text-tiny text-muted-foreground">
                           {q.subject}
                         </p>

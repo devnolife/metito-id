@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { QuotationStatus } from '@prisma/client'
 import { db } from '@/lib/db'
-import { verifyAdminAuth } from '@/lib/admin-auth'
+import { verifyInternalAuth } from '@/lib/admin-auth'
 import { successResponse, unauthorizedResponse, serverErrorResponse } from '@/lib/api-response'
 
 /**
@@ -12,7 +12,7 @@ import { successResponse, unauthorizedResponse, serverErrorResponse } from '@/li
  * sebab belum tentu kalah.
  */
 export async function GET(request: NextRequest) {
-  const auth = await verifyAdminAuth(request)
+  const auth = await verifyInternalAuth(request)
   if (!auth.success) return unauthorizedResponse(auth.message)
 
   const yearParam = request.nextUrl.searchParams.get('year')

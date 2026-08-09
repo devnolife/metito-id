@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { Prisma, QuotationStatus } from '@prisma/client'
 import { db } from '@/lib/db'
-import { verifyAdminAuth } from '@/lib/admin-auth'
+import { verifyInternalAuth } from '@/lib/admin-auth'
 import {
   errorResponse,
   successResponse,
@@ -16,7 +16,7 @@ import { displayStatus } from '@/lib/quotation-status'
 
 /** GET /api/quotations — daftar penawaran, menggantikan sheet Log Penomoran. */
 export async function GET(request: NextRequest) {
-  const auth = await verifyAdminAuth(request)
+  const auth = await verifyInternalAuth(request)
   if (!auth.success) return unauthorizedResponse(auth.message)
 
   const parsed = quotationListQuerySchema.safeParse(
@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
 
 /** POST /api/quotations — membuat draft baru. Draft belum memiliki nomor. */
 export async function POST(request: NextRequest) {
-  const auth = await verifyAdminAuth(request)
+  const auth = await verifyInternalAuth(request)
   if (!auth.success || !auth.user) return unauthorizedResponse(auth.message)
 
   let body: unknown

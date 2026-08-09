@@ -156,18 +156,12 @@ export default async function PenawaranPage() {
                   recent.map((q) => (
                     <TableRow key={q.id}>
                       <TableCell className="px-5">
-                        {isAdmin ? (
-                          <Link
-                            href={`/dashboard/quotations/${q.id}`}
-                            className="font-medium text-navy hover:text-blue"
-                          >
-                            {q.numberBase ? withRevision(q.numberBase, q.revision) : "(draft — belum bernomor)"}
-                          </Link>
-                        ) : (
-                          <span className="font-medium text-navy">
-                            {q.numberBase ? withRevision(q.numberBase, q.revision) : "(draft — belum bernomor)"}
-                          </span>
-                        )}
+                        <Link
+                          href={`/dashboard/quotations/${q.id}`}
+                          className="font-medium text-navy hover:text-blue"
+                        >
+                          {q.numberBase ? withRevision(q.numberBase, q.revision) : "(draft — belum bernomor)"}
+                        </Link>
                         <p className="mt-0.5 max-w-[26rem] truncate text-tiny text-muted-foreground">
                           {q.subject}
                         </p>

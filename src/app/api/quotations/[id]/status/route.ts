@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { QuotationStatus } from '@prisma/client'
 import { db } from '@/lib/db'
-import { verifyAdminAuth } from '@/lib/admin-auth'
+import { verifyInternalAuth } from '@/lib/admin-auth'
 import {
   errorResponse,
   notFoundResponse,
@@ -11,6 +11,7 @@ import {
   serverErrorResponse,
 } from '@/lib/api-response'
 import { quotationStatusSchema, zodErrors } from '@/lib/quotation-schema'
+import { syncQuotationDeal } from '@/lib/quotation-deal'
 
 type RouteContext = { params: Promise<{ id: string }> }
 
@@ -21,7 +22,7 @@ type RouteContext = { params: Promise<{ id: string }> }
  * revisi, hasil dicatat pada revisi terakhir; versi lama bersifat arsip.
  */
 export async function PATCH(request: NextRequest, { params }: RouteContext) {
-  const auth = await verifyAdminAuth(request)
+  const auth = await verifyInternalAuth(request)
   if (!auth.success) return unauthorizedResponse(auth.message)
 
   const { id } = await params
@@ -59,6 +60,14 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
       where: { id },
       data: { status: parsed.data.status },
     })
+
+    // Project di pipeline mengikuti hasil penawaran (menang → DEAL, kalah →
+    // KALAH). Kegagalan sinkronisasi tidak membatalkan perubahan status.
+    try {
+      await syncQuotationDeal(quotation.id)
+    } catch (error) {
+      console.error('Gagal menyelaraskan project dengan status penawaran:', error)
+    }
 
     return successResponse(quotation, 'Status penawaran diperbarui.')
   } catch (error) {
