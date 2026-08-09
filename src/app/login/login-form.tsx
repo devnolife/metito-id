@@ -7,11 +7,29 @@ import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 
+/** Peran yang berhak masuk aplikasi internal. */
+const INTERNAL_ROLES = ["ADMIN", "SALES", "MAGANG"] as const;
+
+/** Halaman pertama tiap peran; MAGANG hanya berhak atas Log Aktivitas. */
+const AKTIVITAS_PATH = "/dashboard/crm/activities";
+
 /** Hanya izinkan path internal agar parameter next/redirect tak bisa dipakai
     untuk open-redirect ke situs lain. */
 function safeTarget(raw: string | null): string {
   if (raw && raw.startsWith("/") && !raw.startsWith("//")) return raw;
   return "/sales";
+}
+
+/** Tujuan setelah masuk, dibatasi hak peran agar tidak mendarat di halaman
+    yang justru akan memantulkannya kembali. */
+function targetForRole(role: string, requested: string): string {
+  if (role === "MAGANG") return AKTIVITAS_PATH;
+  if (role === "SALES" && requested.startsWith("/dashboard") &&
+      !requested.startsWith("/dashboard/quotations") &&
+      !requested.startsWith(AKTIVITAS_PATH)) {
+    return "/sales";
+  }
+  return requested;
 }
 
 function LoginFormInner() {
@@ -58,10 +76,10 @@ function LoginFormInner() {
 
       const { user, token } = data.data ?? {};
 
-      if (user?.role !== "ADMIN") {
-        // Dashboard internal hanya untuk admin — bersihkan sesi yang terlanjur dibuat.
+      if (!INTERNAL_ROLES.includes(user?.role)) {
+        // Aplikasi internal hanya untuk staf — bersihkan sesi yang terlanjur dibuat.
         await fetch("/api/auth/logout", { method: "POST", credentials: "include" }).catch(() => {});
-        setError("Akun ini tidak memiliki akses ke dashboard internal.");
+        setError("Akun ini tidak memiliki akses ke aplikasi internal.");
         return;
       }
 
@@ -71,7 +89,7 @@ function LoginFormInner() {
         localStorage.setItem("adminUser", JSON.stringify(user));
       }
 
-      window.location.href = target;
+      window.location.href = targetForRole(user.role, target);
     } catch {
       setError("Tidak dapat menghubungi server. Periksa koneksi Anda.");
     } finally {
