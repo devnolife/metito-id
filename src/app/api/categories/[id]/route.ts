@@ -76,7 +76,7 @@ export async function PUT(
     }
 
     // If name is being updated, generate new slug and check for conflicts
-    let updateData = { ...data }
+    const updateData: typeof data & { slug?: string } = { ...data }
     if (data.name && data.name !== existingCategory.name) {
       const newSlug = slugify(data.name, { lower: true, strict: true })
 

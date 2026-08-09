@@ -160,7 +160,7 @@ export async function POST(request: NextRequest) {
         slug,
         description,
         shortDesc,
-        price: parseFloat(price) || 0,
+        price: price != null && String(price).trim() !== "" ? String(price) : null,
         capacity,
         efficiency,
         location,

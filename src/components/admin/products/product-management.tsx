@@ -168,7 +168,10 @@ export function ProductManagement() {
   }
 
   // Calculate statistics
-  const totalValue = products.reduce((sum, p) => sum + (p.price * (p.inStock ? 1 : 0)), 0)
+  const totalValue = products.reduce(
+    (sum, p) => sum + (p.inStock ? Number(p.price ?? 0) || 0 : 0),
+    0
+  )
   const activeProducts = products.filter(p => p.isActive).length
   const featuredProducts = products.filter(p => p.isFeatured).length
   const inStockProducts = products.filter(p => p.inStock).length
