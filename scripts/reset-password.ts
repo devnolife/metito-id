@@ -1,8 +1,9 @@
 import 'dotenv/config'
-import { randomBytes } from 'crypto'
 import { createInterface } from 'readline'
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
+
+import { generatePassword } from './lib/password'
 
 const prisma = new PrismaClient()
 
@@ -19,10 +20,6 @@ const prisma = new PrismaClient()
  */
 
 const MIN_LENGTH = 8
-
-function generatePassword(): string {
-  return randomBytes(12).toString('base64url')
-}
 
 function usage(): never {
   console.error('Pemakaian:')

@@ -1,6 +1,7 @@
-import { randomBytes } from 'crypto'
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
+
+import { generatePassword } from './lib/password'
 
 const prisma = new PrismaClient()
 
@@ -15,10 +16,6 @@ const prisma = new PrismaClient()
  * hangus. Kata sandi akun baru dibuat acak dan dicetak satu kali — tidak pernah
  * disimpan di repositori dan wajib diganti pemiliknya setelah masuk.
  */
-
-function generatePassword(): string {
-  return randomBytes(12).toString('base64url')
-}
 
 function usage(): never {
   console.error('Pemakaian: npm run setup-magang -- "Nama Mahasiswa" email@kampus.ac.id [telepon]')

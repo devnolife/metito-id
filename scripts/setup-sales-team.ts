@@ -1,6 +1,7 @@
-import { randomBytes } from 'crypto'
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
+
+import { generatePassword } from './lib/password'
 
 const prisma = new PrismaClient()
 
@@ -26,11 +27,6 @@ const SALES_TEAM: SalesMember[] = [
   { name: 'Andi Agung', email: 'andiagung@metito.id', phone: '085171079687' },
   { name: 'Pasya', email: 'pasya@metito.id', phone: '089654212852' },
 ]
-
-/** Kata sandi acak untuk akun baru; cukup panjang untuk tidak mudah ditebak. */
-function generatePassword(): string {
-  return randomBytes(12).toString('base64url')
-}
 
 async function main() {
   const created: { email: string; password: string }[] = []
