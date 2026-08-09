@@ -35,6 +35,35 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
+  /**
+   * Dokumen HTML harus selalu divalidasi ulang ke server.
+   *
+   * Setiap build menghasilkan nama berkas JS dan CSS yang baru, sedangkan
+   * berkas build lama ikut terhapus. Bila peramban menyimpan HTML lama, ia
+   * akan meminta aset yang sudah tidak ada: gayanya hilang dan skripnya gagal
+   * dimuat, sehingga tombol tidak bereaksi sama sekali. Next.js sendiri hanya
+   * mengirim `s-maxage` yang berlaku untuk CDN, sehingga peramban bebas
+   * menyimpan halaman selama yang ia mau.
+   *
+   * `max-age=0, must-revalidate` tetap memakai ETag, jadi kunjungan berikutnya
+   * biasanya hanya menerima 304 tanpa mengunduh ulang. Aset di /_next/static
+   * sengaja dikecualikan karena namanya sudah mengandung hash dan aman
+   * disimpan selamanya.
+   */
+  async headers() {
+    return [
+      {
+        source: "/((?!_next/static|_next/image).*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=0, must-revalidate",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
