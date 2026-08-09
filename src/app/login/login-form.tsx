@@ -53,7 +53,7 @@ export function LoginForm() {
     if (pending) return;
 
     const form = new FormData(event.currentTarget);
-    const email = String(form.get("email") ?? "").trim();
+    const email = String(form.get("email") ?? "").trim().toLowerCase();
     const password = String(form.get("password") ?? "");
 
     if (!email || !password) {
@@ -127,6 +127,9 @@ export function LoginForm() {
             name="email"
             type="email"
             autoComplete="email"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
             placeholder="admin@metito.id"
             aria-invalid={error ? true : undefined}
             className="h-12 bg-card"

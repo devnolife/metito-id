@@ -15,8 +15,21 @@ async function signJWTEdge(payload: { userId: string; email: string; role: strin
     .sign(secret)
 }
 
+/**
+ * Alamat surel diperlakukan tanpa membedakan huruf besar/kecil.
+ *
+ * Peramban di ponsel mengapitalkan huruf pertama kolom teks secara otomatis,
+ * dan pengelola kata sandi kerap menyimpan alamat dengan kapitalisasi berbeda.
+ * Tanpa penyeragaman ini, pencarian pengguna gagal dan masuknya ditolak
+ * seolah-olah kata sandinya keliru. Spasi di ujung juga dipangkas karena
+ * menyalin alamat dari pesan hampir selalu ikut membawanya.
+ */
 const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
+  email: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .email('Invalid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
 })
 
