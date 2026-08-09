@@ -4,6 +4,7 @@ import { Badge } from "@/components/portal/badge";
 import { Card, CardHeader, Eyebrow } from "@/components/portal/card";
 import { BarChart, DonutChart } from "@/components/portal/charts";
 import { BoltIcon } from "@/components/portal/icons";
+import { KelolaLink } from "@/components/portal/kelola-link";
 import { DbOffline, StatTile } from "@/components/portal/internal";
 import {
   Table,
@@ -40,6 +41,7 @@ const BULAN = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "O
 
 export default async function OverviewPage() {
   const session = await getSession();
+  const isAdmin = session?.role === "ADMIN";
   const firstName = session?.name.split(" ")[0] ?? "";
 
   const data = await safeQuery(async () => {
@@ -73,13 +75,14 @@ export default async function OverviewPage() {
           Operasional penawaran, persuratan, dan penjualan METITO hari ini.
         </p>
       </div>
-      <Link
+      <KelolaLink
         href="/dashboard/quotations/new"
+        isAdmin={isAdmin}
         className="inline-flex items-center justify-center gap-2 rounded-[4px] bg-brand px-4 py-2.5 text-regular font-medium text-[#fff] transition-colors hover:bg-[#d64300]"
       >
         <BoltIcon className="h-4 w-4" />
         Buat penawaran baru
-      </Link>
+      </KelolaLink>
     </div>
   );
 
@@ -163,9 +166,9 @@ export default async function OverviewPage() {
             title="Penawaran per bulan"
             subtitle={`Jumlah dokumen dibuat · ${now.getFullYear()}`}
             action={
-              <Link href="/dashboard/penawaran" className="text-small text-blue hover:underline">
+              <KelolaLink href="/dashboard/quotations" isAdmin={isAdmin}>
                 Lihat semua
-              </Link>
+              </KelolaLink>
             }
           />
           <div className="p-4">
@@ -216,9 +219,9 @@ export default async function OverviewPage() {
             title="Penawaran terbaru"
             subtitle="Lima dokumen terakhir yang berubah"
             action={
-              <Link href="/dashboard/penawaran" className="text-small text-blue hover:underline">
+              <KelolaLink href="/dashboard/quotations" isAdmin={isAdmin}>
                 Semua penawaran
-              </Link>
+              </KelolaLink>
             }
           />
           <div className="overflow-x-auto">
@@ -242,12 +245,18 @@ export default async function OverviewPage() {
                   recentQuotations.map((q) => (
                     <TableRow key={q.id}>
                       <TableCell className="px-5">
-                        <Link
-                          href={`/dashboard/quotations/${q.id}`}
-                          className="font-medium text-navy hover:text-blue"
-                        >
-                          {q.numberBase ? withRevision(q.numberBase, q.revision) : "(draft)"}
-                        </Link>
+                        {isAdmin ? (
+                          <Link
+                            href={`/dashboard/quotations/${q.id}`}
+                            className="font-medium text-navy hover:text-blue"
+                          >
+                            {q.numberBase ? withRevision(q.numberBase, q.revision) : "(draft)"}
+                          </Link>
+                        ) : (
+                          <span className="font-medium text-navy">
+                            {q.numberBase ? withRevision(q.numberBase, q.revision) : "(draft)"}
+                          </span>
+                        )}
                         <p className="mt-0.5 max-w-[20rem] truncate text-tiny text-muted-foreground">
                           {q.subject}
                         </p>
@@ -272,9 +281,9 @@ export default async function OverviewPage() {
             title="Aktivitas terakhir"
             subtitle="Log CRM"
             action={
-              <Link href="/dashboard/crm" className="text-small text-blue hover:underline">
+              <KelolaLink href="/dashboard/crm" isAdmin={isAdmin}>
                 Semua log
-              </Link>
+              </KelolaLink>
             }
           />
           <ul className="divide-y divide-border">

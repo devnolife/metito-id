@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { Badge } from "@/components/portal/badge";
 import { Card, CardHeader, Eyebrow } from "@/components/portal/card";
 import { DonutChart } from "@/components/portal/charts";
+import { KelolaLink } from "@/components/portal/kelola-link";
 import { DbOffline, StatTile } from "@/components/portal/internal";
 import { PageHeading } from "@/components/portal/ui";
 import {
@@ -30,6 +30,7 @@ import {
   formatTanggal,
   safeQuery,
 } from "@/lib/portal/internal";
+import { getSession } from "@/lib/portal/session.server";
 import { formatRupiah } from "@/lib/quotation-math";
 
 export const metadata: Metadata = { title: "CRM | METITO" };
@@ -49,6 +50,8 @@ const ACCOUNT_TONE: Record<CrmAccountStatus, "blue" | "green" | "neutral"> = {
 };
 
 export default async function CrmPage() {
+  const session = await getSession();
+  const isAdmin = session?.role === "ADMIN";
   const data = await safeQuery(async () => {
     const [accounts, deals, activities] = await Promise.all([
       db.crmAccount.findMany({ orderBy: { addedAt: "desc" } }),
@@ -112,12 +115,13 @@ export default async function CrmPage() {
         title="CRM"
         description="Digitalisasi CRM_Nomor_Surat_METITO_3.xlsx — pelanggan, pipeline, dan aktivitas dalam satu basis data."
         action={
-          <Link
+          <KelolaLink
             href="/dashboard/crm"
+            isAdmin={isAdmin}
             className="inline-flex items-center justify-center gap-2 rounded-[4px] bg-brand px-4 py-2.5 text-regular font-medium text-[#fff] transition-colors hover:bg-[#d64300]"
           >
             Kelola di konsol admin
-          </Link>
+          </KelolaLink>
         }
       />
 
@@ -156,9 +160,9 @@ export default async function CrmPage() {
             title="Pipeline penjualan"
             subtitle="Peluang terbuka, diurutkan dari nilai terbesar"
             action={
-              <Link href="/dashboard/crm/pipeline" className="text-small text-blue hover:underline">
+              <KelolaLink href="/dashboard/crm/pipeline" isAdmin={isAdmin}>
                 Papan pipeline
-              </Link>
+              </KelolaLink>
             }
           />
           <div className="overflow-x-auto">
@@ -251,9 +255,9 @@ export default async function CrmPage() {
             title="Data pelanggan"
             subtitle="Master pelanggan penjualan (sheet Data Pelanggan)"
             action={
-              <Link href="/dashboard/crm" className="text-small text-blue hover:underline">
+              <KelolaLink href="/dashboard/crm" isAdmin={isAdmin}>
                 Semua pelanggan
-              </Link>
+              </KelolaLink>
             }
           />
           <div className="overflow-x-auto">
@@ -316,9 +320,9 @@ export default async function CrmPage() {
             title="Aktivitas terakhir"
             subtitle="Log interaksi & tindak lanjut"
             action={
-              <Link href="/dashboard/crm/activities" className="text-small text-blue hover:underline">
+              <KelolaLink href="/dashboard/crm/activities" isAdmin={isAdmin}>
                 Semua log
-              </Link>
+              </KelolaLink>
             }
           />
           <ul className="divide-y divide-border">

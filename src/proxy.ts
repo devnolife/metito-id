@@ -5,9 +5,10 @@ import { jwtVerify } from "jose";
  * Next.js 16 mengganti nama `middleware` menjadi `proxy`.
  *
  * Satu aplikasi internal dengan dua area di bawah shell yang sama:
- *   /sales/*     — tampilan kerja harian (UI baru)
- *   /dashboard/* — halaman kelola/CRUD
- * Keduanya dijaga JWT `auth-token` (role ADMIN) — satu login di /login.
+ *   /sales/*     — tampilan kerja harian, baca saja (ADMIN + SALES)
+ *   /dashboard/* — halaman kelola/CRUD (khusus ADMIN)
+ * Keduanya dijaga JWT `auth-token` — satu login di /login. Pengguna SALES
+ * yang membuka /dashboard/* dikembalikan ke /sales, bukan ke /login.
  *
  * Rute /admin/* lama dialihkan permanen ke padanannya agar tautan/bookmark
  * lama tidak mati. API (/api/*) tetap memakai daftar path admin + whitelist
@@ -81,7 +82,10 @@ export async function proxy(request: NextRequest) {
   }
 
   /* ==== 1. Area internal (/sales, /dashboard) & halaman masuk ==== */
-  const isInternalPage = pathname.startsWith("/dashboard") || pathname.startsWith("/sales");
+  //   /sales/*     — baca & pantau; terbuka untuk ADMIN dan SALES.
+  //   /dashboard/* — kelola (CRUD); khusus ADMIN.
+  const isKelolaPage = pathname.startsWith("/dashboard");
+  const isInternalPage = isKelolaPage || pathname.startsWith("/sales");
 
   if (isInternalPage || pathname === "/login") {
     const token =
@@ -89,8 +93,10 @@ export async function proxy(request: NextRequest) {
       request.headers.get("authorization")?.replace("Bearer ", "");
     const payload = token ? await verifyTokenSimple(token) : null;
     const isAdmin = payload?.role === "ADMIN";
+    const isSales = payload?.role === "SALES";
+    const isInternalUser = isAdmin || isSales;
 
-    if (isInternalPage && !isAdmin) {
+    if (isInternalPage && !isInternalUser) {
       const url = request.nextUrl.clone();
       url.pathname = "/login";
       url.search = "";
@@ -98,7 +104,16 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    if (pathname === "/login" && isAdmin) {
+    // Pengguna SALES sudah masuk tetapi tak berhak mengelola: kembalikan ke
+    // area kerjanya, bukan ke /login, agar tidak tampak seperti sesi kedaluwarsa.
+    if (isKelolaPage && !isAdmin) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/sales";
+      url.search = "";
+      return NextResponse.redirect(url);
+    }
+
+    if (pathname === "/login" && isInternalUser) {
       const url = request.nextUrl.clone();
       url.pathname = "/sales";
       url.search = "";

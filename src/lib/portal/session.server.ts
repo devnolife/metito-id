@@ -9,11 +9,14 @@ import { db } from "@/lib/db";
  * modul ini server-only.
  */
 
+export type InternalRole = "ADMIN" | "SALES";
+
 export interface DashboardSession {
   name: string;
   email: string;
   company: string;
   initials: string;
+  role: InternalRole;
 }
 
 const COMPANY_NAME = "PT Multi Enviro Tirta Teknologi";
@@ -45,6 +48,7 @@ export async function getSession(): Promise<DashboardSession | null> {
       email: "dev@metito.id",
       company: COMPANY_NAME,
       initials: "DA",
+      role: "ADMIN",
     };
   }
 
@@ -53,9 +57,9 @@ export async function getSession(): Promise<DashboardSession | null> {
   if (!token) return null;
 
   const payload = await verifyJWTEdge(token);
-  if (!payload || payload.role !== "ADMIN" || typeof payload.email !== "string") {
-    return null;
-  }
+  if (!payload || typeof payload.email !== "string") return null;
+  if (payload.role !== "ADMIN" && payload.role !== "SALES") return null;
+  const role = payload.role as InternalRole;
 
   // Nama lengkap diambil dari profil user; bila DB sedang tidak terjangkau,
   // sesi tetap valid dengan nama yang diturunkan dari email.
@@ -75,5 +79,6 @@ export async function getSession(): Promise<DashboardSession | null> {
     email: payload.email,
     company: COMPANY_NAME,
     initials: initialsOf(name),
+    role,
   };
 }

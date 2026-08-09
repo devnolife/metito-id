@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { Badge } from "@/components/portal/badge";
 import { Card, CardHeader } from "@/components/portal/card";
 import { BarChart } from "@/components/portal/charts";
+import { KelolaLink } from "@/components/portal/kelola-link";
 import { DbOffline, StatTile } from "@/components/portal/internal";
 import { PageHeading } from "@/components/portal/ui";
 import {
@@ -18,6 +18,7 @@ import type { LetterStatus, LetterType } from "@prisma/client";
 import { db } from "@/lib/db";
 import { LETTER_STATUS_LABEL } from "@/lib/crm-labels";
 import { DIVISION_LABEL, formatTanggal, safeQuery } from "@/lib/portal/internal";
+import { getSession } from "@/lib/portal/session.server";
 
 export const metadata: Metadata = { title: "Nomor Surat | METITO" };
 
@@ -44,6 +45,8 @@ const TYPE_LABEL: Record<LetterType, string> = {
 const BULAN = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
 
 export default async function SuratPage() {
+  const session = await getSession();
+  const isAdmin = session?.role === "ADMIN";
   const letters = await safeQuery(() =>
     db.letter.findMany({
       orderBy: [{ letterDate: "desc" }, { seq: "desc" }],
@@ -87,12 +90,13 @@ export default async function SuratPage() {
         title="Nomor Surat"
         description={`Register permanen seluruh surat keluar · format NNN/JENIS-Metito[-DIV]/BULAN/TAHUN`}
         action={
-          <Link
+          <KelolaLink
             href="/dashboard/letters"
+            isAdmin={isAdmin}
             className="inline-flex items-center justify-center gap-2 rounded-[4px] bg-brand px-4 py-2.5 text-regular font-medium text-[#fff] transition-colors hover:bg-[#d64300]"
           >
             Terbitkan nomor baru
-          </Link>
+          </KelolaLink>
         }
       />
 
@@ -116,9 +120,9 @@ export default async function SuratPage() {
             title="Register surat keluar"
             subtitle="Log Nomor Surat — nomor yang terbit tidak pernah digunakan ulang"
             action={
-              <Link href="/dashboard/letters" className="text-small text-blue hover:underline">
+              <KelolaLink href="/dashboard/letters" isAdmin={isAdmin}>
                 Kelola di konsol admin
-              </Link>
+              </KelolaLink>
             }
           />
           <div className="overflow-x-auto">

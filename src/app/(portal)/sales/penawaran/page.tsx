@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Badge } from "@/components/portal/badge";
 import { Card, CardHeader } from "@/components/portal/card";
 import { DonutChart } from "@/components/portal/charts";
+import { KelolaLink } from "@/components/portal/kelola-link";
 import { DbOffline, StatTile } from "@/components/portal/internal";
 import { PageHeading } from "@/components/portal/ui";
 import {
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/table";
 import { db } from "@/lib/db";
 import { formatCompactIDR, formatTanggal, safeQuery } from "@/lib/portal/internal";
+import { getSession } from "@/lib/portal/session.server";
 import { formatRupiah } from "@/lib/quotation-math";
 import { withRevision } from "@/lib/quotation-number";
 import { displayStatus, isShareable, STATUS_LABEL, type DisplayStatus } from "@/lib/quotation-status";
@@ -39,6 +41,8 @@ const STATUS_COLOR: Record<DisplayStatus, string> = {
 };
 
 export default async function PenawaranPage() {
+  const session = await getSession();
+  const isAdmin = session?.role === "ADMIN";
   const quotations = await safeQuery(() =>
     db.quotation.findMany({
       orderBy: { updatedAt: "desc" },
@@ -81,12 +85,13 @@ export default async function PenawaranPage() {
         title="Surat Penawaran"
         description={`${quotations.length} dokumen · penomoran otomatis NNN/SPH-Metito/BULAN/TAHUN`}
         action={
-          <Link
+          <KelolaLink
             href="/dashboard/quotations/new"
+            isAdmin={isAdmin}
             className="inline-flex items-center justify-center gap-2 rounded-[4px] bg-brand px-4 py-2.5 text-regular font-medium text-[#fff] transition-colors hover:bg-[#d64300]"
           >
             Buat penawaran baru
-          </Link>
+          </KelolaLink>
         }
       />
 
@@ -124,9 +129,9 @@ export default async function PenawaranPage() {
             title="Dokumen terbaru"
             subtitle="Diurutkan dari perubahan terakhir"
             action={
-              <Link href="/dashboard/quotations" className="text-small text-blue hover:underline">
+              <KelolaLink href="/dashboard/quotations" isAdmin={isAdmin}>
                 Kelola di konsol admin
-              </Link>
+              </KelolaLink>
             }
           />
           <div className="overflow-x-auto">
@@ -151,12 +156,18 @@ export default async function PenawaranPage() {
                   recent.map((q) => (
                     <TableRow key={q.id}>
                       <TableCell className="px-5">
-                        <Link
-                          href={`/dashboard/quotations/${q.id}`}
-                          className="font-medium text-navy hover:text-blue"
-                        >
-                          {q.numberBase ? withRevision(q.numberBase, q.revision) : "(draft — belum bernomor)"}
-                        </Link>
+                        {isAdmin ? (
+                          <Link
+                            href={`/dashboard/quotations/${q.id}`}
+                            className="font-medium text-navy hover:text-blue"
+                          >
+                            {q.numberBase ? withRevision(q.numberBase, q.revision) : "(draft — belum bernomor)"}
+                          </Link>
+                        ) : (
+                          <span className="font-medium text-navy">
+                            {q.numberBase ? withRevision(q.numberBase, q.revision) : "(draft — belum bernomor)"}
+                          </span>
+                        )}
                         <p className="mt-0.5 max-w-[26rem] truncate text-tiny text-muted-foreground">
                           {q.subject}
                         </p>

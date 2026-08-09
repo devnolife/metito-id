@@ -66,7 +66,7 @@ function NavItem({ item, active }: { item: NavEntry; active: boolean }) {
   );
 }
 
-export function Sidebar({ className }: { className?: string }) {
+export function Sidebar({ className, isAdmin = true }: { className?: string; isAdmin?: boolean }) {
   const pathname = usePathname();
   return (
     <aside
@@ -102,12 +102,16 @@ export function Sidebar({ className }: { className?: string }) {
           <NavItem key={item.href} item={item} active={isActive(pathname, item)} />
         ))}
 
-        <p className="px-3 pb-2 pt-5 font-mono text-tiny uppercase tracking-wide text-[#8fb4dd]">
-          Admin
-        </p>
-        {NAV_ADMIN.map((item) => (
-          <NavItem key={item.href} item={item} active={isActive(pathname, item)} />
-        ))}
+        {isAdmin ? (
+          <>
+            <p className="px-3 pb-2 pt-5 font-mono text-tiny uppercase tracking-wide text-[#8fb4dd]">
+              Admin
+            </p>
+            {NAV_ADMIN.map((item) => (
+              <NavItem key={item.href} item={item} active={isActive(pathname, item)} />
+            ))}
+          </>
+        ) : null}
       </nav>
     </aside>
   );

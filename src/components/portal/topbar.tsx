@@ -50,10 +50,17 @@ const MOBILE_NAV = [
   { href: "/dashboard/settings", label: "Pengaturan", icon: SettingsIcon, exact: false },
 ] as const;
 
-export function Topbar({ user }: { user: { name: string; email: string; company: string; initials: string } }) {
+export function Topbar({
+  user,
+}: {
+  user: { name: string; email: string; company: string; initials: string; isAdmin: boolean };
+}) {
   const pathname = usePathname();
   const meta = TITLES.find((t) => t.match(pathname)) ?? TITLES[0];
   const [mobileNav, setMobileNav] = useState(false);
+  const mobileNavItems = user.isAdmin
+    ? MOBILE_NAV
+    : MOBILE_NAV.filter((item) => !item.href.startsWith("/dashboard"));
 
   /* Logout sungguhan: hapus cookie JWT `auth-token` di server + token lokal,
      lalu kembali ke halaman masuk. */
@@ -174,7 +181,7 @@ export function Topbar({ user }: { user: { name: string; email: string; company:
       {mobileNav ? (
         <nav className="border-t border-border bg-bg px-4 py-3 lg:hidden">
           <div className="grid grid-cols-2 gap-2">
-            {MOBILE_NAV.map((item) => {
+            {mobileNavItems.map((item) => {
               const active = item.exact ? pathname === item.href : pathname.startsWith(item.href);
               const Icon = item.icon;
               return (
