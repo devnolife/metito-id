@@ -92,15 +92,26 @@ export function LoginForm() {
         return;
       }
 
-      // Simpan token untuk halaman konsol admin yang memakai header Bearer.
-      if (typeof window !== "undefined" && token) {
-        localStorage.setItem("authToken", token);
-        localStorage.setItem("adminUser", JSON.stringify(user));
+      // Token disimpan untuk halaman konsol lama yang memakai header Bearer.
+      // localStorage dapat melempar galat pada mode penjelajahan privat atau
+      // saat kuotanya penuh; kegagalannya tidak boleh membatalkan perpindahan
+      // halaman, sebab sesi sebenarnya sudah ada di cookie.
+      try {
+        if (token) {
+          localStorage.setItem("authToken", token);
+          localStorage.setItem("adminUser", JSON.stringify(user));
+        }
+      } catch {
+        // abaikan: sesi tetap sah lewat cookie
       }
 
       window.location.href = targetForRole(user.role, requestedTarget());
-    } catch {
-      setError("Tidak dapat menghubungi server. Periksa koneksi Anda.");
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? `Tidak dapat menghubungi server: ${err.message}`
+          : "Tidak dapat menghubungi server. Periksa koneksi Anda."
+      );
     } finally {
       setPending(false);
     }
