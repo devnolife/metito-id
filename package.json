@@ -29,6 +29,7 @@
     "setup-admin": "npx tsx scripts/setup-admin.ts",
     "setup-sales": "npx tsx scripts/setup-sales-team.ts",
     "setup-magang": "npx tsx scripts/setup-magang.ts",
+    "reset-password": "npx tsx scripts/reset-password.ts",
     "test-api": "npx tsx scripts/test-all-apis.ts",
     "test-api-quick": "npx tsx scripts/quick-api-test.ts",
     "test-db": "npx tsx scripts/test-database.ts",
