@@ -1,7 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -20,6 +19,19 @@ function safeTarget(raw: string | null): string {
   return "/sales";
 }
 
+/**
+ * Halaman asal dibaca dari alamat saat formulir dikirim, bukan lewat
+ * useSearchParams. Hook itu memaksa halaman yang sudah diprarender melepas
+ * render server untuk seluruh subpohonnya, sehingga formulir hilang dari HTML
+ * dan baru muncul setelah JavaScript selesai dimuat — bila berkasnya gagal
+ * diambil, yang tersisa hanyalah kartu masuk tanpa isi.
+ */
+function requestedTarget(): string {
+  if (typeof window === "undefined") return "/sales";
+  const params = new URLSearchParams(window.location.search);
+  return safeTarget(params.get("next") ?? params.get("redirect"));
+}
+
 /** Tujuan setelah masuk, dibatasi hak peran agar tidak mendarat di halaman
     yang justru akan memantulkannya kembali. */
 function targetForRole(role: string, requested: string): string {
@@ -32,12 +44,9 @@ function targetForRole(role: string, requested: string): string {
   return requested;
 }
 
-function LoginFormInner() {
-  const searchParams = useSearchParams();
+export function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
-
-  const target = safeTarget(searchParams.get("next") ?? searchParams.get("redirect"));
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -89,7 +98,7 @@ function LoginFormInner() {
         localStorage.setItem("adminUser", JSON.stringify(user));
       }
 
-      window.location.href = targetForRole(user.role, target);
+      window.location.href = targetForRole(user.role, requestedTarget());
     } catch {
       setError("Tidak dapat menghubungi server. Periksa koneksi Anda.");
     } finally {
@@ -150,13 +159,5 @@ function LoginFormInner() {
         </button>
       </FieldGroup>
     </form>
-  );
-}
-
-export function LoginForm() {
-  return (
-    <Suspense fallback={null}>
-      <LoginFormInner />
-    </Suspense>
   );
 }
