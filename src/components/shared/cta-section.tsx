@@ -16,8 +16,8 @@ export function CtaSection() {
     <section className="padding-global">
       {/* soft navy/water glow anchored top-centre */}
       <div className="border-x border-line bg-[radial-gradient(60%_50%_at_50%_0%,rgba(9,106,174,0.12),transparent_70%)] px-4 pt-28 pb-15 md:px-0">
-        <div className="mx-auto flex max-w-[26.5rem] flex-col items-center justify-start gap-medium">
-          <div className="flex flex-col items-center justify-start gap-4 text-center">
+        <div className="mx-auto flex flex-col items-center justify-start gap-medium">
+          <div className="flex max-w-[26.5rem] flex-col items-center justify-start gap-4 text-center">
             <LogoMark className="mb-xxsmall h-16" />
             <h2 className="text-h2 font-medium leading-1-1 tracking-h2 text-navy">
               {COMPANY.slogan}
@@ -28,7 +28,7 @@ export function CtaSection() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 max-xs:w-full">
+          <div className="flex flex-wrap items-center justify-center gap-4 max-xs:w-full">
             <ButtonLink href={EXTERNAL.whatsapp} variant="primary" className="max-xs:w-full">
               Hubungi via WhatsApp
             </ButtonLink>
