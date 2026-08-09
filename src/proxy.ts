@@ -4,11 +4,14 @@ import { jwtVerify } from "jose";
 /**
  * Next.js 16 mengganti nama `middleware` menjadi `proxy`.
  *
- * Satu aplikasi internal dengan dua area di bawah shell yang sama:
- *   /sales/*     — tampilan kerja harian, baca saja (ADMIN + SALES)
- *   /dashboard/* — halaman kelola/CRUD (khusus ADMIN)
- * Keduanya dijaga JWT `auth-token` — satu login di /login. Pengguna SALES
- * yang membuka /dashboard/* dikembalikan ke /sales, bukan ke /login.
+ * Satu aplikasi internal dengan tiga tingkat akses di bawah shell yang sama:
+ *   /sales/*                    — baca & pantau (ADMIN + SALES)
+ *   /dashboard/quotations/*     — tim sales menyusun penawarannya (ADMIN + SALES)
+ *   /dashboard/crm/activities   — Log Aktivitas, juga terbuka untuk MAGANG
+ *   /dashboard/* lainnya        — data master (khusus ADMIN)
+ * Semuanya dijaga JWT `auth-token` — satu login di /login. Pengguna yang
+ * membuka halaman di luar haknya dikembalikan ke area kerjanya masing-masing,
+ * bukan ke /login, agar tidak tampak seperti sesi kedaluwarsa.
  *
  * Rute /admin/* lama dialihkan permanen ke padanannya agar tautan/bookmark
  * lama tidak mati. API (/api/*) tetap memakai daftar path admin + whitelist
@@ -18,6 +21,9 @@ import { jwtVerify } from "jose";
 // Verifikasi JWT ringan (duplikat logika tanpa mengimpor auth.ts yang
 // bergantung pada prisma) agar proxy tetap ringan.
 const JWT_SECRET = process.env.JWT_SECRET || "metito-tempur";
+
+/** Satu-satunya halaman yang boleh dibuka peran MAGANG. */
+const AKTIVITAS_PATH = "/dashboard/crm/activities";
 async function verifyTokenSimple(token: string) {
   try {
     const secret = new TextEncoder().encode(JWT_SECRET);
@@ -83,11 +89,12 @@ export async function proxy(request: NextRequest) {
 
   /* ==== 1. Area internal (/sales, /dashboard) & halaman masuk ==== */
   //   /sales/*                — baca & pantau; ADMIN + SALES.
-  //   /dashboard/quotations/* — tim sales menyusun penawarannya sendiri,
-  //                             jadi ikut terbuka untuk SALES.
+  //   /dashboard/quotations/* — tim sales menyusun penawarannya sendiri.
+  //   /dashboard/crm/activities — Log Aktivitas; satu-satunya halaman MAGANG.
   //   /dashboard/* lainnya    — data master (CRM, surat, pengaturan): ADMIN.
   const isKelolaPage = pathname.startsWith("/dashboard");
   const isPenawaranPage = pathname.startsWith("/dashboard/quotations");
+  const isAktivitasPage = pathname.startsWith("/dashboard/crm/activities");
   const isInternalPage = isKelolaPage || pathname.startsWith("/sales");
 
   if (isInternalPage || pathname === "/login") {
@@ -97,7 +104,10 @@ export async function proxy(request: NextRequest) {
     const payload = token ? await verifyTokenSimple(token) : null;
     const isAdmin = payload?.role === "ADMIN";
     const isSales = payload?.role === "SALES";
-    const isInternalUser = isAdmin || isSales;
+    const isMagang = payload?.role === "MAGANG";
+    const isInternalUser = isAdmin || isSales || isMagang;
+    // Halaman pertama setelah masuk, sesuai hak masing-masing peran.
+    const homeFor = isMagang ? AKTIVITAS_PATH : "/sales";
 
     if (isInternalPage && !isInternalUser) {
       const url = request.nextUrl.clone();
@@ -107,10 +117,18 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
+    // MAGANG hanya berhak atas Log Aktivitas; halaman internal lain ditutup.
+    if (isMagang && isInternalPage && !isAktivitasPage) {
+      const url = request.nextUrl.clone();
+      url.pathname = AKTIVITAS_PATH;
+      url.search = "";
+      return NextResponse.redirect(url);
+    }
+
     // Pengguna SALES sudah masuk tetapi tak berhak mengelola data master:
-    // kembalikan ke area kerjanya, bukan ke /login, agar tidak tampak seperti
-    // sesi kedaluwarsa.
-    if (isKelolaPage && !isPenawaranPage && !isAdmin) {
+    // kembalikan ke area kerjanya. Log Aktivitas tetap terbuka karena tim
+    // sales-lah yang mencatat follow-up pelanggan.
+    if (isSales && isKelolaPage && !isPenawaranPage && !isAktivitasPage) {
       const url = request.nextUrl.clone();
       url.pathname = "/sales";
       url.search = "";
@@ -119,7 +137,7 @@ export async function proxy(request: NextRequest) {
 
     if (pathname === "/login" && isInternalUser) {
       const url = request.nextUrl.clone();
-      url.pathname = "/sales";
+      url.pathname = homeFor;
       url.search = "";
       return NextResponse.redirect(url);
     }

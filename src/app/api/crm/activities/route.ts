@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { Prisma } from '@prisma/client'
 import { db } from '@/lib/db'
-import { verifyAdminAuth } from '@/lib/admin-auth'
+import { verifyActivityAuth } from '@/lib/admin-auth'
 import {
   errorResponse,
   successResponse,
@@ -16,7 +16,7 @@ import { getMockActivities, mockPagination } from '@/lib/crm-mock-data'
 
 /** GET /api/crm/activities — menggantikan sheet "Log Aktivitas". */
 export async function GET(request: NextRequest) {
-  const auth = await verifyAdminAuth(request)
+  const auth = await verifyActivityAuth(request)
   if (!auth.success) return unauthorizedResponse(auth.message)
 
   const parsed = activityListQuerySchema.safeParse(
@@ -83,7 +83,7 @@ export async function GET(request: NextRequest) {
 
 /** POST /api/crm/activities — mencatat interaksi dengan pelanggan. */
 export async function POST(request: NextRequest) {
-  const auth = await verifyAdminAuth(request)
+  const auth = await verifyActivityAuth(request)
   if (!auth.success || !auth.user) return unauthorizedResponse(auth.message)
 
   let body: unknown

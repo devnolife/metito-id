@@ -27,11 +27,20 @@ const NAV_ADMIN = [
   { href: "/dashboard/quotations", label: "Kelola Penawaran", icon: QuoteIcon, exact: false },
   { href: "/dashboard/letters", label: "Kelola Surat", icon: MailIcon, exact: false },
   { href: "/dashboard/crm", label: "Kelola CRM", icon: UsersIcon, exact: false },
+  { href: "/dashboard/crm/activities", label: "Log Aktivitas", icon: UsersIcon, exact: false },
   { href: "/dashboard/settings", label: "Pengaturan", icon: SettingsIcon, exact: false },
 ] as const;
 
-/** Menu kelola yang boleh dibuka SALES — hanya penawarannya sendiri. */
-const SALES_KELOLA_HREFS: readonly string[] = ["/dashboard/quotations"];
+/** Menu kelola untuk SALES: penawarannya sendiri dan pencatatan follow-up. */
+const SALES_KELOLA_HREFS: readonly string[] = [
+  "/dashboard/quotations",
+  "/dashboard/crm/activities",
+];
+
+/** Satu-satunya menu peran MAGANG: mengisi Log Aktivitas. */
+const NAV_MAGANG = [
+  { href: "/dashboard/crm/activities", label: "Log Aktivitas", icon: UsersIcon, exact: false },
+] as const;
 
 type NavEntry = {
   href: string;
@@ -40,8 +49,22 @@ type NavEntry = {
   exact: boolean;
 };
 
-function isActive(pathname: string, item: NavEntry): boolean {
+function matches(pathname: string, item: NavEntry): boolean {
   return item.exact ? pathname === item.href : pathname.startsWith(item.href);
+}
+
+/**
+ * Menu yang paling spesifik yang menang. Tanpa ini "Kelola CRM" ikut tersorot
+ * saat berada di "Log Aktivitas", karena kedua tautannya berbagi awalan.
+ */
+function isActive(pathname: string, item: NavEntry, all: readonly NavEntry[]): boolean {
+  if (!matches(pathname, item)) return false;
+  return !all.some(
+    (other) =>
+      other.href !== item.href &&
+      other.href.length > item.href.length &&
+      matches(pathname, other)
+  );
 }
 
 function NavItem({ item, active }: { item: NavEntry; active: boolean }) {
@@ -69,11 +92,23 @@ function NavItem({ item, active }: { item: NavEntry; active: boolean }) {
   );
 }
 
-export function Sidebar({ className, isAdmin = true }: { className?: string; isAdmin?: boolean }) {
+export function Sidebar({
+  className,
+  role = "ADMIN",
+}: {
+  className?: string;
+  role?: "ADMIN" | "SALES" | "MAGANG";
+}) {
   const pathname = usePathname();
-  const kelolaItems = isAdmin
-    ? NAV_ADMIN
-    : NAV_ADMIN.filter((item) => SALES_KELOLA_HREFS.includes(item.href));
+  const isAdmin = role === "ADMIN";
+  const isMagang = role === "MAGANG";
+  const salesItems = isMagang ? [] : NAV_SALES;
+  const kelolaItems = isMagang
+    ? NAV_MAGANG
+    : isAdmin
+      ? NAV_ADMIN
+      : NAV_ADMIN.filter((item) => SALES_KELOLA_HREFS.includes(item.href));
+  const allItems: readonly NavEntry[] = [...salesItems, ...kelolaItems];
   return (
     <aside
       className={cn(
@@ -101,20 +136,29 @@ export function Sidebar({ className, isAdmin = true }: { className?: string; isA
       </div>
 
       <nav className="no-scrollbar flex-1 space-y-1 overflow-y-auto p-4">
-        <p className="px-3 pb-2 font-mono text-tiny uppercase tracking-wide text-[#8fb4dd]">
-          Sales
-        </p>
-        {NAV_SALES.map((item) => (
-          <NavItem key={item.href} item={item} active={isActive(pathname, item)} />
-        ))}
+        {salesItems.length > 0 ? (
+          <>
+            <p className="px-3 pb-2 font-mono text-tiny uppercase tracking-wide text-[#8fb4dd]">
+              Sales
+            </p>
+            {salesItems.map((item) => (
+              <NavItem key={item.href} item={item} active={isActive(pathname, item, allItems)} />
+            ))}
+          </>
+        ) : null}
 
         {kelolaItems.length > 0 ? (
           <>
-            <p className="px-3 pb-2 pt-5 font-mono text-tiny uppercase tracking-wide text-[#8fb4dd]">
-              {isAdmin ? "Admin" : "Kelola"}
+            <p
+              className={cn(
+                "px-3 pb-2 font-mono text-tiny uppercase tracking-wide text-[#8fb4dd]",
+                salesItems.length > 0 && "pt-5"
+              )}
+            >
+              {isAdmin ? "Admin" : isMagang ? "Tugas" : "Kelola"}
             </p>
             {kelolaItems.map((item) => (
-              <NavItem key={item.href} item={item} active={isActive(pathname, item)} />
+              <NavItem key={item.href} item={item} active={isActive(pathname, item, allItems)} />
             ))}
           </>
         ) : null}

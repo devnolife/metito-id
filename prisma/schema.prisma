@@ -10,6 +10,7 @@ datasource db {
 enum UserRole {
   ADMIN
   SALES
+  MAGANG
   CUSTOMER
 }
 
@@ -496,7 +497,7 @@ model Quotation {
   // Numbering. Null while the quotation is still a draft: a number is only
   // burned once the document is actually issued.
   seq        Int?
-  numberBase String? // "001/SPH-Metito/VII/2026"
+  numberBase String? // "001/METITO-SPH/VII/2026"
   revision   Int     @default(0) // 0 = original, 1 = Rev.1
   parentId   String?
 

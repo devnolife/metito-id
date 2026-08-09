@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { Prisma } from '@prisma/client'
 import { db } from '@/lib/db'
-import { verifyAdminAuth } from '@/lib/admin-auth'
+import { verifyActivityAuth, verifyAdminAuth } from '@/lib/admin-auth'
 import {
   errorResponse,
   successResponse,
@@ -16,7 +16,7 @@ import { getMockAccounts, mockPagination } from '@/lib/crm-mock-data'
 
 /** GET /api/crm/accounts — menggantikan sheet "Data Pelanggan". */
 export async function GET(request: NextRequest) {
-  const auth = await verifyAdminAuth(request)
+  const auth = await verifyActivityAuth(request)
   if (!auth.success) return unauthorizedResponse(auth.message)
 
   const parsed = accountListQuerySchema.safeParse(

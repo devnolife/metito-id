@@ -35,6 +35,7 @@ const TITLES: { match: (p: string) => boolean; title: string; subtitle: string }
   { match: (p) => p.startsWith("/sales/crm"), title: "CRM", subtitle: "Pelanggan, pipeline, dan aktivitas penjualan" },
   { match: (p) => p.startsWith("/dashboard/quotations"), title: "Kelola Penawaran", subtitle: "Susun dan kelola dokumen penawaran" },
   { match: (p) => p.startsWith("/dashboard/letters"), title: "Kelola Surat", subtitle: "Terbitkan dan kelola nomor surat keluar" },
+  { match: (p) => p.startsWith("/dashboard/crm/activities"), title: "Log Aktivitas", subtitle: "Catat interaksi dan tindak lanjut dengan pelanggan" },
   { match: (p) => p.startsWith("/dashboard/crm"), title: "Kelola CRM", subtitle: "Master pelanggan, pipeline, dan log aktivitas" },
   { match: (p) => p.startsWith("/dashboard/settings"), title: "Pengaturan", subtitle: "Konfigurasi sistem dan identitas" },
 ];
@@ -47,23 +48,33 @@ const MOBILE_NAV = [
   { href: "/dashboard/quotations", label: "Kelola Penawaran", icon: QuoteIcon, exact: false },
   { href: "/dashboard/letters", label: "Kelola Surat", icon: MailIcon, exact: false },
   { href: "/dashboard/crm", label: "Kelola CRM", icon: UsersIcon, exact: false },
+  { href: "/dashboard/crm/activities", label: "Log Aktivitas", icon: UsersIcon, exact: false },
   { href: "/dashboard/settings", label: "Pengaturan", icon: SettingsIcon, exact: false },
 ] as const;
 
 export function Topbar({
   user,
 }: {
-  user: { name: string; email: string; company: string; initials: string; isAdmin: boolean };
+  user: {
+    name: string;
+    email: string;
+    company: string;
+    initials: string;
+    role: "ADMIN" | "SALES" | "MAGANG";
+  };
 }) {
   const pathname = usePathname();
   const meta = TITLES.find((t) => t.match(pathname)) ?? TITLES[0];
   const [mobileNav, setMobileNav] = useState(false);
-  const mobileNavItems = user.isAdmin
-    ? MOBILE_NAV
-    : MOBILE_NAV.filter(
-        (item) =>
-          !item.href.startsWith("/dashboard") || item.href.startsWith("/dashboard/quotations")
-      );
+  const mobileNavItems =
+    user.role === "ADMIN"
+      ? MOBILE_NAV
+      : user.role === "MAGANG"
+        ? MOBILE_NAV.filter((item) => item.href.startsWith("/dashboard/crm/activities"))
+        : MOBILE_NAV.filter(
+            (item) =>
+              !item.href.startsWith("/dashboard") || item.href.startsWith("/dashboard/quotations")
+          );
 
   /* Logout sungguhan: hapus cookie JWT `auth-token` di server + token lokal,
      lalu kembali ke halaman masuk. */

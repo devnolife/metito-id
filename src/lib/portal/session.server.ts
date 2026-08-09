@@ -9,7 +9,7 @@ import { db } from "@/lib/db";
  * modul ini server-only.
  */
 
-export type InternalRole = "ADMIN" | "SALES";
+export type InternalRole = "ADMIN" | "SALES" | "MAGANG";
 
 export interface DashboardSession {
   name: string;
@@ -58,7 +58,7 @@ export async function getSession(): Promise<DashboardSession | null> {
 
   const payload = await verifyJWTEdge(token);
   if (!payload || typeof payload.email !== "string") return null;
-  if (payload.role !== "ADMIN" && payload.role !== "SALES") return null;
+  if (!["ADMIN", "SALES", "MAGANG"].includes(payload.role as string)) return null;
   const role = payload.role as InternalRole;
 
   // Nama lengkap diambil dari profil user; bila DB sedang tidak terjangkau,

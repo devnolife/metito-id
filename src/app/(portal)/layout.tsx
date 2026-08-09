@@ -20,12 +20,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
     email: session.email,
     company: session.company,
     initials: session.initials,
-    isAdmin: session.role === "ADMIN",
+    role: session.role,
   };
 
   return (
     <div className="flex h-dvh overflow-hidden bg-bg">
-      <Sidebar className="hidden lg:flex" isAdmin={session.role === "ADMIN"} />
+      <Sidebar className="hidden lg:flex" role={session.role} />
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar user={user} />
         <main className="flex-1 overflow-y-auto">

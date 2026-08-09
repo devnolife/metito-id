@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server'
 import { db } from '@/lib/db'
-import { verifyAdminAuth } from '@/lib/admin-auth'
+import { verifyActivityAuth } from '@/lib/admin-auth'
 import {
   errorResponse,
   notFoundResponse,
@@ -15,7 +15,7 @@ import { zodErrors } from '@/lib/quotation-schema'
 type RouteContext = { params: Promise<{ id: string }> }
 
 export async function PATCH(request: NextRequest, { params }: RouteContext) {
-  const auth = await verifyAdminAuth(request)
+  const auth = await verifyActivityAuth(request)
   if (!auth.success) return unauthorizedResponse(auth.message)
 
   const { id } = await params
@@ -48,7 +48,7 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
 }
 
 export async function DELETE(request: NextRequest, { params }: RouteContext) {
-  const auth = await verifyAdminAuth(request)
+  const auth = await verifyActivityAuth(request)
   if (!auth.success) return unauthorizedResponse(auth.message)
 
   const { id } = await params

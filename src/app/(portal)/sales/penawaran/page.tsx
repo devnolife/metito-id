@@ -83,7 +83,7 @@ export default async function PenawaranPage() {
     <div className="space-y-6">
       <PageHeading
         title="Surat Penawaran"
-        description={`${quotations.length} dokumen · penomoran otomatis NNN/SPH-Metito/BULAN/TAHUN`}
+        description={`${quotations.length} dokumen · penomoran otomatis NNN/METITO-SPH/BULAN/TAHUN`}
         action={
           <KelolaLink
             href="/dashboard/quotations/new"

@@ -44,6 +44,26 @@ export async function verifyAdminAuth(request: NextRequest) {
  * memakai verifyAdminAuth.
  */
 export async function verifyInternalAuth(request: NextRequest) {
+  return verifyRoleAuth(request, ['ADMIN', 'SALES'])
+}
+
+/**
+ * Verifikasi untuk modul Log Aktivitas.
+ *
+ * Peran MAGANG dibuat khusus agar mahasiswa dapat mencatat aktivitas tanpa
+ * melihat penawaran, harga, maupun data master pelanggan.
+ */
+export async function verifyActivityAuth(request: NextRequest) {
+  return verifyRoleAuth(request, ['ADMIN', 'SALES', 'MAGANG'])
+}
+
+/**
+ * Verifikasi pengguna dengan salah satu peran yang diizinkan.
+ *
+ * Satu tempat untuk seluruh penjagaan berbasis peran supaya daftar peran tidak
+ * tersebar dan tidak mungkin berbeda antar rute.
+ */
+export async function verifyRoleAuth(request: NextRequest, allowedRoles: readonly string[]) {
   if (isAdminAuthBypassEnabled()) {
     return { success: true, user: devAdminUser() }
   }
@@ -55,13 +75,13 @@ export async function verifyInternalAuth(request: NextRequest) {
       return { success: false, message: 'Authentication required' }
     }
 
-    if (!user.isActive || (user.role !== 'ADMIN' && user.role !== 'SALES')) {
-      return { success: false, message: 'Internal access required' }
+    if (!user.isActive || !allowedRoles.includes(user.role)) {
+      return { success: false, message: 'Akses ditolak untuk peran ini' }
     }
 
     return { success: true, user }
   } catch (error) {
-    console.error('Internal auth error:', error)
+    console.error('Role auth error:', error)
     return { success: false, message: 'Authentication failed' }
   }
 }
