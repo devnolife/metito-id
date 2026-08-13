@@ -107,5 +107,13 @@
     "tsx": "^4.19.2",
     "typescript": "^5",
     "vitest": "^4.1.10"
+  },
+  "allowScripts": {
+    "@prisma/client@6.17.1": true,
+    "@prisma/engines@6.17.1": true,
+    "prisma@6.17.1": true,
+    "sharp@0.33.5": true,
+    "esbuild@0.25.12": true,
+    "esbuild@0.25.5": true
   }
 }
