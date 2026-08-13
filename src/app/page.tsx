@@ -37,7 +37,6 @@ export default function Home() {
         <CareerCtaSection />
         <SectionDivider />
         <CtaSection />
-        <SectionDivider />
       </main>
       <SiteFooter />
     </>

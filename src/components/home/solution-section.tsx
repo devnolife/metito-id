@@ -1,5 +1,7 @@
 import { Cog, FlaskConical, Package, Wrench, type LucideIcon } from "lucide-react";
 
+import { Reveal } from "@/components/ui/reveal";
+import { revealDelay } from "@/components/ui/reveal-timing";
 import { cn } from "@/lib/utils";
 
 type BusinessLine = {
@@ -42,17 +44,18 @@ export function SolutionSection() {
       <div className="border-x border-line">
         <div className="w-full pt-huge" />
 
-        <div className="mx-auto flex w-full max-w-[31.25rem] flex-col items-center justify-start gap-3 text-center max-md:px-4">
+        <Reveal className="mx-auto flex w-full max-w-[31.25rem] flex-col items-center justify-start gap-3 text-center max-md:px-4">
           <div className="tagline">Lini Bisnis</div>
           <h2 className="text-h2 font-medium leading-1-1 tracking-h2 text-navy">
             Solusi satu atap untuk kebutuhan industri Anda
           </h2>
-        </div>
+        </Reveal>
 
         <div className="mt-8 grid grid-cols-1 md:mt-12 md:grid-cols-2 lg:grid-cols-4">
           {CARDS.map((card, index) => (
-            <div
+            <Reveal
               key={card.title}
+              delay={revealDelay(index)}
               className={cn(
                 "flex flex-col gap-6 border-y border-line",
                 index < CARDS.length - 1 && "md:border-r",
@@ -77,7 +80,7 @@ export function SolutionSection() {
                 </h3>
                 <p className="text-regular leading-1-5 text-body">{card.body}</p>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

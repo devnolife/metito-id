@@ -1,6 +1,15 @@
 import { Award, Handshake, Lightbulb, Star, type LucideIcon } from "lucide-react";
 
+import { Reveal } from "@/components/ui/reveal";
+import { revealDelay } from "@/components/ui/reveal-timing";
 import { cn } from "@/lib/utils";
+
+const MISSION: readonly string[] = [
+  "Menyediakan produk berkualitas tinggi dengan harga kompetitif",
+  "Memberikan solusi engineering yang efektif dan efisien",
+  "Membangun hubungan jangka panjang berbasis kepercayaan",
+  "Mendukung keberlanjutan operasional pelanggan",
+];
 
 type CoreValue = {
   icon: LucideIcon;
@@ -37,7 +46,7 @@ export function QualitySection() {
       <div className="grid grid-cols-1 border-x border-line lg:grid-cols-2">
         <div className="flex items-center justify-start border-b border-line px-4 pb-8 pt-12 md:px-8 md:pb-16 md:pt-16 lg:border-b-0 lg:border-r">
           <div className="flex flex-col items-start justify-start gap-6 md:max-w-[26.5rem]">
-            <div className="flex flex-col gap-4">
+            <Reveal className="flex flex-col gap-4">
               <div className="tagline">Visi</div>
               <h2 className="text-h2 font-medium leading-1-1 tracking-h2 text-navy">
                 Menjadi mitra terpercaya dalam penyediaan solusi terintegrasi
@@ -45,14 +54,15 @@ export function QualitySection() {
               <p className="text-regular leading-1-5 text-body">
                 Untuk kebutuhan air, industri, dan pertambangan di Indonesia.
               </p>
-            </div>
+            </Reveal>
             <div className="flex flex-col gap-3">
               <div className="tagline">Misi</div>
               <ul className="flex list-none flex-col gap-2 text-regular leading-1-5 text-body">
-                <li>— Menyediakan produk berkualitas tinggi dengan harga kompetitif</li>
-                <li>— Memberikan solusi engineering yang efektif dan efisien</li>
-                <li>— Membangun hubungan jangka panjang berbasis kepercayaan</li>
-                <li>— Mendukung keberlanjutan operasional pelanggan</li>
+                {MISSION.map((item, index) => (
+                  <Reveal as="li" key={item} delay={revealDelay(index)}>
+                    — {item}
+                  </Reveal>
+                ))}
               </ul>
             </div>
           </div>
@@ -60,8 +70,9 @@ export function QualitySection() {
 
         <div className="grid grid-cols-1">
           {CORE_VALUES.map((value, index) => (
-            <div
+            <Reveal
               key={value.title}
+              delay={revealDelay(index)}
               className={cn(
                 "flex items-center gap-5 border-b border-line px-6 py-6 md:px-8",
                 index === CORE_VALUES.length - 1 && "lg:border-b-0",
@@ -76,7 +87,7 @@ export function QualitySection() {
                 <h3 className="text-h5 font-medium leading-1-4 text-navy">{value.title}</h3>
                 <p className="text-small leading-1-5 text-body">{value.body}</p>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

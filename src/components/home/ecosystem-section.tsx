@@ -8,6 +8,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { Reveal } from "@/components/ui/reveal";
+import { revealDelay } from "@/components/ui/reveal-timing";
 import { cn } from "@/lib/utils";
 
 type Industry = {
@@ -55,7 +57,7 @@ export function EcosystemSection() {
       <div className="border-x border-line">
         <div className="w-full pt-xlarge" />
 
-        <div className="mx-auto flex max-w-[37rem] flex-col items-center justify-start gap-4 text-center max-md:p-4">
+        <Reveal className="mx-auto flex max-w-[37rem] flex-col items-center justify-start gap-4 text-center max-md:p-4">
           <h2 className="text-h2 font-medium leading-1-1 tracking-h2 text-navy">
             Industri yang{" "}
             <br className="max-lg:hidden" />
@@ -65,12 +67,13 @@ export function EcosystemSection() {
             Dari pertambangan hingga pembangkit listrik — METITO mendukung keandalan operasional
             berbagai sektor industri di Indonesia.
           </p>
-        </div>
+        </Reveal>
 
         <div className="mt-8 grid grid-cols-1 md:mt-12 md:grid-cols-3">
           {INDUSTRIES.map((industry, index) => (
-            <div
+            <Reveal
               key={industry.title}
+              delay={revealDelay(index % 3)}
               className={cn(
                 "flex flex-col items-center justify-start gap-4 border-t border-line p-8 text-center",
                 index % 3 !== 2 && "md:border-r",
@@ -81,7 +84,7 @@ export function EcosystemSection() {
                 <h3 className="text-h5 font-medium leading-1-4 text-navy">{industry.title}</h3>
                 <p className="text-small leading-1-5 text-body">{industry.body}</p>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

@@ -85,7 +85,6 @@ export default function AboutUsPage() {
         />
         <SectionDivider />
         <CtaSection />
-        <SectionDivider />
       </main>
       <SiteFooter />
     </>

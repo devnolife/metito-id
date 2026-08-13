@@ -1,5 +1,7 @@
 import { LogoMark } from "@/components/icons";
 import { ButtonLink } from "@/components/ui/button";
+import { Reveal } from "@/components/ui/reveal";
+import { revealDelay } from "@/components/ui/reveal-timing";
 import { COMPANY, EXTERNAL } from "@/lib/site";
 
 const PHONE_ROWS: readonly { label: string; value: string; href: string }[] = [
@@ -11,13 +13,30 @@ const PHONE_ROWS: readonly { label: string; value: string; href: string }[] = [
 
 const CARD = "flex justify-between gap-2 px-medium py-3";
 
+/**
+ * Sel berisi data (label + nilai), bukan sel judul.
+ *
+ * Mulai 1024px grid ini pecah jadi 5 kolom sama lebar, sehingga tiap sel hanya
+ * punya ~195px ruang pakai (259px kolom dikurangi `px-medium` 2rem di kiri dan
+ * kanan). Label dan nilai berdampingan butuh ~255px, jadi peramban memotong
+ * nomor telepon di tengah digit — "0812-" lalu "1760-3950" di baris berikutnya.
+ * Nomor yang terbelah begitu susah dibaca dan gampang salah saat disalin.
+ *
+ * Di bawah 1024px gridnya satu kolom penuh, ruangnya lega, jadi tata letak
+ * berdampingan ala tabel tetap dipertahankan di sana.
+ */
+const DATA_CARD = `${CARD} lg:flex-col lg:justify-start lg:gap-1`;
+
+/** Nilai tidak boleh pernah dipenggal, sependek apa pun kolomnya. */
+const VALUE = "whitespace-nowrap text-navy";
+
 export function CtaSection() {
   return (
     <section className="padding-global">
       {/* soft navy/water glow anchored top-centre */}
       <div className="border-x border-line bg-[radial-gradient(60%_50%_at_50%_0%,rgba(9,106,174,0.12),transparent_70%)] px-4 pt-28 pb-15 md:px-0">
         <div className="mx-auto flex flex-col items-center justify-start gap-medium">
-          <div className="flex max-w-[26.5rem] flex-col items-center justify-start gap-4 text-center">
+          <Reveal className="flex max-w-[26.5rem] flex-col items-center justify-start gap-4 text-center">
             <LogoMark className="mb-xxsmall h-16" />
             <h2 className="text-h2 font-medium leading-1-1 tracking-h2 text-navy">
               {COMPANY.slogan}
@@ -26,16 +45,16 @@ export function CtaSection() {
               Hubungi kami untuk konsultasi teknis &amp; penawaran harga — solusi terintegrasi untuk
               kebutuhan air, industri, dan pertambangan Anda.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 max-xs:w-full">
+          <Reveal delay={140} className="flex flex-wrap items-center justify-center gap-4 max-xs:w-full">
             <ButtonLink href={EXTERNAL.whatsapp} variant="primary" className="max-xs:w-full">
               Hubungi via WhatsApp
             </ButtonLink>
             <ButtonLink href={EXTERNAL.email} variant="secondary" className="max-xs:w-full">
               Email: info@metito.id
             </ButtonLink>
-          </div>
+          </Reveal>
         </div>
       </div>
 
@@ -48,19 +67,23 @@ export function CtaSection() {
           <div className="tagline">Jam Operasional</div>
         </div>
 
-        {PHONE_ROWS.map((row) => (
-          <div key={row.value} className={`${CARD} border-t border-r border-line`}>
+        {PHONE_ROWS.map((row, index) => (
+          <Reveal
+            key={row.value}
+            delay={revealDelay(index)}
+            className={`${DATA_CARD} border-t border-r border-line`}
+          >
             <div className="text-body">{row.label}</div>
-            <a href={row.href} className="text-navy hover:text-brand">
+            <a href={row.href} className={`${VALUE} hover:text-brand`}>
               {row.value}
             </a>
-          </div>
+          </Reveal>
         ))}
 
-        <div className={`${CARD} border-t border-line`}>
+        <Reveal delay={revealDelay(4)} className={`${DATA_CARD} border-t border-line`}>
           <div className="text-body">Sen.–Jum.</div>
-          <div className="text-navy">08.00 – 17.00 WITA</div>
-        </div>
+          <div className={VALUE}>08.00 – 17.00 WITA</div>
+        </Reveal>
       </div>
     </section>
   );

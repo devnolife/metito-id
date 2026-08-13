@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { ButtonLink } from "@/components/ui/button";
+import { Reveal } from "@/components/ui/reveal";
 import { EXTERNAL } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -18,6 +19,7 @@ type WorkTab = {
   title: string;
   body: string;
   image: string;
+  alt: string;
 };
 
 const TABS: readonly WorkTab[] = [
@@ -26,21 +28,24 @@ const TABS: readonly WorkTab[] = [
     tag: "01",
     title: "Sampaikan kebutuhan teknis",
     body: "Spesifikasi, volume, dan jadwal kebutuhan Anda kami terima melalui telepon, email, atau WhatsApp. Tim teknis kami membantu mengidentifikasi solusi yang paling efektif dan efisien.",
-    image: "/images/delivery-en-01",
+    image: "/images/home/work-konsultasi",
+    alt: "Dua engineer METITO meninjau gambar teknis dan spesifikasi komponen pompa bersama pelanggan.",
   },
   {
     label: "Penawaran",
     tag: "02",
     title: "Terima penawaran & solusi",
     body: "Harga, spesifikasi produk, dan waktu pengiriman dirangkum dalam satu penawaran yang jelas. Konsultasi teknis dan penawaran harga tanpa biaya.",
-    image: "/images/delivery-en-02",
+    image: "/images/home/work-penawaran",
+    alt: "Staf teknis METITO menyusun penawaran harga sambil berkoordinasi melalui telepon dengan pelanggan.",
   },
   {
     label: "Pengiriman & Support",
     tag: "03",
     title: "Pengiriman, instalasi & purna jual",
     body: "Pengiriman tepat waktu ke lokasi Anda, didukung instalasi, komisioning, serta layanan purna jual dan dukungan teknis profesional yang berkelanjutan.",
-    image: "/images/delivery-en-03",
+    image: "/images/home/work-pengiriman",
+    alt: "Teknisi METITO memasang unit pompa di lokasi pelanggan saat peralatan diturunkan dari truk pengiriman.",
   },
 ];
 
@@ -79,7 +84,7 @@ function PaneBody({ tab, variant }: { tab: WorkTab; variant: "accordion" | "pane
           src={`${tab.image}.jpg`}
           srcSet={imageSrcSet(tab.image)}
           sizes="(max-width: 912px) 100vw, 912px"
-          alt=""
+          alt={tab.alt}
           width={912}
           height={750}
           loading="eager"
@@ -241,8 +246,10 @@ export function WorkSection() {
   return (
     <section className="padding-global">
       <div className="border-x border-line">
-        {/* heading */}
-        <div className="flex flex-col items-start justify-between gap-6 px-4 pt-12 pb-8 md:gap-8 md:px-medium md:pt-xlarge md:pb-large lg:flex-row lg:items-end">
+        {/* heading — hanya bagian ini yang di-reveal. Panel tabnya dikendalikan
+            auto-cycle 6 detik yang dipicu scroll; menambah reveal di sana akan
+            bertabrakan dengan cross-fade-nya. */}
+        <Reveal className="flex flex-col items-start justify-between gap-6 px-4 pt-12 pb-8 md:gap-8 md:px-medium md:pt-xlarge md:pb-large lg:flex-row lg:items-end">
           <div className="flex max-w-[28.5rem] flex-col items-start justify-start gap-4">
             <div className="flex flex-col items-start justify-start gap-3">
               <div className="tagline">Cara Kami Bekerja</div>
@@ -261,7 +268,7 @@ export function WorkSection() {
               Konsultasi Sekarang
             </ButtonLink>
           </div>
-        </div>
+        </Reveal>
 
         {/* tabs */}
         <div className="relative">

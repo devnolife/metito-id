@@ -10,6 +10,9 @@ import { cn } from "@/lib/utils";
  *  base        border 1px / radius 4px / 12px 24px / transition all .2s
  *  primary     orange #f04e00 (logo "E" gradient tone) / white text — hover #d64300
  *  secondary   navy-tinted ghost on light surfaces — hover deeper tint
+ *  secondaryOnDark  ghost putih untuk permukaan gelap (hero bervideo); varian
+ *                   `secondary` memakai navy #012966 yang hanya mencapai 0,53:1
+ *                   di atas scrim hero, jadi praktis tak terlihat di sana
  *  alternate   solid navy #012966 / white text
  *  small       padding 8px 20px
  */
@@ -21,6 +24,8 @@ export const buttonVariants = cva(
         primary: "border-brand bg-brand text-[#fff] hover:bg-[#d64300] hover:border-[#d64300]",
         secondary:
           "border-navy/15 bg-navy/[0.06] text-navy hover:bg-navy/10",
+        secondaryOnDark:
+          "border-white/30 bg-white/10 text-[#fff] backdrop-blur-[2px] hover:bg-white/20 hover:border-white/45",
         alternate: "border-navy bg-navy text-[#fff] hover:bg-[#0a3a82] hover:border-[#0a3a82]",
         link: "border-transparent bg-transparent px-0 py-1 leading-none text-navy hover:text-brand",
       },

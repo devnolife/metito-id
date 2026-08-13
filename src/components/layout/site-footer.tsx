@@ -54,12 +54,13 @@ export function SiteFooter() {
         <div className="flex flex-col items-center justify-center gap-4 border-b border-line px-6 py-10 lg:border-b-0 lg:border-r">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/metito-logo.jpeg"
+            src="/images/brand/logo-wordmark-288.png"
+            srcSet="/images/brand/logo-wordmark-288.png 1x, /images/brand/logo-wordmark-576.png 2x"
             alt="METITO — Multi Enviro Tirta Teknologi"
             loading="lazy"
-            className="h-auto w-56"
-            width={535}
-            height={197}
+            className="h-auto w-72 max-w-full"
+            width={1200}
+            height={258}
           />
           <p className="text-center text-small leading-1-5 text-body">{COMPANY.tagline}</p>
         </div>

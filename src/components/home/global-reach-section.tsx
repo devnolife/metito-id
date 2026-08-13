@@ -1,3 +1,5 @@
+import { Reveal } from "@/components/ui/reveal";
+import { revealDelay } from "@/components/ui/reveal-timing";
 import { cn } from "@/lib/utils";
 
 type LocationGroupData = {
@@ -42,9 +44,12 @@ const REGIONS: readonly Region[] = [
   },
 ];
 
-function LocationGroup({ label, items, className }: LocationGroupData) {
+function LocationGroup({ label, items, className, delay }: LocationGroupData & { delay?: number }) {
   return (
-    <div className={cn("flex w-full flex-col items-start justify-start gap-1.5", className)}>
+    <Reveal
+      delay={delay}
+      className={cn("flex w-full flex-col items-start justify-start gap-1.5", className)}
+    >
       <div className="tagline">{label}</div>
       <div className="flex flex-col items-start justify-start gap-1">
         {items.map((item) => (
@@ -53,7 +58,7 @@ function LocationGroup({ label, items, className }: LocationGroupData) {
           </span>
         ))}
       </div>
-    </div>
+    </Reveal>
   );
 }
 
@@ -61,7 +66,7 @@ export function GlobalReachSection() {
   return (
     <section className="padding-global">
       <div className="border-x border-line">
-        <div className="mx-auto flex max-w-[37rem] flex-col items-center justify-start gap-4 px-4 pt-12 pb-8 text-center md:px-0 md:py-16">
+        <Reveal className="mx-auto flex max-w-[37rem] flex-col items-center justify-start gap-4 px-4 pt-12 pb-8 text-center md:px-0 md:py-16">
           <h2 className="text-h2 font-medium leading-1-1 tracking-h2 text-navy">
             Berbasis di Sulawesi Selatan,{" "}
             <br className="max-lg:hidden" />
@@ -71,7 +76,7 @@ export function GlobalReachSection() {
             METITO berkantor pusat di Kab. Gowa, Sulawesi Selatan — mendukung kebutuhan industri,
             komersial, dan institusi di berbagai wilayah Indonesia dengan pengiriman tepat waktu.
           </p>
-        </div>
+        </Reveal>
 
         <div className="grid grid-cols-1 border-t border-line md:grid-cols-[1fr_1fr]">
           {REGIONS.map((region) => (
@@ -79,13 +84,13 @@ export function GlobalReachSection() {
               key={region.title}
               className={cn("flex flex-col gap-6 px-6 py-8", region.className)}
             >
-              <h3 className="text-h3 font-medium leading-1-2 tracking-h3 text-navy">
+              <Reveal as="h3" className="text-h3 font-medium leading-1-2 tracking-h3 text-navy">
                 {region.title}
-              </h3>
+              </Reveal>
 
               <div className="grid grid-cols-1 gap-7 xs:grid-cols-2">
-                {region.groups.map((group) => (
-                  <LocationGroup key={group.label} {...group} />
+                {region.groups.map((group, index) => (
+                  <LocationGroup key={group.label} {...group} delay={revealDelay(index + 1)} />
                 ))}
               </div>
             </div>

@@ -40,7 +40,6 @@ export default function CompanyProfilePage() {
         <ReferencesSection />
         <SectionDivider />
         <ProfileCtaSection />
-        <SectionDivider />
       </main>
       <SiteFooter />
     </>

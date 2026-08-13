@@ -3,6 +3,9 @@
 import { useEffect, useRef } from "react";
 import { Clock3, HeartHandshake, ShieldCheck, type LucideIcon } from "lucide-react";
 
+import { Reveal } from "@/components/ui/reveal";
+import { revealDelay } from "@/components/ui/reveal-timing";
+
 /**
  * `.challenge_main_wrapper` — "Mengapa METITO?" + the scroll-driven vision paragraph.
  *
@@ -175,9 +178,10 @@ export function ChallengeSection() {
 
         {/* ---- 3-up card grid + dashed connectors ---- */}
         <div className="grid grid-cols-1 md:grid-cols-3">
-          {VALUE_CARDS.map((card) => (
-            <div
+          {VALUE_CARDS.map((card, index) => (
+            <Reveal
               key={card.id}
+              delay={revealDelay(index)}
               className="flex flex-col items-center justify-start gap-medium border-b border-line px-medium pb-large text-center"
             >
               <div className="flex w-full items-end justify-center pb-2 pt-4">
@@ -189,7 +193,7 @@ export function ChallengeSection() {
                 </h3>
                 <div className="text-regular leading-1-5 text-body">{card.body}</div>
               </div>
-            </div>
+            </Reveal>
           ))}
 
           {/* horizontal dashed rail linking the three connectors */}
