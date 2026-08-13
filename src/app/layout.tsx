@@ -66,7 +66,19 @@ export default function RootLayout({
       lang="id"
       className={`${archivo.variable} ${spaceMono.variable} ${jetbrainsMono.variable}`}
     >
-      <body>{children}</body>
+      {/**
+       * Ekstensi peramban gemar menyuntikkan atribut ke <body> sebelum React
+       * sempat hidrasi — ColorZilla menambahkan `cz-shortcut-listen`, Grammarly
+       * menambahkan `data-gr-ext-installed`. HTML dari server tidak memilikinya,
+       * sehingga React melaporkan hydration mismatch yang tidak berasal dari
+       * kode ini dan tidak bisa diperbaiki dari sini.
+       *
+       * Dibiarkan, error palsu itu memenuhi overlay dev dan menutupi error yang
+       * sungguhan. `suppressHydrationWarning` hanya berlaku SATU tingkat, yaitu
+       * atribut <body> itu sendiri; ketidakcocokan di dalam isi halaman tetap
+       * dilaporkan seperti biasa.
+       */}
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }
