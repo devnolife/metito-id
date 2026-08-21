@@ -12,6 +12,7 @@ import { useProducts } from "@/components/admin/products/hooks/use-products"
 import { useCategories } from "@/components/admin/products/hooks/use-categories"
 import { ProductList } from "@/components/admin/products/components/product-list"
 import { ProductDialogs } from "@/components/admin/products/components/product-dialogs"
+import { ProductFormDialog } from "@/components/admin/products/components/product-form-dialog"
 import { ProductStats } from "@/components/admin/products/components/product-stats"
 import { ProductFilters } from "@/components/admin/products/components/product-filters"
 import { CategoryManagement } from "@/components/admin/products/components/category-management"
@@ -46,6 +47,14 @@ export default function AdminProductsPage() {
     productName: null
   })
 
+  const [editDialog, setEditDialog] = useState<{
+    open: boolean
+    product: Product | null
+  }>({
+    open: false,
+    product: null
+  })
+  const [editLoading, setEditLoading] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
 
   const { toast } = useToast()
@@ -67,6 +76,7 @@ export default function AdminProductsPage() {
     pagination,
     updateFilters,
     deleteProduct,
+    updateProduct,
     fetchProducts
   } = useProducts(filters)
 
@@ -128,9 +138,9 @@ export default function AdminProductsPage() {
   }
 
   const handleEdit = (product: Product) => {
-    toast({
-      title: "Coming Soon",
-      description: "Fitur edit produk akan segera hadir"
+    setEditDialog({
+      open: true,
+      product
     })
   }
 
@@ -319,6 +329,14 @@ export default function AdminProductsPage() {
         </div>
 
         {/* Dialogs */}
+        <ProductFormDialog
+          open={editDialog.open}
+          onClose={handleEditClose}
+          product={editDialog.product ?? undefined}
+          isEdit
+          onSubmit={handleEditSubmit}
+          isLoading={editLoading}
+        />
         <ProductDialogs
           viewDialog={viewDialog}
           onViewClose={() => setViewDialog({ open: false, product: null })}

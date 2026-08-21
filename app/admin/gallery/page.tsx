@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -25,6 +25,34 @@ interface GalleryItem {
   isPublic: boolean
   featured: boolean
 }
+
+interface GalleryFormState {
+  title: string
+  description: string
+  imageUrl: string
+  category: string
+  tags: string
+  photographer: string
+  location: string
+  dimensions: string
+  fileSize: string
+  isPublic: boolean
+  featured: boolean
+}
+
+const getInitialGalleryFormState = (): GalleryFormState => ({
+  title: "",
+  description: "",
+  imageUrl: "",
+  category: "",
+  tags: "",
+  photographer: "",
+  location: "",
+  dimensions: "",
+  fileSize: "",
+  isPublic: true,
+  featured: false,
+})
 
 export default function AdminGalleryPage() {
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([
@@ -97,21 +125,13 @@ export default function AdminGalleryPage() {
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false)
   const [editingItem, setEditingItem] = useState<GalleryItem | null>(null)
   const [viewingItem, setViewingItem] = useState<GalleryItem | null>(null)
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    imageUrl: "",
-    category: "",
-    tags: "",
-    photographer: "",
-    location: "",
-    dimensions: "",
-    fileSize: "",
-    isPublic: true,
-    featured: false
-  })
+  const [formData, setFormData] = useState<GalleryFormState>(() => getInitialGalleryFormState())
 
   const categories = ["Proyek", "Teknologi", "Instalasi", "Fasilitas", "Tim", "Sertifikasi", "Event"]
+
+  const handleFormDataChange = useCallback((value: Partial<GalleryFormState>) => {
+    setFormData((prev) => ({ ...prev, ...value }))
+  }, [])
 
   const filteredItems = galleryItems.filter(
     (item) =>
@@ -196,19 +216,7 @@ export default function AdminGalleryPage() {
   }
 
   const resetForm = () => {
-    setFormData({
-      title: "",
-      description: "",
-      imageUrl: "",
-      category: "",
-      tags: "",
-      photographer: "",
-      location: "",
-      dimensions: "",
-      fileSize: "",
-      isPublic: true,
-      featured: false
-    })
+    setFormData(getInitialGalleryFormState())
   }
 
   const toggleFeatured = (id: number) => {
@@ -222,142 +230,6 @@ export default function AdminGalleryPage() {
       item.id === id ? { ...item, isPublic: !item.isPublic } : item
     ))
   }
-
-  const GalleryForm = ({ onSubmit, submitLabel }: { onSubmit: () => void; submitLabel: string }) => (
-    <div className="space-y-4">
-      <div>
-        <Label htmlFor="title">Judul Foto</Label>
-        <Input
-          id="title"
-          value={formData.title}
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          placeholder="Masukkan judul foto"
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="description">Deskripsi</Label>
-        <Textarea
-          id="description"
-          value={formData.description}
-          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-          placeholder="Deskripsi foto atau dokumentasi"
-          rows={3}
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="imageUrl">URL Gambar</Label>
-        <Input
-          id="imageUrl"
-          value={formData.imageUrl}
-          onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-          placeholder="URL gambar atau upload gambar"
-        />
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="category">Kategori</Label>
-          <select
-            id="category"
-            value={formData.category}
-            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            aria-label="Pilih kategori foto"
-          >
-            <option value="">Pilih kategori</option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <Label htmlFor="photographer">Photographer</Label>
-          <Input
-            id="photographer"
-            value={formData.photographer}
-            onChange={(e) => setFormData({ ...formData, photographer: e.target.value })}
-            placeholder="Nama photographer"
-          />
-        </div>
-      </div>
-
-      <div>
-        <Label htmlFor="tags">Tags (pisahkan dengan koma)</Label>
-        <Input
-          id="tags"
-          value={formData.tags}
-          onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-          placeholder="instalasi, proyek, teknologi"
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="location">Lokasi</Label>
-        <Input
-          id="location"
-          value={formData.location}
-          onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-          placeholder="Lokasi pengambilan foto"
-        />
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="dimensions">Dimensi (WxH)</Label>
-          <Input
-            id="dimensions"
-            value={formData.dimensions}
-            onChange={(e) => setFormData({ ...formData, dimensions: e.target.value })}
-            placeholder="1920x1080"
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="fileSize">Ukuran File</Label>
-          <Input
-            id="fileSize"
-            value={formData.fileSize}
-            onChange={(e) => setFormData({ ...formData, fileSize: e.target.value })}
-            placeholder="2.3 MB"
-          />
-        </div>
-      </div>
-
-      <div className="flex items-center space-x-6">
-        <div className="flex items-center space-x-2">
-          <input
-            type="checkbox"
-            id="isPublic"
-            checked={formData.isPublic}
-            onChange={(e) => setFormData({ ...formData, isPublic: e.target.checked })}
-            className="w-4 h-4"
-            aria-label="Tampilkan di website"
-          />
-          <Label htmlFor="isPublic">Tampilkan di website</Label>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <input
-            type="checkbox"
-            id="featured"
-            checked={formData.featured}
-            onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-            className="w-4 h-4"
-            aria-label="Foto unggulan"
-          />
-          <Label htmlFor="featured">Foto unggulan</Label>
-        </div>
-      </div>
-
-      <Button onClick={onSubmit} className="w-full bg-blue-600 hover:bg-blue-700">
-        {submitLabel}
-      </Button>
-    </div>
-  )
-
   return (
     <div className="flex flex-col h-full">
       <div className="bg-white border-b border-gray-200 px-6 py-4">
@@ -388,7 +260,13 @@ export default function AdminGalleryPage() {
                     Tambahkan foto baru ke galeri. Pastikan foto berkualitas tinggi dan sesuai dengan standar perusahaan.
                   </DialogDescription>
                 </DialogHeader>
-                <GalleryForm onSubmit={handleAddItem} submitLabel="Tambah Foto" />
+                <GalleryForm
+                  formData={formData}
+                  categories={categories}
+                  onFormChange={handleFormDataChange}
+                  onSubmit={handleAddItem}
+                  submitLabel="Tambah Foto"
+                />
               </DialogContent>
             </Dialog>
           </div>
@@ -594,7 +472,13 @@ export default function AdminGalleryPage() {
                   Ubah informasi foto. Pastikan foto berkualitas tinggi dan sesuai dengan standar perusahaan.
                 </DialogDescription>
               </DialogHeader>
-              <GalleryForm onSubmit={handleEditItem} submitLabel="Simpan Perubahan" />
+              <GalleryForm
+              formData={formData}
+              categories={categories}
+              onFormChange={handleFormDataChange}
+              onSubmit={handleEditItem}
+              submitLabel="Simpan Perubahan"
+            />
             </DialogContent>
           </Dialog>
         </div>
@@ -602,3 +486,149 @@ export default function AdminGalleryPage() {
     </div>
   )
 }
+
+interface GalleryFormProps {
+  formData: GalleryFormState
+  categories: string[]
+  onFormChange: (value: Partial<GalleryFormState>) => void
+  onSubmit: () => void
+  submitLabel: string
+}
+
+function GalleryForm({ formData, categories, onFormChange, onSubmit, submitLabel }: GalleryFormProps) {
+  return (
+    <div className="space-y-4">
+      <div>
+        <Label htmlFor="title">Judul Foto</Label>
+        <Input
+          id="title"
+          value={formData.title}
+          onChange={(e) => onFormChange({ title: e.target.value })}
+          placeholder="Masukkan judul foto"
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="description">Deskripsi</Label>
+        <Textarea
+          id="description"
+          value={formData.description}
+          onChange={(e) => onFormChange({ description: e.target.value })}
+          placeholder="Deskripsi foto atau dokumentasi"
+          rows={3}
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="imageUrl">URL Gambar</Label>
+        <Input
+          id="imageUrl"
+          value={formData.imageUrl}
+          onChange={(e) => onFormChange({ imageUrl: e.target.value })}
+          placeholder="URL gambar atau upload gambar"
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="category">Kategori</Label>
+          <select
+            id="category"
+            value={formData.category}
+            onChange={(e) => onFormChange({ category: e.target.value })}
+            className="w-full p-2 border border-gray-300 rounded-md"
+            aria-label="Pilih kategori foto"
+          >
+            <option value="">Pilih kategori</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <Label htmlFor="photographer">Photographer</Label>
+          <Input
+            id="photographer"
+            value={formData.photographer}
+            onChange={(e) => onFormChange({ photographer: e.target.value })}
+            placeholder="Nama photographer"
+          />
+        </div>
+      </div>
+
+      <div>
+        <Label htmlFor="tags">Tags (pisahkan dengan koma)</Label>
+        <Input
+          id="tags"
+          value={formData.tags}
+          onChange={(e) => onFormChange({ tags: e.target.value })}
+          placeholder="instalasi, proyek, teknologi"
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="location">Lokasi</Label>
+        <Input
+          id="location"
+          value={formData.location}
+          onChange={(e) => onFormChange({ location: e.target.value })}
+          placeholder="Lokasi pengambilan foto"
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="dimensions">Dimensi (WxH)</Label>
+          <Input
+            id="dimensions"
+            value={formData.dimensions}
+            onChange={(e) => onFormChange({ dimensions: e.target.value })}
+            placeholder="1920x1080"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="fileSize">Ukuran File</Label>
+          <Input
+            id="fileSize"
+            value={formData.fileSize}
+            onChange={(e) => onFormChange({ fileSize: e.target.value })}
+            placeholder="2.3 MB"
+          />
+        </div>
+      </div>
+
+      <div className="flex items-center space-x-2">
+        <input
+          type="checkbox"
+          id="isPublic"
+          checked={formData.isPublic}
+          onChange={(e) => onFormChange({ isPublic: e.target.checked })}
+          className="w-4 h-4"
+          aria-label="Tampilkan di website"
+        />
+        <Label htmlFor="isPublic">Tampilkan di website</Label>
+      </div>
+
+      <div className="flex items-center space-x-2">
+        <input
+          type="checkbox"
+          id="featured"
+          checked={formData.featured}
+          onChange={(e) => onFormChange({ featured: e.target.checked })}
+          className="w-4 h-4"
+          aria-label="Foto unggulan"
+        />
+        <Label htmlFor="featured">Foto unggulan</Label>
+      </div>
+
+      <Button onClick={onSubmit} className="w-full bg-blue-600 hover:bg-blue-700">
+        {submitLabel}
+      </Button>
+    </div>
+  )
+}
+

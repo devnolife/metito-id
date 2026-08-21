@@ -23,9 +23,9 @@ async function main() {
 
   // Create Users
   console.log('👤 Creating users...')
-  const hashedPassword = await hash('password123', 12)
+  const hashedPassword = await hash('Metito123!', 12)
 
-  const admin = await prisma.user.create({
+  await prisma.user.create({
     data: {
       name: 'Admin Metito',
       email: 'admin@metito.id',
@@ -36,6 +36,7 @@ async function main() {
       avatar: '/images/users/admin-avatar.jpg',
     }
   })
+
 
   const customers = await Promise.all([
     prisma.user.create({

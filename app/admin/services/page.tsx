@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
+import { useToast } from "@/hooks/use-toast"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -33,6 +34,45 @@ interface Pagination {
   hasNext: boolean
   hasPrev: boolean
 }
+interface ServiceFormState {
+  name: string
+  description: string
+  shortDesc: string
+  icon: string
+  features: string
+  isFeatured: boolean
+  isActive: boolean
+  pricing: Record<string, unknown>
+}
+
+const getInitialServiceFormState = (): ServiceFormState => ({
+  name: "",
+  description: "",
+  shortDesc: "",
+  icon: "",
+  features: "",
+  isFeatured: false,
+  isActive: true,
+  pricing: {},
+})
+
+const parseFeaturesInput = (input: string): string[] =>
+  input
+    .split(/\r?\n/)
+    .map((feature) => feature.trim())
+    .filter(Boolean)
+
+const mapFormStateToPayload = (data: ServiceFormState) => ({
+  name: data.name.trim(),
+  description: data.description.trim(),
+  shortDesc: data.shortDesc.trim(),
+  icon: data.icon.trim(),
+  features: parseFeaturesInput(data.features),
+  pricing: data.pricing ?? {},
+  isFeatured: data.isFeatured,
+  isActive: data.isActive,
+})
+
 
 // Icon configuration with different colors
 const iconConfigs = [
@@ -61,27 +101,28 @@ export default function AdminServicesPage() {
 
   // Form states
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    shortDesc: "",
-    icon: "",
-    features: [] as string[],
-    pricing: {},
-    isFeatured: false,
-    isActive: true
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [createFormData, setCreateFormData] = useState<ServiceFormState>(() => getInitialServiceFormState())
+  const handleCreateFormChange = useCallback((value: Partial<ServiceFormState>) => {
+    setCreateFormData((prev) => ({ ...prev, ...value }))
+  }, [])
+  const [isCreating, setIsCreating] = useState(false)
 
-  useEffect(() => {
-    loadServices()
-  }, [currentPage, searchTerm, statusFilter, featuredFilter])
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+  const [editingService, setEditingService] = useState<Service | null>(null)
+  const [editFormData, setEditFormData] = useState<ServiceFormState>(() => getInitialServiceFormState())
+  const handleEditFormChange = useCallback((value: Partial<ServiceFormState>) => {
+    setEditFormData((prev) => ({ ...prev, ...value }))
+  }, [])
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [deletingServiceId, setDeletingServiceId] = useState<string | null>(null)
 
-  const loadServices = async () => {
+  const { toast } = useToast()
+
+  const loadServices = useCallback(async () => {
     try {
       setIsLoading(true)
 
-      const authToken = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null
+      const authToken = typeof window !== "undefined" ? localStorage.getItem('authToken') : null
       const headers: HeadersInit = {
         'Cache-Control': 'no-cache',
       }
@@ -93,34 +134,118 @@ export default function AdminServicesPage() {
       const params = new URLSearchParams({
         page: currentPage.toString(),
         limit: '10',
-        ...(searchTerm && { search: searchTerm }),
-        ...(statusFilter !== 'all' && { status: statusFilter }),
-        ...(featuredFilter !== 'all' && { featured: featuredFilter })
       })
+
+      if (searchTerm) {
+        params.set('search', searchTerm)
+      }
+
+      if (statusFilter !== 'all') {
+        params.set('status', statusFilter)
+      }
+
+      if (featuredFilter !== 'all') {
+        params.set('featured', featuredFilter)
+      }
 
       const response = await fetch(`/api/admin/services?${params}`, {
         method: 'GET',
         credentials: 'include',
         headers,
+        cache: 'no-store',
       })
 
       if (response.ok) {
         const data = await response.json()
         if (data.success) {
+          const fetchedPagination: Pagination = data.data.pagination
+
+          if (fetchedPagination.totalPages > 0 && currentPage > fetchedPagination.totalPages) {
+            setCurrentPage(fetchedPagination.totalPages)
+            return
+          }
+
+          if (fetchedPagination.totalPages === 0 && currentPage !== 1) {
+            setCurrentPage(1)
+            return
+          }
+
           setServices(data.data.services)
-          setPagination(data.data.pagination)
+          setPagination(fetchedPagination)
+        } else {
+          console.error('Failed to load services:', data.message)
+          toast({
+            title: 'Gagal memuat layanan',
+            description: data.message ?? 'Silakan coba lagi.',
+            variant: 'destructive',
+          })
         }
+      } else {
+        console.error('Failed to load services:', response.statusText)
+        toast({
+          title: 'Gagal memuat layanan',
+          description: 'Silakan coba lagi atau periksa koneksi Anda.',
+          variant: 'destructive',
+        })
       }
     } catch (error) {
       console.error('Error loading services:', error)
+      toast({
+        title: 'Kesalahan jaringan',
+        description: 'Tidak dapat memuat data layanan. Silakan coba lagi.',
+        variant: 'destructive',
+      })
     } finally {
       setIsLoading(false)
     }
+  }, [currentPage, featuredFilter, searchTerm, statusFilter])
+
+  useEffect(() => {
+    loadServices()
+  }, [loadServices])
+
+  const handleCreateDialogChange = useCallback((open: boolean) => {
+    setIsCreateDialogOpen(open)
+    if (!open) {
+      setCreateFormData(getInitialServiceFormState())
+    }
+  }, [])
+
+  const handleEditDialogChange = useCallback((open: boolean) => {
+    setIsEditDialogOpen(open)
+    if (!open) {
+      setEditingService(null)
+      setEditFormData(getInitialServiceFormState())
+    }
+  }, [])
+
+  const openEditDialog = (service: Service) => {
+    setEditingService(service)
+    setEditFormData({
+      name: service.name,
+      description: service.description,
+      shortDesc: service.shortDesc ?? '',
+      icon: service.icon ?? '',
+      features: Array.isArray(service.features) ? service.features.join('\n') : '',
+      isFeatured: service.isFeatured,
+      isActive: service.isActive,
+      pricing: service.pricing ?? {},
+    })
+    setIsEditDialogOpen(true)
   }
 
   const handleCreateService = async () => {
+    if (!createFormData.name.trim() || !createFormData.description.trim()) {
+      toast({
+        title: 'Data belum lengkap',
+        description: 'Nama dan deskripsi layanan wajib diisi.',
+        variant: 'destructive',
+      })
+      return
+    }
+
     try {
-      setIsSubmitting(true)
+      setIsCreating(true)
 
       const authToken = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null
       const headers: HeadersInit = {
@@ -132,34 +257,238 @@ export default function AdminServicesPage() {
         headers['Authorization'] = `Bearer ${authToken}`
       }
 
+      const payload = mapFormStateToPayload(createFormData)
+
       const response = await fetch('/api/admin/services', {
         method: 'POST',
         credentials: 'include',
         headers,
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload),
       })
 
       if (response.ok) {
         const data = await response.json()
         if (data.success) {
-          setIsCreateDialogOpen(false)
-          setFormData({
-            name: "",
-            description: "",
-            shortDesc: "",
-            icon: "",
-            features: [],
-            pricing: {},
-            isFeatured: false,
-            isActive: true
+          if (pagination && pagination.page === 1) {
+            setServices((prev) => {
+              const current = prev ?? []
+              const updated = [data.data, ...current]
+              if (pagination && updated.length > pagination.limit) {
+                return updated.slice(0, pagination.limit)
+              }
+              return updated
+            })
+          }
+
+          setPagination((prev) => {
+            if (!prev) {
+              return prev
+            }
+            const totalCount = prev.totalCount + 1
+            const totalPages = Math.max(prev.totalPages, Math.ceil(totalCount / prev.limit))
+            return {
+              ...prev,
+              totalCount,
+              totalPages,
+              hasNext: prev.page < totalPages,
+              hasPrev: prev.page > 1,
+            }
           })
-          loadServices()
+
+          await loadServices()
+          handleCreateDialogChange(false)
+          toast({
+            title: 'Layanan ditambahkan',
+            description: `${data.data.name} berhasil ditambahkan.`,
+          })
+        } else {
+          console.error('Failed to create service:', data.message)
+          toast({
+            title: 'Gagal membuat layanan',
+            description: data.message ?? 'Silakan coba lagi.',
+            variant: 'destructive',
+          })
         }
+      } else {
+        console.error('Failed to create service:', response.statusText)
+        toast({
+          title: 'Gagal membuat layanan',
+          description: 'Silakan coba lagi atau hubungi administrator.',
+          variant: 'destructive',
+        })
       }
     } catch (error) {
       console.error('Error creating service:', error)
+      toast({
+        title: 'Kesalahan jaringan',
+        description: 'Terjadi kesalahan saat membuat layanan. Silakan coba lagi.',
+        variant: 'destructive',
+      })
     } finally {
-      setIsSubmitting(false)
+      setIsCreating(false)
+    }
+  }
+
+  const handleUpdateService = async () => {
+    if (!editingService) {
+      toast({
+        title: 'Tidak ada layanan dipilih',
+        description: 'Pilih layanan yang ingin diperbarui terlebih dahulu.',
+        variant: 'destructive',
+      })
+      return
+    }
+
+    if (!editFormData.name.trim() || !editFormData.description.trim()) {
+      toast({
+        title: 'Data belum lengkap',
+        description: 'Nama dan deskripsi layanan wajib diisi.',
+        variant: 'destructive',
+      })
+      return
+    }
+
+    try {
+      setIsUpdating(true)
+
+      const authToken = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache',
+      }
+
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`
+      }
+
+      const payload = mapFormStateToPayload(editFormData)
+
+      const response = await fetch(`/api/admin/services/${editingService.id}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers,
+        body: JSON.stringify(payload),
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        if (data.success) {
+          setServices((prev) =>
+            (prev ?? []).map((service) => (service.id === data.data.id ? data.data : service))
+          )
+          await loadServices()
+          handleEditDialogChange(false)
+          toast({
+            title: 'Perubahan tersimpan',
+            description: `${data.data.name} berhasil diperbarui.`,
+          })
+        } else {
+          console.error('Failed to update service:', data.message)
+          toast({
+            title: 'Gagal memperbarui layanan',
+            description: data.message ?? 'Silakan coba lagi.',
+            variant: 'destructive',
+          })
+        }
+      } else {
+        console.error('Failed to update service:', response.statusText)
+        toast({
+          title: 'Gagal memperbarui layanan',
+          description: 'Silakan coba lagi atau hubungi administrator.',
+          variant: 'destructive',
+        })
+      }
+    } catch (error) {
+      console.error('Error updating service:', error)
+      toast({
+        title: 'Kesalahan jaringan',
+        description: 'Terjadi kesalahan saat memperbarui layanan. Silakan coba lagi.',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsUpdating(false)
+    }
+  }
+
+  const handleDeleteService = async (serviceId: string) => {
+    if (!window.confirm('Apakah Anda yakin ingin menghapus layanan ini?')) {
+      return
+    }
+
+    try {
+      setDeletingServiceId(serviceId)
+
+      const authToken = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null
+      const headers: HeadersInit = {
+        'Cache-Control': 'no-cache',
+      }
+
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`
+      }
+
+      const response = await fetch(`/api/admin/services/${serviceId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers,
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        if (data.success) {
+          setServices((prev) => (prev ?? []).filter((service) => service.id !== serviceId))
+
+          setPagination((prev) => {
+            if (!prev) {
+              return prev
+            }
+            const totalCount = Math.max(prev.totalCount - 1, 0)
+            const totalPages = totalCount === 0 ? 1 : Math.max(1, Math.ceil(totalCount / prev.limit))
+            return {
+              ...prev,
+              totalCount,
+              totalPages,
+              hasNext: prev.page < totalPages,
+              hasPrev: prev.page > 1 && totalPages > 1,
+            }
+          })
+
+          const shouldShiftPage = Boolean(pagination && pagination.page > 1 && services.length <= 1)
+          if (shouldShiftPage) {
+            setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
+          } else {
+            await loadServices()
+          }
+
+          toast({
+            title: 'Layanan dihapus',
+            description: 'Layanan berhasil dihapus dari daftar.',
+          })
+        } else {
+          console.error('Failed to delete service:', data.message)
+          toast({
+            title: 'Gagal menghapus layanan',
+            description: data.message ?? 'Silakan coba lagi.',
+            variant: 'destructive',
+          })
+        }
+      } else {
+        console.error('Failed to delete service:', response.statusText)
+        toast({
+          title: 'Gagal menghapus layanan',
+          description: 'Silakan coba lagi atau hubungi administrator.',
+          variant: 'destructive',
+        })
+      }
+    } catch (error) {
+      console.error('Error deleting service:', error)
+      toast({
+        title: 'Kesalahan jaringan',
+        description: 'Terjadi kesalahan saat menghapus layanan. Silakan coba lagi.',
+        variant: 'destructive',
+      })
+    } finally {
+      setDeletingServiceId(null)
     }
   }
 
@@ -190,7 +519,7 @@ export default function AdminServicesPage() {
           <h1 className="text-3xl font-bold text-gray-900">Manajemen Layanan</h1>
           <p className="text-gray-600">Kelola layanan dan solusi teknik air</p>
         </div>
-        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+        <Dialog open={isCreateDialogOpen} onOpenChange={handleCreateDialogChange}>
           <DialogTrigger asChild>
             <Button className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
               <Plus className="w-4 h-4" />
@@ -201,75 +530,31 @@ export default function AdminServicesPage() {
             <DialogHeader>
               <DialogTitle>Tambah Layanan Baru</DialogTitle>
             </DialogHeader>
-            <div className="space-y-4">
-              <div>
-                <label className="text-sm font-medium">Nama Layanan *</label>
-                <Input
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="Masukkan nama layanan"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Deskripsi *</label>
-                <Textarea
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Masukkan deskripsi layanan"
-                  rows={3}
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Deskripsi Singkat</label>
-                <Input
-                  value={formData.shortDesc}
-                  onChange={(e) => setFormData({ ...formData, shortDesc: e.target.value })}
-                  placeholder="Deskripsi singkat (opsional)"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Icon</label>
-                <Input
-                  value={formData.icon}
-                  onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                  placeholder="Nama icon (opsional)"
-                />
-              </div>
-              <div className="flex gap-4">
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    id="isFeatured"
-                    checked={formData.isFeatured}
-                    onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
-                  />
-                  <label htmlFor="isFeatured" className="text-sm">Featured</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    id="isActive"
-                    checked={formData.isActive}
-                    onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                  />
-                  <label htmlFor="isActive" className="text-sm">Active</label>
-                </div>
-              </div>
-              <div className="flex justify-end gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => setIsCreateDialogOpen(false)}
-                >
-                  Batal
-                </Button>
-                <Button
-                  onClick={handleCreateService}
-                  disabled={isSubmitting || !formData.name || !formData.description}
-                >
-                  {isSubmitting ? 'Menyimpan...' : 'Simpan'}
-                </Button>
-              </div>
-            </div>
+            <ServiceForm
+              formData={createFormData}
+              onFormChange={handleCreateFormChange}
+              onSubmit={handleCreateService}
+              onCancel={() => handleCreateDialogChange(false)}
+              isSubmitting={isCreating}
+              submitLabel="Simpan"
+            />
+          </DialogContent>
+        </Dialog>
+        <Dialog open={isEditDialogOpen} onOpenChange={handleEditDialogChange}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Edit Layanan</DialogTitle>
+            </DialogHeader>
+            {editingService && (
+              <ServiceForm
+                formData={editFormData}
+                onFormChange={handleEditFormChange}
+                onSubmit={handleUpdateService}
+                onCancel={() => handleEditDialogChange(false)}
+                isSubmitting={isUpdating}
+                submitLabel="Simpan Perubahan"
+              />
+            )}
           </DialogContent>
         </Dialog>
       </div>
@@ -379,15 +664,20 @@ export default function AdminServicesPage() {
                       variant="outline"
                       size="sm"
                       className="hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-colors"
+                      onClick={() => openEditDialog(service)}
                     >
                       <Edit className="w-4 h-4" />
+                      <span className="sr-only">Edit layanan</span>
                     </Button>
                     <Button
                       variant="outline"
                       size="sm"
                       className="hover:bg-red-50 hover:border-red-300 hover:text-red-700 transition-colors"
+                      onClick={() => handleDeleteService(service.id)}
+                      disabled={deletingServiceId === service.id}
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className={`w-4 h-4 ${deletingServiceId === service.id ? 'animate-spin' : ''}`} />
+                      <span className="sr-only">Hapus layanan</span>
                     </Button>
                   </div>
                 </div>
@@ -405,7 +695,7 @@ export default function AdminServicesPage() {
                 Mulai dengan menambahkan layanan pertama Anda untuk memberikan solusi terbaik kepada pelanggan
               </p>
               <Button
-                onClick={() => setIsCreateDialogOpen(true)}
+                onClick={() => handleCreateDialogChange(true)}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
               >
                 <Plus className="w-4 h-4 mr-2" />
@@ -448,6 +738,109 @@ export default function AdminServicesPage() {
           </CardContent>
         </Card>
       )}
+    </div>
+  )
+}
+
+interface ServiceFormProps {
+  formData: ServiceFormState
+  onFormChange: (value: Partial<ServiceFormState>) => void
+  onSubmit: () => void
+  onCancel: () => void
+  isSubmitting: boolean
+  submitLabel: string
+}
+
+function ServiceForm({ formData, onFormChange, onSubmit, onCancel, isSubmitting, submitLabel }: ServiceFormProps) {
+  const isSubmitDisabled = isSubmitting || !formData.name.trim() || !formData.description.trim()
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <label className="text-sm font-medium" htmlFor="service-name">Nama Layanan *</label>
+        <Input
+          id="service-name"
+          autoFocus
+          value={formData.name}
+          onChange={(e) => onFormChange({ name: e.target.value })}
+          placeholder="Masukkan nama layanan"
+        />
+      </div>
+
+      <div>
+        <label className="text-sm font-medium" htmlFor="service-description">Deskripsi *</label>
+        <Textarea
+          id="service-description"
+          value={formData.description}
+          onChange={(e) => onFormChange({ description: e.target.value })}
+          placeholder="Masukkan deskripsi layanan"
+          rows={3}
+        />
+      </div>
+
+      <div>
+        <label className="text-sm font-medium" htmlFor="service-short-desc">Deskripsi Singkat</label>
+        <Input
+          id="service-short-desc"
+          value={formData.shortDesc}
+          onChange={(e) => onFormChange({ shortDesc: e.target.value })}
+          placeholder="Deskripsi singkat (opsional)"
+        />
+      </div>
+
+      <div>
+        <label className="text-sm font-medium" htmlFor="service-icon">Icon</label>
+        <Input
+          id="service-icon"
+          value={formData.icon}
+          onChange={(e) => onFormChange({ icon: e.target.value })}
+          placeholder="Nama icon (opsional)"
+        />
+      </div>
+
+      <div>
+        <label className="text-sm font-medium" htmlFor="service-features">Fitur Layanan</label>
+        <Textarea
+          id="service-features"
+          value={formData.features}
+          onChange={(e) => onFormChange({ features: e.target.value })}
+          placeholder="Tuliskan setiap fitur pada baris baru"
+          rows={3}
+        />
+        <p className="text-xs text-gray-500 mt-1">Pisahkan fitur dengan enter untuk menambahkan lebih dari satu.</p>
+      </div>
+
+      <div className="flex gap-4">
+        <label className="flex items-center space-x-2 text-sm" htmlFor="service-featured">
+          <input
+            type="checkbox"
+            id="service-featured"
+            className="w-4 h-4"
+            checked={formData.isFeatured}
+            onChange={(e) => onFormChange({ isFeatured: e.target.checked })}
+          />
+          <span>Featured</span>
+        </label>
+        <label className="flex items-center space-x-2 text-sm" htmlFor="service-active">
+          <input
+            type="checkbox"
+            id="service-active"
+            className="w-4 h-4"
+            checked={formData.isActive}
+            onChange={(e) => onFormChange({ isActive: e.target.checked })}
+          />
+          <span>Active</span>
+        </label>
+      </div>
+
+      <div className="flex justify-end gap-2">
+        <Button variant="outline" onClick={onCancel} disabled={isSubmitting}>
+          Batal
+        </Button>
+        <Button onClick={onSubmit} disabled={isSubmitDisabled}>
+          {isSubmitting ? 'Menyimpan...' : submitLabel}
+        </Button>
+      </div>
     </div>
   )
 }

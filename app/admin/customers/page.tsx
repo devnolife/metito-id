@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -29,6 +29,44 @@ interface Customer {
   isPublicTestimonial: boolean
   featured: boolean
 }
+
+interface CustomerFormState {
+  name: string
+  company: string
+  email: string
+  phone: string
+  address: string
+  industry: string
+  projectType: string
+  testimonial: string
+  rating: number
+  avatar: string
+  website: string
+  contactDate: string
+  projectValue: string
+  status: "active" | "completed" | "potential"
+  isPublicTestimonial: boolean
+  featured: boolean
+}
+
+const getInitialCustomerFormState = (): CustomerFormState => ({
+  name: "",
+  company: "",
+  email: "",
+  phone: "",
+  address: "",
+  industry: "",
+  projectType: "",
+  testimonial: "",
+  rating: 5,
+  avatar: "",
+  website: "",
+  contactDate: "",
+  projectValue: "",
+  status: "potential",
+  isPublicTestimonial: false,
+  featured: false,
+})
 
 export default function AdminCustomersPage() {
   const [customers, setCustomers] = useState<Customer[]>([
@@ -134,24 +172,7 @@ export default function AdminCustomersPage() {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null)
-  const [formData, setFormData] = useState({
-    name: "",
-    company: "",
-    email: "",
-    phone: "",
-    address: "",
-    industry: "",
-    projectType: "",
-    testimonial: "",
-    rating: 5,
-    avatar: "",
-    website: "",
-    contactDate: "",
-    projectValue: "",
-    status: "potential" as "active" | "completed" | "potential",
-    isPublicTestimonial: false,
-    featured: false
-  })
+  const [formData, setFormData] = useState<CustomerFormState>(() => getInitialCustomerFormState())
 
   const industries = [
     "Kimia & Petrokimia",
@@ -165,6 +186,10 @@ export default function AdminCustomersPage() {
     "Government",
     "Others"
   ]
+
+  const handleFormDataChange = useCallback((value: Partial<CustomerFormState>) => {
+    setFormData((prev) => ({ ...prev, ...value }))
+  }, [])
 
   const filteredCustomers = customers.filter(
     (customer) =>
@@ -260,24 +285,7 @@ export default function AdminCustomersPage() {
   }
 
   const resetForm = () => {
-    setFormData({
-      name: "",
-      company: "",
-      email: "",
-      phone: "",
-      address: "",
-      industry: "",
-      projectType: "",
-      testimonial: "",
-      rating: 5,
-      avatar: "",
-      website: "",
-      contactDate: "",
-      projectValue: "",
-      status: "potential",
-      isPublicTestimonial: false,
-      featured: false
-    })
+    setFormData(getInitialCustomerFormState())
   }
 
   const getStatusColor = (status: string) => {
@@ -314,204 +322,6 @@ export default function AdminCustomersPage() {
       />
     ))
   }
-
-  const CustomerForm = ({ onSubmit, submitLabel }: { onSubmit: () => void; submitLabel: string }) => (
-    <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="name">Nama Kontak</Label>
-          <Input
-            id="name"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            placeholder="Nama lengkap kontak"
-          />
-        </div>
-        <div>
-          <Label htmlFor="company">Nama Perusahaan</Label>
-          <Input
-            id="company"
-            value={formData.company}
-            onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-            placeholder="Nama perusahaan"
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            placeholder="email@perusahaan.com"
-          />
-        </div>
-        <div>
-          <Label htmlFor="phone">Nomor Telepon</Label>
-          <Input
-            id="phone"
-            value={formData.phone}
-            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-            placeholder="+62 812-1760-3950"
-          />
-        </div>
-      </div>
-
-      <div>
-        <Label htmlFor="address">Alamat</Label>
-        <Textarea
-          id="address"
-          value={formData.address}
-          onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-          placeholder="Alamat lengkap perusahaan"
-          rows={2}
-        />
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="industry">Industri</Label>
-          <select
-            id="industry"
-            value={formData.industry}
-            onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            aria-label="Pilih industri"
-          >
-            <option value="">Pilih industri</option>
-            {industries.map((industry) => (
-              <option key={industry} value={industry}>{industry}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <Label htmlFor="projectType">Jenis Proyek</Label>
-          <Input
-            id="projectType"
-            value={formData.projectType}
-            onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-            placeholder="Sistem Pengolahan Air Limbah"
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="contactDate">Tanggal Kontak</Label>
-          <Input
-            id="contactDate"
-            type="date"
-            value={formData.contactDate}
-            onChange={(e) => setFormData({ ...formData, contactDate: e.target.value })}
-          />
-        </div>
-        <div>
-          <Label htmlFor="projectValue">Nilai Proyek</Label>
-          <Input
-            id="projectValue"
-            value={formData.projectValue}
-            onChange={(e) => setFormData({ ...formData, projectValue: e.target.value })}
-            placeholder="Rp 2.5 Miliar"
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="website">Website (Opsional)</Label>
-          <Input
-            id="website"
-            value={formData.website}
-            onChange={(e) => setFormData({ ...formData, website: e.target.value })}
-            placeholder="https://perusahaan.com"
-          />
-        </div>
-        <div>
-          <Label htmlFor="avatar">Foto Profil</Label>
-          <Input
-            id="avatar"
-            value={formData.avatar}
-            onChange={(e) => setFormData({ ...formData, avatar: e.target.value })}
-            placeholder="URL foto profil"
-          />
-        </div>
-      </div>
-
-      <div>
-        <Label htmlFor="testimonial">Testimoni</Label>
-        <Textarea
-          id="testimonial"
-          value={formData.testimonial}
-          onChange={(e) => setFormData({ ...formData, testimonial: e.target.value })}
-          placeholder="Tulis testimoni pelanggan (opsional)"
-          rows={4}
-        />
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="rating">Rating (1-5)</Label>
-          <Input
-            id="rating"
-            type="number"
-            min="1"
-            max="5"
-            value={formData.rating}
-            onChange={(e) => setFormData({ ...formData, rating: parseInt(e.target.value) || 5 })}
-            placeholder="5"
-          />
-        </div>
-        <div>
-          <Label htmlFor="status">Status</Label>
-          <select
-            id="status"
-            value={formData.status}
-            onChange={(e) => setFormData({ ...formData, status: e.target.value as "active" | "completed" | "potential" })}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            aria-label="Pilih status pelanggan"
-          >
-            <option value="potential">Prospek</option>
-            <option value="active">Aktif</option>
-            <option value="completed">Selesai</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="flex items-center space-x-6">
-        <div className="flex items-center space-x-2">
-          <input
-            type="checkbox"
-            id="isPublicTestimonial"
-            checked={formData.isPublicTestimonial}
-            onChange={(e) => setFormData({ ...formData, isPublicTestimonial: e.target.checked })}
-            className="w-4 h-4"
-            aria-label="Tampilkan testimoni di website"
-          />
-          <Label htmlFor="isPublicTestimonial">Tampilkan testimoni di website</Label>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <input
-            type="checkbox"
-            id="featured"
-            checked={formData.featured}
-            onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-            className="w-4 h-4"
-            aria-label="Pelanggan unggulan"
-          />
-          <Label htmlFor="featured">Pelanggan unggulan</Label>
-        </div>
-      </div>
-
-      <Button onClick={onSubmit} className="w-full bg-blue-600 hover:bg-blue-700">
-        {submitLabel}
-      </Button>
-    </div>
-  )
-
   return (
     <div className="flex flex-col h-full">
       <div className="bg-white border-b border-gray-200 px-6 py-4">
@@ -542,7 +352,13 @@ export default function AdminCustomersPage() {
                     Tambahkan data pelanggan baru beserta informasi proyek dan testimoni.
                   </DialogDescription>
                 </DialogHeader>
-                <CustomerForm onSubmit={handleAddCustomer} submitLabel="Tambah Pelanggan" />
+                <CustomerForm
+                  formData={formData}
+                  industries={industries}
+                  onFormChange={handleFormDataChange}
+                  onSubmit={handleAddCustomer}
+                  submitLabel="Tambah Pelanggan"
+                />
               </DialogContent>
             </Dialog>
           </div>
@@ -700,7 +516,13 @@ export default function AdminCustomersPage() {
                   Ubah informasi pelanggan beserta data proyek dan testimoni.
                 </DialogDescription>
               </DialogHeader>
-              <CustomerForm onSubmit={handleEditCustomer} submitLabel="Simpan Perubahan" />
+              <CustomerForm
+              formData={formData}
+              industries={industries}
+              onFormChange={handleFormDataChange}
+              onSubmit={handleEditCustomer}
+              submitLabel="Simpan Perubahan"
+            />
             </DialogContent>
           </Dialog>
         </div>
@@ -708,3 +530,214 @@ export default function AdminCustomersPage() {
     </div>
   )
 }
+
+interface CustomerFormProps {
+  formData: CustomerFormState
+  industries: string[]
+  onFormChange: (value: Partial<CustomerFormState>) => void
+  onSubmit: () => void
+  submitLabel: string
+}
+
+function CustomerForm({ formData, industries, onFormChange, onSubmit, submitLabel }: CustomerFormProps) {
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="name">Nama Kontak</Label>
+          <Input
+            id="name"
+            autoFocus
+            value={formData.name}
+            onChange={(e) => onFormChange({ name: e.target.value })}
+            placeholder="Nama lengkap kontak"
+          />
+        </div>
+        <div>
+          <Label htmlFor="company">Nama Perusahaan</Label>
+          <Input
+            id="company"
+            value={formData.company}
+            onChange={(e) => onFormChange({ company: e.target.value })}
+            placeholder="Nama perusahaan"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            type="email"
+            value={formData.email}
+            onChange={(e) => onFormChange({ email: e.target.value })}
+            placeholder="email@perusahaan.com"
+          />
+        </div>
+        <div>
+          <Label htmlFor="phone">Nomor Telepon</Label>
+          <Input
+            id="phone"
+            value={formData.phone}
+            onChange={(e) => onFormChange({ phone: e.target.value })}
+            placeholder="+62 812-1760-3950"
+          />
+        </div>
+      </div>
+
+      <div>
+        <Label htmlFor="address">Alamat</Label>
+        <Textarea
+          id="address"
+          value={formData.address}
+          onChange={(e) => onFormChange({ address: e.target.value })}
+          placeholder="Alamat lengkap perusahaan"
+          rows={2}
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="industry">Industri</Label>
+          <select
+            id="industry"
+            value={formData.industry}
+            onChange={(e) => onFormChange({ industry: e.target.value })}
+            className="w-full p-2 border border-gray-300 rounded-md"
+            aria-label="Pilih industri"
+          >
+            <option value="">Pilih industri</option>
+            {industries.map((industry) => (
+              <option key={industry} value={industry}>
+                {industry}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <Label htmlFor="projectType">Jenis Proyek</Label>
+          <Input
+            id="projectType"
+            value={formData.projectType}
+            onChange={(e) => onFormChange({ projectType: e.target.value })}
+            placeholder="Sistem Pengolahan Air Limbah"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="contactDate">Tanggal Kontak</Label>
+          <Input
+            id="contactDate"
+            type="date"
+            value={formData.contactDate}
+            onChange={(e) => onFormChange({ contactDate: e.target.value })}
+          />
+        </div>
+        <div>
+          <Label htmlFor="projectValue">Nilai Proyek</Label>
+          <Input
+            id="projectValue"
+            value={formData.projectValue}
+            onChange={(e) => onFormChange({ projectValue: e.target.value })}
+            placeholder="Rp 2.5 Miliar"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="website">Website (Opsional)</Label>
+          <Input
+            id="website"
+            value={formData.website}
+            onChange={(e) => onFormChange({ website: e.target.value })}
+            placeholder="https://perusahaan.com"
+          />
+        </div>
+        <div>
+          <Label htmlFor="avatar">Foto Profil</Label>
+          <Input
+            id="avatar"
+            value={formData.avatar}
+            onChange={(e) => onFormChange({ avatar: e.target.value })}
+            placeholder="URL foto profil"
+          />
+        </div>
+      </div>
+
+      <div>
+        <Label htmlFor="testimonial">Testimoni</Label>
+        <Textarea
+          id="testimonial"
+          value={formData.testimonial}
+          onChange={(e) => onFormChange({ testimonial: e.target.value })}
+          placeholder="Tulis testimoni pelanggan (opsional)"
+          rows={4}
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="rating">Rating (1-5)</Label>
+          <Input
+            id="rating"
+            type="number"
+            min="1"
+            max="5"
+            value={formData.rating}
+            onChange={(e) => onFormChange({ rating: Math.min(5, Math.max(1, Number.parseInt(e.target.value, 10) || 5)) })}
+            placeholder="5"
+          />
+        </div>
+        <div>
+          <Label htmlFor="status">Status</Label>
+          <select
+            id="status"
+            value={formData.status}
+            onChange={(e) => onFormChange({ status: e.target.value as CustomerFormState["status"] })}
+            className="w-full p-2 border border-gray-300 rounded-md"
+            aria-label="Pilih status pelanggan"
+          >
+            <option value="potential">Prospek</option>
+            <option value="active">Aktif</option>
+            <option value="completed">Selesai</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="flex items-center space-x-6">
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="isPublicTestimonial"
+            checked={formData.isPublicTestimonial}
+            onChange={(e) => onFormChange({ isPublicTestimonial: e.target.checked })}
+            className="w-4 h-4"
+            aria-label="Tampilkan testimoni di website"
+          />
+          <Label htmlFor="isPublicTestimonial">Tampilkan testimoni di website</Label>
+        </div>
+
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="featured"
+            checked={formData.featured}
+            onChange={(e) => onFormChange({ featured: e.target.checked })}
+            className="w-4 h-4"
+            aria-label="Pelanggan unggulan"
+          />
+          <Label htmlFor="featured">Pelanggan unggulan</Label>
+        </div>
+      </div>
+
+      <Button onClick={onSubmit} className="w-full bg-blue-600 hover:bg-blue-700">
+        {submitLabel}
+      </Button>
+    </div>
+  )
+}
+

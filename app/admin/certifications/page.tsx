@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -24,6 +24,34 @@ interface Certification {
   category: string
   level: string
 }
+
+interface CertificationFormState {
+  name: string
+  description: string
+  issuingBody: string
+  certificateNumber: string
+  issueDate: string
+  expirationDate: string
+  category: string
+  level: string
+  certificateImage: string
+  credentialUrl: string
+  status: "active" | "expired" | "pending"
+}
+
+const getInitialCertificationFormState = (): CertificationFormState => ({
+  name: "",
+  description: "",
+  issuingBody: "",
+  certificateNumber: "",
+  issueDate: "",
+  expirationDate: "",
+  category: "",
+  level: "",
+  certificateImage: "",
+  credentialUrl: "",
+  status: "active",
+})
 
 export default function AdminCertificationsPage() {
   const [certifications, setCertifications] = useState<Certification[]>([
@@ -75,22 +103,14 @@ export default function AdminCertificationsPage() {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [editingCertification, setEditingCertification] = useState<Certification | null>(null)
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    issuingBody: "",
-    issueDate: "",
-    expirationDate: "",
-    certificateNumber: "",
-    certificateImage: "",
-    status: "active" as "active" | "expired" | "pending",
-    credentialUrl: "",
-    category: "",
-    level: ""
-  })
+  const [formData, setFormData] = useState<CertificationFormState>(() => getInitialCertificationFormState())
 
   const categories = ["Quality Management", "Environmental", "Health & Safety", "Technical", "Professional", "Industry Specific"]
   const levels = ["International", "National", "Regional", "Industry"]
+
+  const handleFormDataChange = useCallback((value: Partial<CertificationFormState>) => {
+    setFormData((prev) => ({ ...prev, ...value }))
+  }, [])
 
   const filteredCertifications = certifications.filter(
     (cert) =>
@@ -169,19 +189,7 @@ export default function AdminCertificationsPage() {
   }
 
   const resetForm = () => {
-    setFormData({
-      name: "",
-      description: "",
-      issuingBody: "",
-      issueDate: "",
-      expirationDate: "",
-      certificateNumber: "",
-      certificateImage: "",
-      status: "active",
-      credentialUrl: "",
-      category: "",
-      level: ""
-    })
+    setFormData(getInitialCertificationFormState())
   }
 
   const getStatusIcon = (status: string) => {
@@ -209,146 +217,6 @@ export default function AdminCertificationsPage() {
         return "bg-gray-100 text-gray-800"
     }
   }
-
-  const CertificationForm = ({ onSubmit, submitLabel }: { onSubmit: () => void; submitLabel: string }) => (
-    <div className="space-y-4">
-      <div>
-        <Label htmlFor="name">Nama Sertifikasi</Label>
-        <Input
-          id="name"
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          placeholder="Masukkan nama sertifikasi"
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="description">Deskripsi</Label>
-        <Textarea
-          id="description"
-          value={formData.description}
-          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-          placeholder="Deskripsi singkat tentang sertifikasi"
-          rows={3}
-        />
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="issuingBody">Lembaga Penerbit</Label>
-          <Input
-            id="issuingBody"
-            value={formData.issuingBody}
-            onChange={(e) => setFormData({ ...formData, issuingBody: e.target.value })}
-            placeholder="Nama lembaga penerbit"
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="certificateNumber">Nomor Sertifikat</Label>
-          <Input
-            id="certificateNumber"
-            value={formData.certificateNumber}
-            onChange={(e) => setFormData({ ...formData, certificateNumber: e.target.value })}
-            placeholder="Nomor sertifikat"
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="issueDate">Tanggal Terbit</Label>
-          <Input
-            id="issueDate"
-            type="date"
-            value={formData.issueDate}
-            onChange={(e) => setFormData({ ...formData, issueDate: e.target.value })}
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="expirationDate">Tanggal Kadaluarsa</Label>
-          <Input
-            id="expirationDate"
-            type="date"
-            value={formData.expirationDate}
-            onChange={(e) => setFormData({ ...formData, expirationDate: e.target.value })}
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="category">Kategori</Label>
-          <select
-            id="category"
-            value={formData.category}
-            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          >
-            <option value="">Pilih kategori</option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <Label htmlFor="level">Level</Label>
-          <select
-            id="level"
-            value={formData.level}
-            onChange={(e) => setFormData({ ...formData, level: e.target.value })}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          >
-            <option value="">Pilih level</option>
-            {levels.map((level) => (
-              <option key={level} value={level}>{level}</option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <div>
-        <Label htmlFor="certificateImage">Gambar Sertifikat</Label>
-        <Input
-          id="certificateImage"
-          value={formData.certificateImage}
-          onChange={(e) => setFormData({ ...formData, certificateImage: e.target.value })}
-          placeholder="URL gambar sertifikat"
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="credentialUrl">URL Verifikasi (Opsional)</Label>
-        <Input
-          id="credentialUrl"
-          value={formData.credentialUrl}
-          onChange={(e) => setFormData({ ...formData, credentialUrl: e.target.value })}
-          placeholder="URL untuk verifikasi sertifikat"
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="status">Status</Label>
-        <select
-          id="status"
-          value={formData.status}
-          onChange={(e) => setFormData({ ...formData, status: e.target.value as "active" | "expired" | "pending" })}
-          className="w-full p-2 border border-gray-300 rounded-md"
-        >
-          <option value="active">Aktif</option>
-          <option value="expired">Kadaluarsa</option>
-          <option value="pending">Menunggu</option>
-        </select>
-      </div>
-
-      <Button onClick={onSubmit} className="w-full bg-blue-600 hover:bg-blue-700">
-        {submitLabel}
-      </Button>
-    </div>
-  )
-
   return (
     <div className="flex flex-col h-full">
       <div className="bg-white border-b border-gray-200 px-6 py-4">
@@ -487,7 +355,14 @@ export default function AdminCertificationsPage() {
                   Ubah informasi sertifikasi. Pastikan semua informasi sertifikat akurat.
                 </DialogDescription>
               </DialogHeader>
-              <CertificationForm onSubmit={handleEditCertification} submitLabel="Simpan Perubahan" />
+              <CertificationForm
+              formData={formData}
+              categories={categories}
+              levels={levels}
+              onFormChange={handleFormDataChange}
+              onSubmit={handleEditCertification}
+              submitLabel="Simpan Perubahan"
+            />
             </DialogContent>
           </Dialog>
         </div>
@@ -495,3 +370,158 @@ export default function AdminCertificationsPage() {
     </div>
   )
 }
+
+interface CertificationFormProps {
+  formData: CertificationFormState
+  categories: string[]
+  levels: string[]
+  onFormChange: (value: Partial<CertificationFormState>) => void
+  onSubmit: () => void
+  submitLabel: string
+}
+
+function CertificationForm({ formData, categories, levels, onFormChange, onSubmit, submitLabel }: CertificationFormProps) {
+  return (
+    <div className="space-y-4">
+      <div>
+        <Label htmlFor="name">Nama Sertifikasi</Label>
+        <Input
+          id="name"
+          value={formData.name}
+          onChange={(e) => onFormChange({ name: e.target.value })}
+          placeholder="Masukkan nama sertifikasi"
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="description">Deskripsi</Label>
+        <Textarea
+          id="description"
+          value={formData.description}
+          onChange={(e) => onFormChange({ description: e.target.value })}
+          placeholder="Deskripsi singkat tentang sertifikasi"
+          rows={3}
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="issuingBody">Lembaga Penerbit</Label>
+          <Input
+            id="issuingBody"
+            value={formData.issuingBody}
+            onChange={(e) => onFormChange({ issuingBody: e.target.value })}
+            placeholder="Nama lembaga penerbit"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="certificateNumber">Nomor Sertifikat</Label>
+          <Input
+            id="certificateNumber"
+            value={formData.certificateNumber}
+            onChange={(e) => onFormChange({ certificateNumber: e.target.value })}
+            placeholder="Nomor sertifikat"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="issueDate">Tanggal Terbit</Label>
+          <Input
+            id="issueDate"
+            type="date"
+            value={formData.issueDate}
+            onChange={(e) => onFormChange({ issueDate: e.target.value })}
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="expirationDate">Tanggal Kadaluarsa</Label>
+          <Input
+            id="expirationDate"
+            type="date"
+            value={formData.expirationDate}
+            onChange={(e) => onFormChange({ expirationDate: e.target.value })}
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="category">Kategori</Label>
+          <select
+            id="category"
+            value={formData.category}
+            onChange={(e) => onFormChange({ category: e.target.value })}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          >
+            <option value="">Pilih kategori</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <Label htmlFor="level">Level</Label>
+          <select
+            id="level"
+            value={formData.level}
+            onChange={(e) => onFormChange({ level: e.target.value })}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          >
+            <option value="">Pilih level</option>
+            {levels.map((level) => (
+              <option key={level} value={level}>
+                {level}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <Label htmlFor="certificateImage">Gambar Sertifikat</Label>
+        <Input
+          id="certificateImage"
+          value={formData.certificateImage}
+          onChange={(e) => onFormChange({ certificateImage: e.target.value })}
+          placeholder="URL gambar sertifikat"
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="credentialUrl">URL Verifikasi (Opsional)</Label>
+        <Input
+          id="credentialUrl"
+          value={formData.credentialUrl}
+          onChange={(e) => onFormChange({ credentialUrl: e.target.value })}
+          placeholder="URL untuk verifikasi sertifikat"
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="status">Status</Label>
+        <select
+          id="status"
+          value={formData.status}
+          onChange={(e) => onFormChange({ status: e.target.value as CertificationFormState["status"] })}
+          className="w-full p-2 border border-gray-300 rounded-md"
+        >
+          <option value="active">Aktif</option>
+          <option value="expired">Kadaluarsa</option>
+          <option value="pending">Menunggu</option>
+        </select>
+      </div>
+
+      <Button onClick={onSubmit} className="w-full bg-blue-600 hover:bg-blue-700">
+        {submitLabel}
+      </Button>
+    </div>
+  )
+}
+

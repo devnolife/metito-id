@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -25,6 +25,34 @@ interface BlogPost {
   seoDescription: string
   readTime: number
 }
+
+interface BlogFormState {
+  title: string
+  content: string
+  excerpt: string
+  category: string
+  tags: string
+  author: string
+  featuredImage: string
+  status: "published" | "draft"
+  seoTitle: string
+  seoDescription: string
+  readTime: number
+}
+
+const getInitialBlogFormState = (): BlogFormState => ({
+  title: "",
+  content: "",
+  excerpt: "",
+  category: "",
+  tags: "",
+  author: "",
+  featuredImage: "",
+  status: "published",
+  seoTitle: "",
+  seoDescription: "",
+  readTime: 5,
+})
 
 export default function AdminBlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([
@@ -64,21 +92,13 @@ export default function AdminBlogPage() {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null)
-  const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-    excerpt: "",
-    category: "",
-    tags: "",
-    author: "",
-    featuredImage: "",
-    status: "published" as "published" | "draft",
-    seoTitle: "",
-    seoDescription: "",
-    readTime: 5
-  })
+  const [formData, setFormData] = useState<BlogFormState>(() => getInitialBlogFormState())
 
   const categories = ["Teknologi", "Panduan", "Berita", "Tips", "Industri"]
+
+  const handleFormDataChange = useCallback((value: Partial<BlogFormState>) => {
+    setFormData((prev) => ({ ...prev, ...value }))
+  }, [])
 
   const filteredPosts = posts.filter(
     (post) =>
@@ -158,153 +178,8 @@ export default function AdminBlogPage() {
   }
 
   const resetForm = () => {
-    setFormData({
-      title: "",
-      content: "",
-      excerpt: "",
-      category: "",
-      tags: "",
-      author: "",
-      featuredImage: "",
-      status: "published",
-      seoTitle: "",
-      seoDescription: "",
-      readTime: 5
-    })
+    setFormData(getInitialBlogFormState())
   }
-
-  const BlogForm = ({ onSubmit, submitLabel }: { onSubmit: () => void; submitLabel: string }) => (
-    <div className="space-y-4">
-      <div>
-        <Label htmlFor="title">Judul Artikel</Label>
-        <Input
-          id="title"
-          value={formData.title}
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          placeholder="Masukkan judul artikel"
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="excerpt">Ringkasan</Label>
-        <Textarea
-          id="excerpt"
-          value={formData.excerpt}
-          onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-          placeholder="Ringkasan singkat artikel"
-          rows={2}
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="content">Konten Artikel</Label>
-        <Textarea
-          id="content"
-          value={formData.content}
-          onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-          placeholder="Tulis konten artikel lengkap"
-          rows={8}
-        />
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="category">Kategori</Label>
-          <select
-            id="category"
-            value={formData.category}
-            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          >
-            <option value="">Pilih kategori</option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <Label htmlFor="author">Penulis</Label>
-          <Input
-            id="author"
-            value={formData.author}
-            onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-            placeholder="Nama penulis"
-          />
-        </div>
-      </div>
-
-      <div>
-        <Label htmlFor="tags">Tags (pisahkan dengan koma)</Label>
-        <Input
-          id="tags"
-          value={formData.tags}
-          onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-          placeholder="teknologi, air, inovasi"
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="featuredImage">Gambar Utama</Label>
-        <Input
-          id="featuredImage"
-          value={formData.featuredImage}
-          onChange={(e) => setFormData({ ...formData, featuredImage: e.target.value })}
-          placeholder="URL gambar utama"
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="readTime">Waktu Baca (menit)</Label>
-        <Input
-          id="readTime"
-          type="number"
-          value={formData.readTime}
-          onChange={(e) => setFormData({ ...formData, readTime: parseInt(e.target.value) || 5 })}
-          placeholder="5"
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="seoTitle">SEO Title</Label>
-        <Input
-          id="seoTitle"
-          value={formData.seoTitle}
-          onChange={(e) => setFormData({ ...formData, seoTitle: e.target.value })}
-          placeholder="Judul untuk SEO"
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="seoDescription">SEO Description</Label>
-        <Textarea
-          id="seoDescription"
-          value={formData.seoDescription}
-          onChange={(e) => setFormData({ ...formData, seoDescription: e.target.value })}
-          placeholder="Deskripsi untuk SEO"
-          rows={2}
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="status">Status</Label>
-        <select
-          id="status"
-          value={formData.status}
-          onChange={(e) => setFormData({ ...formData, status: e.target.value as "published" | "draft" })}
-          className="w-full p-2 border border-gray-300 rounded-md"
-        >
-          <option value="published">Diterbitkan</option>
-          <option value="draft">Draf</option>
-        </select>
-      </div>
-
-      <Button onClick={onSubmit} className="w-full bg-blue-600 hover:bg-blue-700">
-        {submitLabel}
-      </Button>
-    </div>
-  )
-
   return (
     <div className="flex flex-col h-full">
       <div className="bg-white border-b border-gray-200 px-6 py-4">
@@ -335,7 +210,13 @@ export default function AdminBlogPage() {
                     Buat artikel blog baru untuk ditampilkan di website. Pastikan semua field yang wajib diisi telah terisi dengan benar.
                   </DialogDescription>
                 </DialogHeader>
-                <BlogForm onSubmit={handleAddPost} submitLabel="Tambah Artikel" />
+                <BlogForm
+                  formData={formData}
+                  categories={categories}
+                  onFormChange={handleFormDataChange}
+                  onSubmit={handleAddPost}
+                  submitLabel="Tambah Artikel"
+                />
               </DialogContent>
             </Dialog>
           </div>
@@ -431,11 +312,161 @@ export default function AdminBlogPage() {
                   Ubah informasi artikel blog. Pastikan semua field yang wajib diisi telah terisi dengan benar.
                 </DialogDescription>
               </DialogHeader>
-              <BlogForm onSubmit={handleEditPost} submitLabel="Simpan Perubahan" />
+              <BlogForm
+              formData={formData}
+              categories={categories}
+              onFormChange={handleFormDataChange}
+              onSubmit={handleEditPost}
+              submitLabel="Simpan Perubahan"
+            />
             </DialogContent>
           </Dialog>
         </div>
       </div>
+    </div>
+  )
+}
+
+interface BlogFormProps {
+  formData: BlogFormState
+  categories: string[]
+  onFormChange: (value: Partial<BlogFormState>) => void
+  onSubmit: () => void
+  submitLabel: string
+}
+
+function BlogForm({ formData, categories, onFormChange, onSubmit, submitLabel }: BlogFormProps) {
+  return (
+    <div className="space-y-4">
+      <div>
+        <Label htmlFor="title">Judul Artikel</Label>
+        <Input
+          id="title"
+          value={formData.title}
+          onChange={(e) => onFormChange({ title: e.target.value })}
+          placeholder="Masukkan judul artikel"
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="excerpt">Ringkasan</Label>
+        <Textarea
+          id="excerpt"
+          value={formData.excerpt}
+          onChange={(e) => onFormChange({ excerpt: e.target.value })}
+          placeholder="Ringkasan singkat artikel"
+          rows={2}
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="content">Konten Artikel</Label>
+        <Textarea
+          id="content"
+          value={formData.content}
+          onChange={(e) => onFormChange({ content: e.target.value })}
+          placeholder="Tulis konten artikel lengkap"
+          rows={8}
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="category">Kategori</Label>
+          <select
+            id="category"
+            value={formData.category}
+            onChange={(e) => onFormChange({ category: e.target.value })}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          >
+            <option value="">Pilih kategori</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <Label htmlFor="author">Penulis</Label>
+          <Input
+            id="author"
+            value={formData.author}
+            onChange={(e) => onFormChange({ author: e.target.value })}
+            placeholder="Nama penulis"
+          />
+        </div>
+      </div>
+
+      <div>
+        <Label htmlFor="tags">Tags (pisahkan dengan koma)</Label>
+        <Input
+          id="tags"
+          value={formData.tags}
+          onChange={(e) => onFormChange({ tags: e.target.value })}
+          placeholder="teknologi, air, inovasi"
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="featuredImage">Gambar Utama</Label>
+        <Input
+          id="featuredImage"
+          value={formData.featuredImage}
+          onChange={(e) => onFormChange({ featuredImage: e.target.value })}
+          placeholder="URL gambar utama"
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="readTime">Waktu Baca (menit)</Label>
+        <Input
+          id="readTime"
+          type="number"
+          value={formData.readTime}
+          onChange={(e) => onFormChange({ readTime: Math.max(1, Number.parseInt(e.target.value, 10) || 5) })}
+          placeholder="5"
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="seoTitle">SEO Title</Label>
+        <Input
+          id="seoTitle"
+          value={formData.seoTitle}
+          onChange={(e) => onFormChange({ seoTitle: e.target.value })}
+          placeholder="Judul untuk SEO"
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="seoDescription">SEO Description</Label>
+        <Textarea
+          id="seoDescription"
+          value={formData.seoDescription}
+          onChange={(e) => onFormChange({ seoDescription: e.target.value })}
+          placeholder="Deskripsi untuk SEO"
+          rows={2}
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="status">Status</Label>
+        <select
+          id="status"
+          value={formData.status}
+          onChange={(e) => onFormChange({ status: e.target.value as BlogFormState["status"] })}
+          className="w-full p-2 border border-gray-300 rounded-md"
+        >
+          <option value="published">Diterbitkan</option>
+          <option value="draft">Draf</option>
+        </select>
+      </div>
+
+      <Button onClick={onSubmit} className="w-full bg-blue-600 hover:bg-blue-700">
+        {submitLabel}
+      </Button>
     </div>
   )
 }
